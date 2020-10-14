@@ -1,12 +1,14 @@
 [![Build Status](https://travis-ci.org/RedHatInsights/insights-frontend-starter-app.svg?branch=master)](https://travis-ci.org/RedHatInsights/insights-frontend-starter-app)
 
-# insights-frontend-starter-app
+# mk-ui
 
-React.js starter app for Red Hat Insights products that includes Patternfly 4 and shared cloud.redhat.com utilities.
+mk-ui is based on the https://github.com/RedHatInsights/insights-frontend-starter-app.git which is React.js starter app for Red Hat Insights products that includes Patternfly 4 and shared cloud.redhat.com utilities.
+
+The remainder of these docs come from there.
 
 ## Getting Started
 
-There is a [comprehensive quick start guide in the Storybook Documentation](https://github.com/RedHatInsights/insights-frontend-storybook/blob/master/src/docs/welcome/quickStart/DOC.md) to setting up an Insights environment complete with:
+There is a [comprehensive quick start guide in the Storybook Documentation](https://cloud.redhat.com/docs/storybook?path=/story/welcome--quick-start-guide) to setting up an Insights environment complete with:
 
 - Insights Frontend Starter App
 

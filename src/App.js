@@ -17,7 +17,7 @@ class App extends Component {
     componentDidMount () {
         insights.chrome.init();
         // TODO change this to your appname
-        insights.chrome.identifyApp('insights');
+        insights.chrome.identifyApp('mkui');
 
         this.appNav = insights.chrome.on('APP_NAVIGATION', event => this.props.history.push(`/${event.navId}`));
     }
