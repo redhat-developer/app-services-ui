@@ -6,6 +6,12 @@ const { config: webpackConfig, plugins } = config({
     https: true
 });
 
+delete webpackConfig.serve;
+delete webpackConfig.node;
+
+console.log(webpackConfig);
+console.log(plugins);
+
 module.exports = {
     ...webpackConfig,
     plugins
