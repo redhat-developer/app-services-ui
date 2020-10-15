@@ -1,4 +1,5 @@
 import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
+import { DebeziumPage } from 'streams/pages';
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -20,7 +21,6 @@ import { routes as paths } from '../package.json';
  *         see the difference with DashboardMap and InventoryDeployments.
  *
  */
-const SamplePage = asyncComponent(() => import(/* webpackChunkName: "SamplePage" */ './Routes/SamplePage/SamplePage'));
 const OopsPage = asyncComponent(() => import(/* webpackChunkName: "OopsPage" */ './Routes/OopsPage/OopsPage'));
 const NoPermissionsPage = asyncComponent(() => import(/* webpackChunkName: "NoPermissionsPage" */ './Routes/NoPermissionsPage/NoPermissionsPage'));
 
@@ -51,7 +51,7 @@ export const Routes = () => {
 
     return (
         <Switch>
-            <InsightsRoute path={paths.samplePage} component={SamplePage} rootClass='samplePage' />
+            <InsightsRoute path='/' component={DebeziumPage} rootClass='samplePage' />
             <InsightsRoute path={paths.oops} component={OopsPage} rootClass='oopsPage' />
             <InsightsRoute path={paths.noPermissions} component={NoPermissionsPage} rootClass='noPermissionsPage' />
             { /* Finally, catch all unmatched routes */}
