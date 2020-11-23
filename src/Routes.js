@@ -1,5 +1,5 @@
 import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
-import { DebeziumPage } from 'streams/pages';
+import { OpenshiftStreams } from 'mkUiFrontend/OpenshiftStreams';
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -51,7 +51,7 @@ export const Routes = () => {
 
     return (
         <Switch>
-            <InsightsRoute path='/' component={DebeziumPage} rootClass='samplePage' />
+            <InsightsRoute path='/' component={OpenshiftStreams} rootClass='samplePage' />
             <InsightsRoute path={paths.oops} component={OopsPage} rootClass='oopsPage' />
             <InsightsRoute path={paths.noPermissions} component={NoPermissionsPage} rootClass='noPermissionsPage' />
             { /* Finally, catch all unmatched routes */}

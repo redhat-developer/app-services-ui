@@ -9,17 +9,15 @@ const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin');
 // Don't include PatternFly styles twice
 const reactCSSRegex = /(react-[\w-]+\/public|react-styles\/css)\/.*\.css$/;
 
-module.exports = (env = { streamsPort: 3001 }, argv) => {
+module.exports = (env = { mkUiFrontendPort: 9000 }, argv) => {
     const isProd = argv.mode === 'production';
     const { remoteSuffix } = env;
     const publicPath = (isProd && remoteSuffix)
         ? `http://nav${remoteSuffix}/`
         : `https://localhost:${port}/mkui/mkui/`;
-    const streamsPath = (isProd && remoteSuffix)
-        ? `http://streams${remoteSuffix}/`
-        : `http://localhost:${env.streamsPort}/`;
-
-    console.log(publicPath);
+    const mkUiFrontendPath = (isProd && remoteSuffix)
+        ? `http://mkUiFrontend${remoteSuffix}/`
+        : `http://localhost:${env.mkUiFrontendPort}/`;
 
     return ({
         entry: './src/index',
@@ -74,7 +72,7 @@ module.exports = (env = { streamsPort: 3001 }, argv) => {
                 name: 'nav',
                 filename: 'remoteEntry.js',
                 remotes: {
-                    streams: `streams@${streamsPath}remoteEntry.js`
+                    mkUiFrontend: `mkUiFrontend@${mkUiFrontendPath}remoteEntry.js`
                 },
                 shared: {
                     ...dependencies,
