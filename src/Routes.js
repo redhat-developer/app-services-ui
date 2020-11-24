@@ -1,8 +1,8 @@
 import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
-import { OpenshiftStreams } from 'mkUiFrontend/OpenshiftStreams';
+import { OpenshiftStreamsFederated } from 'mkUiFrontend/OpenshiftStreams';
 
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import asyncComponent from './Utilities/asyncComponent';
 import some from 'lodash/some';
 import { routes as paths } from '../package.json';
@@ -49,9 +49,15 @@ InsightsRoute.propTypes = {
 export const Routes = () => {
     const path = useLocation().pathname;
 
+    const [token, setToken] = useState('');
+
+    useEffect(() => {
+        insights.chrome.auth.getToken().then(t => setToken(t));
+    }, []);
+
     return (
         <Switch>
-            <InsightsRoute path='/' component={OpenshiftStreams} rootClass='samplePage' />
+            <InsightsRoute path='/' component={() => <OpenshiftStreamsFederated token={token} />} rootClass='samplePage' />
             <InsightsRoute path={paths.oops} component={OopsPage} rootClass='oopsPage' />
             <InsightsRoute path={paths.noPermissions} component={NoPermissionsPage} rootClass='noPermissionsPage' />
             { /* Finally, catch all unmatched routes */}
