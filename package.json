@@ -101,11 +101,11 @@
     "webpack-dev-server": "^3.11.0"
   },
   "insights": {
-    "appname": "mkui"
+    "appname": "openshift-streams"
   },
   "routes": {
-    "prefix": "mkui",
-    "appname": "mkui",
+    "prefix": "application-services",
+    "appname": "openshift-streams",
     "samplePage": "/sample",
     "oops": "/oops",
     "noPermissions": "/no-permissions"

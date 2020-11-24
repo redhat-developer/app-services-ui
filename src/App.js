@@ -17,7 +17,7 @@ class App extends Component {
     componentDidMount () {
         insights.chrome.init();
         // TODO change this to your appname
-        insights.chrome.identifyApp('mkui');
+        insights.chrome.identifyApp('openshift-streams');
 
         this.appNav = insights.chrome.on('APP_NAVIGATION', event => this.props.history.push(`/${event.navId}`));
     }

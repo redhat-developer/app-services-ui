@@ -14,7 +14,7 @@ module.exports = (env = { mkUiFrontendPort: 9000 }, argv) => {
     const { remoteSuffix } = env;
     const publicPath = (isProd && remoteSuffix)
         ? `http://nav${remoteSuffix}/`
-        : `https://localhost:${port}/mkui/mkui/`;
+        : `https://localhost:${port}/application-services/openshift-streams/`;
     const mkUiFrontendPath = (isProd && remoteSuffix)
         ? `http://mkUiFrontend${remoteSuffix}/`
         : `http://localhost:${env.mkUiFrontendPort}/`;
@@ -28,7 +28,7 @@ module.exports = (env = { mkUiFrontendPort: 9000 }, argv) => {
             https: true,
             disableHostCheck: true,
             clientLogLevel: 'debug',
-            publicPath: '/mkui/mkui/'
+            publicPath: '/application-services/openshift-streams/'
         },
         output: {
             path: path.resolve('public'),

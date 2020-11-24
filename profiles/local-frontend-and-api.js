@@ -1,7 +1,7 @@
 /*global module*/
 
-const SECTION = 'mkui';
-const APP_ID = 'mkui';
+const SECTION = 'application-services';
+const APP_ID = 'openshift-streams';
 const FRONTEND_PORT = 8002;
 const API_PORT = 8888;
 const routes = {};
