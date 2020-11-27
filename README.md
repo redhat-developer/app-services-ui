@@ -204,7 +204,7 @@ Ex) [/src/api/System/getSystems.js](https://github.com/RedHatInsights/turbo-octo
 
 ### React-router-dom
 
-When setting up the routes, the page content is wrapped with a `.page__{pageName}` class, applied to the `#root` ID that is determined by the `rootClass` in the `Routes.js` which lets you easily reference the page in the styling.
+When setting up the routes, the page content is wrapped with a `.page__{pageName}` class, applied to the `#root` ID that is determined by the `rootClass` in the `Routes.tsx` which lets you easily reference the page in the styling.
 
 - [BrowserRouter](https://reacttraining.com/react-router/web/api/BrowserRouter)
   - A `<Router>` that uses the HTML5 history API (pushState, replaceState and the popstate event) to keep your UI in sync with the URL
