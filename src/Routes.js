@@ -1,11 +1,12 @@
-import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
-import { OpenshiftStreamsFederated } from 'mkUiFrontend/OpenshiftStreams';
+import { BrowserRouter, Redirect, Route, Switch, useLocation } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import asyncComponent from './Utilities/asyncComponent';
 import some from 'lodash/some';
 import { routes as paths } from '../package.json';
+import { ControlPlanePage } from './Routes/ControlPlanePage/ControlPlanePage';
+import { DataPlanePage } from './Routes/DataPlanePage/DataPlanePage';
 
 /**
  * Aysnc imports of components
@@ -21,8 +22,6 @@ import { routes as paths } from '../package.json';
  *         see the difference with DashboardMap and InventoryDeployments.
  *
  */
-const OopsPage = asyncComponent(() => import(/* webpackChunkName: "OopsPage" */ './Routes/OopsPage/OopsPage'));
-const NoPermissionsPage = asyncComponent(() => import(/* webpackChunkName: "NoPermissionsPage" */ './Routes/NoPermissionsPage/NoPermissionsPage'));
 
 const InsightsRoute = ({ component: Component, rootClass, ...rest }) => {
     const root = document.getElementById('root');
@@ -49,19 +48,11 @@ InsightsRoute.propTypes = {
 export const Routes = () => {
     const path = useLocation().pathname;
 
-    const [token, setToken] = useState('');
-
-    useEffect(() => {
-        insights.chrome.auth.getToken().then(t => setToken(t));
-    }, []);
-
     return (
         <Switch>
-            <InsightsRoute path='/' component={() => <OpenshiftStreamsFederated token={token} />} rootClass='samplePage' />
-            <InsightsRoute path={paths.oops} component={OopsPage} rootClass='oopsPage' />
-            <InsightsRoute path={paths.noPermissions} component={NoPermissionsPage} rootClass='noPermissionsPage' />
-            { /* Finally, catch all unmatched routes */}
-            <Route render={() => some(paths, p => p === path) ? null : (<Redirect to={paths.samplePage} />)} />
+            <InsightsRoute path='/kafkas' component={() => <DataPlanePage />} />
+            <InsightsRoute exact={true} path='/' component={() => <ControlPlanePage />} />
+            <Route render={() => some(paths, p => p === path) ? null : (<Redirect to='/' />)} />
         </Switch>
     );
 };

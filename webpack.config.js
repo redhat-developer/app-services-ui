@@ -4,35 +4,34 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const { dependencies, port } = require('./package.json');
 delete dependencies.serve; // Needed for nodeshift bug
-const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin');
 
 // Don't include PatternFly styles twice
 const reactCSSRegex = /(react-[\w-]+\/public|react-styles\/css)\/.*\.css$/;
 
-module.exports = (env = { mkUiFrontendPort: 9000 }, argv) => {
-    const isProd = argv.mode === 'production';
-    const { remoteSuffix } = env;
-    const publicPath = (isProd && remoteSuffix)
-        ? `http://nav${remoteSuffix}/`
-        : `https://localhost:${port}/application-services/openshift-streams/`;
-    const mkUiFrontendPath = (isProd && remoteSuffix)
-        ? `http://mkUiFrontend${remoteSuffix}/`
-        : `http://localhost:${env.mkUiFrontendPort}/`;
+module.exports = (env = { mkUiFrontendPort: 9000, strimziUiFrontendPort: 8080 }) => {
+    const publicPath = `/beta/application-services/openshift-streams/`;
+    const outputPublicPath = `https://localhost:${port}${publicPath}`;
+    const mkUiFrontendPath = `https://localhost:${env.mkUiFrontendPort}/`;
+    const strimziUiPath = `http://localhost:${env.strimziUiFrontendPort}/`;
 
     return ({
         entry: './src/index',
         mode: 'development',
         devServer: {
             contentBase: path.join(__dirname, 'public'),
+            contentBasePublicPath: publicPath,
             port,
             https: true,
             disableHostCheck: true,
             clientLogLevel: 'debug',
-            publicPath: '/application-services/openshift-streams/'
+            historyApiFallback: {
+                index: `${publicPath}/index.html`
+            },
+            publicPath
         },
         output: {
             path: path.resolve('public'),
-            publicPath
+            publicPath: outputPublicPath
         },
         module: {
             rules: [
@@ -72,7 +71,8 @@ module.exports = (env = { mkUiFrontendPort: 9000 }, argv) => {
                 name: 'nav',
                 filename: 'remoteEntry.js',
                 remotes: {
-                    mkUiFrontend: `mkUiFrontend@${mkUiFrontendPath}remoteEntry.js`
+                    mkUiFrontend: `mkUiFrontend@${mkUiFrontendPath}remoteEntry.js`,
+                    strimziUi: `strimziUi@${strimziUiPath}remoteEntry.js`
                 },
                 shared: {
                     ...dependencies,
