@@ -21,7 +21,7 @@ module.exports = merge(common('production'), {
     })
   ],
   output: {
-    publicPath: `http://TODO`
+    publicPath: ``
   },
   module: {
     rules: [
