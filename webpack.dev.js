@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const { merge } = require("webpack-merge");
 const common = require("./webpack.common.js");
 const CopyPlugin = require('copy-webpack-plugin');
@@ -6,7 +7,10 @@ const { port, publicPath } = require('./package.json');
 const HOST = process.env.HOST || "localhost";
 const PORT = process.env.PORT || port;
 
+const outputPublicPath = `https://${HOST}:${PORT}${publicPath}`;
+
 module.exports = merge(common('development'), {
+
   mode: "development",
   devtool: "eval-source-map",
   devServer: {
@@ -23,7 +27,16 @@ module.exports = merge(common('development'), {
     overlay: true,
     open: true,
     disableHostCheck: true,
-    publicPath
+    publicPath,
+    // These are needed to allow serving the federated-modules.json
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+      "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+    }
+  },
+  output: {
+    publicPath: outputPublicPath
   },
   module: {
     rules: [
@@ -43,5 +56,18 @@ module.exports = merge(common('development'), {
         use: ["style-loader", "css-loader"]
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      "__PUBLIC_PATH__": JSON.stringify(outputPublicPath)
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: 'module-federation/federated-modules.dev.json',
+          to: 'federated-modules.json'
+        }
+      ]
+    })
+  ]
 });

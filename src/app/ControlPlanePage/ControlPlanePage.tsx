@@ -1,11 +1,10 @@
-// @ts-ignore
-import {OpenshiftStreamsFederated} from 'mkUiFrontend/OpenshiftStreams';
 import React, {useContext, useEffect, useState} from 'react';
 import {useHistory} from 'react-router';
 import {InsightsContext} from "@app/utils/insights";
 import {useDispatch} from 'react-redux';
 import {addNotification} from '@redhat-cloud-services/frontend-components-notifications/';
 import {AlertVariant} from "@patternfly/react-core";
+import {FederatedModule} from "../../Components/FederatedModule";
 
 export const ControlPlanePage = () => {
 
@@ -40,6 +39,15 @@ export const ControlPlanePage = () => {
   };
 
   return (
-    <OpenshiftStreamsFederated token={token} onConnectToInstance={onConnectInstance} addAlert={addAlert}/>
+    <FederatedModule
+      scope="mkUiFrontend"
+      module="./OpenshiftStreams"
+      render={(OpenshiftStreamsFederated) =>
+        <OpenshiftStreamsFederated
+          token={token}
+          onConnectToInstance={onConnectInstance}
+          addAlert={addAlert}
+      />}
+    />
   );
 };

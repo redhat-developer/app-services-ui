@@ -9,12 +9,6 @@ const {dependencies, port, publicPath} = require('./package.json');
 delete dependencies.serve; // Needed for nodeshift bug
 const webpack = require('webpack');
 module.exports = (env, argv) => {
-
-
-  const outputPublicPath = `https://localhost:${port}${publicPath}`;
-  const mkUiFrontendPath = `https://localhost:9000/`;
-  const strimziUiPath = `http://localhost:8080/`;
-
   return {
     entry: {
       app: path.resolve(__dirname, 'src', 'index.tsx')
@@ -132,7 +126,6 @@ module.exports = (env, argv) => {
     output: {
       filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist'),
-      publicPath: outputPublicPath
     },
     plugins: [
       new HtmlWebpackPlugin({
@@ -145,10 +138,6 @@ module.exports = (env, argv) => {
       new webpack.container.ModuleFederationPlugin({
         name: 'nav',
         filename: 'remoteEntry.js',
-        remotes: {
-          mkUiFrontend: `mkUiFrontend@${mkUiFrontendPath}remoteEntry.js`,
-          strimziUi: `strimziUi@${strimziUiPath}remoteEntry.js`
-        },
         shared: {
           ...dependencies,
           react: {

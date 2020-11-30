@@ -7,9 +7,12 @@ import {getRegistry} from '@redhat-cloud-services/frontend-components-utilities/
 import {notifications, NotificationsPortal} from '@redhat-cloud-services/frontend-components-notifications/';
 import {InsightsContext} from "@app/utils/insights";
 import {AppRoutes} from "@app/Routes";
+import {FederatedModuleProvider} from "../Components/FederatedModule";
 
 const registry = getRegistry();
 registry.register({notifications});
+
+declare const __PUBLIC_PATH__: string;
 
 export const App = () => {
 
@@ -28,8 +31,10 @@ export const App = () => {
 
   return (
     <Provider store={registry.getStore()}>
-      <NotificationsPortal/>
-      <AppRoutes />
+      <FederatedModuleProvider configUrl={`${__PUBLIC_PATH__}/federated-modules.json`}>
+        <NotificationsPortal/>
+        <AppRoutes />
+      </FederatedModuleProvider>
     </Provider>
   );
 }
