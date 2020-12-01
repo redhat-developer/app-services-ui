@@ -4,6 +4,8 @@ const common = require('./webpack.common.js');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
+const webpack = require('webpack');
+
 
 module.exports = merge(common('production'), {
   mode: 'production',
@@ -18,10 +20,10 @@ module.exports = merge(common('production'), {
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[name].bundle.css'
-    })
+    }),
   ],
   output: {
-    publicPath: ``
+    filename: '[name].[contenthash].js'
   },
   module: {
     rules: [
@@ -41,5 +43,5 @@ module.exports = merge(common('production'), {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       }
     ]
-  }
+  },
 });

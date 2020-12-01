@@ -1,3 +1,5 @@
+const {webpackPaths} = require("./utils/paths")
+
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -5,9 +7,13 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const BG_IMAGES_DIRNAME = 'bgimages';
 const ASSET_PATH = process.env.ASSET_PATH || '/';
-const {dependencies, port, publicPath} = require('./package.json');
+const {dependencies} = require('./package.json');
 delete dependencies.serve; // Needed for nodeshift bug
 const webpack = require('webpack');
+const {crc} = require('./package.json');
+
+const {publicPath} = webpackPaths(crc);
+
 module.exports = (env, argv) => {
   return {
     entry: {
@@ -126,6 +132,7 @@ module.exports = (env, argv) => {
     output: {
       filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist'),
+      publicPath
     },
     plugins: [
       new HtmlWebpackPlugin({
@@ -151,7 +158,11 @@ module.exports = (env, argv) => {
             requiredVersion: dependencies['react-dom']
           }
         }
-      })
+      }),
+      new webpack.DefinePlugin({
+        "__PUBLIC_PATH__": JSON.stringify(publicPath),
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || env)
+      }),
     ],
     resolve: {
       extensions: ['.js', '.ts', '.tsx', '.jsx'],

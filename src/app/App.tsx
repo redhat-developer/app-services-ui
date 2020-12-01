@@ -31,7 +31,7 @@ export const App = () => {
 
   return (
     <Provider store={registry.getStore()}>
-      <FederatedModuleProvider configUrl={`${__PUBLIC_PATH__}/federated-modules.json`}>
+      <FederatedModuleProvider configUrl={`${__PUBLIC_PATH__}federated-modules.json`}>
         <NotificationsPortal/>
         <AppRoutes />
       </FederatedModuleProvider>
