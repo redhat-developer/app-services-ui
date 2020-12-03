@@ -22,30 +22,12 @@ fi
 
 CONTAINER_ENGINE=${CONTAINER_ENGINE:-"docker"}
 VERSION="$(git log --pretty=format:'%h' -n 1)"
-IMAGE_REPOSITORY=${IMAGE_REPOSITORY:-"quay.io/app-sre/mk-ui-host"}
+IMAGE_REPOSITORY=${IMAGE_REPOSITORY:-"mk-ui-host"}
 IMAGE_TAG=${IMAGE_TAG:-${VERSION}}
 IMAGE="${IMAGE_REPOSITORY}:${IMAGE_TAG}"
 
-# Log in to the image registry:
-if [ -z "${QUAY_USER}" ]; then
-    echo "The quay.io push user name hasn't been provided."
-    echo "Make sure to set the QUAY_USER environment variable."
-    exit 1
-fi
-if [ -z "${QUAY_TOKEN}" ]; then
-    echo "The quay.io push token hasn't been provided."
-    echo "Make sure to set the QUAY_TOKEN environment variable."
-    exit 1
-fi
-
 step "Build the image"
 ${CONTAINER_ENGINE} build -t ${IMAGE} -f ./build/dockerfile .
-
-step "Login to quay.io"
-${CONTAINER_ENGINE} login -u ${QUAY_USER} -p ${QUAY_TOKEN} quay.io
-
-step "Push the image"
-${CONTAINER_ENGINE} push ${IMAGE}
 
 step "Push the client files"
 CID=$(${CONTAINER_ENGINE} create ${IMAGE})
