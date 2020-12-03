@@ -37,6 +37,6 @@ ${CONTAINER_ENGINE} rm ${CID}
 ./hack/push_to_insights.sh \
     --nachobot-token "${NACHOBOT_TOKEN}" \
     --version "${VERSION}" \
-    --branch ci-beta \
+    --branch qa-beta \
     --author-name Bot \
     --author-email ms-devexp@redhat.com
