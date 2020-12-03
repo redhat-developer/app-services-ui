@@ -14,7 +14,7 @@ const {crc} = require('./package.json');
 
 const {publicPath} = webpackPaths(crc);
 
-module.exports = (env, argv) => {
+module.exports = (env, argv, useContentHash) => {
   return {
     entry: {
       app: path.resolve(__dirname, 'src', 'index.tsx')
@@ -61,7 +61,7 @@ module.exports = (env, argv) => {
               // Limit at 50k. larger files emited into separate files
               limit: 5000,
               outputPath: 'fonts',
-              name: '[name].[ext]'
+              name: useContentHash ? '[contenthash].[ext]' : '[name].[ext]'
             }
           }
         },
@@ -74,7 +74,7 @@ module.exports = (env, argv) => {
               options: {
                 limit: 5000,
                 outputPath: 'svgs',
-                name: '[name].[ext]'
+                name: useContentHash ? '[contenthash].[ext]' : '[name].[ext]'
               }
             }
           ]
@@ -122,7 +122,7 @@ module.exports = (env, argv) => {
               options: {
                 limit: 5000,
                 outputPath: 'images',
-                name: '[name].[ext]'
+                name: useContentHash ? '[contenthash].[ext]' : '[name].[ext]'
               }
             }
           ]
@@ -160,8 +160,7 @@ module.exports = (env, argv) => {
         }
       }),
       new webpack.DefinePlugin({
-        "__PUBLIC_PATH__": JSON.stringify(publicPath),
-        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || env)
+        "__PUBLIC_PATH__": JSON.stringify(publicPath)
       }),
     ],
     resolve: {

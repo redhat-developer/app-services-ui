@@ -6,9 +6,10 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 
+const env = 'production';
 
-module.exports = merge(common('production'), {
-  mode: 'production',
+module.exports = merge(common(env, undefined, "[contenthash].[ext]"), {
+  mode: env,
   devtool: 'source-map',
   optimization: {
     minimizer: [
@@ -18,8 +19,11 @@ module.exports = merge(common('production'), {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[name].bundle.css'
+      filename: '[name].[contenthash].css',
+      chunkFilename: '[name].[contenthash].css'
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(env)
     }),
   ],
   output: {
