@@ -5,12 +5,14 @@ import {useDispatch} from 'react-redux';
 import {addNotification} from '@redhat-cloud-services/frontend-components-notifications/';
 import {AlertVariant} from "@patternfly/react-core";
 import {FederatedModule} from "../../Components/FederatedModule";
+import {ConfigContext} from "@app/Config/Config";
 
 export const ControlPlanePage = () => {
 
   const [token, setToken] = useState('');
 
   const insights = useContext(InsightsContext);
+  const config = useContext(ConfigContext);
 
   useEffect(() => {
     insights.chrome.auth.getToken().then(t => setToken(t));
@@ -47,7 +49,8 @@ export const ControlPlanePage = () => {
           token={token}
           onConnectToInstance={onConnectInstance}
           addAlert={addAlert}
-      />}
+          basePath={config.controlPlane.serviceApiBasePath}
+        />}
     />
   );
 };
