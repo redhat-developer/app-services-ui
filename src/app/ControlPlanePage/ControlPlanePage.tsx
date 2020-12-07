@@ -8,13 +8,7 @@ import {FederatedModule} from "../../Components/FederatedModule";
 
 export const ControlPlanePage = () => {
 
-  const [token, setToken] = useState('');
-
   const insights = useContext(InsightsContext);
-
-  useEffect(() => {
-    insights.chrome.auth.getToken().then(t => setToken(t));
-  }, []);
 
   const history = useHistory();
 
@@ -44,7 +38,7 @@ export const ControlPlanePage = () => {
       module="./OpenshiftStreams"
       render={(OpenshiftStreamsFederated) =>
         <OpenshiftStreamsFederated
-          token={token}
+          getToken={insights.chrome.auth.getToken}
           onConnectToInstance={onConnectInstance}
           addAlert={addAlert}
       />}
