@@ -29,7 +29,7 @@ module.exports = merge(common(env, undefined, "[contenthash].[ext]"), {
     new CopyPlugin({
       patterns: [
         {
-          from: 'module-federation/federated-modules.dev.json',
+          from: 'module-federation/federated-modules.beta.json',
           to: `federated-modules.json`
         }
       ]
