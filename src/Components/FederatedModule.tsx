@@ -2,6 +2,7 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Loading } from './Loading/Loading';
 
 const FederatedModuleContext = React.createContext({});
 
@@ -112,7 +113,7 @@ export function FederatedModule({ scope, module, render }) {
     );
 
     return (
-        <React.Suspense fallback="Loading System">
+        <React.Suspense fallback={<Loading/>}>
             {render(Component)}
         </React.Suspense>
     );

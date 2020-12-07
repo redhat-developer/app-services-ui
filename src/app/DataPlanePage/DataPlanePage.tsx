@@ -5,7 +5,7 @@ export const DataPlanePage = () => {
   return (
     <FederatedModule
       scope="strimziUi"
-      module="./Home"
+      module="./Panels/Home.patternfly"
       render={(Home) => <Home/>}
     />
   );

@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types';
-import React, {Component, useContext, useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
 import {connect, Provider} from 'react-redux';
 import './App.scss';
@@ -8,6 +7,7 @@ import {notifications, NotificationsPortal} from '@redhat-cloud-services/fronten
 import {InsightsContext} from "@app/utils/insights";
 import {AppRoutes} from "@app/Routes";
 import {FederatedModuleProvider} from "../Components/FederatedModule";
+import {ConfigProvider} from "@app/Config/Config";
 
 const registry = getRegistry();
 registry.register({notifications});
@@ -31,10 +31,12 @@ export const App = () => {
 
   return (
     <Provider store={registry.getStore()}>
-      <FederatedModuleProvider configUrl={`${__PUBLIC_PATH__}federated-modules.json`}>
-        <NotificationsPortal/>
-        <AppRoutes />
-      </FederatedModuleProvider>
+      <ConfigProvider configUrl={`${__PUBLIC_PATH__}config.json`}>
+        <FederatedModuleProvider configUrl={`${__PUBLIC_PATH__}federated-modules.json`}>
+          <NotificationsPortal/>
+          <AppRoutes/>
+        </FederatedModuleProvider>
+      </ConfigProvider>
     </Provider>
   );
 }

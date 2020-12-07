@@ -1,4 +1,0 @@
-{
-  "mkUiFrontend": "https://ci.cloud.redhat.com/beta/apps/rhosak-control-plane-ui-build/remoteEntry.js",
-  "strimziUi": "https://ci.cloud.redhat.com/beta/apps/rhosak-data-plane-ui-build/remoteEntry.js"
-}

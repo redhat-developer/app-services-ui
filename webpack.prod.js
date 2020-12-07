@@ -3,6 +3,7 @@ const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 
@@ -25,6 +26,14 @@ module.exports = merge(common(env, undefined, "[contenthash].[ext]"), {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(env)
     }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: 'module-federation/federated-modules.dev.json',
+          to: `federated-modules.json`
+        }
+      ]
+    })
   ],
   output: {
     filename: '[name].[contenthash].js'

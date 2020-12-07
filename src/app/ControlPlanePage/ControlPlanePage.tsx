@@ -5,16 +5,12 @@ import {useDispatch} from 'react-redux';
 import {addNotification} from '@redhat-cloud-services/frontend-components-notifications/';
 import {AlertVariant} from "@patternfly/react-core";
 import {FederatedModule} from "../../Components/FederatedModule";
+import {ConfigContext} from "@app/Config/Config";
 
 export const ControlPlanePage = () => {
 
-  const [token, setToken] = useState('');
-
   const insights = useContext(InsightsContext);
-
-  useEffect(() => {
-    insights.chrome.auth.getToken().then(t => setToken(t));
-  }, []);
+  const config = useContext(ConfigContext);
 
   const history = useHistory();
 
@@ -44,10 +40,11 @@ export const ControlPlanePage = () => {
       module="./OpenshiftStreams"
       render={(OpenshiftStreamsFederated) =>
         <OpenshiftStreamsFederated
-          token={token}
+          getToken={insights.chrome.auth.getToken}
           onConnectToInstance={onConnectInstance}
           addAlert={addAlert}
-      />}
+          basePath={config.controlPlane.serviceApiBasePath}
+        />}
     />
   );
 };
