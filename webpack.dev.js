@@ -71,8 +71,12 @@ module.exports = merge(common('development'), {
     new CopyPlugin({
       patterns: [
         {
-          from: 'module-federation/federated-modules.dev.json',
+          from: 'config/federated-modules.dev.json',
           to: `federated-modules.json`
+        },
+        {
+          from: 'config/config.dev.json',
+          to: `config.json`
         }
       ]
     })
