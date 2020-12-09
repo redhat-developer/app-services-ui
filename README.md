@@ -4,6 +4,17 @@
 
 mk-ui is based on the https://github.com/RedHatInsights/insights-frontend-starter-app.git which is React.js starter app for Red Hat Insights products that includes Patternfly 4 and shared cloud.redhat.com utilities.
 
+## Running the Control Plane UI inside the host locally
+`
+1. Follow the [Control Plane UI Readme](https://github.com/bf2fc6cc711aee1a0c2a/mk-ui-frontend) to start the development server
+2. Once you have the development server running successfully, shut it down, and run `npm run start:federate` instead
+3. Clone [insights-proxy](https://github.com/RedHatInsights/insights-chrome)
+4. Run `export PROXY_PATH=<path to local insights proxy clone>`
+5. In this project, run `SPANDX_CONFIG="./profiles/local-frontend.js" bash $PROXY_PATH/scripts/run.sh`
+6. In this project, run `npm install`
+7. In this project, run `npm run start:dev`
+8. Visit https://prod.foo.redhat.com:1337/beta/application-services/openshift-streams/
+
 The remainder of these docs come from there.
 
 ## Getting Started
