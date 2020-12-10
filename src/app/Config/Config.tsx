@@ -4,6 +4,9 @@ export type Config = {
   controlPlane: {
     serviceApiBasePath: string
   }
+  dataPlane: {
+    uiServerBasePath: string
+  }
 };
 
 export const ConfigContext = React.createContext({} as Config);
