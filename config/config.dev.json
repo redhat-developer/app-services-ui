@@ -1,5 +1,8 @@
 {
   "controlPlane": {
     "serviceApiBasePath": "https://api.stage.openshift.com"
+  },
+  "dataPlane": {
+    "uiServerBasePath": "http://localhost:3000"
   }
 }
