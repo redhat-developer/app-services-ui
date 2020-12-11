@@ -4,9 +4,7 @@ import { Spinner } from '@redhat-cloud-services/frontend-components';
 import './Loading.css';
 
 export const Loading: React.FunctionComponent = () => (
-  <PageSection>
     <Bullseye>
-      <Spinner />
+        <Spinner />
     </Bullseye>
-  </PageSection>
 );
