@@ -1,14 +1,15 @@
-import React, {FunctionComponent, useContext} from 'react';
-import {FederatedModule} from "../../Components/FederatedModule";
+import React, {useContext} from 'react';
 import {InsightsContext} from "@app/utils";
-import {RouteComponentProps, useLocation, useParams} from "react-router-dom";
+import {RouteComponentProps} from "react-router-dom";
 import {ConfigContext} from "@app/Config/Config";
+import {getKeyCloakToken} from "@app/utils/keycloakAuth";
+import {FederatedModule} from "../../Components/FederatedModule";
 
 type DataPlanePageParams = {
   id: string
 }
 
-export const DataPlanePage = ( {match}: RouteComponentProps<DataPlanePageParams>) => {
+export const DataPlanePage = ({match}: RouteComponentProps<DataPlanePageParams>) => {
 
   const insights = useContext(InsightsContext);
 
@@ -19,18 +20,13 @@ export const DataPlanePage = ( {match}: RouteComponentProps<DataPlanePageParams>
   const parts = pathname.split("/");
   const id = parts[parts.length - 2];
 
-  const getDataPlaneToken = () => {
-    return "redhat123";
-  }
-
-
   return (
     <FederatedModule
       scope="strimziUi"
       module="./Panels/Topics.patternfly"
       render={(FederatedTopics) => <FederatedTopics
         getApiOpenshiftComToken={insights.chrome.auth.getToken}
-        getToken={getDataPlaneToken}
+        getToken={getKeyCloakToken}
         id={id}
         apiBasePath={config.dataPlane.uiServerBasePath}
       />}
