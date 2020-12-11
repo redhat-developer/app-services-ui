@@ -1,8 +1,8 @@
 import React from 'react';
-import { Route, RouteComponentProps, Switch } from 'react-router-dom';
+import {Route, RouteComponentProps, Switch} from 'react-router-dom';
 import {accessibleRouteChangeHandler, useDocumentTitle} from '@app/utils';
-import { NotFound } from '@app/NotFound/NotFound';
-import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
+import {NotFound} from '@app/NotFound/NotFound';
+import {LastLocationProvider, useLastLocation} from 'react-router-last-location';
 import {ControlPlanePage} from "@app/ControlPlanePage/ControlPlanePage";
 import {DataPlanePage} from "@app/DataPlanePage/DataPlanePage";
 
@@ -59,7 +59,7 @@ const useA11yRouteChange = (isAsync: boolean) => {
   }, [isAsync, lastNavigation]);
 };
 
-const RouteWithTitleUpdates = ({ component: Component, isAsync = false, title, ...rest }: IAppRoute) => {
+const RouteWithTitleUpdates = ({component: Component, isAsync = false, title, ...rest}: IAppRoute) => {
   useA11yRouteChange(isAsync);
   useDocumentTitle(title);
 
@@ -67,12 +67,12 @@ const RouteWithTitleUpdates = ({ component: Component, isAsync = false, title, .
     return <Component {...rest} {...routeProps} />;
   }
 
-  return <Route render={routeWithTitle} />;
+  return <Route render={routeWithTitle}/>;
 };
 
-const PageNotFound = ({ title }: { title: string }) => {
+const PageNotFound = ({title}: { title: string }) => {
   useDocumentTitle(title);
-  return <Route component={NotFound} />;
+  return <Route component={NotFound}/>;
 };
 
 const flattenedRoutes: IAppRoute[] = routes.reduce(
@@ -83,7 +83,7 @@ const flattenedRoutes: IAppRoute[] = routes.reduce(
 const AppRoutes = (): React.ReactElement => (
   <LastLocationProvider>
     <Switch>
-      {flattenedRoutes.map(({ path, exact, component, title, isAsync }, idx) => (
+      {flattenedRoutes.map(({path, exact, component, title, isAsync}, idx) => (
         <RouteWithTitleUpdates
           path={path}
           exact={exact}
@@ -93,9 +93,9 @@ const AppRoutes = (): React.ReactElement => (
           isAsync={isAsync}
         />
       ))}
-      <PageNotFound title="404 Page Not Found" />
+      <PageNotFound title="404 Page Not Found"/>
     </Switch>
   </LastLocationProvider>
 );
 
-export { AppRoutes, routes };
+export {AppRoutes, routes};

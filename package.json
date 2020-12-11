@@ -35,22 +35,23 @@
     "build:storybook": "build-storybook"
   },
   "dependencies": {
-    "@redhat-cloud-services/frontend-components-utilities": "2.0.4",
-    "react-redux": "7.2.0",
-    "redux": "4.0.5",
-    "redux-logger": "3.0.6",
-    "redux-promise-middleware": "6.1.2",
     "@patternfly/react-core": "^4.63.3",
     "@patternfly/react-icons": "^4.7.11",
     "@patternfly/react-styles": "^4.7.8",
     "@patternfly/react-table": "^4.19.24",
     "@redhat-cloud-services/frontend-components": "^2.4.22",
     "@redhat-cloud-services/frontend-components-notifications": "^2.2.3",
+    "@redhat-cloud-services/frontend-components-utilities": "2.0.4",
     "axios": "^0.21.0",
     "express": "^4.17.1",
+    "keycloak-js": "^11.0.3",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-router-last-location": "^2.0.1"
+    "react-redux": "7.2.0",
+    "react-router-last-location": "^2.0.1",
+    "redux": "4.0.5",
+    "redux-logger": "3.0.6",
+    "redux-promise-middleware": "6.1.2"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^6.0.26",
