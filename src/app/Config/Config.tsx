@@ -6,6 +6,11 @@ export type Config = {
   }
   dataPlane: {
     uiServerBasePath: string
+    keycloak: {
+      authServerUrl: string,
+      clientId: string,
+      realm: string
+    }
   }
 };
 

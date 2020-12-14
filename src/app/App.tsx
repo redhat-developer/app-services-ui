@@ -12,8 +12,6 @@ import {ConfigProvider} from "@app/Config/Config";
 const registry = getRegistry();
 registry.register({notifications});
 
-declare const __PUBLIC_PATH__: string;
-
 export const App = () => {
 
   const insights = useContext(InsightsContext);
@@ -31,12 +29,10 @@ export const App = () => {
 
   return (
     <Provider store={registry.getStore()}>
-      <ConfigProvider configUrl={`${__PUBLIC_PATH__}config.json`}>
         <FederatedModuleProvider configUrl={`${__PUBLIC_PATH__}federated-modules.json`}>
           <NotificationsPortal/>
           <AppRoutes/>
         </FederatedModuleProvider>
-      </ConfigProvider>
     </Provider>
   );
 }
