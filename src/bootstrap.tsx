@@ -7,9 +7,11 @@ import App from '@app/App';
 import logger from 'redux-logger';
 import getBaseName from '@app/utils/getBaseName';
 import {InsightsContext} from "@app/utils/insights";
-import {getKeycloakInstance} from "@app/utils/keycloakAuth";
 import {Loading} from "./Components/Loading/Loading";
 import {ConfigContext, ConfigProvider} from "@app/Config/Config";
+import {KeycloakInstance} from "keycloak-js";
+import {AuthContext, IAuthContext} from "@app/utils/auth/AuthContext";
+import {getKeycloakInstance, getKeyCloakToken} from "@app/utils/keycloakAuth";
 
 declare const __PUBLIC_PATH__: string;
 
@@ -18,29 +20,41 @@ const AppWithKeycloak = () => {
   const config = useContext(ConfigContext)
 
   React.useEffect(() => {
-    const loadToken = async () => {
-      const keycloak = await getKeycloakInstance({
-        authServerUrl: config.dataPlane.keycloak.authServerUrl,
-        clientId: config.dataPlane.keycloak.clientId,
-        realm: config.dataPlane.keycloak.realm
-      });
-      console.log(keycloak?.authenticated);
-      setLoadingKeycloak(false);
+    if (config != undefined) {
+      const loadToken = async () => {
+        const keycloak = await getKeycloakInstance ({
+          url: config.dataPlane.keycloak.authServerUrl,
+          clientId: config.dataPlane.keycloak.clientId,
+          realm: config.dataPlane.keycloak.realm
+        });
+        setKeycloak(keycloak);
+        setLoadingKeycloak(false);
+      }
+      loadToken();
     }
-    loadToken();
   }, [config]);
 
+  const [keycloak, setKeycloak] = useState<KeycloakInstance | undefined>(undefined);
   const [loadingKeycloak, setLoadingKeycloak] = useState(true);
 
 
-  if (loadingKeycloak) {
+  if (loadingKeycloak || keycloak === undefined) {
     return <Loading/>;
   }
 
+  const getToken = () => {
+    return getKeyCloakToken();
+
+  }
+
   return (
-    <Router basename={getBaseName(window.location.pathname)}>
-      <App/>
-    </Router>
+    <AuthContext.Provider value={{
+      getToken
+    } as IAuthContext}>
+      <Router basename={getBaseName(window.location.pathname)}>
+        <App/>
+      </Router>
+    </AuthContext.Provider>
   )
 }
 
@@ -54,5 +68,3 @@ ReactDOM.render(
     </ConfigProvider>
   </Provider>, document.getElementById('root')
 );
-
-let keycloak;

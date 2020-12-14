@@ -1,4 +1,4 @@
-import Keycloak, { KeycloakInstance } from 'keycloak-js';
+import Keycloak, {KeycloakConfig, KeycloakInstance} from 'keycloak-js';
 
 export let keycloak: KeycloakInstance | undefined;
 
@@ -9,8 +9,8 @@ export let keycloak: KeycloakInstance | undefined;
  * if keycloak isn't configured
  *
  */
-export const getKeycloakInstance = async ({ realm, authServerUrl, clientId}) => {
-  if (!keycloak) await init({ realm, authServerUrl, clientId});
+export const getKeycloakInstance = async (config: KeycloakConfig) => {
+  if (!keycloak) await init(config);
   return keycloak;
 }
 
@@ -21,13 +21,9 @@ export const getKeycloakInstance = async ({ realm, authServerUrl, clientId}) => 
  * keycloak isn't configured
  *
  */
-export const init = async ({ realm, authServerUrl, clientId}) => {
+export const init = async (config: KeycloakConfig) => {
   try {
-    keycloak = new (Keycloak as any)({
-      url: authServerUrl,
-      realm,
-      clientId
-    });
+    keycloak = new (Keycloak as any)(config);
     if (keycloak) {
       await keycloak.init({
         onLoad: 'login-required',
