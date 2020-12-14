@@ -7,12 +7,10 @@ import {notifications, NotificationsPortal} from '@redhat-cloud-services/fronten
 import {InsightsContext} from "@app/utils/insights";
 import {AppRoutes} from "@app/Routes";
 import {FederatedModuleProvider} from "../Components/FederatedModule";
-import {ConfigProvider} from "@app/Config/Config";
-
-const registry = getRegistry();
-registry.register({notifications});
 
 declare const __PUBLIC_PATH__: string;
+const registry = getRegistry();
+registry.register({notifications});
 
 export const App = () => {
 
@@ -31,12 +29,10 @@ export const App = () => {
 
   return (
     <Provider store={registry.getStore()}>
-      <ConfigProvider configUrl={`${__PUBLIC_PATH__}config.json`}>
-        <FederatedModuleProvider configUrl={`${__PUBLIC_PATH__}federated-modules.json`}>
-          <NotificationsPortal/>
-          <AppRoutes/>
-        </FederatedModuleProvider>
-      </ConfigProvider>
+      <FederatedModuleProvider configUrl={`${__PUBLIC_PATH__}federated-modules.json`}>
+        <NotificationsPortal/>
+        <AppRoutes/>
+      </FederatedModuleProvider>
     </Provider>
   );
 }

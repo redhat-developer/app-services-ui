@@ -6,13 +6,18 @@ export type Config = {
   }
   dataPlane: {
     uiServerBasePath: string
+    keycloak: {
+      authServerUrl: string,
+      clientId: string,
+      realm: string
+    }
   }
 };
 
-export const ConfigContext = React.createContext({} as Config);
+export const ConfigContext = React.createContext<Config | undefined>(undefined);
 
 export function ConfigProvider({ configUrl, children }) {
-  const [config, setConfig] = React.useState({} as Config);
+  const [config, setConfig] = React.useState<Config | undefined>(undefined);
   React.useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
