@@ -3,6 +3,11 @@
     "serviceApiBasePath": "https://api.stage.openshift.com"
   },
   "dataPlane": {
-    "uiServerBasePath": "https://strimzi-ui-strimzi-ui-demo.apps.mk-dev-exp.lsu1.s1.devshift.org"
+    "uiServerBasePath": "https://strimzi-ui-strimzi-ui-demo.apps.mk-dev-exp.lsu1.s1.devshift.org",
+    "keycloak": {
+      "authServerUrl": "https://keycloak-edge-redhat-rhoam-user-sso.apps.mas-sso-stage.1gzl.s1.devshift.org/auth",
+      "clientId": "strimzi-ui",
+      "realm": "mas-sso-staging"
+    }
   }
 }

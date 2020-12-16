@@ -2,8 +2,8 @@ import React, {useContext} from 'react';
 import {InsightsContext} from "@app/utils";
 import {RouteComponentProps} from "react-router-dom";
 import {ConfigContext} from "@app/Config/Config";
-import {getKeyCloakToken} from "@app/utils/keycloakAuth";
 import {FederatedModule} from "../../Components/FederatedModule";
+import {AuthContext} from "@app/utils/auth/AuthContext";
 
 type DataPlanePageParams = {
   id: string
@@ -12,8 +12,8 @@ type DataPlanePageParams = {
 export const DataPlanePage = ({match}: RouteComponentProps<DataPlanePageParams>) => {
 
   const insights = useContext(InsightsContext);
-
   const config = useContext(ConfigContext);
+  const {getToken} = useContext(AuthContext);
 
   // TODO useParams is not working?
   const pathname = window.location.pathname.endsWith("/") ? window.location.pathname : `${window.location.pathname}/`;
@@ -26,9 +26,9 @@ export const DataPlanePage = ({match}: RouteComponentProps<DataPlanePageParams>)
       module="./Panels/Topics.patternfly"
       render={(FederatedTopics) => <FederatedTopics
         getApiOpenshiftComToken={insights.chrome.auth.getToken}
-        getToken={getKeyCloakToken}
+        getToken={getToken}
         id={id}
-        apiBasePath={config.dataPlane.uiServerBasePath}
+        apiBasePath={config?.dataPlane.uiServerBasePath}
       />}
     />
   );
