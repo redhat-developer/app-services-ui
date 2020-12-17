@@ -4,8 +4,9 @@ import {InsightsContext} from "@app/utils/insights";
 import {useDispatch} from 'react-redux';
 import {addNotification} from '@redhat-cloud-services/frontend-components-notifications/';
 import {AlertVariant} from "@patternfly/react-core";
-import {FederatedModule} from "../../Components/FederatedModule";
+import {FederatedModule} from "../Components/FederatedModule";
 import {ConfigContext} from "@app/Config/Config";
+import {Loading} from "@app/Components/Loading/Loading";
 
 export const ControlPlanePage = () => {
 
@@ -34,7 +35,12 @@ export const ControlPlanePage = () => {
 
   };
 
+  if (config === undefined) {
+    return <Loading />
+  }
+
   const getUsername = () => insights.chrome.auth.getUser().then(user => user.identity.user.username);
+
   return (
     <FederatedModule
       scope="mkUiFrontend"
@@ -45,7 +51,7 @@ export const ControlPlanePage = () => {
           getUsername={getUsername}
           onConnectToInstance={onConnectInstance}
           addAlert={addAlert}
-          basePath={config.controlPlane.serviceApiBasePath}
+          basePath={config?.controlPlane.serviceApiBasePath}
         />}
     />
   );
