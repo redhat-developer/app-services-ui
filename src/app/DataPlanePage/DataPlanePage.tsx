@@ -2,8 +2,9 @@ import React, {useContext} from 'react';
 import {InsightsContext} from "@app/utils";
 import {RouteComponentProps} from "react-router-dom";
 import {ConfigContext} from "@app/Config/Config";
-import {FederatedModule} from "../../Components/FederatedModule";
+import {FederatedModule} from "../Components/FederatedModule";
 import {AuthContext} from "@app/utils/auth/AuthContext";
+import {Loading} from "@app/Components/Loading/Loading";
 
 type DataPlanePageParams = {
   id: string
@@ -19,6 +20,10 @@ export const DataPlanePage = ({match}: RouteComponentProps<DataPlanePageParams>)
   const pathname = window.location.pathname.endsWith("/") ? window.location.pathname : `${window.location.pathname}/`;
   const parts = pathname.split("/");
   const id = parts[parts.length - 2];
+
+  if (config === undefined) {
+    return <Loading />
+  }
 
   return (
     <FederatedModule

@@ -7,7 +7,7 @@ import App from '@app/App';
 import logger from 'redux-logger';
 import getBaseName from '@app/utils/getBaseName';
 import {InsightsContext} from "@app/utils/insights";
-import {Loading} from "./Components/Loading/Loading";
+import {Loading} from "./app/Components/Loading/Loading";
 import {ConfigContext, ConfigProvider} from "@app/Config/Config";
 import {KeycloakInstance} from "keycloak-js";
 import {AuthContext, IAuthContext} from "@app/utils/auth/AuthContext";
