@@ -34,6 +34,7 @@ export const ControlPlanePage = () => {
 
   };
 
+  const getUsername = () => insights.chrome.auth.getUser().then(user => user.identity.user.username);
   return (
     <FederatedModule
       scope="mkUiFrontend"
@@ -41,6 +42,7 @@ export const ControlPlanePage = () => {
       render={(OpenshiftStreamsFederated) =>
         <OpenshiftStreamsFederated
           getToken={insights.chrome.auth.getToken}
+          getUsername={getUsername}
           onConnectToInstance={onConnectInstance}
           addAlert={addAlert}
           basePath={config.controlPlane.serviceApiBasePath}
