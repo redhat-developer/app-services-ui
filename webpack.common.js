@@ -11,6 +11,7 @@ const {dependencies} = require('./package.json');
 delete dependencies.serve; // Needed for nodeshift bug
 const webpack = require('webpack');
 const {crc} = require('./package.json');
+const CRCFederatedPlugin = require('@redhat-cloud-services/frontend-components-config/federated-modules');
 
 const {publicPath} = webpackPaths(crc);
 
@@ -142,22 +143,13 @@ module.exports = (env, argv, useContentHash) => {
         systemvars: true,
         silent: true
       }),
-      new webpack.container.ModuleFederationPlugin({
-        name: 'nav',
-        filename: 'remoteEntry.js',
-        shared: {
-          ...dependencies,
-          react: {
-            eager: true,
-            singleton: true,
-            requiredVersion: dependencies.react
-          },
-          'react-dom': {
-            eager: true,
-            singleton: true,
-            requiredVersion: dependencies['react-dom']
-          }
-        }
+      CRCFederatedPlugin({
+        root: __dirname,
+        moduleName: 'nav',
+        exposes: {
+          './RootApp': 'src/app/App'
+        },
+        debug: true
       }),
       new webpack.DefinePlugin({
         "__PUBLIC_PATH__": JSON.stringify(publicPath)

@@ -54,6 +54,7 @@
     "redux-promise-middleware": "6.1.2"
   },
   "devDependencies": {
+    "@redhat-cloud-services/frontend-components-config": "^3.0.0-beta16",
     "@storybook/addon-actions": "^6.0.26",
     "@storybook/addon-info": "^5.3.21",
     "@storybook/addon-links": "^6.0.26",
