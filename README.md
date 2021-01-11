@@ -8,7 +8,7 @@ mk-ui is based on the https://github.com/RedHatInsights/insights-frontend-starte
 `
 1. Follow the [Control Plane UI Readme](https://github.com/bf2fc6cc711aee1a0c2a/mk-ui-frontend) to start the development server
 2. Once you have the development server running successfully, shut it down, and run `npm run start:federate` instead
-3. Clone [insights-proxy](https://github.com/RedHatInsights/insights-chrome)
+3. Clone [insights-proxy](https://github.com/RedHatInsights/insights-proxy)
 4. Run `export PROXY_PATH=<path to local insights proxy clone>`
 5. In this project, run `SPANDX_CONFIG="./profiles/local-frontend.js" bash $PROXY_PATH/scripts/run.sh`
 6. In this project, run `npm install`
