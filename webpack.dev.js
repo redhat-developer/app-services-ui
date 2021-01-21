@@ -7,13 +7,16 @@ const common = require("./webpack.common.js");
 const CopyPlugin = require('copy-webpack-plugin');
 const {port, crc} = require('./package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HOST = process.env.HOST || "localhost";
+const ReplaceHtmlWebpackPlugin = require('html-replace-webpack-plugin');
+const fs = require('fs');
+const HOST = process.env.HOST || "prod.foo.redhat.com";
 const PORT = process.env.PORT || port;
 const PROTOCOL = process.env.PROTOCOL || 'https';
 
 const {publicPath, viewPath, viewPathRewritePattern} = webpackPaths(crc);
 
 console.log(`publicPath: ${publicPath}; viewPath: ${viewPath}; viewPathRewritePattern: ${viewPathRewritePattern}`)
+const chromePath = path.resolve(__dirname, '../crc/insights-chrome/build'); 
 
 module.exports = merge(common('development'), {
 
@@ -39,14 +42,20 @@ module.exports = merge(common('development'), {
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
       "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
     },
-    proxy: {
-      viewPath:
-        {
-          target: `${PROTOCOL}://${HOST}:${PORT}${publicPath}`,
-          pathRewrite: {viewPathRewritePattern: ''},
-          secure: false
-        }
-    }
+    proxy: [
+      {
+        context: ['/api', '/silent-check-sso'],
+        // context: ['/*', '/**/*', '!/config/main.yml'],
+        target: 'https://cloud.redhat.com',
+        secure: false,
+        changeOrigin: true
+      },
+      {
+        context: ['/apps/chrome'],
+        target: `${PROTOCOL}://${HOST}:${PORT}${publicPath}`,
+        secure: false
+      }
+    ],
   },
   module: {
     rules: [
@@ -71,14 +80,23 @@ module.exports = merge(common('development'), {
     new CopyPlugin({
       patterns: [
         {
-          from: 'config/federated-modules.dev.json',
+          from: 'config/federated-modules.beta.json',
           to: `federated-modules.json`
         },
         {
-          from: 'config/config.dev.json',
+          from: 'config/config.preprod-beta.json',
           to: `config.json`
-        }
+        },
+        { from: chromePath, to: 'apps/chrome' },
       ]
-    })
-  ]
-});
+    }),
+    new ReplaceHtmlWebpackPlugin([
+      {
+        pattern: /<\s*esi:include\s+src\s*=\s*"([^"]+)"\s*\/\s*>/gm,
+        replacement(_match, file) {
+          file = file.split('/').pop();
+          const snippet = path.resolve(chromePath, 'snippets', file);
+          return publicPath + fs.readFileSync(snippet);
+        }
+      },
+    ])

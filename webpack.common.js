@@ -10,9 +10,10 @@ const ASSET_PATH = process.env.ASSET_PATH || '/';
 const {crc,dependencies} = require('./package.json');
 delete dependencies.serve; // Needed for nodeshift bug
 const webpack = require('webpack');
-const CRCFederatedPlugin = require('@redhat-cloud-services/frontend-components-config/federated-modules');
+const ChunkMapperPlugin = require('./config/chunk-mapper');
 
 const {publicPath} = webpackPaths(crc);
+const federatedModuleName = crc.name.replace('-', '');
 
 module.exports = (env, argv, useContentHash) => {
   return {
@@ -142,13 +143,28 @@ module.exports = (env, argv, useContentHash) => {
         systemvars: true,
         silent: true
       }),
-      CRCFederatedPlugin({
-        root: __dirname,
-        debug: true,
-        moduleName: crc.name,
+      new webpack.container.ModuleFederationPlugin({
+        name: federatedModuleName,
+        filename: `${federatedModuleName}.[chunkhash].js`,
         exposes: {
-          './RootApp': 'src/app/App'
+          './RootApp': './src/AppEntry'
+        },
+        shared: {
+          ...dependencies,
+          react: {
+            eager: true,
+            singleton: true,
+            requiredVersion: dependencies.react
+          },
+          'react-dom': {
+            eager: true,
+            singleton: true,
+            requiredVersion: dependencies['react-dom']
+          }
         }
+      }),
+      new ChunkMapperPlugin({
+        modules: [federatedModuleName]
       }),
       new webpack.DefinePlugin({
         "__PUBLIC_PATH__": JSON.stringify(publicPath)
