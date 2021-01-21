@@ -7,10 +7,9 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const BG_IMAGES_DIRNAME = 'bgimages';
 const ASSET_PATH = process.env.ASSET_PATH || '/';
-const {dependencies} = require('./package.json');
+const {crc,dependencies} = require('./package.json');
 delete dependencies.serve; // Needed for nodeshift bug
 const webpack = require('webpack');
-const {crc} = require('./package.json');
 const CRCFederatedPlugin = require('@redhat-cloud-services/frontend-components-config/federated-modules');
 
 const {publicPath} = webpackPaths(crc);
@@ -145,11 +144,11 @@ module.exports = (env, argv, useContentHash) => {
       }),
       CRCFederatedPlugin({
         root: __dirname,
-        moduleName: 'nav',
+        debug: true,
+        moduleName: crc.name,
         exposes: {
           './RootApp': 'src/app/App'
-        },
-        debug: true
+        }
       }),
       new webpack.DefinePlugin({
         "__PUBLIC_PATH__": JSON.stringify(publicPath)
