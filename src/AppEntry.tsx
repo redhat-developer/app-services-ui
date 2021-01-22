@@ -58,7 +58,7 @@ const AppWithKeycloak = () => {
   )
 }
 
-export default () => (
+const AppEntry = () => (
   <Provider store={init(logger).getStore()}>
     <ConfigProvider configUrl={`${__PUBLIC_PATH__}config.json`}>
       <InsightsContext.Provider value={window["insights"]}>
@@ -67,3 +67,4 @@ export default () => (
     </ConfigProvider>
   </Provider>
 );
+export default AppEntry;
