@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-undef */
-import React from 'react';
+import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import { Loading } from './Loading/Loading';
 
@@ -100,11 +100,21 @@ const useDynamicScript = ({ url }) => {
     };
 };
 
-export function FederatedModule({ scope, module, render }) {
+type FederatedModuleType = {
+    scope: string;
+    module: string;
+    render: (component: React.LazyExoticComponent<React.ComponentType<any>>) => ReactNode;
+    fallback?: any;
+}
+
+export function FederatedModule({ scope, module, render, fallback }: FederatedModuleType) {
     const url = useFederatedModule(scope);
     const { ready, failed } = useDynamicScript({ url });
 
     if (!ready || failed) {
+        if (failed && fallback) {
+            return fallback;
+        }
         return null;
     }
 

@@ -41,18 +41,34 @@ export const ControlPlanePage = () => {
 
   const getUsername = () => insights.chrome.auth.getUser().then(user => user.identity.user.username);
 
-  return (
+  const osStreams = (
     <FederatedModule
       scope="mkUiFrontend"
       module="./OpenshiftStreams"
-      render={(OpenshiftStreamsFederated) =>
-        <OpenshiftStreamsFederated
-          getToken={insights.chrome.auth.getToken}
-          getUsername={getUsername}
-          onConnectToInstance={onConnectInstance}
-          addAlert={addAlert}
-          basePath={config?.controlPlane.serviceApiBasePath}
-        />}
+      render={(OpenshiftStreamsFederated) => {
+        return (
+          <OpenshiftStreamsFederated
+            getToken={insights.chrome.auth.getToken}
+            getUsername={getUsername}
+            onConnectToInstance={onConnectInstance}
+            addAlert={addAlert}
+            basePath={config?.controlPlane.serviceApiBasePath}
+          />
+        );
+      }}
+    />
+  );
+
+  return (
+    <FederatedModule
+      scope="masGuides"
+      module="./QuickStartDrawer"
+      fallback={osStreams}
+      render={(QuickStartDrawerFederated) => (
+        <QuickStartDrawerFederated>
+          {osStreams}
+        </QuickStartDrawerFederated>
+      )}
     />
   );
 };

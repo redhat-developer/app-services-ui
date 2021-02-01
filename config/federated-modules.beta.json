@@ -1,4 +1,5 @@
 {
   "mkUiFrontend": "/beta/apps/rhosak-control-plane-ui-build/remoteEntry.js",
-  "strimziUi": "/beta/apps/rhosak-data-plane-ui-build/remoteEntry.js"
+  "strimziUi": "/beta/apps/rhosak-data-plane-ui-build/remoteEntry.js",
+  "masGuides": "/beta/apps/rhosak-guides-build/remoteEntry.js"
 }
