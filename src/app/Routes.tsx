@@ -43,6 +43,13 @@ const routes: AppRouteConfig[] = [
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
+  },
+  {
+    component: QuickStartCatalogFederated,
+    exact: true,
+    label: 'Quick-starts for Red Hat OpenShift Streams for Apache Kafka',
+    path: '/quickstarts',
+    title: 'Quick-starts for Red Hat OpenShift Streams for Apache Kafka',
   }
 ];
 
