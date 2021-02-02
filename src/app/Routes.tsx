@@ -6,6 +6,7 @@ import {LastLocationProvider, useLastLocation} from 'react-router-last-location'
 import {ControlPlanePage} from "@app/ControlPlanePage/ControlPlanePage";
 import {DataPlanePage} from "@app/DataPlanePage/DataPlanePage";
 import {QuickStartDrawerFederated} from "@app/Components/QuickStart/QuickStartDrawerFederated";
+import {QuickStartCatalogFederated} from "@app/Components/QuickStart/QuickStartCatalogFederated";
 
 let routeFocusTimer: number;
 
