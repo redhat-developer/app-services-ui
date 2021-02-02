@@ -4,7 +4,7 @@ import {InsightsContext} from "@app/utils/insights";
 import {useDispatch} from 'react-redux';
 import {addNotification} from '@redhat-cloud-services/frontend-components-notifications/';
 import {AlertVariant} from "@patternfly/react-core";
-import {FederatedModule} from "../Components/FederatedModule";
+import {FederatedModule} from "../Components/FederatedModule/FederatedModule";
 import {ConfigContext} from "@app/Config/Config";
 import {Loading} from "@app/Components/Loading/Loading";
 

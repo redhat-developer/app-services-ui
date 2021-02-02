@@ -1,5 +1,0 @@
-{
-  "mkUiFrontend": "http://localhost:9000/remoteEntry.js",
-  "strimziUi": "http://localhost:8080/remoteEntry.js",
-  "guides": "http://localhost:9001/remoteEntry.js"
-}

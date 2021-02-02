@@ -29,10 +29,6 @@ module.exports = merge(common(env, undefined, "[contenthash].[ext]"), {
     new CopyPlugin({
       patterns: [
         {
-          from: 'config/federated-modules.beta.json',
-          to: `federated-modules.json`
-        },
-        {
           from: 'config/config.preprod-beta.json',
           to: `config.json`
         }

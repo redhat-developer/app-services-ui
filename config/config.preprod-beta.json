@@ -9,5 +9,10 @@
       "clientId": "strimzi-ui",
       "realm": "mas-sso-staging"
     }
+  },
+  "federatedModules": {
+    "mkUiFrontend": "/beta/apps/rhosak-control-plane-ui-build/remoteEntry.js",
+    "strimziUi": "/beta/apps/rhosak-data-plane-ui-build/remoteEntry.js",
+    "guides": "/beta/apps/rhosak-guides-build/remoteEntry.js"
   }
 }
