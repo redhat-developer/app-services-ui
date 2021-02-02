@@ -59,16 +59,5 @@ export const ControlPlanePage = () => {
     />
   );
 
-  return (
-    <FederatedModule
-      scope="masGuides"
-      module="./QuickStartDrawer"
-      fallback={osStreams}
-      render={(QuickStartDrawerFederated) => (
-        <QuickStartDrawerFederated>
-          {osStreams}
-        </QuickStartDrawerFederated>
-      )}
-    />
-  );
+  return osStreams;
 };

@@ -5,6 +5,7 @@ import {NotFound} from '@app/NotFound/NotFound';
 import {LastLocationProvider, useLastLocation} from 'react-router-last-location';
 import {ControlPlanePage} from "@app/ControlPlanePage/ControlPlanePage";
 import {DataPlanePage} from "@app/DataPlanePage/DataPlanePage";
+import {QuickStartDrawerFederated} from "@app/Components/QuickStart/QuickStartDrawerFederated";
 
 let routeFocusTimer: number;
 
@@ -64,7 +65,11 @@ const RouteWithTitleUpdates = ({component: Component, isAsync = false, title, ..
   useDocumentTitle(title);
 
   function routeWithTitle(routeProps: RouteComponentProps) {
-    return <Component {...rest} {...routeProps} />;
+    return (
+      <QuickStartDrawerFederated>
+        <Component {...rest} {...routeProps} />
+      </QuickStartDrawerFederated>
+      );
   }
 
   return <Route render={routeWithTitle}/>;
