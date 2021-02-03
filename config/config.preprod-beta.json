@@ -11,8 +11,17 @@
     }
   },
   "federatedModules": {
-    "mkUiFrontend": "/beta/apps/rhosak-control-plane-ui-build/remoteEntry.js",
-    "strimziUi": "/beta/apps/rhosak-data-plane-ui-build/remoteEntry.js",
-    "guides": "/beta/apps/rhosak-guides-build/remoteEntry.js"
+    "mkUiFrontend": {
+      "entryPoint": "remoteEntry.js",
+      "basePath": "/beta/apps/rhosak-control-plane-ui-build/"
+    },
+    "strimziUi": {
+      "basePath": "/beta/apps/rhosak-data-plane-ui-build/",
+      "entryPoint": "remoteEntry.js"
+    },
+    "guides": {
+      "basePath": "/beta/apps/rhosak-guides-build/",
+      "entryPoint": "remoteEntry.js"
+    }
   }
 }
