@@ -5,6 +5,8 @@ import {NotFound} from '@app/NotFound/NotFound';
 import {LastLocationProvider, useLastLocation} from 'react-router-last-location';
 import {ControlPlanePage} from "@app/ControlPlanePage/ControlPlanePage";
 import {DataPlanePage} from "@app/DataPlanePage/DataPlanePage";
+import {QuickStartDrawerFederated} from "@app/Components/QuickStart/QuickStartDrawerFederated";
+import {QuickStartCatalogFederated} from "@app/Components/QuickStart/QuickStartCatalogFederated";
 
 let routeFocusTimer: number;
 
@@ -41,6 +43,13 @@ const routes: AppRouteConfig[] = [
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
+  },
+  {
+    component: QuickStartCatalogFederated,
+    exact: true,
+    label: 'Quick-starts for Red Hat OpenShift Streams for Apache Kafka',
+    path: '/quickstarts',
+    title: 'Quick-starts for Red Hat OpenShift Streams for Apache Kafka',
   }
 ];
 
@@ -64,7 +73,11 @@ const RouteWithTitleUpdates = ({component: Component, isAsync = false, title, ..
   useDocumentTitle(title);
 
   function routeWithTitle(routeProps: RouteComponentProps) {
-    return <Component {...rest} {...routeProps} />;
+    return (
+      <QuickStartDrawerFederated>
+        <Component {...rest} {...routeProps} />
+      </QuickStartDrawerFederated>
+      );
   }
 
   return <Route render={routeWithTitle}/>;
