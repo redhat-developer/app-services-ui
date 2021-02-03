@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import {InsightsContext} from "@app/utils";
 import {RouteComponentProps} from "react-router-dom";
 import {ConfigContext} from "@app/Config/Config";
-import {FederatedModule} from "../Components/FederatedModule";
+import {FederatedModule} from "../Components/FederatedModule/FederatedModule";
 import {AuthContext} from "@app/utils/auth/AuthContext";
 import {Loading} from "@app/Components/Loading/Loading";
 
