@@ -1,7 +1,6 @@
 {
   "name": "mk-ui-host",
   "crc": {
-    "name": "openshift-streams",
     "bundle": "application-services",
     "beta": true
   },
