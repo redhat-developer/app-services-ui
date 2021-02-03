@@ -20,7 +20,7 @@
       "entryPoint": "remoteEntry.js"
     },
     "guides": {
-      "basePath": "/beta/apps/rhosak-guides-build/",
+      "basePath": "/beta/apps/rhoas-guides-build/",
       "entryPoint": "remoteEntry.js"
     }
   }
