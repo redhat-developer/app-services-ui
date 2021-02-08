@@ -19,7 +19,7 @@ export const App = () => {
 
   useEffect(() => {
     insights.chrome.init();
-    insights.chrome.identifyApp('openshift-streams');
+    insights.chrome.identifyApp('application-services');
 
     const appNav = insights.chrome.on('APP_NAVIGATION', event => history.push(`/${event.navId}`));
     return function cleanup() {
