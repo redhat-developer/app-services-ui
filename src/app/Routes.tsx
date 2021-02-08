@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, RouteComponentProps, Switch} from 'react-router-dom';
+import {Redirect, Route, RouteComponentProps, Switch} from 'react-router-dom';
 import {accessibleRouteChangeHandler, useDocumentTitle} from '@app/utils';
 import {NotFound} from '@app/NotFound/NotFound';
 import {LastLocationProvider, useLastLocation} from 'react-router-last-location';
@@ -29,16 +29,25 @@ export interface IAppRouteGroup {
 
 export type AppRouteConfig = IAppRoute | IAppRouteGroup;
 
+const RedirectSlash = () => (<Redirect to="/openshift-streams" />)
+
 const routes: AppRouteConfig[] = [
   {
     component: DataPlanePage,
     exact: false,
     label: 'Red Hat OpenShift Streams for Apache Kafka',
-    path: '/kafkas',
+    path: '/openshift-streams/kafkas',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
   },
   {
     component: ControlPlanePage,
+    exact: true,
+    label: 'Red Hat OpenShift Streams for Apache Kafka',
+    path: '/openshift-streams',
+    title: 'Red Hat OpenShift Streams for Apache Kafka',
+  },
+  {
+    component: RedirectSlash,
     exact: true,
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/',
@@ -47,9 +56,9 @@ const routes: AppRouteConfig[] = [
   {
     component: QuickStartCatalogFederated,
     exact: true,
-    label: 'Quick-starts for Red Hat OpenShift Streams for Apache Kafka',
+    label: 'QuickStarts for Red Hat OpenShift Application Services',
     path: '/quickstarts',
-    title: 'Quick-starts for Red Hat OpenShift Streams for Apache Kafka',
+    title: 'QuickStarts for Red Hat OpenShift Application Services',
   }
 ];
 
