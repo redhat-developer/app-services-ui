@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {InsightsContext} from "@app/utils";
 import {RouteComponentProps} from "react-router-dom";
 import {ConfigContext} from "@app/Config/Config";
@@ -25,16 +25,44 @@ export const DataPlanePage = ({match}: RouteComponentProps<DataPlanePageParams>)
     return <Loading />
   }
 
-  return (
-    <FederatedModule
-      scope="strimziUi"
-      module="./Panels/Topics.patternfly"
-      render={(FederatedTopics) => <FederatedTopics
-        getApiOpenshiftComToken={insights.chrome.auth.getToken}
-        getToken={getToken}
-        id={id}
-        apiBasePath={config?.dataPlane.uiServerBasePath}
-      />}
-    />
-  );
+  const [showCreateTopic, setShowCreateTopic] = useState(false);
+
+  const onCreateTopic = () => {
+    setShowCreateTopic(true);
+  }
+
+  const onCloseCreateTopic = () => {
+    console.log("on close");
+    setShowCreateTopic(false);
+  }
+
+  const createTopicPage = <FederatedModule
+    scope="strimziUi"
+    module="./Panels/CreateTopic.patternfly"
+    render={(FederatedTopics) => <FederatedTopics
+      getApiOpenshiftComToken={insights.chrome.auth.getToken}
+      getToken={getToken}
+      id={id}
+      apiBasePath={config?.dataPlane.uiServerBasePath}
+      onCloseCreateTopic={onCloseCreateTopic}
+    />}
+  />;
+
+  const topicListPage = <FederatedModule
+    scope="strimziUi"
+    module="./Panels/Topics.patternfly"
+    render={(FederatedTopics) => <FederatedTopics
+      getApiOpenshiftComToken={insights.chrome.auth.getToken}
+      getToken={getToken}
+      id={id}
+      apiBasePath={config?.dataPlane.uiServerBasePath}
+      onCreateTopic={onCreateTopic}
+    />}
+  />;
+
+  if (showCreateTopic) {
+    return createTopicPage;
+  } else {
+    return topicListPage;
+  }
 }
