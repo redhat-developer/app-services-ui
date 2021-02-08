@@ -21,7 +21,10 @@ export const App = () => {
     insights.chrome.init();
     insights.chrome.identifyApp('application-services');
 
-    const appNav = insights.chrome.on('APP_NAVIGATION', event => history.push(`/${event.navId}`));
+    const appNav = insights.chrome.on('APP_NAVIGATION', event => {
+      console.log(`nav: ${event.navId}`);
+      history.push(`/${event.navId}`);
+    });
     return function cleanup() {
       //appNav();
     }
