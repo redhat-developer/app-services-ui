@@ -1,6 +1,11 @@
-import Keycloak, {KeycloakConfig, KeycloakInstance} from 'keycloak-js';
+import Keycloak, {KeycloakConfig, KeycloakInitOptions, KeycloakInstance} from 'keycloak-js';
+import Cookies from 'js-cookie';
 
 export let keycloak: KeycloakInstance | undefined;
+
+const TOKEN_COOKIE_NAME = "masSSOToken";
+const REFRESH_TOKEN_COOKIE_NAME = "masSSORefreshToken";
+
 
 /**
  * Get keycloak instance
@@ -11,7 +16,15 @@ export let keycloak: KeycloakInstance | undefined;
  */
 export const getKeycloakInstance = async (config: KeycloakConfig) => {
   if (!keycloak) await init(config);
+  storeTokensInCookies();
   return keycloak;
+}
+
+const storeTokensInCookies = () => {
+  if (keycloak?.token && keycloak.refreshToken) {
+    Cookies.set(TOKEN_COOKIE_NAME, keycloak?.token);
+    Cookies.set(REFRESH_TOKEN_COOKIE_NAME, keycloak?.refreshToken);
+  }
 }
 
 /**
@@ -25,33 +38,23 @@ export const init = async (config: KeycloakConfig) => {
   try {
     keycloak = new (Keycloak as any)(config);
     if (keycloak) {
-      await keycloak.init({
+      const initOptions = {
         onLoad: 'login-required',
-        responseMode: "query"
-      });
+        responseMode: "query",
+      } as KeycloakInitOptions;
+      const storedRefreshToken = Cookies.get(REFRESH_TOKEN_COOKIE_NAME);
+      const storedToken = Cookies.get(TOKEN_COOKIE_NAME);
+      if (storedRefreshToken && storedToken) {
+        initOptions.refreshToken = storedRefreshToken;
+        initOptions.token = storedToken;
+      }
+      await keycloak.init(initOptions);
     }
   } catch {
     keycloak = undefined;
     console.warn('Auth: Unable to initialize keycloak. Client side will not be configured to use authentication');
   }
 }
-
-
-/**
- * This function keeps getting called by wslink
- * connection param function, so carry out
- * an early return if keycloak is not initialized
- * otherwise get the auth token
- *
- * @return authorization header or empty string
- *
- */
-export const getAuthHeader = async () => {
-  if (!keycloak) return '';
-  return {
-    'authorization': `Bearer ${await getKeyCloakToken()}`
-  };
-};
 
 
 /**
@@ -64,11 +67,14 @@ export const getAuthHeader = async () => {
  */
 export const getKeyCloakToken = async (): Promise<string> => {
   await keycloak?.updateToken(50);
-  if (keycloak?.token) return keycloak.token;
+  if (keycloak?.token) {
+    storeTokensInCookies();
+    return keycloak.token;
+  }
   console.error('No keycloak token available');
   return 'foo';
 }
-
+3
 /**
  * logout of keycloak, clear cache and offline store then redirect to
  * keycloak login page
