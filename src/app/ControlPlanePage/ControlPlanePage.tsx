@@ -20,7 +20,7 @@ export const ControlPlanePage = () => {
       throw new Error();
     }
 
-    history.push(`/kafkas/${event.id}`);
+    history.push(`/openshift-streams/kafkas/${event.id}`);
   };
 
   const dispatch = useDispatch();
