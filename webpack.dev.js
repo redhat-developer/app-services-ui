@@ -1,4 +1,3 @@
-const {webpackPaths} = require("./utils/paths")
 
 const path = require('path');
 const webpack = require('webpack');
@@ -11,9 +10,7 @@ const HOST = process.env.HOST || "localhost";
 const PORT = process.env.PORT || port;
 const PROTOCOL = process.env.PROTOCOL || 'https';
 
-const {publicPath, viewPath, viewPathRewritePattern} = webpackPaths(crc);
-
-console.log(`publicPath: ${publicPath}; viewPath: ${viewPath}; viewPathRewritePattern: ${viewPathRewritePattern}`)
+const publicPath = `${crc.beta ? '/beta': ''}/apps/${crc.bundle}/`;
 
 module.exports = merge(common('development'), {
 
@@ -31,7 +28,7 @@ module.exports = merge(common('development'), {
     },
     hot: true,
     overlay: true,
-    open: true,
+    open: false,
     disableHostCheck: true,
     publicPath,
     headers: {

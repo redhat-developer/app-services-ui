@@ -47,11 +47,12 @@ const AppWithKeycloak = () => {
 
   }
 
+  const baseName = getBaseName(window.location.pathname);
   return (
     <AuthContext.Provider value={{
       getToken
     } as IAuthContext}>
-      <Router basename={getBaseName(window.location.pathname)}>
+      <Router basename={baseName}>
         <App/>
       </Router>
     </AuthContext.Provider>
