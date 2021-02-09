@@ -6,7 +6,7 @@ import {getRegistry} from '@redhat-cloud-services/frontend-components-utilities/
 import {notifications, NotificationsPortal} from '@redhat-cloud-services/frontend-components-notifications/';
 import {InsightsContext} from "@app/utils/insights";
 import {AppRoutes} from "@app/Routes";
-import {FederatedModuleProvider} from "./Components/FederatedModule";
+import {FederatedModuleProvider} from "./Components/FederatedModule/FederatedModule";
 
 declare const __PUBLIC_PATH__: string;
 const registry = getRegistry();
@@ -19,9 +19,12 @@ export const App = () => {
 
   useEffect(() => {
     insights.chrome.init();
-    insights.chrome.identifyApp('openshift-streams');
+    insights.chrome.identifyApp('application-services');
 
-    const appNav = insights.chrome.on('APP_NAVIGATION', event => history.push(`/${event.navId}`));
+    const appNav = insights.chrome.on('APP_NAVIGATION', event => {
+      console.log(`nav: ${event.navId}`);
+      history.push(`/${event.navId}`);
+    });
     return function cleanup() {
       //appNav();
     }

@@ -1,5 +1,3 @@
-const {webpackPaths} = require("./utils/paths")
-
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -12,8 +10,8 @@ delete dependencies.serve; // Needed for nodeshift bug
 const webpack = require('webpack');
 const ChunkMapperPlugin = require('./config/chunk-mapper');
 
-const {publicPath} = webpackPaths(crc);
 const federatedModuleName = crc.name.replace('-', '');
+const publicPath = `${crc.beta ? '/beta': ''}/apps/${crc.bundle}/`;
 
 module.exports = (env, argv, useContentHash) => {
   return {

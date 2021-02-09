@@ -9,5 +9,19 @@
       "clientId": "strimzi-ui",
       "realm": "mas-sso-playground"
     }
+  },
+  "federatedModules": {
+    "mkUiFrontend": {
+      "entryPoint": "remoteEntry.js",
+      "basePath": "http://localhost:9000/"
+    },
+    "strimziUi": {
+      "basePath": "http://localhost:8080/",
+      "entryPoint": "remoteEntry.js"
+    },
+    "guides": {
+      "basePath": "http://localhost:9001/",
+      "entryPoint": "remoteEntry.js"
+    }
   }
 }
