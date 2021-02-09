@@ -10,7 +10,7 @@ delete dependencies.serve; // Needed for nodeshift bug
 const webpack = require('webpack');
 const ChunkMapperPlugin = require('./config/chunk-mapper');
 
-const federatedModuleName = crc.name.replace('-', '');
+const federatedModuleName = 'openshiftStreams';
 const publicPath = `${crc.beta ? '/beta': ''}/apps/${crc.bundle}/`;
 
 module.exports = (env, argv, useContentHash) => {
