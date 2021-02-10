@@ -5,11 +5,12 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const BG_IMAGES_DIRNAME = 'bgimages';
 const ASSET_PATH = process.env.ASSET_PATH || '/';
-const {dependencies} = require('./package.json');
+const {crc,dependencies} = require('./package.json');
 delete dependencies.serve; // Needed for nodeshift bug
 const webpack = require('webpack');
-const {crc} = require('./package.json');
+const ChunkMapperPlugin = require('./config/chunk-mapper');
 
+const federatedModuleName = 'openshiftStreams';
 const publicPath = `${crc.beta ? '/beta': ''}/apps/${crc.bundle}/`;
 
 module.exports = (env, argv, useContentHash) => {
@@ -141,8 +142,11 @@ module.exports = (env, argv, useContentHash) => {
         silent: true
       }),
       new webpack.container.ModuleFederationPlugin({
-        name: 'nav',
-        filename: 'remoteEntry.js',
+        name: federatedModuleName,
+        filename: `${federatedModuleName}.[chunkhash].js`,
+        exposes: {
+          './RootApp': './src/AppEntry'
+        },
         shared: {
           ...dependencies,
           react: {
@@ -156,6 +160,9 @@ module.exports = (env, argv, useContentHash) => {
             requiredVersion: dependencies['react-dom']
           }
         }
+      }),
+      new ChunkMapperPlugin({
+        modules: [federatedModuleName]
       }),
       new webpack.DefinePlugin({
         "__PUBLIC_PATH__": JSON.stringify(publicPath)
