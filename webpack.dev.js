@@ -28,7 +28,7 @@ module.exports = merge(common('development'), {
     },
     hot: true,
     overlay: true,
-    open: 'https://prod.foo.redhat.com:1337beta/application-services/openshift-streams/',
+    open: 'https://prod.foo.redhat.com:1337/beta/application-services/openshift-streams/',
     disableHostCheck: true,
     publicPath,
     headers: {
