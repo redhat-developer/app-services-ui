@@ -21,7 +21,8 @@ export const getKeycloakInstance = async (config: KeycloakConfig) => {
 }
 
 const storeTokensInCookies = () => {
-  if (keycloak?.token && keycloak.refreshToken) {
+  // Only do this in prod, in dev it breaks the proxy setup :-(
+  if (process.env.NODE_ENV === "production" && keycloak?.token && keycloak.refreshToken) {
     Cookies.set(TOKEN_COOKIE_NAME, keycloak?.token);
     Cookies.set(REFRESH_TOKEN_COOKIE_NAME, keycloak?.refreshToken);
   }

@@ -26,7 +26,11 @@ export type FederatedModuleConfig = {
 
 export const ConfigContext = React.createContext<Config | undefined>(undefined);
 
-export function ConfigProvider({ configUrl, children }) {
+export type ConfigProviderProps = {
+  configUrl: string
+}
+
+export const ConfigProvider: React.FunctionComponent<ConfigProviderProps> = ({ configUrl, children }) => {
   const [config, setConfig] = React.useState<Config | undefined>(undefined);
   React.useEffect(() => {
     const controller = new AbortController();
