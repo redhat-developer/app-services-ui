@@ -19,9 +19,15 @@ export const ControlPlanePage = () => {
     if (event.id === undefined) {
       throw new Error();
     }
-
     history.push(`/openshift-streams/kafkas/${event.id}`);
   };
+
+  const getConnectToInstancePath = (event) => {
+    if (event.id === undefined) {
+      throw new Error();
+    }
+    return history.createHref({pathname:`/openshift-streams/kafkas/${event.id}`});
+  }
 
   const dispatch = useDispatch();
 
@@ -51,6 +57,7 @@ export const ControlPlanePage = () => {
             getToken={insights.chrome.auth.getToken}
             getUsername={getUsername}
             onConnectToInstance={onConnectInstance}
+            getConnectToInstancePath={getConnectToInstancePath}
             addAlert={addAlert}
             basePath={config?.controlPlane.serviceApiBasePath}
           />
