@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-undef */
 import React, {ReactNode, useContext} from 'react';
-import PropTypes from 'prop-types';
 import {Loading} from '../Loading/Loading';
 import {ConfigContext, FederatedModuleConfig} from "@app/Config/Config";
 
@@ -11,7 +10,9 @@ export type FederatedModuleContextProps = {
 
 const FederatedModuleContext = React.createContext<FederatedModuleContextProps>({});
 
-export function FederatedModuleProvider({configUrl, children}) {
+export const FederatedModuleProvider: React.FunctionComponent = ({
+                                                                   children
+                                                                 }) => {
 
   const config = useContext(ConfigContext);
 
@@ -25,14 +26,6 @@ export function FederatedModuleProvider({configUrl, children}) {
     </FederatedModuleContext.Provider>
   );
 }
-
-FederatedModuleProvider.propTypes = {
-  configUrl: PropTypes.string.isRequired,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ])
-};
 
 function useFederatedModule(module) {
   const context = React.useContext(FederatedModuleContext);
@@ -96,14 +89,14 @@ const useDynamicScript = ({url}) => {
   };
 };
 
-type FederatedModuleType = {
+export type FederatedModuleProps = {
   scope: string;
   module: string;
   render: (component: React.LazyExoticComponent<React.ComponentType<any>>) => ReactNode;
   fallback?: any;
 }
 
-export function FederatedModule({scope, module, render, fallback}: FederatedModuleType) {
+export const FederatedModule: React.FunctionComponent<FederatedModuleProps> = ({scope, module, render, fallback}) => {
   const url = useFederatedModule(scope);
   const {ready, failed} = useDynamicScript({url});
 

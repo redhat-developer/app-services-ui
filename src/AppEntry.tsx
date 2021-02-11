@@ -1,5 +1,4 @@
 import React, {useContext, useState} from 'react';
-import ReactDOM from 'react-dom';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {init} from '@app/store';
@@ -15,7 +14,7 @@ import {getKeycloakInstance, getKeyCloakToken} from "@app/utils/keycloakAuth";
 
 declare const __PUBLIC_PATH__: string;
 
-const AppWithKeycloak = () => {
+const AppWithKeycloak: React.FunctionComponent = () => {
 
   const config = useContext(ConfigContext)
 
@@ -60,7 +59,7 @@ const AppWithKeycloak = () => {
 }
 
 
-const AppEntry = () => (
+const AppEntry: React.FunctionComponent = () => (
   <Provider store={init(logger).getStore()}>
     <ConfigProvider configUrl={`${__PUBLIC_PATH__}config.json`}>
       <InsightsContext.Provider value={window["insights"]}>

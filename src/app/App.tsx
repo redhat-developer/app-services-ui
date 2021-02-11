@@ -8,11 +8,10 @@ import {InsightsContext} from "@app/utils/insights";
 import {AppRoutes} from "@app/Routes";
 import {FederatedModuleProvider} from "./Components/FederatedModule/FederatedModule";
 
-declare const __PUBLIC_PATH__: string;
 const registry = getRegistry();
 registry.register({notifications});
 
-export const App = () => {
+export const App: React.FunctionComponent = () => {
 
   const insights = useContext(InsightsContext);
   const history = useHistory();
@@ -21,18 +20,15 @@ export const App = () => {
     insights.chrome.init();
     insights.chrome.identifyApp('application-services');
 
-    const appNav = insights.chrome.on('APP_NAVIGATION', event => {
-      console.log(`nav: ${event.navId}`);
+
+    insights.chrome.on('APP_NAVIGATION', event => {
       history.push(`/${event.navId}`);
     });
-    return function cleanup() {
-      //appNav();
-    }
   });
 
   return (
     <Provider store={registry.getStore()}>
-      <FederatedModuleProvider configUrl={`${__PUBLIC_PATH__}federated-modules.json`}>
+      <FederatedModuleProvider>
         <NotificationsPortal/>
         <AppRoutes/>
       </FederatedModuleProvider>

@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Main, Unavailable} from '@redhat-cloud-services/frontend-components';
 
-const OopsPage = () => {
+const OopsPage: React.FunctionComponent = () => {
   return (
     <Main>
       <Unavailable/>

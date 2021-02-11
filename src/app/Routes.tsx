@@ -29,7 +29,7 @@ export interface IAppRouteGroup {
 
 export type AppRouteConfig = IAppRoute | IAppRouteGroup;
 
-const RedirectSlash = () => (<Redirect to="/openshift-streams" />)
+const RedirectSlash: React.FunctionComponent = () => (<Redirect to="/openshift-streams" />)
 
 const routes: AppRouteConfig[] = [
   {

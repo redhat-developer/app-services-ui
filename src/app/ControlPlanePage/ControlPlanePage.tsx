@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {useHistory} from 'react-router';
 import {InsightsContext} from "@app/utils/insights";
 import {useDispatch} from 'react-redux';
@@ -8,7 +8,7 @@ import {FederatedModule} from "../Components/FederatedModule/FederatedModule";
 import {ConfigContext} from "@app/Config/Config";
 import {Loading} from "@app/Components/Loading/Loading";
 
-export const ControlPlanePage = () => {
+export const ControlPlanePage: React.FunctionComponent = () => {
 
   const insights = useContext(InsightsContext);
   const config = useContext(ConfigContext);
@@ -26,7 +26,7 @@ export const ControlPlanePage = () => {
     if (event.id === undefined) {
       throw new Error();
     }
-    return history.createHref({pathname:`/openshift-streams/kafkas/${event.id}`});
+    return history.createHref({pathname: `/openshift-streams/kafkas/${event.id}`});
   }
 
   const dispatch = useDispatch();
@@ -42,7 +42,7 @@ export const ControlPlanePage = () => {
   };
 
   if (config === undefined) {
-    return <Loading />
+    return <Loading/>
   }
 
   const getUsername = () => insights.chrome.auth.getUser().then(user => user.identity.user.username);
