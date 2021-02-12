@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-undef */
-import React, {ReactNode, useContext} from 'react';
-import {Loading} from '../Loading/Loading';
-import {ConfigContext, FederatedModuleConfig} from "@app/Config/Config";
+import React, { ReactNode, useContext } from 'react';
+import { Loading } from '../Loading/Loading';
+import { ConfigContext, FederatedModuleConfig } from "@app/Config/Config";
 
 export type FederatedModuleContextProps = {
   [module: string]: FederatedModuleConfig
@@ -46,7 +46,7 @@ function loadComponent(scope, module) {
   };
 }
 
-const useDynamicScript = ({url}) => {
+const useDynamicScript = ({ url }) => {
   const [ready, setReady] = React.useState(false);
   const [failed, setFailed] = React.useState(false);
 
@@ -96,9 +96,9 @@ export type FederatedModuleProps = {
   fallback?: any;
 }
 
-export const FederatedModule: React.FunctionComponent<FederatedModuleProps> = ({scope, module, render, fallback}) => {
+export const FederatedModule: React.FunctionComponent<FederatedModuleProps> = ({ scope, module, render, fallback }) => {
   const url = useFederatedModule(scope);
-  const {ready, failed} = useDynamicScript({url});
+  const { ready, failed } = useDynamicScript({ url });
 
   if (!ready || failed) {
     if (failed && fallback) {

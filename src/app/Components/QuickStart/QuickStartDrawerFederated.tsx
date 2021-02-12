@@ -1,9 +1,9 @@
-import {FederatedModule} from "@app/Components/FederatedModule/FederatedModule";
-import React, {FunctionComponent, useContext} from "react";
-import {ConfigContext} from "@app/Config/Config";
-import {Loading} from "@app/Components/Loading/Loading";
+import { FederatedModule } from "@app/Components/FederatedModule/FederatedModule";
+import React, { FunctionComponent, useContext } from "react";
+import { ConfigContext } from "@app/Config/Config";
+import { Loading } from "@app/Components/Loading/Loading";
 
-export const QuickStartDrawerFederated: FunctionComponent = ({children}) => {
+export const QuickStartDrawerFederated: FunctionComponent = ({ children }) => {
 
   const config = useContext(ConfigContext);
 
