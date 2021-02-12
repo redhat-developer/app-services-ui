@@ -1,21 +1,20 @@
-import React, {useContext, useState} from 'react';
-import ReactDOM from 'react-dom';
-import {BrowserRouter as Router} from 'react-router-dom';
-import {Provider} from 'react-redux';
-import {init} from '@app/store';
+import React, { useContext, useState } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { init } from '@app/store';
 import App from '@app/App';
 import logger from 'redux-logger';
 import getBaseName from '@app/utils/getBaseName';
-import {InsightsContext} from "@app/utils/insights";
-import {Loading} from "./app/Components/Loading/Loading";
-import {ConfigContext, ConfigProvider} from "@app/Config/Config";
-import {KeycloakInstance} from "keycloak-js";
-import {AuthContext, IAuthContext} from "@app/utils/auth/AuthContext";
-import {getKeycloakInstance, getKeyCloakToken} from "@app/utils/keycloakAuth";
+import { InsightsContext } from "@app/utils/insights";
+import { Loading } from "./app/Components/Loading/Loading";
+import { ConfigContext, ConfigProvider } from "@app/Config/Config";
+import { KeycloakInstance } from "keycloak-js";
+import { AuthContext, IAuthContext } from "@app/utils/auth/AuthContext";
+import { getKeycloakInstance, getValidAccessToken } from "@app/utils/keycloakAuth";
 
 declare const __PUBLIC_PATH__: string;
 
-const AppWithKeycloak = () => {
+const AppWithKeycloak: React.FunctionComponent = () => {
 
   const config = useContext(ConfigContext)
 
@@ -43,7 +42,7 @@ const AppWithKeycloak = () => {
   }
 
   const getToken = () => {
-    return getKeyCloakToken();
+    return getValidAccessToken();
 
   }
 
@@ -60,7 +59,7 @@ const AppWithKeycloak = () => {
 }
 
 
-const AppEntry = () => (
+const AppEntry: React.FunctionComponent = () => (
   <Provider store={init(logger).getStore()}>
     <ConfigProvider configUrl={`${__PUBLIC_PATH__}config.json`}>
       <InsightsContext.Provider value={window["insights"]}>

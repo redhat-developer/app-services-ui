@@ -1,14 +1,14 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {useHistory} from 'react-router';
-import {InsightsContext} from "@app/utils/insights";
-import {useDispatch} from 'react-redux';
-import {addNotification} from '@redhat-cloud-services/frontend-components-notifications/';
-import {AlertVariant} from "@patternfly/react-core";
-import {FederatedModule} from "../Components/FederatedModule/FederatedModule";
-import {ConfigContext} from "@app/Config/Config";
-import {Loading} from "@app/Components/Loading/Loading";
+import React, { useContext } from 'react';
+import { useHistory } from 'react-router';
+import { InsightsContext } from "@app/utils/insights";
+import { useDispatch } from 'react-redux';
+import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
+import { AlertVariant } from "@patternfly/react-core";
+import { FederatedModule } from "../Components/FederatedModule/FederatedModule";
+import { ConfigContext } from "@app/Config/Config";
+import { Loading } from "@app/Components/Loading/Loading";
 
-export const ControlPlanePage = () => {
+export const ControlPlanePage: React.FunctionComponent = () => {
 
   const insights = useContext(InsightsContext);
   const config = useContext(ConfigContext);
@@ -19,9 +19,15 @@ export const ControlPlanePage = () => {
     if (event.id === undefined) {
       throw new Error();
     }
-
     history.push(`/openshift-streams/kafkas/${event.id}`);
   };
+
+  const getConnectToInstancePath = (event) => {
+    if (event.id === undefined) {
+      throw new Error();
+    }
+    return history.createHref({ pathname: `/openshift-streams/kafkas/${event.id}` });
+  }
 
   const dispatch = useDispatch();
 
@@ -36,7 +42,7 @@ export const ControlPlanePage = () => {
   };
 
   if (config === undefined) {
-    return <Loading />
+    return <Loading/>
   }
 
   const getUsername = () => insights.chrome.auth.getUser().then(user => user.identity.user.username);
@@ -51,6 +57,7 @@ export const ControlPlanePage = () => {
             getToken={insights.chrome.auth.getToken}
             getUsername={getUsername}
             onConnectToInstance={onConnectInstance}
+            getConnectToInstancePath={getConnectToInstancePath}
             addAlert={addAlert}
             basePath={config?.controlPlane.serviceApiBasePath}
           />
