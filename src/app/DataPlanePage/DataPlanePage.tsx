@@ -1,15 +1,15 @@
-import React, {useContext, useState} from 'react';
-import {InsightsContext} from "@app/utils";
-import {ConfigContext} from "@app/Config/Config";
-import {FederatedModule} from "../Components/FederatedModule/FederatedModule";
-import {AuthContext} from "@app/utils/auth/AuthContext";
-import {Loading} from "@app/Components/Loading/Loading";
+import React, { useContext, useState } from 'react';
+import { InsightsContext } from "@app/utils";
+import { ConfigContext } from "@app/Config/Config";
+import { FederatedModule } from "../Components/FederatedModule/FederatedModule";
+import { AuthContext } from "@app/utils/auth/AuthContext";
+import { Loading } from "@app/Components/Loading/Loading";
 
 export const DataPlanePage: React.FunctionComponent = () => {
 
   const insights = useContext(InsightsContext);
   const config = useContext(ConfigContext);
-  const {getToken} = useContext(AuthContext);
+  const { getToken } = useContext(AuthContext);
   const [showCreateTopic, setShowCreateTopic] = useState(false);
 
   // TODO useParams is not working?

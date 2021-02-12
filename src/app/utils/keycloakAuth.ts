@@ -1,10 +1,12 @@
-import Keycloak, {KeycloakConfig, KeycloakInitOptions, KeycloakInstance} from 'keycloak-js';
+import Keycloak, { KeycloakConfig, KeycloakInitOptions, KeycloakInstance } from 'keycloak-js';
 import Cookies from 'js-cookie';
+import jwtDecode, { JwtPayload } from "jwt-decode";
+import getUnixTime from "date-fns/getUnixTime";
 
-export let keycloak: KeycloakInstance | undefined;
+let keycloak: KeycloakInstance | undefined;
 
-const TOKEN_COOKIE_NAME = "masSSOToken";
 const REFRESH_TOKEN_COOKIE_NAME = "masSSORefreshToken";
+const MIN_VALIDITY = 50;
 
 
 /**
@@ -15,17 +17,10 @@ const REFRESH_TOKEN_COOKIE_NAME = "masSSORefreshToken";
  *
  */
 export const getKeycloakInstance = async (config: KeycloakConfig) => {
-  if (!keycloak) await init(config);
-  storeTokensInCookies();
-  return keycloak;
-}
-
-const storeTokensInCookies = () => {
-  // Only do this in prod, in dev it breaks the proxy setup :-(
-  if (process.env.NODE_ENV === "production" && keycloak?.token && keycloak.refreshToken) {
-    Cookies.set(TOKEN_COOKIE_NAME, keycloak?.token);
-    Cookies.set(REFRESH_TOKEN_COOKIE_NAME, keycloak?.refreshToken);
+  if (!keycloak) {
+    keycloak = await init(config);
   }
+  return keycloak;
 }
 
 /**
@@ -35,47 +30,85 @@ const storeTokensInCookies = () => {
  * keycloak isn't configured
  *
  */
-export const init = async (config: KeycloakConfig) => {
-  try {
-    keycloak = new (Keycloak as any)(config);
-    if (keycloak) {
-      const initOptions = {
-        onLoad: 'login-required',
-        responseMode: "query",
-      } as KeycloakInitOptions;
-      const storedRefreshToken = Cookies.get(REFRESH_TOKEN_COOKIE_NAME);
-      const storedToken = Cookies.get(TOKEN_COOKIE_NAME);
-      if (storedRefreshToken && storedToken) {
-        initOptions.refreshToken = storedRefreshToken;
-        initOptions.token = storedToken;
-      }
-      await keycloak.init(initOptions);
+export const init = async (config: KeycloakConfig): Promise<KeycloakInstance | undefined> => {
+  const k = Keycloak(config);
+
+  const initOptions = {
+    responseMode: "query",
+  } as KeycloakInitOptions;
+
+  const storedRefreshToken = Cookies.get(REFRESH_TOKEN_COOKIE_NAME);
+  // parse the refresh token so we can later check for validity
+  let refreshJWT: JwtPayload | undefined;
+  if (storedRefreshToken) {
+    try {
+      refreshJWT = jwtDecode<JwtPayload>(storedRefreshToken);
+    } catch {
+      console.log("unable to parse refresh token from cookie")
+      Cookies.remove(REFRESH_TOKEN_COOKIE_NAME);
     }
-  } catch {
-    keycloak = undefined;
-    console.warn('Auth: Unable to initialize keycloak. Client side will not be configured to use authentication');
   }
+
+  if (refreshJWT && refreshJWT.exp) {
+    // if the JWT exists, and has an expiry
+    const now = getUnixTime(new Date());
+    if (now < refreshJWT.exp + MIN_VALIDITY) {
+      // Use the refresh token if it's still valid (make sure it's valid for at least MIN_VALIDITY)
+      try {
+        // Perform a keycloak init without a login
+        await k.init(initOptions);
+        // Set the saved refresh token into Keycloak
+        k.refreshToken = storedRefreshToken
+        // Then force a token refresh to check if the refresh token is actually valid
+        k.updateToken(-1);
+        if (k.refreshToken && k.refreshToken !== storedRefreshToken) {
+          // If we get back a refresh token that has changed, then save it
+          Cookies.set(REFRESH_TOKEN_COOKIE_NAME, k.refreshToken);
+        }
+        return k;
+      } catch {
+        // If any of the methods above error, then perform a login
+        console.log("refresh token is not valid, performing full login");
+        Cookies.remove(REFRESH_TOKEN_COOKIE_NAME);
+      }
+    }
+  }
+
+  initOptions.onLoad = "login-required";
+  await k.init(initOptions);
+  if (k.refreshToken && k.refreshToken !== storedRefreshToken) {
+    Cookies.set(REFRESH_TOKEN_COOKIE_NAME, k.refreshToken);
+  }
+  return k;
+
 }
 
 
 /**
  * Use keycloak update token function to retrieve
- * keycloak token
+ * an access token. If an unexpired access token
+ * is in memory, it will return it, otherwise it
+ * will use the refresh token to get a new access
+ * token.
  *
- * @return keycloak token or empty string if keycloak
- * isn't configured
+ * It will also save the refresh token into a cookies
+ *
+ * @return keycloak token
+ * @throws error if a token is not available
  *
  */
-export const getKeyCloakToken = async (): Promise<string> => {
-  await keycloak?.updateToken(50);
-  if (keycloak?.token) {
-    storeTokensInCookies();
-    return keycloak.token;
+export const getValidAccessToken = async (): Promise<string> => {
+  await keycloak?.updateToken(MIN_VALIDITY);
+  if (!keycloak?.token) {
+    throw new Error("No token from keycloak!");
   }
-  console.error('No keycloak token available');
-  return 'foo';
+  if (keycloak?.refreshToken) {
+    // Save the most recent refresh token
+    Cookies.set(REFRESH_TOKEN_COOKIE_NAME, keycloak?.refreshToken);
+  }
+  return keycloak?.token;
 }
-3
+
 /**
  * logout of keycloak, clear cache and offline store then redirect to
  * keycloak login page
