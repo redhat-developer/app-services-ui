@@ -120,8 +120,8 @@ if ! git ls-remote --exit-code "${REPOSITORY}" "${BRANCH}"; then
     fatal "the branch '${BRANCH}' doesn't exists on the repo '${REPOSITORY}'"
 fi
 
-info Copy the Insights deployment jenkins file to the target
-cp insights-Jenkinsfile dist/58231b16fdee45a03a4ee3cf94a9f2c3
+info "Copy the Insights deployment jenkins file to the target"
+cp insights-Jenkinsfile ${DIST_DIR}/58231b16fdee45a03a4ee3cf94a9f2c3
 
 info "switch to the dist directory '${DIST_DIR}'"
 cd "${DIST_DIR}"
