@@ -9,7 +9,7 @@ trap 's=$?; echo "$0: error on $0:$LINENO"; exit $s' ERR
 
 SCRIPT=$0
 
-APP_NAME="openshift-streams"
+APP_NAME="application-services"
 VERSION=${INSIGHTS_VERSION:-}
 DEFAULT_BRANCH="ci-beta"
 BRANCH=${INSIGHTS_BRANCH:-"${DEFAULT_BRANCH}"}
