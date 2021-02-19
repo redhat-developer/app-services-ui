@@ -5,7 +5,6 @@ export type Config = {
     serviceApiBasePath: string
   }
   dataPlane: {
-    uiServerBasePath: string
     keycloak: {
       authServerUrl: string,
       clientId: string,
