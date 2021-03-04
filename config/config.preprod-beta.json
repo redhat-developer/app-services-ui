@@ -10,17 +10,17 @@
     }
   },
   "federatedModules": {
-    "mkUiFrontend": {
-      "entryPoint": "remoteEntry.js",
+    "kas": {
+      "entryPoint": "fed-mods.json",
       "basePath": "/beta/apps/rhosak-control-plane-ui-build/"
     },
-    "strimziUi": {
+    "kafka": {
       "basePath": "/beta/apps/rhosak-data-plane-ui-build/",
-      "entryPoint": "remoteEntry.js"
+      "entryPoint": "fed-mods.json"
     },
     "guides": {
       "basePath": "/beta/apps/rhoas-guides-build/",
-      "entryPoint": "remoteEntry.js"
+      "entryPoint": "fed-mods.json"
     }
   }
 }

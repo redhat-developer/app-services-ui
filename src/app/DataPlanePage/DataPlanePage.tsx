@@ -48,8 +48,8 @@ export const DataPlanePage: React.FunctionComponent = () => {
   }
 
   const createTopicPage = <FederatedModule
-    scope="strimziUi"
-    module="./Panels/CreateTopic.patternfly"
+    scope="kafka"
+    module="./Panels/CreateTopic"
     render={(FederatedTopics) => <FederatedTopics
       getToken={getToken}
       apiBasePath={adminServerUrl}
@@ -58,8 +58,8 @@ export const DataPlanePage: React.FunctionComponent = () => {
   />;
 
   const topicListPage = <FederatedModule
-    scope="strimziUi"
-    module="./Panels/Topics.patternfly"
+    scope="kafka"
+    module="./Panels/Topics"
     render={(FederatedTopics) => <FederatedTopics
       getToken={getToken}
       apiBasePath={adminServerUrl}

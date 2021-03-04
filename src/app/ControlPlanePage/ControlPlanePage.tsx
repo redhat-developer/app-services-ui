@@ -49,7 +49,7 @@ export const ControlPlanePage: React.FunctionComponent = () => {
 
   const osStreams = (
     <FederatedModule
-      scope="mkUiFrontend"
+      scope="kas"
       module="./OpenshiftStreams"
       render={(OpenshiftStreamsFederated) => {
         return (
