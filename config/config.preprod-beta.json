@@ -12,14 +12,14 @@
   "federatedModules": {
     "kas": {
       "entryPoint": "fed-mods.json",
-      "basePath": "/beta/apps/rhosak-control-plane-ui-build/"
+      "basePath": "/beta/apps/rhosak-control-plane-ui-build"
     },
     "kafka": {
-      "basePath": "/beta/apps/rhosak-data-plane-ui-build/",
+      "basePath": "/beta/apps/rhosak-data-plane-ui-build",
       "entryPoint": "fed-mods.json"
     },
     "guides": {
-      "basePath": "/beta/apps/rhoas-guides-build/",
+      "basePath": "/beta/apps/rhoas-guides-build",
       "entryPoint": "fed-mods.json"
     }
   }
