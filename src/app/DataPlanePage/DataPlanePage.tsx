@@ -34,7 +34,7 @@ export const DataPlanePage: React.FunctionComponent = () => {
     getAdminApiUrl();
   },[insights, config]);
 
-  if (config === undefined) {
+  if (config === undefined || adminServerUrl === undefined) {
     return <Loading/>
   }
 
