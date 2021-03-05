@@ -14,7 +14,12 @@ export const getEntryPoint = async (baseUrl: string, fileName: string, scope: st
     const url = `${baseUrl}/${fileName}`;
     console.log(`fetching ${url}`);
     const response = await fetch(url);
-    return await response.json().then(json => json as Utils).then(fedMods => fedMods[scope]).then(s => s.entry[0]).then(path => `${baseUrl}/${path}`);
+    return await response.json().then(json => json as Utils).then(fedMods => fedMods[scope]).then(s => s.entry[0]).then(path => {
+      if (path.startsWith(baseUrl)) {
+        return path;
+      }
+      return `${baseUrl}/${path}`
+    });
   } else {
     return `${baseUrl}/${fileName}`;
   }
