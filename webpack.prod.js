@@ -44,6 +44,7 @@ module.exports = merge(common(env, undefined, "[contenthash].[ext]"), {
         test: /\.css$/,
         include: [
           path.resolve(__dirname, 'src'),
+          path.resolve(__dirname, 'node_modules/@redhat-cloud-services/frontend-components'),
           path.resolve(__dirname, 'node_modules/patternfly'),
           path.resolve(__dirname, 'node_modules/@patternfly/patternfly'),
           path.resolve(__dirname, 'node_modules/@patternfly/react-styles/css'),

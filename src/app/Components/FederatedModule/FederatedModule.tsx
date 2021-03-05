@@ -1,8 +1,9 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-undef */
-import React, { ReactNode, useContext } from 'react';
+import React, {ReactNode, useContext, useEffect, useState} from 'react';
 import { Loading } from '../Loading/Loading';
 import { ConfigContext, FederatedModuleConfig } from "@app/Config/Config";
+import {getEntryPoint} from "@app/Components/FederatedModule/utils";
 
 export type FederatedModuleContextProps = {
   [module: string]: FederatedModuleConfig
@@ -27,11 +28,6 @@ export const FederatedModuleProvider: React.FunctionComponent = ({
   );
 }
 
-function useFederatedModule(module) {
-  const context = React.useContext(FederatedModuleContext);
-  return `${context[module].basePath}${context[module].entryPoint}`;
-}
-
 function loadComponent(scope, module) {
   return async () => {
     // Initializes the share scope. This fills it with known provided modules from this build and all remotes
@@ -47,6 +43,7 @@ function loadComponent(scope, module) {
 }
 
 const useDynamicScript = ({ url }) => {
+
   const [ready, setReady] = React.useState(false);
   const [failed, setFailed] = React.useState(false);
 
@@ -97,7 +94,18 @@ export type FederatedModuleProps = {
 }
 
 export const FederatedModule: React.FunctionComponent<FederatedModuleProps> = ({ scope, module, render, fallback }) => {
-  const url = useFederatedModule(scope);
+
+  const federatedModuleContext = React.useContext(FederatedModuleContext);
+  const [url, setUrl] = useState<string | undefined>();
+
+  useEffect(() => {
+    const fetchUrl = async () => {
+      const entryPoint = await getEntryPoint(federatedModuleContext[scope].basePath, federatedModuleContext[scope].entryPoint, scope);
+      setUrl(entryPoint);
+    }
+    fetchUrl();
+  }, [scope, federatedModuleContext]);
+
   const { ready, failed } = useDynamicScript({ url });
 
   if (!ready || failed) {

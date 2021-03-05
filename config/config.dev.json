@@ -10,17 +10,17 @@
     }
   },
   "federatedModules": {
-    "mkUiFrontend": {
-      "entryPoint": "remoteEntry.js",
-      "basePath": "http://localhost:9000/"
+    "kas": {
+      "basePath": "http://localhost:9000",
+      "entryPoint": "fed-mods.json"
     },
-    "strimziUi": {
-      "basePath": "http://localhost:8080/",
+    "kafka": {
+      "basePath": "http://localhost:8080",
       "entryPoint": "remoteEntry.js"
     },
     "guides": {
-      "basePath": "http://localhost:9001/",
-      "entryPoint": "remoteEntry.js"
+      "basePath": "http://localhost:9001",
+      "entryPoint": "fed-mods.json"
     }
   }
 }
