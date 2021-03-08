@@ -5,12 +5,12 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
-const webpack = require('webpack');
 
-const env = 'production';
+module.exports = merge(common("production", { mode: "production" }), {
+  output: {
 
-module.exports = merge(common(env, undefined, "[contenthash].[ext]"), {
-  mode: env,
+  },
+  mode: "production",
   devtool: 'source-map',
   optimization: {
     minimizer: [
@@ -20,11 +20,8 @@ module.exports = merge(common(env, undefined, "[contenthash].[ext]"), {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].[contenthash].css',
-      chunkFilename: '[name].[contenthash].css'
-    }),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(env)
+      filename: '[name].[contenthash:8].css',
+      chunkFilename: '[contenthash:8].css'
     }),
     new CopyPlugin({
       patterns: [

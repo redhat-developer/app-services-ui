@@ -12,7 +12,7 @@ import { KeycloakInstance } from "keycloak-js";
 import { AuthContext, IAuthContext } from "@app/utils/auth/AuthContext";
 import { getKeycloakInstance, getValidAccessToken } from "@app/utils/keycloakAuth";
 
-declare const __PUBLIC_PATH__: string;
+declare const __webpack_public_path__: string;
 
 const AppWithKeycloak: React.FunctionComponent = () => {
 
@@ -61,7 +61,7 @@ const AppWithKeycloak: React.FunctionComponent = () => {
 
 const AppEntry: React.FunctionComponent = () => (
   <Provider store={init(logger).getStore()}>
-    <ConfigProvider configUrl={`${__PUBLIC_PATH__}config.json`}>
+    <ConfigProvider configUrl={`${__webpack_public_path__}config.json`}>
       <InsightsContext.Provider value={window["insights"]}>
         <AppWithKeycloak/>
       </InsightsContext.Provider>

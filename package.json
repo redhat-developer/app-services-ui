@@ -1,8 +1,8 @@
 {
-  "name": "mk-ui-host",
+  "name": "application-services-ui",
+  "federatedModuleName": "applicationServices",
   "crc": {
-    "bundle": "application-services",
-    "beta": true
+    "bundle": "application-services"
   },
   "version": "0.0.2",
   "description": "The Host App Red Hat OpenShift Streams for Apache Kafka",
