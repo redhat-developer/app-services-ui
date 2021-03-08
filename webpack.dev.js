@@ -9,8 +9,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HOST = process.env.HOST || "localhost";
 const PORT = process.env.PORT || port;
 const PROTOCOL = process.env.PROTOCOL || 'https';
+const BETA = process.env.BETA || true;
 
-const publicPath = `${crc.beta ? '/beta': ''}/apps/${crc.bundle}/`;
+const publicPath = `${BETA ? '/beta': ''}/apps/${crc.bundle}/`;
 
 module.exports = merge(common('development'), {
 
@@ -28,7 +29,7 @@ module.exports = merge(common('development'), {
     },
     hot: true,
     overlay: true,
-    open: 'https://prod.foo.redhat.com:1337/beta/application-services/openshift-streams/',
+    open: `https://prod.foo.redhat.com:1337${BETA ? '/beta': ''}/${crc.bundle}/openshift-streams/`,
     disableHostCheck: true,
     publicPath,
     headers: {

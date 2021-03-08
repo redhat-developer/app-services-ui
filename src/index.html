@@ -1,6 +1,27 @@
 <!DOCTYPE html>
 <html lang="en-US">
     <head>
+        <script>
+          // Work out the webpack public path dynamically so we can deploy to prod and beta
+          const p = window.location.pathname.split("/");
+          // Identify if we are in the beta
+          let b = false;
+          if (p.length > 0 && p[1] === "beta") {
+            b = true;
+          }
+          // Work out the publicpath itself, using the injected appName
+          __webpack_public_path__ = `${(b ? '/beta' : "")}/apps/<%= appName %>`;
+          // Set it into the magic webpack variable
+          // Load the scripts dynamically by writing them into the bottom of the <head>, prepending the publicPath
+          const h = document.querySelector("head");
+          // The scripts that need loading by webpack are injected here
+          [<%= htmlWebpackPlugin.files.js.map(file => `'${file}'`).join(",") %>].forEach(s => {
+            const n = document.createElement("script");
+            n.src = `${__webpack_public_path__}/${s}`;
+            n.defer = true;
+            h.appendChild(n);
+          });
+        </script>
         <link rel="stylesheet" href="https://www.unpkg.com/@patternfly/patternfly@4.35.2/base/patternfly-shield-inheritable.css" />
         <link rel="stylesheet" href="https://www.unpkg.com/@patternfly/patternfly@4.35.2/patternfly.min.css" />
         <link rel="stylesheet" href="https://www.unpkg.com/@patternfly/patternfly@4.35.2/utilities/Accessibility/accessibility.css" />

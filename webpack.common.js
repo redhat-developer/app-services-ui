@@ -1,19 +1,14 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const BG_IMAGES_DIRNAME = 'bgimages';
-const ASSET_PATH = process.env.ASSET_PATH || '/';
-const {crc,dependencies} = require('./package.json');
-delete dependencies.serve; // Needed for nodeshift bug
+const { dependencies, federatedModuleName } = require('./package.json');
 const webpack = require('webpack');
-const ChunkMapperPlugin = require('./config/chunk-mapper');
+const {crc} = require('./package.json');
 
-const federatedModuleName = 'openshiftStreams';
-const publicPath = `${crc.beta ? '/beta': ''}/apps/${crc.bundle}/`;
-
-module.exports = (env, argv, useContentHash) => {
+module.exports = (env, argv) => {
+  const isProduction = argv && argv.mode === 'production';
   return {
     entry: {
       app: path.resolve(__dirname, 'src', 'index.tsx')
@@ -60,7 +55,7 @@ module.exports = (env, argv, useContentHash) => {
               // Limit at 50k. larger files emited into separate files
               limit: 5000,
               outputPath: 'fonts',
-              name: useContentHash ? '[contenthash].[ext]' : '[name].[ext]'
+              name: isProduction ? '[contenthash:8].[ext]' : '[name].[ext]'
             }
           }
         },
@@ -73,7 +68,7 @@ module.exports = (env, argv, useContentHash) => {
               options: {
                 limit: 5000,
                 outputPath: 'svgs',
-                name: useContentHash ? '[contenthash].[ext]' : '[name].[ext]'
+                name: isProduction ? '[contenthash:8].[ext]' : '[name].[ext]'
               }
             }
           ]
@@ -121,7 +116,7 @@ module.exports = (env, argv, useContentHash) => {
               options: {
                 limit: 5000,
                 outputPath: 'images',
-                name: useContentHash ? '[contenthash].[ext]' : '[name].[ext]'
+                name: isProduction ? '[contenthash:8].[ext]' : '[name].[ext]'
               }
             }
           ]
@@ -131,11 +126,25 @@ module.exports = (env, argv, useContentHash) => {
     output: {
       filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist'),
-      publicPath
+      publicPath: "auto"
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, 'src', 'index.html')
+        template: path.resolve(__dirname, 'src', 'index.html'),
+        templateParameters: {
+          'appName': crc.bundle
+        },
+        inject: false,
+        minify: isProduction ? {
+          collapseWhitespace: true,
+          keepClosingSlash: true,
+          removeComments: true,
+          removeRedundantAttributes: true,
+          removeScriptTypeAttributes: true,
+          removeStyleLinkTypeAttributes: true,
+          useShortDoctype: true,
+          minifyJS: true
+        } : false,
       }),
       new Dotenv({
         systemvars: true,
@@ -143,10 +152,6 @@ module.exports = (env, argv, useContentHash) => {
       }),
       new webpack.container.ModuleFederationPlugin({
         name: federatedModuleName,
-        filename: `${federatedModuleName}.[chunkhash].js`,
-        exposes: {
-          './RootApp': './src/AppEntry'
-        },
         shared: {
           ...dependencies,
           react: {
@@ -160,12 +165,6 @@ module.exports = (env, argv, useContentHash) => {
             requiredVersion: dependencies['react-dom']
           }
         }
-      }),
-      new ChunkMapperPlugin({
-        modules: [federatedModuleName]
-      }),
-      new webpack.DefinePlugin({
-        "__PUBLIC_PATH__": JSON.stringify(publicPath)
       }),
     ],
     resolve: {
