@@ -16,7 +16,7 @@
     },
     "kafka": {
       "basePath": "http://localhost:8080",
-      "entryPoint": "remoteEntry.js"
+      "entryPoint": "fed-mods.json"
     },
     "guides": {
       "basePath": "http://localhost:9001",
