@@ -49,6 +49,7 @@ const useDynamicScript = ({ url }) => {
 
   React.useEffect(() => {
     if (!url) {
+      setFailed(true);
       return;
     }
 
