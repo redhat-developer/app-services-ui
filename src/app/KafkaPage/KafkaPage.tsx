@@ -6,7 +6,7 @@ import { AuthContext } from "@app/utils/auth/AuthContext";
 import { Loading } from "@app/Components/Loading/Loading";
 import { DefaultApi } from "../../openapi";
 
-export const DataPlanePage: React.FunctionComponent = () => {
+export const KafkaPage: React.FunctionComponent = () => {
 
   const insights = useContext(InsightsContext);
   const config = useContext(ConfigContext);
