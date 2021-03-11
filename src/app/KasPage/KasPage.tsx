@@ -8,7 +8,7 @@ import { FederatedModule } from "../Components/FederatedModule/FederatedModule";
 import { ConfigContext } from "@app/Config/Config";
 import { Loading } from "@app/Components/Loading/Loading";
 
-export const ControlPlanePage: React.FunctionComponent = () => {
+export const KasPage: React.FunctionComponent = () => {
 
   const insights = useContext(InsightsContext);
   const config = useContext(ConfigContext);
@@ -19,14 +19,14 @@ export const ControlPlanePage: React.FunctionComponent = () => {
     if (event.id === undefined) {
       throw new Error();
     }
-    history.push(`/openshift-streams/kafkas/${event.id}`);
+    history.push(`/streams/kafkas/${event.id}`);
   };
 
   const getConnectToInstancePath = (event) => {
     if (event.id === undefined) {
       throw new Error();
     }
-    return history.createHref({ pathname: `/openshift-streams/kafkas/${event.id}` });
+    return history.createHref({ pathname: `/streams/kafkas/${event.id}` });
   }
 
   const dispatch = useDispatch();

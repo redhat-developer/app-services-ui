@@ -3,10 +3,14 @@ import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { accessibleRouteChangeHandler, useDocumentTitle } from '@app/utils';
 import { NotFound } from '@app/NotFound/NotFound';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
-import { ControlPlanePage } from "@app/ControlPlanePage/ControlPlanePage";
-import { DataPlanePage } from "@app/DataPlanePage/DataPlanePage";
-import { QuickStartDrawerFederated } from "@app/Components/QuickStart/QuickStartDrawerFederated";
-import { QuickStartCatalogFederated } from "@app/Components/QuickStart/QuickStartCatalogFederated";
+import { KasPage } from "@app/KasPage/KasPage";
+import { KafkaPage } from "@app/KafkaPage/KafkaPage";
+import { QuickStartDrawerFederated } from "@app/ResourcesPage/QuickStartDrawerFederated";
+import { ResourcesPage } from "@app/ResourcesPage/ResourcesPage";
+import {OverviewPage} from "@app/Overview/OverviewPage";
+import {APIManagementPage} from "@app/APIManagement/APIManagementPage";
+import {DataSciencePage} from "@app/DataScience/DataSciencePage";
+import {ServiceAccountsPage} from "@app/ServiceAccountsPage/ServiceAccountsPage";
 
 let routeFocusTimer: number;
 
@@ -29,35 +33,54 @@ export interface IAppRouteGroup {
 
 export type AppRouteConfig = IAppRoute | IAppRouteGroup;
 
-const RedirectSlash: React.FunctionComponent = () => (<Redirect to="/openshift-streams" />)
-
 const routes: AppRouteConfig[] = [
   {
-    component: DataPlanePage,
-    exact: false,
-    label: 'Red Hat OpenShift Streams for Apache Kafka',
-    path: '/openshift-streams/kafkas',
-    title: 'Red Hat OpenShift Streams for Apache Kafka',
-  },
-  {
-    component: ControlPlanePage,
+    component: KafkaPage,
     exact: true,
     label: 'Red Hat OpenShift Streams for Apache Kafka',
-    path: '/openshift-streams',
+    path: '/streams/kafkas/:id',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
   },
   {
-    component: RedirectSlash,
+    component: KasPage,
     exact: true,
     label: 'Red Hat OpenShift Streams for Apache Kafka',
-    path: '/',
+    path: '/streams/kafkas',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
   },
   {
-    component: QuickStartCatalogFederated,
+    component: ServiceAccountsPage,
+    exact: true,
+    label: 'Red Hat OpenShift Streams for Apache Kafka',
+    path: '/streams/service-accounts',
+    title: 'Red Hat OpenShift Streams for Apache Kafka',
+  },
+  {
+    component: OverviewPage,
+    exact: true,
+    label: 'Red Hat OpenShift Streams for Apache Kafka',
+    path: '/overview',
+    title: 'Red Hat OpenShift Streams for Apache Kafka',
+  },
+  {
+    component: APIManagementPage,
+    exact: true,
+    label: 'Red Hat OpenShift Streams for Apache Kafka',
+    path: '/api-management',
+    title: 'Red Hat OpenShift Streams for Apache Kafka',
+  },
+  {
+    component: DataSciencePage,
+    exact: true,
+    label: 'Red Hat OpenShift Streams for Apache Kafka',
+    path: '/data-science',
+    title: 'Red Hat OpenShift Streams for Apache Kafka',
+  },
+  {
+    component: ResourcesPage,
     exact: true,
     label: 'QuickStarts for Red Hat OpenShift Application Services',
-    path: '/quickstarts',
+    path: '/streams/resources',
     title: 'QuickStarts for Red Hat OpenShift Application Services',
   }
 ];

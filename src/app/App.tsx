@@ -16,13 +16,30 @@ export const App: React.FunctionComponent = () => {
   const insights = useContext(InsightsContext);
   const history = useHistory();
 
+  const getAppId = () => {
+
+    const defaultAppId = "overview";
+
+    const parts = history.location.pathname.split("/");
+    if (parts.length > 1) {
+      if (parts[1] === "") {
+        return defaultAppId
+      } else {
+        return parts[1];
+      }
+    } else {
+      return defaultAppId;
+    }
+  }
+
   useEffect(() => {
     insights.chrome.init();
-    insights.chrome.identifyApp('application-services');
-
+    const appId = getAppId();
+    insights.chrome.identifyApp(appId);
 
     insights.chrome.on('APP_NAVIGATION', event => {
-      history.push(`/${event.navId}`);
+      const streamUrls = ['kafkas', 'service-accounts', 'resources'];
+      history.push(`/${streamUrls.includes(event.navId) ? 'streams/' : ''}${event.navId}`);
     });
   });
 
