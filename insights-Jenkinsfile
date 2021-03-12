@@ -72,7 +72,7 @@ node {
         }
       }
 
-      mail to: 'ms-devexp@redhat.com',
+      mail to: 'mas-devexp-ci@redhat.com',
              subject: "Finished Running Pipeline: ${currentBuild.fullDisplayName}",
              body: "The pipeline has completed this build: ${env.BUILD_URL}"
 
