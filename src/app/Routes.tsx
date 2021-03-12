@@ -33,6 +33,8 @@ export interface IAppRouteGroup {
 
 export type AppRouteConfig = IAppRoute | IAppRouteGroup;
 
+const RedirectSlash: React.FunctionComponent = () => (<Redirect to="/overview" />)
+
 const routes: AppRouteConfig[] = [
   {
     component: KafkaPage,
@@ -60,6 +62,13 @@ const routes: AppRouteConfig[] = [
     exact: true,
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/overview',
+    title: 'Red Hat OpenShift Streams for Apache Kafka',
+  },
+  {
+    component: RedirectSlash,
+    exact: true,
+    label: 'Red Hat OpenShift Streams for Apache Kafka',
+    path: '/',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
   },
   {
