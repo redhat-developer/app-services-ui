@@ -33,7 +33,8 @@ export interface IAppRouteGroup {
 
 export type AppRouteConfig = IAppRoute | IAppRouteGroup;
 
-const RedirectSlash: React.FunctionComponent = () => (<Redirect to="/overview" />)
+const RedirectToOverview: React.FunctionComponent = () => (<Redirect to="/overview" />);
+const RedirectToStreamsKafkas: React.FunctionComponent = () => (<Redirect to="/streams/kafkas" />);
 
 const routes: AppRouteConfig[] = [
   {
@@ -41,6 +42,22 @@ const routes: AppRouteConfig[] = [
     exact: true,
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/streams/kafkas/:id',
+    title: 'Red Hat OpenShift Streams for Apache Kafka',
+  },
+  {
+    // Handle the redirect from application-services/streams to application-services/streams/kafkas
+    component: RedirectToStreamsKafkas,
+    exact: true,
+    label: 'Red Hat OpenShift Streams for Apache Kafka',
+    path: '/streams',
+    title: 'Red Hat OpenShift Streams for Apache Kafka',
+  },
+  {
+    component: RedirectToStreamsKafkas,
+    // Handle the redirect for the old url application-services/openshift-streams to application-services/streams/kafkas
+    exact: true,
+    label: 'Red Hat OpenShift Streams for Apache Kafka',
+    path: '/openshift-streams',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
   },
   {
@@ -65,7 +82,7 @@ const routes: AppRouteConfig[] = [
     title: 'Red Hat OpenShift Streams for Apache Kafka',
   },
   {
-    component: RedirectSlash,
+    component: RedirectToOverview,
     exact: true,
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/',
