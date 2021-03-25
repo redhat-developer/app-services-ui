@@ -3,14 +3,14 @@ import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { accessibleRouteChangeHandler, useDocumentTitle } from '@app/utils';
 import { NotFound } from '@app/NotFound/NotFound';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
-import { KasPage } from "@app/KasPage/KasPage";
-import { KafkaPage } from "@app/KafkaPage/KafkaPage";
-import { QuickStartDrawerFederated } from "@app/ResourcesPage/QuickStartDrawerFederated";
-import { ResourcesPage } from "@app/ResourcesPage/ResourcesPage";
-import {OverviewPage} from "@app/Overview/OverviewPage";
-import {APIManagementPage} from "@app/APIManagement/APIManagementPage";
-import {DataSciencePage} from "@app/DataScience/DataSciencePage";
-import {ServiceAccountsPage} from "@app/ServiceAccountsPage/ServiceAccountsPage";
+import { KasPage } from '@app/KasPage/KasPage';
+import { KafkaPage } from '@app/KafkaPage/KafkaPage';
+import { QuickStartDrawerFederated } from '@app/ResourcesPage/QuickStartDrawerFederated';
+import { ResourcesPage } from '@app/ResourcesPage/ResourcesPage';
+import { OverviewPage } from '@app/Overview/OverviewPage';
+import { APIManagementPage } from '@app/APIManagement/APIManagementPage';
+import { DataSciencePage } from '@app/DataScience/DataSciencePage';
+import { ServiceAccountsPage } from '@app/ServiceAccountsPage/ServiceAccountsPage';
 
 let routeFocusTimer: number;
 
@@ -33,8 +33,8 @@ export interface IAppRouteGroup {
 
 export type AppRouteConfig = IAppRoute | IAppRouteGroup;
 
-const RedirectToOverview: React.FunctionComponent = () => (<Redirect to="/overview" />);
-const RedirectToStreamsKafkas: React.FunctionComponent = () => (<Redirect to="/streams/kafkas" />);
+const RedirectToOverview: React.FunctionComponent = () => <Redirect to="/overview" />;
+const RedirectToStreamsKafkas: React.FunctionComponent = () => <Redirect to="/streams/kafkas" />;
 
 const routes: AppRouteConfig[] = [
   {
@@ -108,7 +108,7 @@ const routes: AppRouteConfig[] = [
     label: 'QuickStarts for Red Hat OpenShift Application Services',
     path: '/streams/resources',
     title: 'QuickStarts for Red Hat OpenShift Application Services',
-  }
+  },
 ];
 
 // a custom hook for sending focus to the primary content container
@@ -135,15 +135,15 @@ const RouteWithTitleUpdates = ({ component: Component, isAsync = false, title, .
       <QuickStartDrawerFederated>
         <Component {...rest} {...routeProps} />
       </QuickStartDrawerFederated>
-      );
+    );
   }
 
-  return <Route render={routeWithTitle}/>;
+  return <Route render={routeWithTitle} />;
 };
 
 const PageNotFound = ({ title }: { title: string }) => {
   useDocumentTitle(title);
-  return <Route component={NotFound}/>;
+  return <Route component={NotFound} />;
 };
 
 const flattenedRoutes: IAppRoute[] = routes.reduce(
@@ -164,7 +164,7 @@ const AppRoutes = (): React.ReactElement => (
           isAsync={isAsync}
         />
       ))}
-      <PageNotFound title="404 Page Not Found"/>
+      <PageNotFound title="404 Page Not Found" />
     </Switch>
   </LastLocationProvider>
 );
