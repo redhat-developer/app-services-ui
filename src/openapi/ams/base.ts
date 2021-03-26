@@ -1,7 +1,8 @@
-// tslint:disable
+/* tslint:disable */
+/* eslint-disable */
 /**
- * Managed Service API
- * Managed Service API
+ * Account Management Service API
+ * Manage user subscriptions and clusters
  *
  * The version of the OpenAPI document: 0.0.1
  * 

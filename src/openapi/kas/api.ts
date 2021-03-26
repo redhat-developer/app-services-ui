@@ -1,7 +1,8 @@
-// tslint:disable
+/* tslint:disable */
+/* eslint-disable */
 /**
- * Managed Service API
- * Managed Service API
+ * Kafka Service Fleet Manager
+ * Kafka Service Fleet Manager is a Rest API to manage kafka instances and connectors.
  *
  * The version of the OpenAPI document: 0.0.1
  * 
@@ -12,10 +13,11 @@
  */
 
 
-import * as globalImportUrl from 'url';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
+// @ts-ignore
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
@@ -261,6 +263,31 @@ export interface ErrorListAllOf {
      * @memberof ErrorListAllOf
      */
     items?: Array<Error>;
+}
+/**
+ * 
+ * @export
+ * @interface InstantQuery
+ */
+export interface InstantQuery {
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof InstantQuery
+     */
+    metric?: { [key: string]: string; };
+    /**
+     * 
+     * @type {number}
+     * @memberof InstantQuery
+     */
+    Timestamp?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof InstantQuery
+     */
+    Value: number;
 }
 /**
  * 
@@ -529,53 +556,102 @@ export interface List {
 /**
  * 
  * @export
- * @interface Metric
+ * @interface MetricsInstantQueryList
  */
-export interface Metric {
-    /**
-     * 
-     * @type {{ [key: string]: string; }}
-     * @memberof Metric
-     */
-    metric?: { [key: string]: string; };
-    /**
-     * 
-     * @type {Array<Values>}
-     * @memberof Metric
-     */
-    values?: Array<Values>;
-}
-/**
- * 
- * @export
- * @interface MetricsList
- */
-export interface MetricsList extends MetricsListAllOf {
-}
-/**
- * 
- * @export
- * @interface MetricsListAllOf
- */
-export interface MetricsListAllOf {
+export interface MetricsInstantQueryList {
     /**
      * 
      * @type {string}
-     * @memberof MetricsListAllOf
+     * @memberof MetricsInstantQueryList
      */
     kind?: string;
     /**
      * 
      * @type {string}
-     * @memberof MetricsListAllOf
+     * @memberof MetricsInstantQueryList
      */
     id?: string;
     /**
      * 
-     * @type {Array<Metric>}
-     * @memberof MetricsListAllOf
+     * @type {Array<InstantQuery>}
+     * @memberof MetricsInstantQueryList
      */
-    items?: Array<Metric>;
+    items?: Array<InstantQuery>;
+}
+/**
+ * 
+ * @export
+ * @interface MetricsInstantQueryListAllOf
+ */
+export interface MetricsInstantQueryListAllOf {
+    /**
+     * 
+     * @type {string}
+     * @memberof MetricsInstantQueryListAllOf
+     */
+    kind?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MetricsInstantQueryListAllOf
+     */
+    id?: string;
+    /**
+     * 
+     * @type {Array<InstantQuery>}
+     * @memberof MetricsInstantQueryListAllOf
+     */
+    items?: Array<InstantQuery>;
+}
+/**
+ * 
+ * @export
+ * @interface MetricsRangeQueryList
+ */
+export interface MetricsRangeQueryList {
+    /**
+     * 
+     * @type {string}
+     * @memberof MetricsRangeQueryList
+     */
+    kind?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MetricsRangeQueryList
+     */
+    id?: string;
+    /**
+     * 
+     * @type {Array<RangeQuery>}
+     * @memberof MetricsRangeQueryList
+     */
+    items?: Array<RangeQuery>;
+}
+/**
+ * 
+ * @export
+ * @interface MetricsRangeQueryListAllOf
+ */
+export interface MetricsRangeQueryListAllOf {
+    /**
+     * 
+     * @type {string}
+     * @memberof MetricsRangeQueryListAllOf
+     */
+    kind?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MetricsRangeQueryListAllOf
+     */
+    id?: string;
+    /**
+     * 
+     * @type {Array<RangeQuery>}
+     * @memberof MetricsRangeQueryListAllOf
+     */
+    items?: Array<RangeQuery>;
 }
 /**
  * 
@@ -644,6 +720,25 @@ export interface ObjectReference {
      * @memberof ObjectReference
      */
     href?: string;
+}
+/**
+ * 
+ * @export
+ * @interface RangeQuery
+ */
+export interface RangeQuery {
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof RangeQuery
+     */
+    metric?: { [key: string]: string; };
+    /**
+     * 
+     * @type {Array<Values>}
+     * @memberof RangeQuery
+     */
+    values?: Array<Values>;
 }
 /**
  * Service Account created in MAS-SSO for the Kafka Cluster for authentication
@@ -736,7 +831,19 @@ export interface ServiceAccountAllOf {
  * @export
  * @interface ServiceAccountList
  */
-export interface ServiceAccountList extends ServiceAccountListAllOf {
+export interface ServiceAccountList {
+    /**
+     * 
+     * @type {string}
+     * @memberof ServiceAccountList
+     */
+    kind?: string;
+    /**
+     * 
+     * @type {Array<ServiceAccountListItem>}
+     * @memberof ServiceAccountList
+     */
+    items?: Array<ServiceAccountListItem>;
 }
 /**
  * 
@@ -795,10 +902,10 @@ export interface ServiceAccountListItem {
     name?: string;
     /**
      * 
-     * @type {AnyType}
+     * @type {any}
      * @memberof ServiceAccountListItem
      */
-    description?: AnyType;
+    description?: any | null;
 }
 /**
  * 
@@ -826,10 +933,10 @@ export interface ServiceAccountListItemAllOf {
     name?: string;
     /**
      * 
-     * @type {AnyType}
+     * @type {any}
      * @memberof ServiceAccountListItemAllOf
      */
-    description?: AnyType;
+    description?: any | null;
 }
 /**
  * Schema for the request to create a service account
@@ -886,31 +993,24 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          */
         createKafka: async (async: boolean, kafkaRequestPayload: KafkaRequestPayload, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'async' is not null or undefined
-            if (async === null || async === undefined) {
-                throw new RequiredError('async','Required parameter async was null or undefined when calling createKafka.');
-            }
+            assertParamExists('createKafka', 'async', async)
             // verify required parameter 'kafkaRequestPayload' is not null or undefined
-            if (kafkaRequestPayload === null || kafkaRequestPayload === undefined) {
-                throw new RequiredError('kafkaRequestPayload','Required parameter kafkaRequestPayload was null or undefined when calling createKafka.');
-            }
+            assertParamExists('createKafka', 'kafkaRequestPayload', kafkaRequestPayload)
             const localVarPath = `/api/managed-services-api/v1/kafkas`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
             // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? configuration.accessToken()
-                    : configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (async !== undefined) {
                 localVarQueryParameter['async'] = async;
@@ -920,16 +1020,13 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof kafkaRequestPayload !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(kafkaRequestPayload !== undefined ? kafkaRequestPayload : {}) : (kafkaRequestPayload || "");
+            localVarRequestOptions.data = serializeDataIfNeeded(kafkaRequestPayload, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -942,42 +1039,34 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          */
         createServiceAccount: async (serviceAccountRequest: ServiceAccountRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'serviceAccountRequest' is not null or undefined
-            if (serviceAccountRequest === null || serviceAccountRequest === undefined) {
-                throw new RequiredError('serviceAccountRequest','Required parameter serviceAccountRequest was null or undefined when calling createServiceAccount.');
-            }
+            assertParamExists('createServiceAccount', 'serviceAccountRequest', serviceAccountRequest)
             const localVarPath = `/api/managed-services-api/v1/serviceaccounts`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
             // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? configuration.accessToken()
-                    : configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof serviceAccountRequest !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(serviceAccountRequest !== undefined ? serviceAccountRequest : {}) : (serviceAccountRequest || "");
+            localVarRequestOptions.data = serializeDataIfNeeded(serviceAccountRequest, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -991,32 +1080,25 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          */
         deleteKafkaById: async (id: string, async: boolean, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling deleteKafkaById.');
-            }
+            assertParamExists('deleteKafkaById', 'id', id)
             // verify required parameter 'async' is not null or undefined
-            if (async === null || async === undefined) {
-                throw new RequiredError('async','Required parameter async was null or undefined when calling deleteKafkaById.');
-            }
+            assertParamExists('deleteKafkaById', 'async', async)
             const localVarPath = `/api/managed-services-api/v1/kafkas/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
             // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? configuration.accessToken()
-                    : configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (async !== undefined) {
                 localVarQueryParameter['async'] = async;
@@ -1024,14 +1106,12 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1044,39 +1124,32 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          */
         deleteServiceAccount: async (id: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling deleteServiceAccount.');
-            }
+            assertParamExists('deleteServiceAccount', 'id', id)
             const localVarPath = `/api/managed-services-api/v1/serviceaccounts/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
             // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? configuration.accessToken()
-                    : configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1089,45 +1162,81 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          */
         getKafkaById: async (id: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling getKafkaById.');
-            }
+            assertParamExists('getKafkaById', 'id', id)
             const localVarPath = `/api/managed-services-api/v1/kafkas/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
             // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? configuration.accessToken()
-                    : configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
         /**
          * 
-         * @summary Get metrics by kafka id.
+         * @summary Get metrics with instant query by kafka id.
+         * @param {string} id The id of record
+         * @param {Array<string>} [filters] List of metrics to fetch. Fetch all metrics when empty. List entries are kafka internal metric names.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getMetricsByInstantQuery: async (id: string, filters?: Array<string>, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getMetricsByInstantQuery', 'id', id)
+            const localVarPath = `/api/managed-services-api/v1/kafkas/{id}/metrics/query`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (filters) {
+                localVarQueryParameter['filters'] = filters;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get metrics with timeseries range query by kafka id.
          * @param {string} id The id of record
          * @param {number} duration The length of time in minutes over which to return the metrics.
          * @param {number} interval The interval in seconds between data points.
@@ -1135,38 +1244,29 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getMetricsByKafkaId: async (id: string, duration: number, interval: number, filters?: Array<string>, options: any = {}): Promise<RequestArgs> => {
+        getMetricsByRangeQuery: async (id: string, duration: number, interval: number, filters?: Array<string>, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling getMetricsByKafkaId.');
-            }
+            assertParamExists('getMetricsByRangeQuery', 'id', id)
             // verify required parameter 'duration' is not null or undefined
-            if (duration === null || duration === undefined) {
-                throw new RequiredError('duration','Required parameter duration was null or undefined when calling getMetricsByKafkaId.');
-            }
+            assertParamExists('getMetricsByRangeQuery', 'duration', duration)
             // verify required parameter 'interval' is not null or undefined
-            if (interval === null || interval === undefined) {
-                throw new RequiredError('interval','Required parameter interval was null or undefined when calling getMetricsByKafkaId.');
-            }
-            const localVarPath = `/api/managed-services-api/v1/kafkas/{id}/metrics`
+            assertParamExists('getMetricsByRangeQuery', 'interval', interval)
+            const localVarPath = `/api/managed-services-api/v1/kafkas/{id}/metrics/query_range`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
             // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? configuration.accessToken()
-                    : configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (duration !== undefined) {
                 localVarQueryParameter['duration'] = duration;
@@ -1182,14 +1282,50 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary get service account by id
+         * @param {string} id The id of record
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getServiceAccountById: async (id: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getServiceAccountById', 'id', id)
+            const localVarPath = `/api/managed-services-api/v1/serviceaccounts/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1204,28 +1340,23 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          */
         listCloudProviderRegions: async (id: string, page?: string, size?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling listCloudProviderRegions.');
-            }
+            assertParamExists('listCloudProviderRegions', 'id', id)
             const localVarPath = `/api/managed-services-api/v1/cloud_providers/{id}/regions`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
             // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? configuration.accessToken()
-                    : configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (page !== undefined) {
                 localVarQueryParameter['page'] = page;
@@ -1237,14 +1368,12 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1258,23 +1387,20 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          */
         listCloudProviders: async (page?: string, size?: string, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/managed-services-api/v1/cloud_providers`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
             // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? configuration.accessToken()
-                    : configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (page !== undefined) {
                 localVarQueryParameter['page'] = page;
@@ -1286,14 +1412,12 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1309,23 +1433,20 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          */
         listKafkas: async (page?: string, size?: string, orderBy?: string, search?: string, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/managed-services-api/v1/kafkas`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
             // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? configuration.accessToken()
-                    : configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (page !== undefined) {
                 localVarQueryParameter['page'] = page;
@@ -1345,14 +1466,12 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1364,34 +1483,29 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          */
         listServiceAccounts: async (options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/managed-services-api/v1/serviceaccounts`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
             // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? configuration.accessToken()
-                    : configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1404,39 +1518,32 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          */
         resetServiceAccountCreds: async (id: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling resetServiceAccountCreds.');
-            }
+            assertParamExists('resetServiceAccountCreds', 'id', id)
             const localVarPath = `/api/managed-services-api/v1/serviceaccounts/{id}/reset-credentials`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
             // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? configuration.accessToken()
-                    : configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1448,6 +1555,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
  * @export
  */
 export const DefaultApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration)
     return {
         /**
          * 
@@ -1458,11 +1566,8 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         async createKafka(async: boolean, kafkaRequestPayload: KafkaRequestPayload, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<KafkaRequest>> {
-            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).createKafka(async, kafkaRequestPayload, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createKafka(async, kafkaRequestPayload, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
@@ -1472,11 +1577,8 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         async createServiceAccount(serviceAccountRequest: ServiceAccountRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ServiceAccount>> {
-            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).createServiceAccount(serviceAccountRequest, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createServiceAccount(serviceAccountRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
@@ -1487,11 +1589,8 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         async deleteKafkaById(id: string, async: boolean, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Error>> {
-            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).deleteKafkaById(id, async, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteKafkaById(id, async, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
@@ -1501,11 +1600,8 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         async deleteServiceAccount(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Error>> {
-            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).deleteServiceAccount(id, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteServiceAccount(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
@@ -1515,15 +1611,24 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         async getKafkaById(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<KafkaRequest>> {
-            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).getKafkaById(id, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getKafkaById(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @summary Get metrics by kafka id.
+         * @summary Get metrics with instant query by kafka id.
+         * @param {string} id The id of record
+         * @param {Array<string>} [filters] List of metrics to fetch. Fetch all metrics when empty. List entries are kafka internal metric names.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getMetricsByInstantQuery(id: string, filters?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MetricsInstantQueryList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getMetricsByInstantQuery(id, filters, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get metrics with timeseries range query by kafka id.
          * @param {string} id The id of record
          * @param {number} duration The length of time in minutes over which to return the metrics.
          * @param {number} interval The interval in seconds between data points.
@@ -1531,12 +1636,20 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getMetricsByKafkaId(id: string, duration: number, interval: number, filters?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MetricsList>> {
-            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).getMetricsByKafkaId(id, duration, interval, filters, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getMetricsByRangeQuery(id: string, duration: number, interval: number, filters?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MetricsRangeQueryList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getMetricsByRangeQuery(id, duration, interval, filters, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary get service account by id
+         * @param {string} id The id of record
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getServiceAccountById(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ServiceAccount>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getServiceAccountById(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
@@ -1548,11 +1661,8 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         async listCloudProviderRegions(id: string, page?: string, size?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudRegionList>> {
-            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).listCloudProviderRegions(id, page, size, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listCloudProviderRegions(id, page, size, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
@@ -1563,11 +1673,8 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         async listCloudProviders(page?: string, size?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudProviderList>> {
-            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).listCloudProviders(page, size, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listCloudProviders(page, size, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
@@ -1580,11 +1687,8 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         async listKafkas(page?: string, size?: string, orderBy?: string, search?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<KafkaRequestList>> {
-            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).listKafkas(page, size, orderBy, search, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listKafkas(page, size, orderBy, search, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
@@ -1593,11 +1697,8 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         async listServiceAccounts(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ServiceAccountList>> {
-            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).listServiceAccounts(options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listServiceAccounts(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
@@ -1607,11 +1708,8 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         async resetServiceAccountCreds(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ServiceAccount>> {
-            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).resetServiceAccountCreds(id, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+            const localVarAxiosArgs = await localVarAxiosParamCreator.resetServiceAccountCreds(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
 };
@@ -1621,6 +1719,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
  * @export
  */
 export const DefaultApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = DefaultApiFp(configuration)
     return {
         /**
          * 
@@ -1631,7 +1730,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         createKafka(async: boolean, kafkaRequestPayload: KafkaRequestPayload, options?: any): AxiosPromise<KafkaRequest> {
-            return DefaultApiFp(configuration).createKafka(async, kafkaRequestPayload, options).then((request) => request(axios, basePath));
+            return localVarFp.createKafka(async, kafkaRequestPayload, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1641,7 +1740,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         createServiceAccount(serviceAccountRequest: ServiceAccountRequest, options?: any): AxiosPromise<ServiceAccount> {
-            return DefaultApiFp(configuration).createServiceAccount(serviceAccountRequest, options).then((request) => request(axios, basePath));
+            return localVarFp.createServiceAccount(serviceAccountRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1652,7 +1751,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         deleteKafkaById(id: string, async: boolean, options?: any): AxiosPromise<Error> {
-            return DefaultApiFp(configuration).deleteKafkaById(id, async, options).then((request) => request(axios, basePath));
+            return localVarFp.deleteKafkaById(id, async, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1662,7 +1761,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         deleteServiceAccount(id: string, options?: any): AxiosPromise<Error> {
-            return DefaultApiFp(configuration).deleteServiceAccount(id, options).then((request) => request(axios, basePath));
+            return localVarFp.deleteServiceAccount(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1672,11 +1771,22 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         getKafkaById(id: string, options?: any): AxiosPromise<KafkaRequest> {
-            return DefaultApiFp(configuration).getKafkaById(id, options).then((request) => request(axios, basePath));
+            return localVarFp.getKafkaById(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary Get metrics by kafka id.
+         * @summary Get metrics with instant query by kafka id.
+         * @param {string} id The id of record
+         * @param {Array<string>} [filters] List of metrics to fetch. Fetch all metrics when empty. List entries are kafka internal metric names.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getMetricsByInstantQuery(id: string, filters?: Array<string>, options?: any): AxiosPromise<MetricsInstantQueryList> {
+            return localVarFp.getMetricsByInstantQuery(id, filters, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get metrics with timeseries range query by kafka id.
          * @param {string} id The id of record
          * @param {number} duration The length of time in minutes over which to return the metrics.
          * @param {number} interval The interval in seconds between data points.
@@ -1684,8 +1794,18 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getMetricsByKafkaId(id: string, duration: number, interval: number, filters?: Array<string>, options?: any): AxiosPromise<MetricsList> {
-            return DefaultApiFp(configuration).getMetricsByKafkaId(id, duration, interval, filters, options).then((request) => request(axios, basePath));
+        getMetricsByRangeQuery(id: string, duration: number, interval: number, filters?: Array<string>, options?: any): AxiosPromise<MetricsRangeQueryList> {
+            return localVarFp.getMetricsByRangeQuery(id, duration, interval, filters, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary get service account by id
+         * @param {string} id The id of record
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getServiceAccountById(id: string, options?: any): AxiosPromise<ServiceAccount> {
+            return localVarFp.getServiceAccountById(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1697,7 +1817,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         listCloudProviderRegions(id: string, page?: string, size?: string, options?: any): AxiosPromise<CloudRegionList> {
-            return DefaultApiFp(configuration).listCloudProviderRegions(id, page, size, options).then((request) => request(axios, basePath));
+            return localVarFp.listCloudProviderRegions(id, page, size, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1708,7 +1828,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         listCloudProviders(page?: string, size?: string, options?: any): AxiosPromise<CloudProviderList> {
-            return DefaultApiFp(configuration).listCloudProviders(page, size, options).then((request) => request(axios, basePath));
+            return localVarFp.listCloudProviders(page, size, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1721,7 +1841,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         listKafkas(page?: string, size?: string, orderBy?: string, search?: string, options?: any): AxiosPromise<KafkaRequestList> {
-            return DefaultApiFp(configuration).listKafkas(page, size, orderBy, search, options).then((request) => request(axios, basePath));
+            return localVarFp.listKafkas(page, size, orderBy, search, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1730,7 +1850,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         listServiceAccounts(options?: any): AxiosPromise<ServiceAccountList> {
-            return DefaultApiFp(configuration).listServiceAccounts(options).then((request) => request(axios, basePath));
+            return localVarFp.listServiceAccounts(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1740,7 +1860,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         resetServiceAccountCreds(id: string, options?: any): AxiosPromise<ServiceAccount> {
-            return DefaultApiFp(configuration).resetServiceAccountCreds(id, options).then((request) => request(axios, basePath));
+            return localVarFp.resetServiceAccountCreds(id, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1805,7 +1925,18 @@ export interface DefaultApiInterface {
 
     /**
      * 
-     * @summary Get metrics by kafka id.
+     * @summary Get metrics with instant query by kafka id.
+     * @param {string} id The id of record
+     * @param {Array<string>} [filters] List of metrics to fetch. Fetch all metrics when empty. List entries are kafka internal metric names.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApiInterface
+     */
+    getMetricsByInstantQuery(id: string, filters?: Array<string>, options?: any): AxiosPromise<MetricsInstantQueryList>;
+
+    /**
+     * 
+     * @summary Get metrics with timeseries range query by kafka id.
      * @param {string} id The id of record
      * @param {number} duration The length of time in minutes over which to return the metrics.
      * @param {number} interval The interval in seconds between data points.
@@ -1814,7 +1945,17 @@ export interface DefaultApiInterface {
      * @throws {RequiredError}
      * @memberof DefaultApiInterface
      */
-    getMetricsByKafkaId(id: string, duration: number, interval: number, filters?: Array<string>, options?: any): AxiosPromise<MetricsList>;
+    getMetricsByRangeQuery(id: string, duration: number, interval: number, filters?: Array<string>, options?: any): AxiosPromise<MetricsRangeQueryList>;
+
+    /**
+     * 
+     * @summary get service account by id
+     * @param {string} id The id of record
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApiInterface
+     */
+    getServiceAccountById(id: string, options?: any): AxiosPromise<ServiceAccount>;
 
     /**
      * 
@@ -1944,7 +2085,20 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
 
     /**
      * 
-     * @summary Get metrics by kafka id.
+     * @summary Get metrics with instant query by kafka id.
+     * @param {string} id The id of record
+     * @param {Array<string>} [filters] List of metrics to fetch. Fetch all metrics when empty. List entries are kafka internal metric names.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public getMetricsByInstantQuery(id: string, filters?: Array<string>, options?: any) {
+        return DefaultApiFp(this.configuration).getMetricsByInstantQuery(id, filters, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get metrics with timeseries range query by kafka id.
      * @param {string} id The id of record
      * @param {number} duration The length of time in minutes over which to return the metrics.
      * @param {number} interval The interval in seconds between data points.
@@ -1953,8 +2107,20 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public getMetricsByKafkaId(id: string, duration: number, interval: number, filters?: Array<string>, options?: any) {
-        return DefaultApiFp(this.configuration).getMetricsByKafkaId(id, duration, interval, filters, options).then((request) => request(this.axios, this.basePath));
+    public getMetricsByRangeQuery(id: string, duration: number, interval: number, filters?: Array<string>, options?: any) {
+        return DefaultApiFp(this.configuration).getMetricsByRangeQuery(id, duration, interval, filters, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary get service account by id
+     * @param {string} id The id of record
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public getServiceAccountById(id: string, options?: any) {
+        return DefaultApiFp(this.configuration).getServiceAccountById(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2021,7 +2187,6 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
     public resetServiceAccountCreds(id: string, options?: any) {
         return DefaultApiFp(this.configuration).resetServiceAccountCreds(id, options).then((request) => request(this.axios, this.basePath));
     }
-
 }
 
 
