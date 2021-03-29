@@ -26,7 +26,7 @@ module.exports = merge(common("production", { mode: "production" }), {
     new CopyPlugin({
       patterns: [
         {
-          from: 'config/config.preprod-beta.json',
+          from: 'config/config.json',
           to: `config.json`
         }
       ]

@@ -4,7 +4,7 @@ import { ConfigContext } from "@app/Config/Config";
 import { FederatedModule } from "../Components/FederatedModule/FederatedModule";
 import { AuthContext } from "@app/utils/auth/AuthContext";
 import { Loading } from "@app/Components/Loading/Loading";
-import { DefaultApi } from "../../openapi";
+import { Configuration, DefaultApi } from "../../openapi/kas";
 
 export const KafkaPage: React.FunctionComponent = () => {
 
@@ -24,7 +24,7 @@ export const KafkaPage: React.FunctionComponent = () => {
     const apisService = new DefaultApi({
       accessToken,
       basePath: config?.controlPlane.serviceApiBasePath || '',
-    });
+    } as Configuration);
 
     const kafka = await apisService.getKafkaById(id);
     setAdminServerUrl(`https://admin-server-${kafka.data.bootstrapServerHost}/rest`);

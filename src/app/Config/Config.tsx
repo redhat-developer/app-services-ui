@@ -2,7 +2,8 @@ import React from "react";
 
 export type Config = {
   controlPlane: {
-    serviceApiBasePath: string
+    serviceApiBasePath: string,
+    amsBasePath: string
   }
   dataPlane: {
     keycloak: {
