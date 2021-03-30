@@ -1,14 +1,14 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {useHistory, useLocation} from 'react-router';
-import {InsightsContext} from "@app/utils/insights";
-import {useDispatch} from 'react-redux';
-import {addNotification} from '@redhat-cloud-services/frontend-components-notifications/';
-import {AlertVariant} from "@patternfly/react-core";
-import {FederatedModule} from "../Components/FederatedModule/FederatedModule";
-import {ConfigContext} from "@app/Config/Config";
-import {Loading} from "@app/Components/Loading/Loading";
-import {Configuration, DefaultApi,TermsReviewResponse} from "../../openapi/ams";
-import {getTermsAppURL} from "@app/utils/termsApp";
+import React, { useContext, useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router';
+import { InsightsContext } from "@app/utils/insights";
+import { useDispatch } from 'react-redux';
+import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
+import { AlertVariant } from "@patternfly/react-core";
+import { FederatedModule } from "../Components/FederatedModule/FederatedModule";
+import { ConfigContext } from "@app/Config/Config";
+import { Loading } from "@app/Components/Loading/Loading";
+import { Configuration, DefaultApi,TermsReviewResponse } from "../../openapi/ams";
+import { getTermsAppURL } from "@app/utils/termsApp";
 import queryString from 'query-string';
 
 export const KasPage: React.FunctionComponent = () => {
@@ -22,30 +22,32 @@ export const KasPage: React.FunctionComponent = () => {
   const [create, setCreate] = useState<boolean>(false);
   const [termsReview, setTermsReview] = useState<TermsReviewResponse | undefined>();
 
-  // Handle being passed ?create=true by setting the create state, then removing it from the search params
-  const handleCreateParam = () => {
-    const parsed = queryString.parse(location.search);
-    const c = parsed['create'] === 'true';
-    if (c) {
-      setCreate(true);
-    }
-  };
   useEffect(() => {
-    handleCreateParam();
-  }, [create]);
+    // Handle being passed ?create=true by setting the create state, then removing it from the search params
+    const handleCreateParam = () => {
+      const parsed = queryString.parse(location.search);
+      const c = parsed['create'] === 'true';
+      if (c) {
+        setCreate(true);
+      }
+    };
 
-  // Load the terms review state asynchronously, to avoid the user waiting when they press the Create Kafka Instance button
-  const selfTermsReview = async() => {
-    const accessToken = await insights.chrome.auth.getToken();
-    const ams = new DefaultApi({
-      accessToken,
-      basePath: config?.controlPlane.amsBasePath || '',
-    } as Configuration);
-    setTermsReview(await ams.apiAuthorizationsV1SelfTermsReviewPost().then(resp => resp.data));
-  }
+    handleCreateParam();
+  }, [create, location.search]);
+
   useEffect(() => {
+    // Load the terms review state asynchronously, to avoid the user waiting when they press the Create Kafka Instance button
+    const selfTermsReview = async() => {
+      const accessToken = await insights.chrome.auth.getToken();
+      const ams = new DefaultApi({
+        accessToken,
+        basePath: config?.controlPlane.amsBasePath || '',
+      } as Configuration);
+      setTermsReview(await ams.apiAuthorizationsV1SelfTermsReviewPost().then(resp => resp.data));
+    }
+
     selfTermsReview();
-  },[]);
+  },[config?.controlPlane.amsBasePath, insights.chrome.auth]);
 
   const onConnectInstance = async (event) => {
     if (event.id === undefined) {
@@ -58,7 +60,7 @@ export const KasPage: React.FunctionComponent = () => {
     if (event.id === undefined) {
       throw new Error();
     }
-    return history.createHref({pathname: `/streams/kafkas/${event.id}`});
+    return history.createHref({ pathname: `/streams/kafkas/${event.id}` });
   }
 
   const preCreateInstance = async (open: boolean) => {

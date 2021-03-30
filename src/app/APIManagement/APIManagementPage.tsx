@@ -1,7 +1,7 @@
 import React from 'react';
 import { Loading } from "@app/Components/Loading/Loading";
 import LoremIpsum from "react-lorem-ipsum";
-import {PageSection, PageSectionVariants} from "@patternfly/react-core";
+import { PageSection, PageSectionVariants } from "@patternfly/react-core";
 
 export const APIManagementPage: React.FunctionComponent = () => {
   return (

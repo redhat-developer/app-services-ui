@@ -8,12 +8,14 @@ mk-ui is based on the https://github.com/RedHatInsights/insights-frontend-starte
 `
 1. Follow the [Control Plane UI Readme](https://github.com/bf2fc6cc711aee1a0c2a/mk-ui-frontend) to start the development server
 2. Once you have the development server running successfully, shut it down, and run `npm run start:federate` instead
-3. Clone [insights-proxy](https://github.com/RedHatInsights/insights-proxy)
-4. Run `export PROXY_PATH=<path to local insights proxy clone>`
-5. In this project, run `SPANDX_CONFIG="./profiles/local-frontend.js" bash $PROXY_PATH/scripts/run.sh`
-6. In this project, run `npm install`
-7. In this project, run `npm run start:dev`
-8. Visit https://prod.foo.redhat.com:1337/beta/application-services/openshift-streams/
+3. Clone the [Data UI Readme](https://github.com/bf2fc6cc711aee1a0c2a/kafka-ui), then follow the instructions to install and start the client in development mode.
+4. Clone the guides repo [Managed Kafka Guides](https://github.com/bf2fc6cc711aee1a0c2a/guides), then follow the instructions under .build to install and start the guides.
+5. Clone [insights-proxy](https://github.com/RedHatInsights/insights-proxy)
+6. Run `export PROXY_PATH=<path to local insights proxy clone>`
+7. In this project, run `SPANDX_CONFIG="./profiles/local-frontend.js" bash $PROXY_PATH/scripts/run.sh`
+8. In this project, run `npm install`
+9. In this project, run `npm run start:dev`
+10. Visit https://prod.foo.redhat.com:1337/beta/application-services/streams/kafkas
 
 The remainder of these docs come from there.
 
