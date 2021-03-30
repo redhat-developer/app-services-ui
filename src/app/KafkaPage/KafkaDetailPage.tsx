@@ -75,6 +75,10 @@ const KafkaDetailPageContent: React.FunctionComponent<KafkaDetailPageContentProp
     history.push(`/streams/kafkas/${id}`);
   }
 
+  const onSaveTopic = () => {
+    setShowUpdate(false);
+  }
+
   const addAlert = (message: string, variant?: AlertVariant) => {
     dispatch(
       addNotification({
@@ -111,6 +115,7 @@ const KafkaDetailPageContent: React.FunctionComponent<KafkaDetailPageContentProp
       getTopicListPath={getTopicListPath}
       onClickTopicList={onClickTopicList}
       onDeleteTopic={onDeleteTopic}
+      onSaveTopic={onSaveTopic}
     />}
   />;
 
