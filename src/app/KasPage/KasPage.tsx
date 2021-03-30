@@ -27,10 +27,6 @@ export const KasPage: React.FunctionComponent = () => {
     const parsed = queryString.parse(location.search);
     const c = parsed['create'] === 'true';
     if (c) {
-      delete parsed['create'];
-      history.replace({
-        search: queryString.stringify(parsed)
-      });
       setCreate(true);
     }
   };
