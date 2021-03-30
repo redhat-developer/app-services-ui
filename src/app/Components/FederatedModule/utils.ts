@@ -1,6 +1,3 @@
-import React from "react";
-import {file} from "@babel/types";
-
 export type Utils = {
   [key: string]: {
     entry: string[],

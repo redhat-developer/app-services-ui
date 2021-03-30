@@ -12,13 +12,11 @@ import { useHistory } from "react-router-dom";
 import { getParams } from "@app/KafkaPage/utils";
 
 enum KafkaUITopicModules {
-  topicListModule = "./Panels/Topics",
   topicListDetailModule = "./Panels/TopicDetails",
-  topicCreateModule = "./Panels/CreateTopic",
   topicUpdateModule = "./Panels/UpdateTopic"
 }
 
-export const KafkaPage: React.FunctionComponent = () => {
+export const KafkaDetailPage: React.FunctionComponent = () => {
 
   const insights = useContext(InsightsContext);
   const config = useContext(ConfigContext);
@@ -45,44 +43,32 @@ export const KafkaPage: React.FunctionComponent = () => {
     return <Loading/>
   }
 
-  return <KafkaPageContent adminServerUrl={adminServerUrl} id={id} topicName={topicName}/>
+  return <KafkaDetailPageContent adminServerUrl={adminServerUrl} id={id} topicName={topicName}/>
 
 }
 
-type KafkaPageContentProps = {
+type KafkaDetailPageContentProps = {
   adminServerUrl: string;
   id: string;
   topicName?: string;
 }
 
-const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ adminServerUrl, id, topicName }) => {
+const KafkaDetailPageContent: React.FunctionComponent<KafkaDetailPageContentProps> = ({
+                                                                                        adminServerUrl,
+                                                                                        id,
+                                                                                        topicName
+                                                                                      }) => {
   const { getToken } = useContext(AuthContext);
   const history = useHistory();
-  const [showCreate, setShowCreate] = useState<boolean>(false);
   const [showUpdate, setShowUpdate] = useState<boolean>(false);
   const dispatch = useDispatch();
 
-  const onCreateTopic = () => {
-    setShowCreate(true);
-  }
-
-  const onClickTopic = (topicName) => {
-    history.push(`/streams/kafkas/${id}/topics/${topicName}`);
-  }
-
-  const onCloseCreateTopic = () => {
-    setShowCreate(false);
-  }
-
-  const getTopicDetailsPath = (topicName: string | undefined) => {
-    if (topicName === undefined) {
-      return history.createHref({ pathname: `streams/kafkas/${id}` });
-    }
-    return history.createHref({ pathname: `/streams/kafkas/${id}/topics/${topicName}`, key: topicName });
-  };
-
   const onUpdateTopic = () => {
     setShowUpdate(true);
+  }
+
+  const onCancelUpdateTopic = () => {
+    setShowUpdate(false);
   }
 
   const onDeleteTopic = () => {
@@ -99,15 +85,18 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ admi
 
   };
 
-  let topicModule = KafkaUITopicModules.topicListModule;
-  if (showCreate) {
-    topicModule = KafkaUITopicModules.topicCreateModule
-  } else if (topicName && showUpdate) {
-    topicModule = KafkaUITopicModules.topicUpdateModule
-  } else if (topicName) {
-    topicModule = KafkaUITopicModules.topicListDetailModule
+  const getTopicListPath = () => {
+    return history.createHref({ pathname: `/streams/kafkas/${id}` });
   }
 
+  const onClickTopicList = () => {
+    history.push(`/streams/kafkas/${id}`);
+  }
+
+  let topicModule = KafkaUITopicModules.topicListDetailModule;
+  if (showUpdate) {
+    topicModule = KafkaUITopicModules.topicUpdateModule
+  }
 
   const kafkaUITopicPage = <FederatedModule
     scope="kafka"
@@ -115,13 +104,12 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ admi
     render={(FederatedTopics) => <FederatedTopics
       getToken={getToken}
       apiBasePath={adminServerUrl}
-      onCreateTopic={onCreateTopic}
-      onClickTopic={onClickTopic}
-      getTopicDetailsPath={getTopicDetailsPath}
-      onCloseCreateTopic={onCloseCreateTopic}
       onUpdateTopic={onUpdateTopic}
+      onCancelUpdateTopic={onCancelUpdateTopic}
       currentTopic={topicName}
       addAlert={addAlert}
+      getTopicListPath={getTopicListPath}
+      onClickTopicList={onClickTopicList}
       onDeleteTopic={onDeleteTopic}
     />}
   />;

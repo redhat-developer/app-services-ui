@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-undef */
-import React, {ReactNode, useContext, useEffect, useState} from 'react';
+import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import { Loading } from '../Loading/Loading';
 import { ConfigContext, FederatedModuleConfig } from "@app/Config/Config";
-import {getEntryPoint} from "@app/Components/FederatedModule/utils";
+import { getEntryPoint } from "@app/Components/FederatedModule/utils";
 
 export type FederatedModuleContextProps = {
   [module: string]: FederatedModuleConfig
@@ -121,7 +121,7 @@ export const FederatedModule: React.FunctionComponent<FederatedModuleProps> = ({
   );
 
   return (
-    <React.Suspense fallback={<Loading/>}>
+    <React.Suspense fallback={null}>
       {render(Component)}
     </React.Suspense>
   );

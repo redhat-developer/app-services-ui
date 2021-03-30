@@ -11,6 +11,7 @@ import { OverviewPage } from '@app/Overview/OverviewPage';
 import { APIManagementPage } from '@app/APIManagement/APIManagementPage';
 import { DataSciencePage } from '@app/DataScience/DataSciencePage';
 import { ServiceAccountsPage } from '@app/ServiceAccountsPage/ServiceAccountsPage';
+import { KafkaDetailPage } from "@app/KafkaPage/KafkaDetailPage";
 
 let routeFocusTimer: number;
 
@@ -42,6 +43,13 @@ const routes: AppRouteConfig[] = [
     exact: true,
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/streams/kafkas/:id',
+    title: 'Red Hat OpenShift Streams for Apache Kafka',
+  },
+  {
+    component: KafkaDetailPage,
+    exact: false,
+    label: 'Red Hat OpenShift Streams for Apache Kafka',
+    path: '/streams/kafkas/:id/topics/:topicName',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
   },
   {
