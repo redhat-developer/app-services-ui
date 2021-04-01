@@ -5,9 +5,9 @@
   },
   "dataPlane": {
     "keycloak": {
-      "authServerUrl": "https://keycloak-edge-redhat-rhoam-user-sso.apps.mas-sso-stage.1gzl.s1.devshift.org/auth",
+      "authServerUrl": "https://keycloak-mas-sso-stage.apps.app-sre-stage-0.k3s7.p1.openshiftapps.com/auth",
       "clientId": "strimzi-ui",
-      "realm": "mas-sso-staging"
+      "realm": "rhoas"
     }
   },
   "federatedModules": {
