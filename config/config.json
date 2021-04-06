@@ -1,27 +1,61 @@
-{
-  "controlPlane": {
-    "serviceApiBasePath": "https://api.stage.openshift.com",
-    "amsBasePath": "https://api.stage.openshift.com"
-  },
-  "dataPlane": {
-    "keycloak": {
-      "authServerUrl": "https://keycloak-mas-sso-stage.apps.app-sre-stage-0.k3s7.p1.openshiftapps.com/auth",
-      "clientId": "strimzi-ui",
-      "realm": "rhoas"
+[
+  {
+    "hostnames": [ "prod.foo.redhat.com" ],
+    "config": {
+      "controlPlane": {
+        "serviceApiBasePath": "https://api.stage.openshift.com"
+      },
+      "dataPlane": {
+        "keycloak": {
+          "authServerUrl": "https://keycloak-mas-sso-stage.apps.app-sre-stage-0.k3s7.p1.openshiftapps.com/auth",
+          "clientId": "strimzi-ui",
+          "realm": "rhoas"
+        }
+      },
+      "federatedModules": {
+        "kas": {
+          "basePath": "http://localhost:9000",
+          "entryPoint": "fed-mods.json"
+        },
+        "kafka": {
+          "basePath": "http://localhost:8080",
+          "entryPoint": "fed-mods.json"
+        },
+        "guides": {
+          "basePath": "http://localhost:9001",
+          "entryPoint": "fed-mods.json"
+        }
+      }
     }
   },
-  "federatedModules": {
-    "kas": {
-      "entryPoint": "fed-mods.json",
-      "basePath": "/beta/apps/rhosak-control-plane-ui-build"
-    },
-    "kafka": {
-      "basePath": "/beta/apps/rhosak-data-plane-ui-build",
-      "entryPoint": "fed-mods.json"
-    },
-    "guides": {
-      "basePath": "/beta/apps/rhoas-guides-build",
-      "entryPoint": "fed-mods.json"
+  {
+    "hostnames": [ "cloud.redhat.com", "qaprodauth.cloud.redhat.com" ],
+    "config": {
+      "controlPlane": {
+        "serviceApiBasePath": "https://api.stage.openshift.com",
+        "amsBasePath": "https://api.stage.openshift.com"
+      },
+      "dataPlane": {
+        "keycloak": {
+          "authServerUrl": "https://keycloak-mas-sso-stage.apps.app-sre-stage-0.k3s7.p1.openshiftapps.com/auth",
+          "clientId": "strimzi-ui",
+          "realm": "rhoas"
+        }
+      },
+      "federatedModules": {
+        "kas": {
+          "entryPoint": "fed-mods.json",
+          "basePath": "/beta/apps/rhosak-control-plane-ui-build"
+        },
+        "kafka": {
+          "basePath": "/beta/apps/rhosak-data-plane-ui-build",
+          "entryPoint": "fed-mods.json"
+        },
+        "guides": {
+          "basePath": "/beta/apps/rhoas-guides-build",
+          "entryPoint": "fed-mods.json"
+        }
+      }
     }
   }
-}
+]
