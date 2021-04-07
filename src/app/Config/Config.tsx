@@ -3,6 +3,9 @@ import React from "react";
 const defaultHostname = "cloud.redhat.com";
 
 export type Config = {
+  resources: {
+    showDrafts: boolean
+  }
   controlPlane: {
     serviceApiBasePath: string,
     amsBasePath: string
