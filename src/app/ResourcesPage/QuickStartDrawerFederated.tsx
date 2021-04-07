@@ -18,7 +18,7 @@ export const QuickStartDrawerFederated: FunctionComponent = ({ children }) => {
       module="./QuickStartDrawer"
       fallback={children}
       render={(QuickStartDrawerFederated) => (
-        <QuickStartDrawerFederated basePath={config?.federatedModules.guides.basePath} className="mas-quickstart-drawer">
+        <QuickStartDrawerFederated basePath={config?.federatedModules.guides.basePath} showDrafts={config?.resources.showDrafts} className="mas-quickstart-drawer">
           {children}
         </QuickStartDrawerFederated>
       )}/>)
