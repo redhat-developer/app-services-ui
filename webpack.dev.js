@@ -71,7 +71,7 @@ module.exports = merge(common('development'), {
     new CopyPlugin({
       patterns: [
         {
-          from: 'config/config.local.json',
+          from: 'config/config.json',
           to: `config.json`
         }
       ]
