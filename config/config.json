@@ -10,7 +10,7 @@
       },
       "dataPlane": {
         "keycloak": {
-          "authServerUrl": "https://identity.api.openshift.com/auth",
+          "authServerUrl": "https://identity.api.stage.openshift.com/auth",
           "clientId": "strimzi-ui",
           "realm": "rhoas"
         }
