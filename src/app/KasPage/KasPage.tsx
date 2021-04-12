@@ -48,26 +48,18 @@ export const KasPage: React.FunctionComponent = () => {
     selfTermsReview();
   }, [config?.controlPlane.amsBasePath, insights.chrome.auth]);
 
-  const onConnectInstance = async (event) => {
+  const onConnectToRoute = async (event: any, routePath: string) => {
     if (event.id === undefined) {
       throw new Error();
     }
-    history.push(`/streams/kafkas/${event.id}`);
+    history.push(`/streams/${routePath}`);
   };
 
-  const getConnectToInstancePath = (event) => {
+  const getConnectToRoutePath = (event: any, routePath: string) => {
     if (event.id === undefined) {
       throw new Error();
     }
-    return history.createHref({ pathname: `/streams/kafkas/${event.id}` });
-  };
-
-  const onConnectToServiceAccounts = async (event) => {
-    history.push('/streams/service-accounts');
-  };
-
-  const getConnectToServiceAcountsPath = (event) => {
-    return history.createHref({ pathname: '/streams/service-accounts' });
+    return history.createHref({ pathname: `/streams/${routePath}` });
   };
 
   const preCreateInstance = async (open: boolean) => {
@@ -108,6 +100,9 @@ export const KasPage: React.FunctionComponent = () => {
 
   const getUsername = () => insights.chrome.auth.getUser().then((user) => user.identity.user.username);
 
+  const { authServerUrl, realm } = config?.dataPlane?.keycloak || {};
+  const tokenEndPointUrl = `${authServerUrl}/realms/${realm}/protocol/openid-connect/token`;
+
   const osStreams = (
     <FederatedModule
       scope="kas"
@@ -117,14 +112,13 @@ export const KasPage: React.FunctionComponent = () => {
           <OpenshiftStreamsFederated
             getToken={insights.chrome.auth.getToken}
             getUsername={getUsername}
-            onConnectToInstance={onConnectInstance}
-            getConnectToInstancePath={getConnectToInstancePath}
+            onConnectToRoute={onConnectToRoute}
+            getConnectToRoutePath={getConnectToRoutePath}
             preCreateInstance={preCreateInstance}
             createDialogOpen={createDialogOpen}
             addAlert={addAlert}
             basePath={config?.controlPlane.serviceApiBasePath}
-            onConnectToServiceAccounts={onConnectToServiceAccounts}
-            getConnectToServiceAcountsPath={getConnectToServiceAcountsPath}
+            tokenEndPointUrl={tokenEndPointUrl}
           />
         );
       }}
