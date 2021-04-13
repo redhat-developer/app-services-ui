@@ -11,7 +11,7 @@ interface GetLinkProps {
 
 const GetLink: React.FunctionComponent<GetLinkProps> = ({href, children}) => <Link to={href || ""}>{children}</Link>
 
-export const AccessDenniedPage: React.FunctionComponent = () => {
+export const AccessDeniedPage: React.FunctionComponent = () => {
   const { t } = useTranslation();
  
  
@@ -23,4 +23,4 @@ export const AccessDenniedPage: React.FunctionComponent = () => {
   );
 };
 
-export default AccessDenniedPage;
+export default AccessDeniedPage;

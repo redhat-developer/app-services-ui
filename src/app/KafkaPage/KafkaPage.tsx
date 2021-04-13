@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
 import { useHistory } from "react-router-dom";
 import { getParams } from "@app/KafkaPage/utils";
-import AccessDenniedPage from '@app/AccessDeniedPage/AccessDeniedPage';
+import AccessDeniedPage from '@app/AccessDeniedPage/AccessDeniedPage';
 
 enum KafkaUITopicModules {
   topicListModule = "./Panels/Topics",
@@ -134,7 +134,7 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ admi
   />;
 
   if (error === 401) {
-    return <AccessDenniedPage/>;
+    return <AccessDeniedPage/>;
   }
   return kafkaUITopicPage;
 }
