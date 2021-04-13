@@ -88,7 +88,6 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ admi
   }
 
   const onError = (code: number, message: string) => {
-    debugger;
     setError(code);
   }
 
