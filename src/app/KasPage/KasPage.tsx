@@ -49,15 +49,15 @@ export const KasPage: React.FunctionComponent = () => {
   }, [config?.controlPlane.amsBasePath, insights.chrome.auth]);
 
   const onConnectToRoute = async (event: any, routePath: string) => {
-    if (event.id === undefined) {
-      throw new Error();
+    if (routePath === undefined) {
+      throw new Error('Route path is missing');
     }
     history.push(`/streams/${routePath}`);
   };
 
   const getConnectToRoutePath = (event: any, routePath: string) => {
-    if (event.id === undefined) {
-      throw new Error();
+    if (routePath === undefined) {
+      throw new Error('Route path is missing');
     }
     return history.createHref({ pathname: `/streams/${routePath}` });
   };
