@@ -6,7 +6,10 @@
         "showDrafts": false
       },
       "controlPlane": {
-        "serviceApiBasePath": "https://api.stage.openshift.com"
+        "serviceApiBasePath": "https://api.stage.openshift.com",
+        "amsBasePath": "https://api.stage.openshift.com",
+        "eventCode": "onlineService",
+        "siteCode": "ocm"
       },
       "dataPlane": {
         "keycloak": {
@@ -39,7 +42,9 @@
       },
       "controlPlane": {
         "serviceApiBasePath": "https://api.stage.openshift.com",
-        "amsBasePath": "https://api.stage.openshift.com"
+        "amsBasePath": "https://api.stage.openshift.com",
+        "eventCode": "onlineService",
+        "siteCode": "ocm"
       },
       "dataPlane": {
         "keycloak": {
@@ -72,7 +77,9 @@
       },
       "controlPlane": {
         "serviceApiBasePath": "https://api.stage.openshift.com",
-        "amsBasePath": "https://api.stage.openshift.com"
+        "amsBasePath": "https://api.stage.openshift.com",
+        "eventCode": "onlineService",
+        "siteCode": "ocm"
       },
       "dataPlane": {
         "keycloak": {

@@ -43,7 +43,10 @@ export const KasPage: React.FunctionComponent = () => {
         accessToken,
         basePath: config?.controlPlane.amsBasePath || '',
       } as Configuration);
-      setTermsReview(await ams.apiAuthorizationsV1SelfTermsReviewPost().then(resp => resp.data));
+      setTermsReview(await ams.apiAuthorizationsV1SelfTermsReviewPost({
+        event_code: config?.controlPlane.eventCode,
+        site_code: config?.controlPlane.siteCode
+      }).then(resp => resp.data));
     }
 
     selfTermsReview();
