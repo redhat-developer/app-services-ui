@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
 import { useHistory } from "react-router-dom";
 import { getParams } from "@app/KafkaPage/utils";
+import AccessDenniedPage from '@app/AccessDeniedPage/AccessDeniedPage';
 
 enum KafkaUITopicModules {
   topicListModule = "./Panels/Topics",
@@ -60,6 +61,7 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ admi
   const history = useHistory();
   const [showCreate, setShowCreate] = useState<boolean>(false);
   const [showUpdate, setShowUpdate] = useState<boolean>(false);
+  const [error, setError] = useState<undefined | number>();
   const dispatch = useDispatch();
 
   const onCreateTopic = () => {
@@ -83,6 +85,11 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ admi
 
   const onUpdateTopic = () => {
     setShowUpdate(true);
+  }
+
+  const onError = (code: number, message: string) => {
+    debugger;
+    setError(code);
   }
 
   const onDeleteTopic = () => {
@@ -123,8 +130,12 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ admi
       currentTopic={topicName}
       addAlert={addAlert}
       onDeleteTopic={onDeleteTopic}
+      onError={onError}
     />}
   />;
 
+  if (error === 401) {
+    return <AccessDenniedPage/>;
+  }
   return kafkaUITopicPage;
 }

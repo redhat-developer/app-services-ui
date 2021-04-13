@@ -58,6 +58,12 @@
 
     "videoSectionTitle": "Demo of Red Hat OpenShift Data Science",
     "videoSectionInThisVideo": "In this video you’ll learn how to quickly build and deploy artificial intelligence and machine learning models using Red Hat and partner technology tools."
+  },
+
+  "accessdenied": {
+    "accessDeniedTitle": "Access permissions needed",
+    "accessDeniedDescription": "To access this kafka instance, contact your organization administrators.",
+    "accessDeniedButtonText": "Return to previous page"
 
   }
 }
