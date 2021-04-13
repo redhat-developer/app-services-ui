@@ -61,8 +61,8 @@
   },
 
   "accessdenied": {
-    "accessDeniedTitle": "Access permissions needed",
-    "accessDeniedDescription": "To access this kafka instance, contact your organization administrators.",
+    "accessDeniedTitle": "You don't own this Kafka instance",
+    "accessDeniedDescription": "Access the Kafka instances you own from the <0>Kafka instances list.</0>",
     "accessDeniedButtonText": "Return to previous page"
 
   }
