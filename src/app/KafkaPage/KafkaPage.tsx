@@ -115,7 +115,8 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ admi
   }
 
 
-  const kafkaUITopicPage = <FederatedModule
+  let kafkaUITopicPage = <FederatedModule
+    data-ouia-app-id="dataPlane-streams"
     scope="kafka"
     module={topicModule}
     render={(FederatedTopics) => <FederatedTopics
@@ -131,10 +132,10 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ admi
       onDeleteTopic={onDeleteTopic}
       onError={onError}
     />}
-  />;
+  />
 
   if (error === 401) {
-    return <AccessDeniedPage/>;
+    kafkaUITopicPage = <AccessDeniedPage/>;
   }
-  return kafkaUITopicPage;
+  return (<div className='app-services-ui--u-display-contents' data-ouia-app-id="dataPlane-streams"> {kafkaUITopicPage} </div>)
 }
