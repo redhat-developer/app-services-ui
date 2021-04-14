@@ -6,7 +6,10 @@
         "showDrafts": false
       },
       "controlPlane": {
-        "serviceApiBasePath": "https://api.stage.openshift.com"
+        "serviceApiBasePath": "https://api.stage.openshift.com",
+        "amsBasePath": "https://api.stage.openshift.com",
+        "eventCode": "onlineService",
+        "siteCode": "ocm"
       },
       "dataPlane": {
         "keycloak": {
@@ -39,7 +42,9 @@
       },
       "controlPlane": {
         "serviceApiBasePath": "https://api.stage.openshift.com",
-        "amsBasePath": "https://api.stage.openshift.com"
+        "amsBasePath": "https://api.stage.openshift.com",
+        "eventCode": "onlineService",
+        "siteCode": "ocm"
       },
       "dataPlane": {
         "keycloak": {
@@ -72,11 +77,13 @@
       },
       "controlPlane": {
         "serviceApiBasePath": "https://api.stage.openshift.com",
-        "amsBasePath": "https://api.stage.openshift.com"
+        "amsBasePath": "https://api.stage.openshift.com",
+        "eventCode": "onlineService",
+        "siteCode": "ocm"
       },
       "dataPlane": {
         "keycloak": {
-          "authServerUrl": "https://keycloak-mas-sso-stage.apps.app-sre-stage-0.k3s7.p1.openshiftapps.com/auth",
+          "authServerUrl": "https://identity.api.stage.openshift.com/auth",
           "clientId": "strimzi-ui",
           "realm": "rhoas"
         }
