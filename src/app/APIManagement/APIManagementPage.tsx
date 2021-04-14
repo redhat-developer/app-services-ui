@@ -8,7 +8,6 @@ import {
   Text,
   TextVariants,
   Title,
-  Gallery,
   Card,
   CardBody,
   CardHeader,
@@ -49,81 +48,81 @@ export const APIManagementPage: React.FunctionComponent = () => {
         </Stack>
       </PageSection>
 
-      <PageSection className="app-services-ui--page-section--gallery">
-        <Gallery hasGutter className="app-services-ui--gallery-hero app-services-ui--gallery-hero--rhoam">
-            <Card>
-              <CardHeader>
-                <CardHeaderMain>
-                  <CardTitle>
-                    <Title headingLevel="h3">{t('apimgmtoverview.alreadyHaveCardTitle')}</Title>
-                  </CardTitle>
-                </CardHeaderMain>
-              </CardHeader>
-              <CardBody>{t('apimgmtoverview.alreadyHaveCardMainText')}</CardBody>
-              <CardFooter>
-                <Stack hasGutter>
-                  <StackItem>
-                    <Button
-                    data-testid="cardHaveRHOAM-buttonGoOCM"
-                      variant={ButtonVariant.secondary}
-                      component="a"
-                      href="https://cloud.redhat.com/openshift/clusters"
-                    >
-                      {t('apimgmtoverview.alreadyHaveCardCallToActionButton')}
-                    </Button>
-                  </StackItem>
-                  <StackItem>
-                    <Button
-                    data-testid="cardHaveRHOAM-linkViewDocs"
-                      variant={ButtonVariant.link}
-                      component="a"
-                      href="https://access.redhat.com/products/red-hat-openshift-api-management"
-                      target="_blank"
-                    >
-                      {t('apimgmtoverview.viewDocumentation')} <ExternalLinkAltIcon className="pf-u-ml-sm" />
-                    </Button>
-                  </StackItem>
-                </Stack>{' '}
-              </CardFooter>
-            </Card>
-            <Card>
-              <CardHeader>
+      <PageSection className="app-services-ui--page-section--marketing" isWidthLimited>
+        <Grid hasGutter lg={6}>
+          <Card>
+            <CardHeader>
+              <CardHeaderMain>
                 <CardTitle>
-                  <Title headingLevel="h3">{t('apimgmtoverview.wantToTryCardTitle')}</Title>
+                  <Title headingLevel="h3">{t('apimgmtoverview.alreadyHaveCardTitle')}</Title>
                 </CardTitle>
-              </CardHeader>
-              <CardBody>{t('apimgmtoverview.wantToTryCardMainText')}</CardBody>
-              <CardFooter>
-                <Stack hasGutter>
-                  <StackItem>
-                    <Button
+              </CardHeaderMain>
+            </CardHeader>
+            <CardBody>{t('apimgmtoverview.alreadyHaveCardMainText')}</CardBody>
+            <CardFooter>
+              <Stack hasGutter>
+                <StackItem>
+                  <Button
+                    data-testid="cardHaveRHOAM-buttonGoOCM"
+                    variant={ButtonVariant.secondary}
+                    component="a"
+                    href="https://cloud.redhat.com/openshift/clusters"
+                  >
+                    {t('apimgmtoverview.alreadyHaveCardCallToActionButton')}
+                  </Button>
+                </StackItem>
+                <StackItem>
+                  <Button
+                    data-testid="cardHaveRHOAM-linkViewDocs"
+                    variant={ButtonVariant.link}
+                    component="a"
+                    href="https://access.redhat.com/products/red-hat-openshift-api-management"
+                    target="_blank"
+                  >
+                    {t('apimgmtoverview.viewDocumentation')} <ExternalLinkAltIcon className="pf-u-ml-sm" />
+                  </Button>
+                </StackItem>
+              </Stack>{' '}
+            </CardFooter>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>
+                <Title headingLevel="h3">{t('apimgmtoverview.wantToTryCardTitle')}</Title>
+              </CardTitle>
+            </CardHeader>
+            <CardBody>{t('apimgmtoverview.wantToTryCardMainText')}</CardBody>
+            <CardFooter>
+              <Stack hasGutter>
+                <StackItem>
+                  <Button
                     data-testid="cardTryRHOAM-buttonGetStarted"
-                      variant={ButtonVariant.secondary}
-                      component="a"
-                      href="https://developers.redhat.com/products/rhoam/getting-started"
-                    >
-                      {t('apimgmtoverview.wantToTryCardCallToActionButton')}
-                      <ExternalLinkAltIcon className="pf-u-ml-md" />
-                    </Button>
-                  </StackItem>
-                  <StackItem>
-                    <Button
+                    variant={ButtonVariant.secondary}
+                    component="a"
+                    href="https://developers.redhat.com/products/rhoam/getting-started"
+                  >
+                    {t('apimgmtoverview.wantToTryCardCallToActionButton')}
+                    <ExternalLinkAltIcon className="pf-u-ml-md" />
+                  </Button>
+                </StackItem>
+                <StackItem>
+                  <Button
                     data-testid="cardTryRHOAM-linkViewDocs"
-                      variant={ButtonVariant.link}
-                      component="a"
-                      href="https://access.redhat.com/products/red-hat-openshift-api-management"
-                      target="_blank"
-                    >
-                      {t('apimgmtoverview.viewDocumentation')} <ExternalLinkAltIcon className="pf-u-ml-sm" />
-                    </Button>
-                  </StackItem>
-                </Stack>
-              </CardFooter>
-            </Card>
-        </Gallery>
+                    variant={ButtonVariant.link}
+                    component="a"
+                    href="https://access.redhat.com/products/red-hat-openshift-api-management"
+                    target="_blank"
+                  >
+                    {t('apimgmtoverview.viewDocumentation')} <ExternalLinkAltIcon className="pf-u-ml-sm" />
+                  </Button>
+                </StackItem>
+              </Stack>
+            </CardFooter>
+          </Card>
+        </Grid>
       </PageSection>
 
-      <PageSection variant={PageSectionVariants.light}  className="app-services-ui--page-section--video">
+      <PageSection variant={PageSectionVariants.light} className="app-services-ui--page-section--marketing" isWidthLimited>
         <Title size={TitleSizes.xl} headingLevel="h3" className="pf-u-mb-lg">
           {t('apimgmtoverview.videoSectionTitle')}
         </Title>

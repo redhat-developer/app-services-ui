@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Brand,
   Bullseye,
   Button,
   ButtonVariant,
@@ -10,7 +9,7 @@ import {
   CardHeader,
   CardHeaderMain,
   CardTitle,
-  Gallery,
+  Grid,
   Label,
   PageSection,
   PageSectionVariants,
@@ -63,9 +62,9 @@ export const OverviewPage: React.FunctionComponent = () => {
         </Bullseye>
       </PageSection>
 
-      {/* Gallery */}
-      <PageSection className="app-services-ui--page-section--gallery app-services-ui--page-section--marketing">
-        <Gallery hasGutter className="app-services-ui--gallery-hero">
+      {/* Cards */}
+      <PageSection isWidthLimited className="app-services-ui--page-section--marketing">
+        <Grid md={6} lg={4} hasGutter>
 
           {/* Kafka card */}
           <Card>
@@ -174,7 +173,7 @@ export const OverviewPage: React.FunctionComponent = () => {
               </Button>
             </CardFooter>
           </Card>
-        </Gallery>
+        </Grid>
       </PageSection>
     </>
   );

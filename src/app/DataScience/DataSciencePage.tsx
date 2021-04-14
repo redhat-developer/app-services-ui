@@ -1,21 +1,11 @@
 import React from 'react';
-import { Loading } from '@app/Components/Loading/Loading';
-import LoremIpsum from 'react-lorem-ipsum';
 import {
   Bullseye,
   Button,
   ButtonVariant,
   Card,
-  CardActions,
-  CardBody,
-  CardHeader,
-  CardTitle,
-  Gallery,
-  GalleryItem,
   Grid,
   GridItem,
-  List,
-  ListItem,
   PageSection,
   PageSectionVariants,
   Stack,
@@ -62,7 +52,7 @@ export const DataSciencePage: React.FunctionComponent = () => {
         </Stack>
       </PageSection>
 
-      <PageSection className="app-services-ui--page-section--video">
+      <PageSection className="app-services-ui--page-section--marketing" isWidthLimited>
         <Grid hasGutter>
           <GridItem md={5}>
             <TextContent>
