@@ -76,14 +76,14 @@
         "showDrafts": false
       },
       "controlPlane": {
-        "serviceApiBasePath": "https://api.stage.openshift.com",
-        "amsBasePath": "https://api.stage.openshift.com",
+        "serviceApiBasePath": "https://api.openshift.com",
+        "amsBasePath": "https://api.openshift.com",
         "eventCode": "onlineService",
         "siteCode": "ocm"
       },
       "dataPlane": {
         "keycloak": {
-          "authServerUrl": "https://identity.api.stage.openshift.com/auth",
+          "authServerUrl": "https://identity.api.openshift.com/auth",
           "clientId": "strimzi-ui",
           "realm": "rhoas"
         }
