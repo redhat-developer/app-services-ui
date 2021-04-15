@@ -1,11 +1,10 @@
-import { FederatedModule } from "@app/Components/FederatedModule/FederatedModule";
-import React, { FunctionComponent, useContext } from "react";
-import { ConfigContext } from "@app/Config/Config";
-import { Loading } from "@app/Components/Loading/Loading";
-import "./QuickStartDrawerFederated.scss";
+import { FederatedModule } from '@app/Components/FederatedModule/FederatedModule';
+import React, { FunctionComponent, useContext } from 'react';
+import { ConfigContext } from '@app/Config/Config';
+import { Loading } from '@app/Components/Loading/Loading';
+import './QuickStartDrawerFederated.scss';
 
 export const QuickStartDrawerFederated: FunctionComponent = ({ children }) => {
-
   const config = useContext(ConfigContext);
 
   if (config === undefined) {
@@ -18,8 +17,16 @@ export const QuickStartDrawerFederated: FunctionComponent = ({ children }) => {
       module="./QuickStartDrawer"
       fallback={children}
       render={(QuickStartDrawerFederated) => (
-        <QuickStartDrawerFederated basePath={config?.federatedModules.guides.basePath} showDrafts={config?.resources.showDrafts} className="mas-quickstart-drawer">
+        <QuickStartDrawerFederated
+          basePath={config?.federatedModules.guides.basePath}
+          showDrafts={config?.resources.showDrafts}
+          appendTo={() => document.querySelector("#qs-include")}
+          root={() => document.querySelector('#qs-root')}
+          className="mas-quickstart-drawer"
+        >
           {children}
         </QuickStartDrawerFederated>
-      )}/>)
+      )}
+    />
+  );
 };
