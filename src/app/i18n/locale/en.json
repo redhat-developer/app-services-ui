@@ -1,0 +1,69 @@
+{
+  "overview": {
+    "heroTitle": "Get started with Red Hat OpenShift Application Services",
+    "heroTagline": "Cloud services for managed OpenShift",
+    "heroDescription": "Red Hat OpenShift Application Services deliver a streamlined developer experience for building,deploying, and scaling cloud-native applications.",
+    "heroDescription2": "Don't miss your chance to preview one of our new application services.",
+    "heroCallToActionButton": "Try OpenShift Streams for Apache Kafka",
+    "banner": "Reduce operational costs and complexity for application development teams with hosted and managed OpenShift Application Services.",
+
+    "rhosakTitle": "Red Hat OpenShift Streams for Apache Kafka",
+    "rhosakMainText": "Streams for Apache Kafka enables IT development teams to capture, process, and stream real-time data across hybrid cloud environments.",
+    "rhosakSecondaryText": "This service is fully hosted and managed by Red Hat for stream-based applications",
+    "rhosakCallToActionButton": "Create a Kafka instance",
+
+    "rhoamTitle": "Red Hat OpenShift API Management",
+    "rhoamMainText": "API Management supports application development teams that want to take an API-first approach to building microservices-based applications.",
+    "rhoamSecondaryText": "This service is hosted and managed by Red Hat as an add-on for managed",
+
+    "rhodsTitle": "Red Hat OpenShift Data Science",
+    "rhodsMainText": "Data Science provides a fully-supported sandbox to rapidly develop, train, and test containerized machine learning models in the public cloud before deploying in production.",
+    "rhodsSecondaryText": "This service is hosted and managed by Red Hat as an add-on for managed",
+
+    "developmentPreview": "Development preview",
+    "generalAvailability": "General availability",
+
+    "getStarted": "Get started",
+    "learnMore": "Learn more"
+  },
+
+  "apimgmtoverview": {
+    "heroTitle": "Get started with Red Hat OpenShift API Management",
+    "heroTagline": "Add-on service for managed OpenShift",
+    "heroDescription": "Based on Red Hat 3scale API management, OpenShift API Management accelerates time to value and reduces the operational cost of delivering API-first, microservices-based applications.",
+
+    "alreadyHaveCardTitle": "Already have OpenShift API Management?",
+    "alreadyHaveCardMainText": "If OpenShift API Management has already been added to your cluster, access the service from the OpenShift web console. Otherwise, use the OpenShift Cluster Manager to add the service to a new or existing managed OpenShift cluster.",
+    "alreadyHaveCardCallToActionButton": "Go to OpenShift Cluster Manager",
+
+    "wantToTryCardTitle": "Want to try OpenShift API Management?",
+    "wantToTryCardMainText": "Explore the many resources available for the OpenShift API Management service, including videos, use cases, and documentation. The 3scale SaaS no-cost trial can help you evaluate the service; the capabilities and experience are similar to OpenShift API Management.",
+    "wantToTryCardCallToActionButton": "Get started with API Management",
+
+    "videoSectionTitle": "Use Red Hat OpenShift API Management to build an app in five steps",
+    "videoSectionInThisVideo": "In this video, you'll learn how to:",
+    "videoSectionBulletBuild": "Build an application using a Quarkus framework on Red Hat OpenShift Dedicated.",
+    "videoSectionBulletImport": "Import that application into an OpenShift API Management service.",
+    "videoSectionBulletAdd": "Add an API Key security to protect the API endpoints.",
+
+    "viewDocumentation": "View documentation"
+  },
+
+  "datascienceoverview": {
+    "heroTitle": "Get started with Red Hat OpenShift Data Science",
+    "heroTagline": "Add-on service for managed OpenShift",
+    "heroDescription": "Accelerate your data science. OpenShift Data Science is a managed cloud service for data scientists and developers of intelligent applications. Within a fully supported sandbox, it allows businesses to rapidly develop, train, and test artificial intelligence (AI) and machine learning (ML) models using Red Hat and partner technology.",
+
+    "heroCallToActionButton": "Learn more about OpenShift Data Science",
+
+    "videoSectionTitle": "Demo of Red Hat OpenShift Data Science",
+    "videoSectionInThisVideo": "In this video you’ll learn how to quickly build and deploy artificial intelligence and machine learning models using Red Hat and partner technology tools."
+  },
+
+  "accessdenied": {
+    "accessDeniedTitle": "You don't own this Kafka instance",
+    "accessDeniedDescription": "Access the Kafka instances you own from the <0>Kafka instances list.</0>",
+    "accessDeniedButtonText": "Return to previous page"
+
+  }
+}

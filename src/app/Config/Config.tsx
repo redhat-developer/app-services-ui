@@ -8,7 +8,9 @@ export type Config = {
   }
   controlPlane: {
     serviceApiBasePath: string,
-    amsBasePath: string
+    amsBasePath: string,
+    eventCode: string,
+    siteCode: string
   }
   dataPlane: {
     keycloak: {

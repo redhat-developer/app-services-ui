@@ -11,6 +11,8 @@ import { ConfigContext, ConfigProvider } from "@app/Config/Config";
 import { KeycloakInstance } from "keycloak-js";
 import { AuthContext, IAuthContext } from "@app/utils/auth/AuthContext";
 import { getKeycloakInstance, getValidAccessToken } from "@app/utils/keycloakAuth";
+import {I18nextProvider} from 'react-i18next';
+import appServicesi18n from '@app/i18n';
 
 declare const __webpack_public_path__: string;
 
@@ -61,11 +63,13 @@ const AppWithKeycloak: React.FunctionComponent = () => {
 
 const AppEntry: React.FunctionComponent = () => (
   <Provider store={init(logger).getStore()}>
+    <I18nextProvider i18n = {appServicesi18n}>
     <ConfigProvider configUrl={`${__webpack_public_path__}config.json`}>
       <InsightsContext.Provider value={window["insights"]}>
         <AppWithKeycloak/>
       </InsightsContext.Provider>
     </ConfigProvider>
+    </I18nextProvider>
   </Provider>
 );
 export default AppEntry;
