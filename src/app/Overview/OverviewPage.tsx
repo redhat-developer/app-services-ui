@@ -96,7 +96,7 @@ export const OverviewPage: React.FunctionComponent = () => {
               </Stack>
             </CardBody>
             <CardFooter>
-              <Button data-testid="cardRHOSAK-buttonCreateKafka" variant={ButtonVariant.secondary} href="http://cloud.redhat.com/beta/application-services/streams/kafkas/">{t('overview.rhosakCallToActionButton')}</Button>
+              <Button data-testid="cardRHOSAK-buttonCreateKafka" variant={ButtonVariant.secondary} component="a" href="http://cloud.redhat.com/beta/application-services/streams/kafkas/">{t('overview.rhosakCallToActionButton')}</Button>
             </CardFooter>
           </Card>
 
@@ -125,13 +125,13 @@ export const OverviewPage: React.FunctionComponent = () => {
                 {t('overview.rhoamMainText')}
                 </StackItem>
                 <StackItem className="pf-u-color-200">
-                  {t('overview.rhoamSecondaryText')} <Button data-testid="cardRHOAM-linkOpenShift" isInline variant={ButtonVariant.link} target="_blank" href="http://openshift.com">OpenShift
+                  {t('overview.rhoamSecondaryText')} <Button data-testid="cardRHOAM-linkOpenShift" isInline variant={ButtonVariant.link} component="a" target="_blank" href="http://openshift.com">OpenShift
                   <ExternalLinkAltIcon className="pf-u-ml-xs" /></Button>.
                 </StackItem>
               </Stack>
             </CardBody>
             <CardFooter>
-              <Button variant={ButtonVariant.secondary} data-testid="cardRHOAM-buttonCTA" target="_blank" href="https://developers.redhat.com/products/rhoam/getting-started">
+              <Button variant={ButtonVariant.secondary} data-testid="cardRHOAM-buttonCTA" component="a" target="_blank" href="https://developers.redhat.com/products/rhoam/getting-started">
                 {t('overview.getStarted')} <ExternalLinkAltIcon className="pf-u-ml-sm" />
               </Button>
             </CardFooter>
@@ -162,13 +162,13 @@ export const OverviewPage: React.FunctionComponent = () => {
                 {t('overview.rhodsMainText')}
                 </StackItem>
                 <StackItem className="pf-u-color-200">
-                {t('overview.rhodsSecondaryText')} <Button data-testid="cardRHODS-linkOpenShift" isInline variant={ButtonVariant.link} target="_blank" href="http://openshift.com"> OpenShift
+                {t('overview.rhodsSecondaryText')} <Button data-testid="cardRHODS-linkOpenShift" isInline variant={ButtonVariant.link} component="a" target="_blank" href="http://openshift.com"> OpenShift
                   <ExternalLinkAltIcon className="pf-u-ml-xs" /></Button>.
                 </StackItem>
               </Stack>
             </CardBody>
             <CardFooter>
-              <Button data-testid="cardRHODS-buttonCTA" variant={ButtonVariant.secondary} target="_blank" href="https://www.redhat.com/en/technologies/cloud-computing/openshift/openshift-data-science">
+              <Button data-testid="cardRHODS-buttonCTA" variant={ButtonVariant.secondary} component="a" target="_blank" href="https://www.redhat.com/en/technologies/cloud-computing/openshift/openshift-data-science">
                 {t('overview.learnMore')} <ExternalLinkAltIcon className="pf-u-ml-sm" />
               </Button>
             </CardFooter>

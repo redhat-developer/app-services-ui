@@ -66,7 +66,7 @@ export const APIManagementPage: React.FunctionComponent = () => {
                     data-testid="cardHaveRHOAM-buttonGoOCM"
                     variant={ButtonVariant.secondary}
                     component="a"
-                    href="https://cloud.redhat.com/openshift/clusters"
+                    href="https://cloud.redhat.com/openshift/"
                   >
                     {t('apimgmtoverview.alreadyHaveCardCallToActionButton')}
                   </Button>
@@ -100,6 +100,7 @@ export const APIManagementPage: React.FunctionComponent = () => {
                     variant={ButtonVariant.secondary}
                     component="a"
                     href="https://developers.redhat.com/products/rhoam/getting-started"
+                    target="_blank"
                   >
                     {t('apimgmtoverview.wantToTryCardCallToActionButton')}
                     <ExternalLinkAltIcon className="pf-u-ml-md" />
