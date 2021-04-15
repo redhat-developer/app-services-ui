@@ -104,15 +104,15 @@
 }
 
 // Set up the card gallery
-.app-services-ui--page-section--gallery,
+.app-services-ui--page-section--marketing,
 .app-services-ui--page-section--video {
   --pf-c-page__main-section--PaddingTop: var(--pf-global--spacer--xl);
   --pf-c-page__main-section--PaddingRight: var(--pf-global--spacer--lg);
   --pf-c-page__main-section--PaddingBottom: var(--pf-global--spacer--xl);
   --pf-c-page__main-section--PaddingLeft: var(--pf-global--spacer--lg);
 
-  &.pf-m-gutter {
-  --pf-l-gallery--m-gutter--GridGap: var(--pf-global--spacer--lg);
+  & .pf-l-grid.pf-m-gutter {
+    --pf-l-grid--m-gutter--GridGap: var(--pf-global--spacer--lg);
   }
 
   @media screen and (min-width: $pf-global--breakpoint--md) {
@@ -120,23 +120,6 @@
     --pf-c-page__main-section--PaddingLeft: var(--pf-global--spacer--2xl);
   }
 
-}
-
-// Adjust card sizes for each page
-.app-services-ui--gallery-hero {
-  --pf-l-gallery--GridTemplateColumns--min: 100%;
-  --pf-l-gallery--GridTemplateColumns--max: 500px;
-  --pf-l-gallery--GridTemplateColumns--min-on-md: 250px;
-  --pf-l-gallery--GridTemplateColumns--min-on-xl: 350px;
-
-}
-
-.app-services-ui--gallery-hero--rhoam {
-  --pf-l-gallery--GridTemplateColumns--min: 100%;
-  --pf-l-gallery--GridTemplateColumns--max: 500px;
-  --pf-l-gallery--GridTemplateColumns--min-on-sm: 350px;
-  --pf-l-gallery--GridTemplateColumns--min-on-md: 350px;
-  --pf-l-gallery--GridTemplateColumns--min-on-xl: 350px;
 }
 
 // bring in the correct image and adjust size for each page
