@@ -6,6 +6,7 @@ import { AlertVariant } from '@patternfly/react-core';
 import { FederatedModule } from '../Components/FederatedModule/FederatedModule';
 import { ConfigContext } from '@app/Config/Config';
 import { Loading } from '@app/Components/Loading/Loading';
+import { DevelopmentPreview } from '@app/Components/DevelopmentPreview/DevelopmentPreview';
 
 export const ServiceAccountsPage: React.FunctionComponent = () => {
   const insights = useContext(InsightsContext);
@@ -27,7 +28,7 @@ export const ServiceAccountsPage: React.FunctionComponent = () => {
 
   const getUsername = () => insights.chrome.auth.getUser().then((user) => user.identity.user.username);
 
-  return (
+  return ( <DevelopmentPreview>
     <FederatedModule
       scope="kas"
       module="./ServiceAccounts"
@@ -42,5 +43,6 @@ export const ServiceAccountsPage: React.FunctionComponent = () => {
         );
       }}
     />
+    </DevelopmentPreview>
   );
 };

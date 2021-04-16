@@ -11,6 +11,7 @@ import { addNotification } from '@redhat-cloud-services/frontend-components-noti
 import { useHistory } from "react-router-dom";
 import { getParams } from "@app/KafkaPage/utils";
 import AccessDeniedPage from '@app/AccessDeniedPage/AccessDeniedPage';
+import { DevelopmentPreview } from '@app/Components/DevelopmentPreview/DevelopmentPreview';
 
 enum KafkaUITopicModules {
   topicListModule = "./Panels/Topics",
@@ -133,9 +134,9 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ admi
       onError={onError}
     />}
   />
-
+  
   if (error === 401) {
-    kafkaUITopicPage = <AccessDeniedPage/>;
+    kafkaUITopicPage = <DevelopmentPreview> <AccessDeniedPage/> </DevelopmentPreview>;
   }
-  return (<div className='app-services-ui--u-display-contents' data-ouia-app-id="dataPlane-streams"> {kafkaUITopicPage} </div>)
+  return (<div className='app-services-ui--u-display-contents' data-ouia-app-id="dataPlane-streams"> <DevelopmentPreview> {kafkaUITopicPage} </DevelopmentPreview> </div>)
 }

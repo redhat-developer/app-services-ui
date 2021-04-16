@@ -1,4 +1,7 @@
 {
+  "common": {
+    "developmentPreview": "Development preview"
+  },
   "overview": {
     "heroTitle": "Get started with Red Hat OpenShift Application Services",
     "heroTagline": "Cloud services for managed OpenShift",
