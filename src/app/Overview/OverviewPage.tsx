@@ -156,7 +156,7 @@ export const OverviewPage: React.FunctionComponent = () => {
             <CardBody>
               <Stack hasGutter>
                 <StackItem className="pf-u-mb-lg">
-                  <Label>{t('overview.developmentPreview')}</Label>
+                  <Label>{t('overview.beta')}</Label>
                 </StackItem>
                 <StackItem>
                 {t('overview.rhodsMainText')}
