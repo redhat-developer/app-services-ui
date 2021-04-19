@@ -13,8 +13,8 @@ import { getParams } from "@app/KafkaPage/utils";
 import AccessDeniedPage from '@app/AccessDeniedPage/AccessDeniedPage';
 import { DevelopmentPreview } from '@app/Components/DevelopmentPreview/DevelopmentPreview';
 
-enum KafkaUITopicModules {
-  topicListModule = "./Panels/Topics",
+enum KafkaUIKafkaModules {
+  kafkaMainPageModule = "./Panels/KafkaMainView",
   topicListDetailModule = "./Panels/TopicDetails",
   topicCreateModule = "./Panels/CreateTopic",
   topicUpdateModule = "./Panels/UpdateTopic"
@@ -106,20 +106,20 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ admi
 
   };
 
-  let topicModule = KafkaUITopicModules.topicListModule;
+  let kafkaModule = KafkaUIKafkaModules.kafkaMainPageModule;
   if (showCreate) {
-    topicModule = KafkaUITopicModules.topicCreateModule
+    kafkaModule = KafkaUIKafkaModules.topicCreateModule
   } else if (topicName && showUpdate) {
-    topicModule = KafkaUITopicModules.topicUpdateModule
+    kafkaModule = KafkaUIKafkaModules.topicUpdateModule
   } else if (topicName) {
-    topicModule = KafkaUITopicModules.topicListDetailModule
+    kafkaModule = KafkaUIKafkaModules.topicListDetailModule
   }
 
 
-  let kafkaUITopicPage = <FederatedModule
+  let kafkaUIPage = <FederatedModule
     data-ouia-app-id="dataPlane-streams"
     scope="kafka"
-    module={topicModule}
+    module={kafkaModule}
     render={(FederatedTopics) => <FederatedTopics
       getToken={getToken}
       apiBasePath={adminServerUrl}
@@ -136,7 +136,7 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ admi
   />
   
   if (error === 401) {
-    kafkaUITopicPage = <DevelopmentPreview> <AccessDeniedPage/> </DevelopmentPreview>;
+    kafkaUIPage = <DevelopmentPreview> <AccessDeniedPage/> </DevelopmentPreview>;
   }
-  return (<div className='app-services-ui--u-display-contents' data-ouia-app-id="dataPlane-streams"> <DevelopmentPreview> {kafkaUITopicPage} </DevelopmentPreview> </div>)
+  return (<div className='app-services-ui--u-display-contents' data-ouia-app-id="dataPlane-streams"> <DevelopmentPreview> {kafkaUIPage} </DevelopmentPreview> </div>)
 }
