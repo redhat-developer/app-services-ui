@@ -46,10 +46,10 @@ export const KafkaPage: React.FunctionComponent = () => {
   }, [insights, config, id]);
 
   if (config === undefined || adminServerUrl === undefined) {
-    return <Loading/>
+    return <Loading />
   }
 
-  return <KafkaPageContent adminServerUrl={adminServerUrl} id={id} topicName={topicName} kafkaName={kafkaName}/>
+  return <KafkaPageContent adminServerUrl={adminServerUrl} id={id} topicName={topicName} kafkaName={kafkaName} />
 
 }
 
@@ -109,6 +109,15 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ admi
 
   };
 
+  const onCancelUpdateTopic = () => {
+    setShowUpdate(false);
+  }
+
+  const onSaveTopic = () => {
+    setShowUpdate(false);
+  }
+
+
   let kafkaModule = KafkaUIKafkaModules.kafkaMainPageModule;
   if (showCreate) {
     kafkaModule = KafkaUIKafkaModules.topicCreateModule
@@ -118,7 +127,8 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ admi
     kafkaModule = KafkaUIKafkaModules.topicListDetailModule
   }
 
-  const  kafkaPageLink = getBaseName(window.location.pathname) + "/streams/kafkas";
+  const kafkaPageLink = `${getBaseName(window.location.pathname)}/streams/kafkas/`;
+  const kafkaInstanceLink = `${getBaseName(window.location.pathname)}/streams/kafkas/${id}`;
 
   let kafkaUIPage = <FederatedModule
     data-ouia-app-id="dataPlane-streams"
@@ -127,8 +137,9 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ admi
     render={(FederatedTopics) => <FederatedTopics
       getToken={getToken}
       apiBasePath={adminServerUrl}
-      kafkaName = {kafkaName}
-      kafkaPageLink = {kafkaPageLink}
+      kafkaName={kafkaName}
+      kafkaPageLink={kafkaPageLink}
+      kafkaInstanceLink={kafkaInstanceLink}
       onCreateTopic={onCreateTopic}
       onClickTopic={onClickTopic}
       getTopicDetailsPath={getTopicDetailsPath}
@@ -137,12 +148,14 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ admi
       currentTopic={topicName}
       addAlert={addAlert}
       onDeleteTopic={onDeleteTopic}
+      onCancelUpdateTopic={onCancelUpdateTopic}
+      onSaveTopic={onSaveTopic}
       onError={onError}
     />}
   />
-  
+
   if (error === 401) {
-    kafkaUIPage = <AccessDeniedPage/>;
+    kafkaUIPage = <AccessDeniedPage />;
   }
   return (<div className='app-services-ui--u-display-contents' data-ouia-app-id="dataPlane-streams"> <DevelopmentPreview> {kafkaUIPage} </DevelopmentPreview> </div>)
 }

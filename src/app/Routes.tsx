@@ -46,7 +46,7 @@ const routes: AppRouteConfig[] = [
     title: 'Red Hat OpenShift Streams for Apache Kafka',
   },
   {
-    component: KafkaDetailPage,
+    component: KafkaPage,
     exact: false,
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/streams/kafkas/:id/topics/:topicName',
