@@ -142,7 +142,7 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ admi
   />
   
   if (error === 401) {
-    kafkaUIPage = <DevelopmentPreview> <AccessDeniedPage/> </DevelopmentPreview>;
+    kafkaUIPage = <AccessDeniedPage/>;
   }
   return (<div className='app-services-ui--u-display-contents' data-ouia-app-id="dataPlane-streams"> <DevelopmentPreview> {kafkaUIPage} </DevelopmentPreview> </div>)
 }
