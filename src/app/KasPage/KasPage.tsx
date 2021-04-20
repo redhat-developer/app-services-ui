@@ -10,6 +10,7 @@ import { Loading } from '@app/Components/Loading/Loading';
 import { Configuration, DefaultApi, TermsReviewResponse } from '../../openapi/ams';
 import { getTermsAppURL } from '@app/utils/termsApp';
 import queryString from 'query-string';
+import { DevelopmentPreview } from '@app/Components/DevelopmentPreview/DevelopmentPreview';
 
 export const KasPage: React.FunctionComponent = () => {
   const insights = useContext(InsightsContext);
@@ -128,5 +129,5 @@ export const KasPage: React.FunctionComponent = () => {
     />
   );
 
-  return osStreams;
+  return <DevelopmentPreview> {osStreams} </DevelopmentPreview>;
 };

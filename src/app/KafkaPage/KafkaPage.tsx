@@ -11,9 +11,11 @@ import { addNotification } from '@redhat-cloud-services/frontend-components-noti
 import { useHistory } from "react-router-dom";
 import { getParams } from "@app/KafkaPage/utils";
 import AccessDeniedPage from '@app/AccessDeniedPage/AccessDeniedPage';
+import { DevelopmentPreview } from '@app/Components/DevelopmentPreview/DevelopmentPreview';
+import getBaseName from '@app/utils/getBaseName';
 
-enum KafkaUITopicModules {
-  topicListModule = "./Panels/Topics",
+enum KafkaUIKafkaModules {
+  kafkaMainPageModule = "./Panels/KafkaMainView",
   topicListDetailModule = "./Panels/TopicDetails",
   topicCreateModule = "./Panels/CreateTopic",
   topicUpdateModule = "./Panels/UpdateTopic"
@@ -26,7 +28,7 @@ export const KafkaPage: React.FunctionComponent = () => {
   const [adminServerUrl, setAdminServerUrl] = useState<undefined | string>();
 
   const { id, topicName } = getParams();
-
+  const [kafkaName, setKafkaName] = useState<undefined | string>();
   useEffect(() => {
     const getAdminApiUrl = async () => {
       const accessToken = await insights.chrome.auth.getToken();
@@ -36,6 +38,7 @@ export const KafkaPage: React.FunctionComponent = () => {
       } as Configuration);
 
       const kafka = await apisService.getKafkaById(id);
+      setKafkaName(kafka.data.name);
       setAdminServerUrl(`https://admin-server-${kafka.data.bootstrapServerHost}/rest`);
     }
 
@@ -46,7 +49,7 @@ export const KafkaPage: React.FunctionComponent = () => {
     return <Loading/>
   }
 
-  return <KafkaPageContent adminServerUrl={adminServerUrl} id={id} topicName={topicName}/>
+  return <KafkaPageContent adminServerUrl={adminServerUrl} id={id} topicName={topicName} kafkaName={kafkaName}/>
 
 }
 
@@ -54,9 +57,10 @@ type KafkaPageContentProps = {
   adminServerUrl: string;
   id: string;
   topicName?: string;
+  kafkaName?: string;
 }
 
-const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ adminServerUrl, id, topicName }) => {
+const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ adminServerUrl, id, topicName, kafkaName }) => {
   const { getToken } = useContext(AuthContext);
   const history = useHistory();
   const [showCreate, setShowCreate] = useState<boolean>(false);
@@ -105,23 +109,26 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ admi
 
   };
 
-  let topicModule = KafkaUITopicModules.topicListModule;
+  let kafkaModule = KafkaUIKafkaModules.kafkaMainPageModule;
   if (showCreate) {
-    topicModule = KafkaUITopicModules.topicCreateModule
+    kafkaModule = KafkaUIKafkaModules.topicCreateModule
   } else if (topicName && showUpdate) {
-    topicModule = KafkaUITopicModules.topicUpdateModule
+    kafkaModule = KafkaUIKafkaModules.topicUpdateModule
   } else if (topicName) {
-    topicModule = KafkaUITopicModules.topicListDetailModule
+    kafkaModule = KafkaUIKafkaModules.topicListDetailModule
   }
 
+  const  kafkaPageLink = getBaseName(window.location.pathname) + "/streams/kafkas";
 
-  let kafkaUITopicPage = <FederatedModule
+  let kafkaUIPage = <FederatedModule
     data-ouia-app-id="dataPlane-streams"
     scope="kafka"
-    module={topicModule}
+    module={kafkaModule}
     render={(FederatedTopics) => <FederatedTopics
       getToken={getToken}
       apiBasePath={adminServerUrl}
+      kafkaName = {kafkaName}
+      kafkaPageLink = {kafkaPageLink}
       onCreateTopic={onCreateTopic}
       onClickTopic={onClickTopic}
       getTopicDetailsPath={getTopicDetailsPath}
@@ -133,9 +140,9 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ admi
       onError={onError}
     />}
   />
-
+  
   if (error === 401) {
-    kafkaUITopicPage = <AccessDeniedPage/>;
+    kafkaUIPage = <AccessDeniedPage/>;
   }
-  return (<div className='app-services-ui--u-display-contents' data-ouia-app-id="dataPlane-streams"> {kafkaUITopicPage} </div>)
+  return (<div className='app-services-ui--u-display-contents' data-ouia-app-id="dataPlane-streams"> <DevelopmentPreview> {kafkaUIPage} </DevelopmentPreview> </div>)
 }
