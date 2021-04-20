@@ -16,7 +16,7 @@ export const DevelopmentPreview: React.FunctionComponent = ({ children }) => {
           position='bottom'
           minWidth='300px'
           maxWidth='25%'> 
-            <div>{t('common.developmentPreview')}</div>
+            <Button className='app-services-ui--button--dev-preview' variant='link'>{t('common.developmentPreview')}</Button>
           </Popover>
       </Bullseye> 
     </Banner>
