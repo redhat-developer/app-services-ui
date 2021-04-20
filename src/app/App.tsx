@@ -25,6 +25,9 @@ export const App: React.FunctionComponent = () => {
       if (parts[1] === "") {
         return defaultAppId
       } else {
+        if (parts[1] === "openshift-streams") {
+          return "streams";
+        }
         return parts[1];
       }
     } else {
