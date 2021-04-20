@@ -1,6 +1,7 @@
 {
   "common": {
-    "developmentPreview": "Development preview"
+    "developmentPreview": "Development preview",
+    "developmentPreviewTooltip": "Development preview releases provide early access to a limited set of features that might not be fully tested. Users should not use development preview software in production or for business-critical workloads."
   },
   "overview": {
     "heroTitle": "Get started with Red Hat OpenShift Application Services",
