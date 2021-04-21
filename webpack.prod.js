@@ -26,10 +26,18 @@ module.exports = merge(common("production", { mode: "production" }), {
           from: 'config/config.json',
           to: `config.json`
         },
-        // Copy the logo for the service, to usage by third parties
+        // Copy the logos for the service, for usage by third parties
         {
           from: 'static/images/Logo-Red_Hat-OpenShift_Streams_for_Apache_Kafka-A-White-RGB.png',
-          to: `Logo-Red_Hat-OpenShift_Streams_for_Apache_Kafka-A-White-RGB.png`
+          to: 'Logo-Red_Hat-OpenShift_Streams_for_Apache_Kafka-A-White-RGB.png'
+        },
+        {
+          from: 'static/images/Logo-Red_Hat-OpenShift_Streams_for_Apache_Kafka-A-Reverse-RGB.png',
+          to: 'Logo-Red_Hat-OpenShift_Streams_for_Apache_Kafka-A-Reverse-RGB.png'
+        },
+        {
+          from: 'static/images/Logo-Red_Hat-OpenShift_Streams_for_Apache_Kafka-A-Standard-RGB.png',
+          to: 'Logo-Red_Hat-OpenShift_Streams_for_Apache_Kafka-A-Standard-RGB.png'
         }
       ]
     })
