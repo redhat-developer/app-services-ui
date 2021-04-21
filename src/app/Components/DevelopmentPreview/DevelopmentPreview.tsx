@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 export const DevelopmentPreview: React.FunctionComponent = ({ children }) => {
   const { t } = useTranslation();
-  return <div className='app-services-ui--u-display-contents'>
+  return <div className='pf-c-page__main' style={{height: '100%'}}>
     <Banner isSticky variant="info">
       <Bullseye>  
         <Popover
@@ -16,7 +16,7 @@ export const DevelopmentPreview: React.FunctionComponent = ({ children }) => {
           position='bottom'
           minWidth='300px'
           maxWidth='25%'> 
-            <div>{t('common.developmentPreview')}</div>
+            <Button className='app-services-ui--button--dev-preview' variant='link'>{t('common.developmentPreview')}</Button>
           </Popover>
       </Bullseye> 
     </Banner>

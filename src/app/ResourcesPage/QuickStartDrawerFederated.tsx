@@ -2,6 +2,7 @@ import { FederatedModule } from '@app/Components/FederatedModule/FederatedModule
 import React, { FunctionComponent, useContext } from 'react';
 import { ConfigContext } from '@app/Config/Config';
 import { Loading } from '@app/Components/Loading/Loading';
+import { DevelopmentPreview } from '@app/Components/DevelopmentPreview/DevelopmentPreview';
 import './QuickStartDrawerFederated.scss';
 
 export const QuickStartDrawerFederated: FunctionComponent = ({ children }) => {
@@ -11,8 +12,7 @@ export const QuickStartDrawerFederated: FunctionComponent = ({ children }) => {
     return <Loading />;
   }
 
-  return (
-    <FederatedModule
+  return (<FederatedModule
       scope="guides"
       module="./QuickStartDrawer"
       fallback={children}
