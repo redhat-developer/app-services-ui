@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 export const DevelopmentPreview: React.FunctionComponent = ({ children }) => {
   const { t } = useTranslation();
-  return <div className='app-services-ui--u-display-contents'>
+  return <div className='pf-c-page__main' style={{height: '100%'}}>
     <Banner isSticky variant="info">
       <Bullseye>  
         <Popover
