@@ -7,9 +7,6 @@ const CopyPlugin = require('copy-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 
 module.exports = merge(common("production", { mode: "production" }), {
-  output: {
-
-  },
   mode: "production",
   devtool: 'source-map',
   optimization: {
@@ -28,6 +25,11 @@ module.exports = merge(common("production", { mode: "production" }), {
         {
           from: 'config/config.json',
           to: `config.json`
+        },
+        // Copy the logo for the service, to usage by third parties
+        {
+          from: 'static/images/Logo-Red_Hat-OpenShift_Streams_for_Apache_Kafka-A-White-RGB.png',
+          to: `Logo-Red_Hat-OpenShift_Streams_for_Apache_Kafka-A-White-RGB.png`
         }
       ]
     })
