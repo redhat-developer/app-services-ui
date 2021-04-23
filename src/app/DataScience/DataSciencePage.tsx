@@ -17,7 +17,7 @@ import {
   TitleSizes,
 } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
-import videoPlaceholder from 'static/images/Videoplaceholder.svg';
+import videoPlaceholder from 'static/images/RHODS-video-preview.png';
 
 import { useTranslation } from 'react-i18next';
 
@@ -45,7 +45,7 @@ export const DataSciencePage: React.FunctionComponent = () => {
               component="a"
               href="https://www.redhat.com/en/technologies/cloud-computing/openshift/openshift-data-science"
               target="_blank"
-              >
+            >
               {t('datascienceoverview.heroCallToActionButton')} <ExternalLinkAltIcon className="pf-u-ml-sm" />
             </Button>
           </StackItem>
@@ -55,21 +55,44 @@ export const DataSciencePage: React.FunctionComponent = () => {
       <PageSection className="app-services-ui--page-section--marketing" isWidthLimited>
         <Grid hasGutter>
           <GridItem md={5}>
-            <TextContent>
-              <Title size={TitleSizes.xl} headingLevel="h3" className="pf-u-mb-lg">
-                {t('datascienceoverview.videoSectionTitle')}
-              </Title>
-              <Text className="pf-u-mr-md">{t('datascienceoverview.videoSectionInThisVideo')}</Text>
-            </TextContent>
+            <Stack hasGutter>
+              <StackItem>
+                <TextContent>
+                  <Title size={TitleSizes.xl} headingLevel="h3" className="pf-u-mb-lg">
+                    {t('datascienceoverview.videoSectionTitle')}
+                  </Title>
+                  <Text className="pf-u-mr-md">{t('datascienceoverview.videoSectionInThisVideo')}</Text>
+                </TextContent>
+              </StackItem>
+              <StackItem>
+                <Button
+                  data-testid="CTA-videoRHODSDemo"
+                  variant={ButtonVariant.secondary}
+                  component="a"
+                  href="http://www.openshift.com/DataScienceVideoDemo"
+                  target="_blank"
+                >
+                  {t('datascienceoverview.heroViewDemo')} <ExternalLinkAltIcon className="pf-u-ml-sm" />
+                </Button>
+              </StackItem>
+            </Stack>
           </GridItem>
           <GridItem md={7}>
             <Card>
-              <Bullseye>
+              <Button
+                data-testid="CTA-videoRHODSDemo"
+                variant={ButtonVariant.link}
+                component="a"
+                href="http://www.openshift.com/DataScienceVideoDemo"
+                target="_blank"
+                isInline
+                style={{display: "contents"}}
+              >
                 <img src={videoPlaceholder} />
-              </Bullseye>
+              </Button>
             </Card>
-              {/* Replace the card above with this once there is a video */}
-              {/* <Card className="app-services-ui--card--video">
+            {/* Replace the card above with this once there is a video */}
+            {/* <Card className="app-services-ui--card--video">
                 <div className="app-services-ui--video-wrapper">
                   <iframe
                     src="URL HERE"
