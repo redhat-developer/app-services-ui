@@ -11,8 +11,19 @@ import { Configuration, DefaultApi, TermsReviewResponse } from '../../openapi/am
 import { getTermsAppURL } from '@app/utils/termsApp';
 import queryString from 'query-string';
 import { DevelopmentPreview } from '@app/Components/DevelopmentPreview/DevelopmentPreview';
+import { ServiceDownPage } from "@app/ServiceDownPage/ServiceDownPage";
 
 export const KasPage: React.FunctionComponent = () => {
+  const config = useContext(ConfigContext);
+
+  if (config?.serviceDown) {
+    return (<ServiceDownPage />);
+  }
+
+  return (<KasPageConnected />);
+}
+
+export const KasPageConnected: React.FunctionComponent = () => {
   const insights = useContext(InsightsContext);
   const config = useContext(ConfigContext);
 

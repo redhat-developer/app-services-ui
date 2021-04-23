@@ -2,6 +2,7 @@
   {
     "hostnames": [ "prod.foo.redhat.com" ],
     "config": {
+      "serviceDown": false,
       "resources": {
         "showDrafts": false
       },
@@ -37,6 +38,7 @@
   {
     "hostnames": [ "qaprodauth.cloud.redhat.com" ],
     "config": {
+      "serviceDown": false,
       "resources": {
         "showDrafts": true
       },
@@ -72,6 +74,7 @@
   {
     "hostnames": [ "cloud.redhat.com" ],
     "config": {
+      "serviceDown": false,
       "resources": {
         "showDrafts": false
       },

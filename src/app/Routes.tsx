@@ -116,14 +116,7 @@ const routes: AppRouteConfig[] = [
     label: 'QuickStarts for Red Hat OpenShift Application Services',
     path: '/streams/resources',
     title: 'QuickStarts for Red Hat OpenShift Application Services',
-  },
-  {
-    component: ServiceDownPage,
-    exact: true,
-    label: 'Service is currently down',
-    path: '/streams/service-down',
-    title: 'Service is currently down',
-  },
+  }
 ];
 
 // a custom hook for sending focus to the primary content container

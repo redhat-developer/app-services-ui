@@ -13,6 +13,7 @@ import { getParams } from "@app/KafkaPage/utils";
 import AccessDeniedPage from '@app/AccessDeniedPage/AccessDeniedPage';
 import { DevelopmentPreview } from '@app/Components/DevelopmentPreview/DevelopmentPreview';
 import getBaseName from '@app/utils/getBaseName';
+import { ServiceDownPage } from "@app/ServiceDownPage/ServiceDownPage";
 
 enum KafkaUIKafkaModules {
   kafkaMainPageModule = "./Panels/KafkaMainView",
@@ -22,6 +23,16 @@ enum KafkaUIKafkaModules {
 }
 
 export const KafkaPage: React.FunctionComponent = () => {
+  const config = useContext(ConfigContext);
+
+  if (config?.serviceDown) {
+    return (<ServiceDownPage />);
+  }
+
+  return (<KafkaPageConnected />);
+}
+
+export const KafkaPageConnected: React.FunctionComponent = () => {
 
   const insights = useContext(InsightsContext);
   const config = useContext(ConfigContext);

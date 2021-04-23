@@ -22,7 +22,7 @@ export const ServiceDownPage: React.FunctionComponent = () => {
         <EmptyStateBody>
           {t('serviceDown.serviceDownMessage')}
         </EmptyStateBody>
-        <Button variant="primary">{t('serviceDown.serviceDownButton')}</Button>
+        <Button variant="primary" onClick={() => {window.location.href = "https://status.starter.openshift.com/"}}>{t('serviceDown.serviceDownButton')}</Button>
       </EmptyState>
     </PageSection>
   );
