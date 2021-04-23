@@ -200,3 +200,10 @@
   --pf-c-button--m-link--Color: var(--pf-global--Color--dark-100) !important;
   text-decoration: underline;
 }
+
+.pf-c-select__toggle:before {
+  border-top: 1px solid var(--pf-c-select__toggle--before--BorderTopColor);
+  border-right: 1px solid var(--pf-c-select__toggle--before--BorderRightColor);
+  border-bottom: 1px solid var(--pf-c-select__toggle--before--BorderBottomColor);
+  border-left: 1px solid var(--pf-c-select__toggle--before--BorderLeftColor);
+}
