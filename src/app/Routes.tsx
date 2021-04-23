@@ -9,9 +9,9 @@ import { QuickStartDrawerFederated } from '@app/ResourcesPage/QuickStartDrawerFe
 import { ResourcesPage } from '@app/ResourcesPage/ResourcesPage';
 import { OverviewPage } from '@app/Overview/OverviewPage';
 import { APIManagementPage } from '@app/APIManagement/APIManagementPage';
-import { DataSciencePage } from '@app/DataScience/DataSciencePage';
+import { DataSciencePage } from '@app/DataScience/DataSciencePage';0
 import { ServiceAccountsPage } from '@app/ServiceAccountsPage/ServiceAccountsPage';
-import { KafkaDetailPage } from "@app/KafkaPage/KafkaDetailPage";
+import { ServiceDownPage } from '@app/ServiceDownPage/ServiceDownPage';
 
 let routeFocusTimer: number;
 
@@ -116,7 +116,7 @@ const routes: AppRouteConfig[] = [
     label: 'QuickStarts for Red Hat OpenShift Application Services',
     path: '/streams/resources',
     title: 'QuickStarts for Red Hat OpenShift Application Services',
-  },
+  }
 ];
 
 // a custom hook for sending focus to the primary content container

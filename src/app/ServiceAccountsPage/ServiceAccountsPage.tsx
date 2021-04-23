@@ -7,8 +7,19 @@ import { FederatedModule } from '../Components/FederatedModule/FederatedModule';
 import { ConfigContext } from '@app/Config/Config';
 import { Loading } from '@app/Components/Loading/Loading';
 import { DevelopmentPreview } from '@app/Components/DevelopmentPreview/DevelopmentPreview';
+import { ServiceDownPage } from "@app/ServiceDownPage/ServiceDownPage";
 
 export const ServiceAccountsPage: React.FunctionComponent = () => {
+  const config = useContext(ConfigContext);
+
+  if (config?.serviceDown) {
+    return (<ServiceDownPage />);
+  }
+
+  return (<ServiceAccountsPageConnected />);
+}
+
+export const ServiceAccountsPageConnected: React.FunctionComponent = () => {
   const insights = useContext(InsightsContext);
   const config = useContext(ConfigContext);
   const dispatch = useDispatch();

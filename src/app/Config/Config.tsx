@@ -3,6 +3,7 @@ import React from "react";
 const defaultHostname = "cloud.redhat.com";
 
 export type Config = {
+  serviceDown: boolean
   resources: {
     showDrafts: boolean
   }

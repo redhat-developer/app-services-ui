@@ -70,5 +70,10 @@
     "accessDeniedDescription": "Access the Kafka instances you own from the <0>Kafka instances list.</0>",
     "accessDeniedButtonText": "Return to previous page"
 
+  },
+  "serviceDown": {
+    "serviceDownTitle": "Service unavailable",
+    "serviceDownMessage": "We are working on getting the service back up again. In the meantime, check for updates on the status page.",
+    "serviceDownButton": "Visit status page"
   }
 }
