@@ -46,6 +46,10 @@
         "srs": {
           "basePath": "http://localhost:9005",
           "fallbackBasePath": "/beta/apps/srs-ui-build"
+        },
+        "cos": {
+          "basePath": "http://localhost:9002",
+          "fallbackBasePath": "/beta/apps/srs-ui-build"
         }
       }
     }
@@ -92,6 +96,9 @@
         },
         "srs": {
           "basePath": "/beta/apps/srs-ui-build"
+        },
+        "cos": {
+          "basePath": "/beta/apps/cos-ui-build"
         }
       }
     }
@@ -138,6 +145,9 @@
         },
         "apicurio_registry": {
           "basePath": "/beta/apps/sr-ui-build"
+        },
+        "cos": {
+          "basePath": "/beta/apps/cos-ui-build"
         }
       }
     }

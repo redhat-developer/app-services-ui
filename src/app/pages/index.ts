@@ -1,5 +1,6 @@
 export * from './AccessDenied';
 export * from './APIManagement';
+export * from './CosPage';
 export * from './DataScience';
 export * from './Kafka';
 export * from './Kas';
