@@ -49,7 +49,7 @@
         },
         "cos": {
           "basePath": "http://localhost:9002",
-          "fallbackBasePath": "/beta/apps/srs-ui-build"
+          "fallbackBasePath": "/beta/apps/cos-ui-build"
         }
       }
     }
