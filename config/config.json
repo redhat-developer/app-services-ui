@@ -33,6 +33,10 @@
         "guides": {
           "basePath": "http://localhost:9001",
           "fallbackBasePath": "/beta/apps/rhoas-guides-build"
+        },
+        "sr": {
+          "basePath": "http://localhost:9003",
+          "entryPoint": "/beta/apps/sr-control-plane-ui-build"
         }
       }
     }
@@ -69,6 +73,9 @@
         },
         "guides": {
           "basePath": "/beta/apps/rhoas-guides-build"
+        },
+        "sr": {
+          "basePath": "/beta/apps/sr-control-plane-ui-build"
         }
       }
     }
@@ -104,6 +111,9 @@
         },
         "guides": {
           "basePath": "/beta/apps/rhoas-guides-build"
+        },
+        "sr": {
+          "basePath": "/beta/apps/sr-control-plane-ui-build"
         }
       }
     }
