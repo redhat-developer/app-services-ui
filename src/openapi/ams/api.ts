@@ -1075,12 +1075,6 @@ export interface ClusterUpgrade {
 export interface EphemeralResourceQuota {
     /**
      * 
-     * @type {number}
-     * @memberof EphemeralResourceQuota
-     */
-    allowed?: number;
-    /**
-     * 
      * @type {string}
      * @memberof EphemeralResourceQuota
      */
@@ -1326,6 +1320,44 @@ export interface ExportControlReviewRequest {
      * @memberof ExportControlReviewRequest
      */
     ignore_cache?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface FeatureReview
+ */
+export interface FeatureReview {
+    /**
+     * 
+     * @type {string}
+     * @memberof FeatureReview
+     */
+    account_username: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FeatureReview
+     */
+    feature: string;
+}
+/**
+ * 
+ * @export
+ * @interface FeatureReviewResponse
+ */
+export interface FeatureReviewResponse {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof FeatureReviewResponse
+     */
+    enabled: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof FeatureReviewResponse
+     */
+    feature_id: string;
 }
 /**
  * 
@@ -1845,7 +1877,7 @@ export interface NotificationRequest {
      * @type {string}
      * @memberof NotificationRequest
      */
-    subject: string;
+    subject?: string;
     /**
      * 
      * @type {string}
@@ -1980,6 +2012,12 @@ export interface OneMetric {
      * @memberof OneMetric
      */
     operators_condition_failing: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof OneMetric
+     */
+    query_timestamp?: string;
     /**
      * 
      * @type {string}
@@ -3625,20 +3663,16 @@ export interface ResourceQuota {
     kind?: string;
     /**
      * 
-     * @type {number}
-     * @memberof ResourceQuota
-     */
-    allowed: number;
-    /**
-     * 
      * @type {string}
      * @memberof ResourceQuota
+     * @deprecated
      */
     availability_zone_type?: string;
     /**
      * 
      * @type {boolean}
      * @memberof ResourceQuota
+     * @deprecated
      */
     byoc: boolean;
     /**
@@ -3657,12 +3691,14 @@ export interface ResourceQuota {
      * 
      * @type {string}
      * @memberof ResourceQuota
+     * @deprecated
      */
     resource_name: string;
     /**
      * 
      * @type {string}
      * @memberof ResourceQuota
+     * @deprecated
      */
     resource_type: string;
     /**
@@ -3676,7 +3712,7 @@ export interface ResourceQuota {
      * @type {number}
      * @memberof ResourceQuota
      */
-    sku_count?: number;
+    sku_count: number;
     /**
      * 
      * @type {string}
@@ -3709,20 +3745,16 @@ export enum ResourceQuotaTypeEnum {
 export interface ResourceQuotaAllOf {
     /**
      * 
-     * @type {number}
-     * @memberof ResourceQuotaAllOf
-     */
-    allowed: number;
-    /**
-     * 
      * @type {string}
      * @memberof ResourceQuotaAllOf
+     * @deprecated
      */
     availability_zone_type?: string;
     /**
      * 
      * @type {boolean}
      * @memberof ResourceQuotaAllOf
+     * @deprecated
      */
     byoc: boolean;
     /**
@@ -3741,12 +3773,14 @@ export interface ResourceQuotaAllOf {
      * 
      * @type {string}
      * @memberof ResourceQuotaAllOf
+     * @deprecated
      */
     resource_name: string;
     /**
      * 
      * @type {string}
      * @memberof ResourceQuotaAllOf
+     * @deprecated
      */
     resource_type: string;
     /**
@@ -3760,7 +3794,7 @@ export interface ResourceQuotaAllOf {
      * @type {number}
      * @memberof ResourceQuotaAllOf
      */
-    sku_count?: number;
+    sku_count: number;
     /**
      * 
      * @type {string}
@@ -3843,12 +3877,6 @@ export interface ResourceQuotaListAllOf {
 export interface ResourceQuotaRequest {
     /**
      * 
-     * @type {number}
-     * @memberof ResourceQuotaRequest
-     */
-    allowed?: number;
-    /**
-     * 
      * @type {string}
      * @memberof ResourceQuotaRequest
      */
@@ -3858,7 +3886,7 @@ export interface ResourceQuotaRequest {
      * @type {number}
      * @memberof ResourceQuotaRequest
      */
-    sku_count?: number;
+    sku_count: number;
     /**
      * 
      * @type {string}
@@ -4586,6 +4614,19 @@ export enum SelfAccessReviewResourceTypeEnum {
 /**
  * 
  * @export
+ * @interface SelfFeatureReview
+ */
+export interface SelfFeatureReview {
+    /**
+     * 
+     * @type {string}
+     * @memberof SelfFeatureReview
+     */
+    feature: string;
+}
+/**
+ * 
+ * @export
  * @interface SelfResourceReview
  */
 export interface SelfResourceReview {
@@ -4897,6 +4938,12 @@ export interface Subscription {
      */
     kind?: string;
     /**
+     * If set, the date the subscription expires based on the billing model
+     * @type {string}
+     * @memberof Subscription
+     */
+    billing_expiration_date?: string;
+    /**
      * 
      * @type {Array<Capability>}
      * @memberof Subscription
@@ -5149,6 +5196,12 @@ export enum SubscriptionUsageEnum {
  * @interface SubscriptionAllOf
  */
 export interface SubscriptionAllOf {
+    /**
+     * If set, the date the subscription expires based on the billing model
+     * @type {string}
+     * @memberof SubscriptionAllOf
+     */
+    billing_expiration_date?: string;
     /**
      * 
      * @type {Array<Capability>}
@@ -5505,6 +5558,12 @@ export interface SubscriptionListAllOf {
  * @interface SubscriptionPatchRequest
  */
 export interface SubscriptionPatchRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SubscriptionPatchRequest
+     */
+    billing_expiration_date?: string;
     /**
      * 
      * @type {string}
@@ -9860,6 +9919,46 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary Review feature to perform an action on it such as toggle a feature on/off
+         * @param {FeatureReview} featureReview Feature review data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiAuthorizationsV1FeatureReviewPost: async (featureReview: FeatureReview, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'featureReview' is not null or undefined
+            assertParamExists('apiAuthorizationsV1FeatureReviewPost', 'featureReview', featureReview)
+            const localVarPath = `/api/authorizations/v1/feature_review`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(featureReview, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Obtain resource ids for resources an account may perform the specified action upon. Resource ids returned as [\"*\"] is shorthand for all ids.
          * @param {ResourceReviewRequest} resourceReviewRequest Resource review data
          * @param {*} [options] Override http request option.
@@ -9932,6 +10031,46 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(selfAccessReview, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Review your ability to toggle a feature
+         * @param {SelfFeatureReview} selfFeatureReview Self feature review data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiAuthorizationsV1SelfFeatureReviewPost: async (selfFeatureReview: SelfFeatureReview, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'selfFeatureReview' is not null or undefined
+            assertParamExists('apiAuthorizationsV1SelfFeatureReviewPost', 'selfFeatureReview', selfFeatureReview)
+            const localVarPath = `/api/authorizations/v1/self_feature_review`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(selfFeatureReview, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -11094,6 +11233,17 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Review feature to perform an action on it such as toggle a feature on/off
+         * @param {FeatureReview} featureReview Feature review data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiAuthorizationsV1FeatureReviewPost(featureReview: FeatureReview, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FeatureReviewResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiAuthorizationsV1FeatureReviewPost(featureReview, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Obtain resource ids for resources an account may perform the specified action upon. Resource ids returned as [\"*\"] is shorthand for all ids.
          * @param {ResourceReviewRequest} resourceReviewRequest Resource review data
          * @param {*} [options] Override http request option.
@@ -11112,6 +11262,17 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async apiAuthorizationsV1SelfAccessReviewPost(selfAccessReview: SelfAccessReview, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AccessReviewResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiAuthorizationsV1SelfAccessReviewPost(selfAccessReview, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Review your ability to toggle a feature
+         * @param {SelfFeatureReview} selfFeatureReview Self feature review data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiAuthorizationsV1SelfFeatureReviewPost(selfFeatureReview: SelfFeatureReview, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FeatureReviewResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiAuthorizationsV1SelfFeatureReviewPost(selfFeatureReview, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -12100,6 +12261,16 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary Review feature to perform an action on it such as toggle a feature on/off
+         * @param {FeatureReview} featureReview Feature review data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiAuthorizationsV1FeatureReviewPost(featureReview: FeatureReview, options?: any): AxiosPromise<FeatureReviewResponse> {
+            return localVarFp.apiAuthorizationsV1FeatureReviewPost(featureReview, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Obtain resource ids for resources an account may perform the specified action upon. Resource ids returned as [\"*\"] is shorthand for all ids.
          * @param {ResourceReviewRequest} resourceReviewRequest Resource review data
          * @param {*} [options] Override http request option.
@@ -12117,6 +12288,16 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         apiAuthorizationsV1SelfAccessReviewPost(selfAccessReview: SelfAccessReview, options?: any): AxiosPromise<AccessReviewResponse> {
             return localVarFp.apiAuthorizationsV1SelfAccessReviewPost(selfAccessReview, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Review your ability to toggle a feature
+         * @param {SelfFeatureReview} selfFeatureReview Self feature review data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiAuthorizationsV1SelfFeatureReviewPost(selfFeatureReview: SelfFeatureReview, options?: any): AxiosPromise<FeatureReviewResponse> {
+            return localVarFp.apiAuthorizationsV1SelfFeatureReviewPost(selfFeatureReview, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -13100,6 +13281,16 @@ export interface DefaultApiInterface {
 
     /**
      * 
+     * @summary Review feature to perform an action on it such as toggle a feature on/off
+     * @param {FeatureReview} featureReview Feature review data
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApiInterface
+     */
+    apiAuthorizationsV1FeatureReviewPost(featureReview: FeatureReview, options?: any): AxiosPromise<FeatureReviewResponse>;
+
+    /**
+     * 
      * @summary Obtain resource ids for resources an account may perform the specified action upon. Resource ids returned as [\"*\"] is shorthand for all ids.
      * @param {ResourceReviewRequest} resourceReviewRequest Resource review data
      * @param {*} [options] Override http request option.
@@ -13117,6 +13308,16 @@ export interface DefaultApiInterface {
      * @memberof DefaultApiInterface
      */
     apiAuthorizationsV1SelfAccessReviewPost(selfAccessReview: SelfAccessReview, options?: any): AxiosPromise<AccessReviewResponse>;
+
+    /**
+     * 
+     * @summary Review your ability to toggle a feature
+     * @param {SelfFeatureReview} selfFeatureReview Self feature review data
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApiInterface
+     */
+    apiAuthorizationsV1SelfFeatureReviewPost(selfFeatureReview: SelfFeatureReview, options?: any): AxiosPromise<FeatureReviewResponse>;
 
     /**
      * 
@@ -14266,6 +14467,18 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
 
     /**
      * 
+     * @summary Review feature to perform an action on it such as toggle a feature on/off
+     * @param {FeatureReview} featureReview Feature review data
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public apiAuthorizationsV1FeatureReviewPost(featureReview: FeatureReview, options?: any) {
+        return DefaultApiFp(this.configuration).apiAuthorizationsV1FeatureReviewPost(featureReview, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Obtain resource ids for resources an account may perform the specified action upon. Resource ids returned as [\"*\"] is shorthand for all ids.
      * @param {ResourceReviewRequest} resourceReviewRequest Resource review data
      * @param {*} [options] Override http request option.
@@ -14286,6 +14499,18 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
      */
     public apiAuthorizationsV1SelfAccessReviewPost(selfAccessReview: SelfAccessReview, options?: any) {
         return DefaultApiFp(this.configuration).apiAuthorizationsV1SelfAccessReviewPost(selfAccessReview, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Review your ability to toggle a feature
+     * @param {SelfFeatureReview} selfFeatureReview Self feature review data
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public apiAuthorizationsV1SelfFeatureReviewPost(selfFeatureReview: SelfFeatureReview, options?: any) {
+        return DefaultApiFp(this.configuration).apiAuthorizationsV1SelfFeatureReviewPost(selfFeatureReview, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
