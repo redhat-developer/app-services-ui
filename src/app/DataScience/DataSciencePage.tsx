@@ -78,31 +78,17 @@ export const DataSciencePage: React.FunctionComponent = () => {
             </Stack>
           </GridItem>
           <GridItem md={7}>
-            <Card>
-              <Button
-                data-testid="CTA-videoRHODSDemo"
-                variant={ButtonVariant.link}
-                component="a"
-                href="http://www.openshift.com/DataScienceVideoDemo"
-                target="_blank"
-                isInline
-                style={{display: "contents"}}
-              >
-                <img src={videoPlaceholder} />
-              </Button>
-            </Card>
-            {/* Replace the card above with this once there is a video */}
-            {/* <Card className="app-services-ui--card--video">
+            <Card className="app-services-ui--card--video">
                 <div className="app-services-ui--video-wrapper">
                   <iframe
-                    src="URL HERE"
+                    src="https://www.youtube.com/embed/joK89xYeuUY"
                     title={t('datascienceoverview.videoSectionTitle')}
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen
                   ></iframe>
                 </div>
-              </Card> */}
+              </Card>
           </GridItem>
         </Grid>
       </PageSection>
