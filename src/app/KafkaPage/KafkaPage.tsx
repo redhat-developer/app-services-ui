@@ -203,16 +203,18 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
 
   return (
     <div className="app-services-ui--u-display-contents" data-ouia-app-id="dataPlane-streams">
-      <InstanceDrawer
-        isExpanded={isInstanceDrawerOpen}
-        onClose={onCloseInstanceDrawer}
-        kafkaDetail={kafkaDetail}
-        activeTab={activeDrawerTab}
-        isOpenDeleteInstanceModal={isOpenDeleteInstanceModal}
-        setIsOpenDeleteInstanceModal={setIsOpenDeleteInstanceModal}
-      >
-        <DevelopmentPreview>{kafkaUIPage}</DevelopmentPreview>
-      </InstanceDrawer>
+      <DevelopmentPreview>
+        <InstanceDrawer
+          isExpanded={isInstanceDrawerOpen}
+          onClose={onCloseInstanceDrawer}
+          kafkaDetail={kafkaDetail}
+          activeTab={activeDrawerTab}
+          isOpenDeleteInstanceModal={isOpenDeleteInstanceModal}
+          setIsOpenDeleteInstanceModal={setIsOpenDeleteInstanceModal}
+        >
+          {kafkaUIPage}
+        </InstanceDrawer>
+      </DevelopmentPreview>
     </div>
   );
 };
