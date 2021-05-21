@@ -1,19 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { InsightsContext } from "@app/utils";
-import { ConfigContext } from "@app/Config/Config";
-import { FederatedModule } from "../Components/FederatedModule/FederatedModule";
-import { AuthContext } from "@app/utils/auth/AuthContext";
-import { Loading } from "@app/Components/Loading/Loading";
-import { Configuration, DefaultApi } from "../../openapi/kas";
-import { AlertVariant } from "@patternfly/react-core";
-import { useDispatch } from 'react-redux';
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
+import React, { useEffect, useState } from 'react';
+import { FederatedModule } from "../../components/FederatedModule/FederatedModule";
+import { Loading } from "@app/components/Loading/Loading";
+import { Configuration, DefaultApi } from "../../../openapi/kas";
 import { useHistory } from "react-router-dom";
-import { getParams } from "@app/KafkaPage/utils";
-import AccessDeniedPage from '@app/AccessDeniedPage/AccessDeniedPage';
-import { DevelopmentPreview } from '@app/Components/DevelopmentPreview/DevelopmentPreview';
+import { getParams } from "@app/pages/Kafka/utils";
+import AccessDeniedPage from '@app/pages/AccessDenied/AccessDeniedPage';
+import { DevelopmentPreview } from '@app/components/DevelopmentPreview/DevelopmentPreview';
 import getBaseName from '@app/utils/getBaseName';
-import { ServiceDownPage } from "@app/ServiceDownPage/ServiceDownPage";
+import { ServiceDownPage } from "@app/pages/ServiceDown/ServiceDownPage";
+import { useAlert, useAuth, useConfig } from '@bf2/ui-shared';
 
 enum KafkaUIKafkaModules {
   kafkaMainPageModule = "./Panels/KafkaMainView",
@@ -23,29 +18,28 @@ enum KafkaUIKafkaModules {
 }
 
 export const KafkaPage: React.FunctionComponent = () => {
-  const config = useContext(ConfigContext);
+  const config = useConfig();
 
   if (config?.serviceDown) {
-    return (<ServiceDownPage />);
+    return (<ServiceDownPage/>);
   }
 
-  return (<KafkaPageConnected />);
+  return (<KafkaPageConnected/>);
 }
 
 export const KafkaPageConnected: React.FunctionComponent = () => {
-
-  const insights = useContext(InsightsContext);
-  const config = useContext(ConfigContext);
+  const config = useConfig();
+  const auth = useAuth();
   const [adminServerUrl, setAdminServerUrl] = useState<undefined | string>();
 
   const { id, topicName } = getParams();
   const [kafkaName, setKafkaName] = useState<undefined | string>();
   useEffect(() => {
     const getAdminApiUrl = async () => {
-      const accessToken = await insights.chrome.auth.getToken();
+      const accessToken = await auth?.kas.getToken();
       const apisService = new DefaultApi({
         accessToken,
-        basePath: config?.controlPlane.serviceApiBasePath || '',
+        basePath: config?.kas.apiBasePath || '',
       } as Configuration);
 
       const kafka = await apisService.getKafkaById(id);
@@ -54,13 +48,13 @@ export const KafkaPageConnected: React.FunctionComponent = () => {
     }
 
     getAdminApiUrl();
-  }, [insights, config, id]);
+  }, [auth, config, id]);
 
   if (config === undefined || adminServerUrl === undefined) {
-    return <Loading />
+    return <Loading/>
   }
 
-  return <KafkaPageContent adminServerUrl={adminServerUrl} id={id} topicName={topicName} kafkaName={kafkaName} />
+  return <KafkaPageContent adminServerUrl={adminServerUrl} id={id} topicName={topicName} kafkaName={kafkaName}/>
 
 }
 
@@ -71,13 +65,18 @@ type KafkaPageContentProps = {
   kafkaName?: string;
 }
 
-const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ adminServerUrl, id, topicName, kafkaName }) => {
-  const { getToken } = useContext(AuthContext);
+const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
+                                                                            adminServerUrl,
+                                                                            id,
+                                                                            topicName,
+                                                                            kafkaName
+                                                                          }) => {
+  const auth = useAuth();
+  const alert = useAlert();
   const history = useHistory();
   const [showCreate, setShowCreate] = useState<boolean>(false);
   const [showUpdate, setShowUpdate] = useState<boolean>(false);
   const [error, setError] = useState<undefined | number>();
-  const dispatch = useDispatch();
 
   const onCreateTopic = () => {
     setShowCreate(true);
@@ -110,16 +109,6 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ admi
     history.push(`/streams/kafkas/${id}`);
   }
 
-  const addAlert = (message: string, variant?: AlertVariant) => {
-    dispatch(
-      addNotification({
-        variant: variant,
-        title: message
-      })
-    );
-
-  };
-
   const onCancelUpdateTopic = () => {
     setShowUpdate(false);
   }
@@ -146,7 +135,7 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ admi
     scope="kafka"
     module={kafkaModule}
     render={(FederatedTopics) => <FederatedTopics
-      getToken={getToken}
+      getToken={auth?.kafka.getToken}
       apiBasePath={adminServerUrl}
       kafkaName={kafkaName}
       kafkaPageLink={kafkaPageLink}
@@ -157,7 +146,7 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ admi
       onCloseCreateTopic={onCloseCreateTopic}
       onUpdateTopic={onUpdateTopic}
       currentTopic={topicName}
-      addAlert={addAlert}
+      addAlert={alert?.addAlert}
       onDeleteTopic={onDeleteTopic}
       onCancelUpdateTopic={onCancelUpdateTopic}
       onSaveTopic={onSaveTopic}
@@ -166,7 +155,8 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({ admi
   />
 
   if (error === 401) {
-    kafkaUIPage = <AccessDeniedPage />;
+    kafkaUIPage = <AccessDeniedPage/>;
   }
-  return (<div className='app-services-ui--u-display-contents' data-ouia-app-id="dataPlane-streams"> <DevelopmentPreview> {kafkaUIPage} </DevelopmentPreview> </div>)
+  return (<div className='app-services-ui--u-display-contents' data-ouia-app-id="dataPlane-streams">
+    <DevelopmentPreview> {kafkaUIPage} </DevelopmentPreview></div>)
 }

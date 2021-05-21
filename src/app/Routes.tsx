@@ -1,17 +1,20 @@
 import React from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { accessibleRouteChangeHandler, useDocumentTitle } from '@app/utils';
-import { NotFound } from '@app/NotFound/NotFound';
+import { NotFoundPage } from '@app/pages/NotFound/NotFoundPage';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
-import { KasPage } from '@app/KasPage/KasPage';
-import { KafkaPage } from '@app/KafkaPage/KafkaPage';
-import { QuickStartDrawerFederated } from '@app/ResourcesPage/QuickStartDrawerFederated';
-import { ResourcesPage } from '@app/ResourcesPage/ResourcesPage';
-import { OverviewPage } from '@app/Overview/OverviewPage';
-import { APIManagementPage } from '@app/APIManagement/APIManagementPage';
-import { DataSciencePage } from '@app/DataScience/DataSciencePage';0
-import { ServiceAccountsPage } from '@app/ServiceAccountsPage/ServiceAccountsPage';
-import { ServiceDownPage } from '@app/ServiceDownPage/ServiceDownPage';
+import { KasPage } from '@app/pages/Kas/KasPage';
+import { KafkaPage } from '@app/pages/Kafka/KafkaPage';
+import { QuickStartDrawerFederated } from '@app/pages/Resources/QuickStartDrawerFederated';
+import { ResourcesPage } from '@app/pages/Resources/ResourcesPage';
+import { OverviewPage } from '@app/pages/Overview/OverviewPage';
+import { APIManagementPage } from '@app/pages/APIManagement/APIManagementPage';
+import { DataSciencePage } from '@app/pages/DataScience/DataSciencePage';
+import { ServiceAccountsPage } from '@app/pages/ServiceAccounts/ServiceAccountsPage';
+import { BasenameContext } from "@bf2/ui-shared";
+import { useHistory } from "react-router";
+
+0
 
 let routeFocusTimer: number;
 
@@ -34,8 +37,8 @@ export interface IAppRouteGroup {
 
 export type AppRouteConfig = IAppRoute | IAppRouteGroup;
 
-const RedirectToOverview: React.FunctionComponent = () => <Redirect to="/overview" />;
-const RedirectToStreamsKafkas: React.FunctionComponent = () => <Redirect to="/streams/kafkas" />;
+const RedirectToOverview: React.FunctionComponent = () => <Redirect to="/overview"/>;
+const RedirectToStreamsKafkas: React.FunctionComponent = () => <Redirect to="/streams/kafkas"/>;
 
 const routes: AppRouteConfig[] = [
   {
@@ -137,21 +140,27 @@ const useA11yRouteChange = (isAsync: boolean) => {
 const RouteWithTitleUpdates = ({ component: Component, isAsync = false, title, ...rest }: IAppRoute) => {
   useA11yRouteChange(isAsync);
   useDocumentTitle(title);
+  const history = useHistory();
+  const getBasename = () => {
+    return history.createHref({ pathname: rest.path })
+  };
 
   function routeWithTitle(routeProps: RouteComponentProps) {
     return (
       <QuickStartDrawerFederated>
-        <Component {...rest} {...routeProps} />
+        <BasenameContext.Provider value={{ getBasename }}>
+          <Component {...rest} {...routeProps} />
+        </BasenameContext.Provider>
       </QuickStartDrawerFederated>
     );
   }
 
-  return <Route render={routeWithTitle} />;
+  return <Route render={routeWithTitle}/>;
 };
 
 const PageNotFound = ({ title }: { title: string }) => {
   useDocumentTitle(title);
-  return <Route component={NotFound} />;
+  return <Route component={NotFoundPage}/>;
 };
 
 const flattenedRoutes: IAppRoute[] = routes.reduce(
@@ -172,7 +181,7 @@ const AppRoutes = (): React.ReactElement => (
           isAsync={isAsync}
         />
       ))}
-      <PageNotFound title="404 Page Not Found" />
+      <PageNotFound title="404 Page Not Found"/>
     </Switch>
   </LastLocationProvider>
 );

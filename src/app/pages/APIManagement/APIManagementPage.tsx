@@ -1,5 +1,5 @@
 import React from 'react';
-import { Loading } from '@app/Components/Loading/Loading';
+import { Loading } from '@app/components/Loading/Loading';
 import LoremIpsum from 'react-lorem-ipsum';
 import {
   PageSection,
@@ -25,7 +25,7 @@ import {
   ListItem,
 } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
-import '../App.scss';
+import '../../App.scss';
 import { useTranslation } from 'react-i18next';
 
 export const APIManagementPage: React.FunctionComponent = () => {
@@ -134,9 +134,9 @@ export const APIManagementPage: React.FunctionComponent = () => {
                 <iframe
                   src="https://www.youtube.com/embed/NzNgc0f75pc"
                   title={t('apimgmtoverview.videoSectionTitle')}
-                  frameborder="0"
+                  frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen
+                  allowFullScreen
                 ></iframe>
               </div>
             </Card>

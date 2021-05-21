@@ -60,7 +60,8 @@
     "react-router-last-location": "^2.0.1",
     "redux": "4.0.5",
     "redux-logger": "3.0.6",
-    "redux-promise-middleware": "6.1.2"
+    "redux-promise-middleware": "6.1.2",
+    "@bf2/ui-shared": "0.0.17"
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.1.26",

@@ -1,16 +1,15 @@
 import React, { useContext } from 'react';
-import { InsightsContext } from '@app/utils/insights';
 import { useDispatch } from 'react-redux';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
 import { AlertVariant } from '@patternfly/react-core';
-import { FederatedModule } from '../Components/FederatedModule/FederatedModule';
-import { ConfigContext } from '@app/Config/Config';
-import { Loading } from '@app/Components/Loading/Loading';
-import { DevelopmentPreview } from '@app/Components/DevelopmentPreview/DevelopmentPreview';
-import { ServiceDownPage } from "@app/ServiceDownPage/ServiceDownPage";
+import { FederatedModule } from '../../components/FederatedModule/FederatedModule';
+import { AuthContext, ConfigContext, useAuth, useConfig } from '@bf2/ui-shared';
+import { Loading } from '@app/components/Loading/Loading';
+import { DevelopmentPreview } from '@app/components/DevelopmentPreview/DevelopmentPreview';
+import { ServiceDownPage } from "@app/pages/ServiceDown/ServiceDownPage";
 
 export const ServiceAccountsPage: React.FunctionComponent = () => {
-  const config = useContext(ConfigContext);
+  const config = useConfig();
 
   if (config?.serviceDown) {
     return (<ServiceDownPage />);
@@ -20,8 +19,8 @@ export const ServiceAccountsPage: React.FunctionComponent = () => {
 }
 
 export const ServiceAccountsPageConnected: React.FunctionComponent = () => {
-  const insights = useContext(InsightsContext);
-  const config = useContext(ConfigContext);
+  const config = useConfig();
+  const auth = useAuth();
   const dispatch = useDispatch();
 
   const addAlert = (message: string, variant?: AlertVariant) => {
@@ -37,8 +36,6 @@ export const ServiceAccountsPageConnected: React.FunctionComponent = () => {
     return <Loading />;
   }
 
-  const getUsername = () => insights.chrome.auth.getUser().then((user) => user.identity.user.username);
-
   return ( <DevelopmentPreview>
     <FederatedModule
       scope="kas"
@@ -46,10 +43,10 @@ export const ServiceAccountsPageConnected: React.FunctionComponent = () => {
       render={(ServiceAccountsFederated) => {
         return (
           <ServiceAccountsFederated
-            getToken={insights.chrome.auth.getToken}
-            getUsername={getUsername}
+            getToken={auth?.kas.getToken}
+            getUsername={auth?.getUsername}
             addAlert={addAlert}
-            basePath={config?.controlPlane.serviceApiBasePath}            
+            basePath={config?.kas.apiBasePath}
           />
         );
       }}

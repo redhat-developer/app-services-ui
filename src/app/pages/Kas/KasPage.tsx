@@ -1,31 +1,28 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router';
-import { InsightsContext } from '@app/utils/insights';
-import { useDispatch } from 'react-redux';
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
-import { AlertVariant } from '@patternfly/react-core';
-import { FederatedModule } from '../Components/FederatedModule/FederatedModule';
-import { ConfigContext } from '@app/Config/Config';
-import { Loading } from '@app/Components/Loading/Loading';
-import { Configuration, DefaultApi, TermsReviewResponse } from '../../openapi/ams';
+import { FederatedModule } from '../../components/FederatedModule/FederatedModule';
+import { useAlert, useAuth, useConfig } from '@bf2/ui-shared';
+import { Loading } from '@app/components/Loading/Loading';
+import { Configuration, DefaultApi, TermsReviewResponse } from '../../../openapi/ams';
 import { getTermsAppURL } from '@app/utils/termsApp';
 import queryString from 'query-string';
-import { DevelopmentPreview } from '@app/Components/DevelopmentPreview/DevelopmentPreview';
-import { ServiceDownPage } from "@app/ServiceDownPage/ServiceDownPage";
+import { DevelopmentPreview } from '@app/components/DevelopmentPreview/DevelopmentPreview';
+import { ServiceDownPage } from "@app/pages/ServiceDown/ServiceDownPage";
 
 export const KasPage: React.FunctionComponent = () => {
-  const config = useContext(ConfigContext);
+  const config = useConfig();
 
   if (config?.serviceDown) {
-    return (<ServiceDownPage />);
+    return (<ServiceDownPage/>);
   }
 
-  return (<KasPageConnected />);
+  return (<KasPageConnected/>);
 }
 
 export const KasPageConnected: React.FunctionComponent = () => {
-  const insights = useContext(InsightsContext);
-  const config = useContext(ConfigContext);
+  const config = useConfig();
+  const alert = useAlert();
+  const auth = useAuth();
 
   const history = useHistory();
   const location = useLocation();
@@ -49,19 +46,19 @@ export const KasPageConnected: React.FunctionComponent = () => {
   useEffect(() => {
     // Load the terms review state asynchronously, to avoid the user waiting when they press the Create Kafka Instance button
     const selfTermsReview = async () => {
-      const accessToken = await insights.chrome.auth.getToken();
+      const accessToken = await auth?.ams.getToken();
       const ams = new DefaultApi({
         accessToken,
-        basePath: config?.controlPlane.amsBasePath || '',
+        basePath: config?.ams.apiBasePath || '',
       } as Configuration);
       setTermsReview(await ams.apiAuthorizationsV1SelfTermsReviewPost({
-        event_code: config?.controlPlane.eventCode,
-        site_code: config?.controlPlane.siteCode
+        event_code: config?.ams.eventCode,
+        site_code: config?.ams.siteCode
       }).then(resp => resp.data));
     }
 
     selfTermsReview();
-  }, [config?.controlPlane.amsBasePath, insights.chrome.auth]);
+  }, [config?.ams.apiBasePath, auth]);
 
   const onConnectToRoute = async (event: any, routePath: string) => {
     if (routePath === undefined) {
@@ -98,24 +95,11 @@ export const KasPageConnected: React.FunctionComponent = () => {
     return create;
   };
 
-  const dispatch = useDispatch();
-
-  const addAlert = (message: string, variant?: AlertVariant) => {
-    dispatch(
-      addNotification({
-        variant: variant,
-        title: message,
-      })
-    );
-  };
-
   if (config === undefined || termsReview === undefined) {
-    return <Loading />;
+    return <Loading/>;
   }
 
-  const getUsername = () => insights.chrome.auth.getUser().then((user) => user.identity.user.username);
-
-  const { authServerUrl, realm } = config?.dataPlane?.keycloak || {};
+  const { authServerUrl, realm } = config?.masSso || {};
   const tokenEndPointUrl = `${authServerUrl}/realms/${realm}/protocol/openid-connect/token`;
 
   const osStreams = (
@@ -125,14 +109,12 @@ export const KasPageConnected: React.FunctionComponent = () => {
       render={(OpenshiftStreamsFederated) => {
         return (
           <OpenshiftStreamsFederated
-            getToken={insights.chrome.auth.getToken}
-            getUsername={getUsername}
             onConnectToRoute={onConnectToRoute}
             getConnectToRoutePath={getConnectToRoutePath}
             preCreateInstance={preCreateInstance}
             createDialogOpen={createDialogOpen}
-            addAlert={addAlert}
-            basePath={config?.controlPlane.serviceApiBasePath}
+            addAlert={alert?.addAlert}
+            basePath={config?.kas.apiBasePath}
             tokenEndPointUrl={tokenEndPointUrl}
           />
         );

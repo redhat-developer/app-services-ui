@@ -2,8 +2,8 @@
 /* eslint-disable no-undef */
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import { Loading } from '../Loading/Loading';
-import { ConfigContext, FederatedModuleConfig } from "@app/Config/Config";
-import { getEntryPoint } from "@app/Components/FederatedModule/utils";
+import { ConfigContext, FederatedModuleConfig, useConfig } from "@bf2/ui-shared";
+import { getEntryPoint } from "@app/components/FederatedModule/utils";
 
 export type FederatedModuleContextProps = {
   [module: string]: FederatedModuleConfig
@@ -11,11 +11,9 @@ export type FederatedModuleContextProps = {
 
 const FederatedModuleContext = React.createContext<FederatedModuleContextProps>({});
 
-export const FederatedModuleProvider: React.FunctionComponent = ({
-                                                                   children
-                                                                 }) => {
+export const FederatedModuleProvider: React.FunctionComponent = ({ children }) => {
 
-  const config = useContext(ConfigContext);
+  const config = useConfig();
 
   if (config === undefined) {
     return <Loading/>;
