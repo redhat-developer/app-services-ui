@@ -14,7 +14,6 @@ import { ServiceAccountsPage } from '@app/pages/ServiceAccounts/ServiceAccountsP
 import { BasenameContext } from "@bf2/ui-shared";
 import { useHistory } from "react-router";
 
-0
 
 let routeFocusTimer: number;
 
