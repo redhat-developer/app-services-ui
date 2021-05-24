@@ -1,9 +1,8 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-undef */
-import React, { ReactNode, useContext, useEffect, useState } from 'react';
-import { Loading } from '../Loading/Loading';
-import { ConfigContext, FederatedModuleConfig, useConfig } from "@bf2/ui-shared";
-import { getEntryPoint } from "@app/components/FederatedModule/utils";
+import React, { ReactNode, useEffect, useState } from 'react';
+import { FederatedModuleConfig, useConfig, AssetsContext } from "@bf2/ui-shared";
+import { Loading } from "@app/components/Loading/Loading";
 
 export type FederatedModuleContextProps = {
   [module: string]: FederatedModuleConfig
@@ -95,17 +94,17 @@ export type FederatedModuleProps = {
 export const FederatedModule: React.FunctionComponent<FederatedModuleProps> = ({ scope, module, render, fallback }) => {
 
   const federatedModuleContext = React.useContext(FederatedModuleContext);
-  const [url, setUrl] = useState<string | undefined>();
+  const [moduleInfo, setModuleInfo] = useState<ModuleInfo | undefined>();
 
   useEffect(() => {
-    const fetchUrl = async () => {
-      const entryPoint = await getEntryPoint(federatedModuleContext[scope].basePath, federatedModuleContext[scope].entryPoint, scope);
-      setUrl(entryPoint);
+    const fetchModuleInfo = async () => {
+      const moduleInfo = await getModuleInfo(federatedModuleContext[scope].basePath, scope, federatedModuleContext[scope].fallbackBasePath);
+      setModuleInfo(moduleInfo);
     }
-    fetchUrl();
+    fetchModuleInfo();
   }, [scope, federatedModuleContext]);
 
-  const { ready, failed } = useDynamicScript({ url });
+  const { ready, failed } = useDynamicScript({ url: moduleInfo?.entryPoint });
 
   if (!ready || failed) {
     if (failed && fallback) {
@@ -117,11 +116,71 @@ export const FederatedModule: React.FunctionComponent<FederatedModuleProps> = ({
   const Component = React.lazy(
     loadComponent(scope, module)
   );
+  const getPath = () => {
+    return moduleInfo?.basePath
+  }
 
   return (
-    <React.Suspense fallback={null}>
-      {render(Component)}
-    </React.Suspense>
+    <AssetsContext.Provider value={{ getPath }}>
+      <React.Suspense fallback={null}>
+          {render(Component)}
+      </React.Suspense>
+    </AssetsContext.Provider>
   );
 }
+
+type ModuleInfo = {
+  entryPoint: string
+  basePath: string
+}
+
+const getModuleInfo = async (baseUrl: string, scope: string, fallbackBasePath?: string): Promise<ModuleInfo | undefined> => {
+
+  const fedModsJsonFileName = "fed-mods.json";
+
+  type FedMods = {
+    [key: string]: {
+      entry: string[],
+      modules: string[]
+    };
+  };
+
+  const fetchModuleInfo = async (basePath: string) => {
+    const url = `${basePath}/${fedModsJsonFileName}`;
+    const response = await fetch(url);
+    return await response.json()
+      .then(json => json as FedMods)
+      .then(fedMods => fedMods[scope])
+      .then(s => s.entry[0])
+      .then(path => {
+        if (path.startsWith(basePath)) {
+          return {
+            entryPoint: path,
+            basePath
+          };
+        }
+        return {
+          entryPoint: `${basePath}${path}`,
+          basePath
+        }
+      });
+  }
+
+  try {
+    // First try to fetch the main entry point
+    return await fetchModuleInfo(baseUrl);
+  } catch (e) {
+    if (fallbackBasePath) {
+      try {
+        // If fetching the main entry point failed, and there is a fallback, try fetching that
+        // This allows us to use remote versions locally, transparently
+        return await fetchModuleInfo(fallbackBasePath)
+      } catch (e1) {
+        return undefined;
+      }
+    }
+  }
+  return undefined;
+}
+
 

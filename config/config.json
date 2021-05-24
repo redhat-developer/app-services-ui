@@ -24,15 +24,15 @@
       "federatedModules": {
         "kas": {
           "basePath": "http://localhost:9000",
-          "entryPoint": "fed-mods.json"
+          "fallbackBasePath": "/beta/apps/rhosak-control-plane-ui-build"
         },
         "kafka": {
           "basePath": "http://localhost:8080",
-          "entryPoint": "fed-mods.json"
+          "fallbackBasePath": "/beta/apps/rhosak-data-plane-ui-build"
         },
         "guides": {
           "basePath": "http://localhost:9001",
-          "entryPoint": "fed-mods.json"
+          "fallbackBasePath": "/beta/apps/rhoas-guides-build"
         }
       }
     }
@@ -62,16 +62,13 @@
       },
       "federatedModules": {
         "kas": {
-          "entryPoint": "fed-mods.json",
           "basePath": "/beta/apps/rhosak-control-plane-ui-build"
         },
         "kafka": {
-          "basePath": "/beta/apps/rhosak-data-plane-ui-build",
-          "entryPoint": "fed-mods.json"
+          "basePath": "/beta/apps/rhosak-data-plane-ui-build"
         },
         "guides": {
-          "basePath": "/beta/apps/rhoas-guides-build",
-          "entryPoint": "fed-mods.json"
+          "basePath": "/beta/apps/rhoas-guides-build"
         }
       }
     }
@@ -100,16 +97,13 @@
       },
       "federatedModules": {
         "kas": {
-          "entryPoint": "fed-mods.json",
           "basePath": "/beta/apps/rhosak-control-plane-ui-build"
         },
         "kafka": {
-          "basePath": "/beta/apps/rhosak-data-plane-ui-build",
-          "entryPoint": "fed-mods.json"
+          "basePath": "/beta/apps/rhosak-data-plane-ui-build"
         },
         "guides": {
-          "basePath": "/beta/apps/rhoas-guides-build",
-          "entryPoint": "fed-mods.json"
+          "basePath": "/beta/apps/rhoas-guides-build"
         }
       }
     }
