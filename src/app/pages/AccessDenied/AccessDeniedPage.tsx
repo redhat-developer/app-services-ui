@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Main, NotAuthorized } from "@redhat-cloud-services/frontend-components";
- 
+
 import { useTranslation, Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
@@ -13,8 +13,8 @@ const GetLink: React.FunctionComponent<GetLinkProps> = ({href, children}) => <Li
 
 export const AccessDeniedPage: React.FunctionComponent = () => {
   const { t } = useTranslation();
- 
- 
+
+
   const accessDeniedDetails = <Trans i18nKey='accessdenied.accessDeniedDescription' t={t} components={[<GetLink href='/streams/kafkas'/>]}/>
 
   return (<Main>
@@ -22,5 +22,3 @@ export const AccessDeniedPage: React.FunctionComponent = () => {
   </Main>
   );
 };
-
-export default AccessDeniedPage;

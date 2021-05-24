@@ -18,7 +18,7 @@ export const ServiceAccountsPage: React.FunctionComponent = () => {
   return (<ServiceAccountsPageConnected />);
 }
 
-export const ServiceAccountsPageConnected: React.FunctionComponent = () => {
+const ServiceAccountsPageConnected: React.FunctionComponent = () => {
   const config = useConfig();
   const auth = useAuth();
   const dispatch = useDispatch();
@@ -42,12 +42,7 @@ export const ServiceAccountsPageConnected: React.FunctionComponent = () => {
       module="./ServiceAccounts"
       render={(ServiceAccountsFederated) => {
         return (
-          <ServiceAccountsFederated
-            getToken={auth?.kas.getToken}
-            getUsername={auth?.getUsername}
-            addAlert={addAlert}
-            basePath={config?.kas.apiBasePath}
-          />
+          <ServiceAccountsFederated />
         );
       }}
     />

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { FederatedModule } from "../../components/FederatedModule/FederatedModule";
-import { Loading } from "@app/components/Loading/Loading";
 import { Configuration, DefaultApi } from "../../../openapi/kas";
 import { useHistory } from "react-router-dom";
 import { getParams } from "@app/pages/Kafka/utils";
 import AccessDeniedPage from '@app/pages/AccessDenied/AccessDeniedPage';
-import { DevelopmentPreview } from '@app/components/DevelopmentPreview/DevelopmentPreview';
 import getBaseName from '@app/utils/getBaseName';
 import { ServiceDownPage } from "@app/pages/ServiceDown/ServiceDownPage";
 import { useAlert, useAuth, useConfig } from '@bf2/ui-shared';
+import { Loading } from "@app/components/Loading/Loading";
+import { FederatedModule } from "@app/components/FederatedModule/FederatedModule";
+import { DevelopmentPreview } from "@app/components/DevelopmentPreview/DevelopmentPreview";
 
 enum KafkaUIKafkaModules {
   kafkaMainPageModule = "./Panels/KafkaMainView",
@@ -27,7 +27,7 @@ export const KafkaPage: React.FunctionComponent = () => {
   return (<KafkaPageConnected/>);
 }
 
-export const KafkaPageConnected: React.FunctionComponent = () => {
+const KafkaPageConnected: React.FunctionComponent = () => {
   const config = useConfig();
   const auth = useAuth();
   const [adminServerUrl, setAdminServerUrl] = useState<undefined | string>();

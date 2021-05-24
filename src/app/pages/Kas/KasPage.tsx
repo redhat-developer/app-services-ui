@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router';
-import { FederatedModule } from '../../components/FederatedModule/FederatedModule';
 import { useAlert, useAuth, useConfig } from '@bf2/ui-shared';
-import { Loading } from '@app/components/Loading/Loading';
 import { Configuration, DefaultApi, TermsReviewResponse } from '../../../openapi/ams';
 import { getTermsAppURL } from '@app/utils/termsApp';
 import queryString from 'query-string';
-import { DevelopmentPreview } from '@app/components/DevelopmentPreview/DevelopmentPreview';
 import { ServiceDownPage } from "@app/pages/ServiceDown/ServiceDownPage";
+import { Loading } from "@app/components/Loading/Loading";
+import { FederatedModule } from "@app/components/FederatedModule/FederatedModule";
+import { DevelopmentPreview } from "@app/components/DevelopmentPreview/DevelopmentPreview";
 
 export const KasPage: React.FunctionComponent = () => {
   const config = useConfig();
@@ -113,8 +113,6 @@ export const KasPageConnected: React.FunctionComponent = () => {
             getConnectToRoutePath={getConnectToRoutePath}
             preCreateInstance={preCreateInstance}
             createDialogOpen={createDialogOpen}
-            addAlert={alert?.addAlert}
-            basePath={config?.kas.apiBasePath}
             tokenEndPointUrl={tokenEndPointUrl}
           />
         );

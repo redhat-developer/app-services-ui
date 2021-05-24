@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Bullseye,
   Button,
   ButtonVariant,
   Card,
@@ -17,7 +16,6 @@ import {
   TitleSizes,
 } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
-import videoPlaceholder from 'static/images/RHODS-video-preview.png';
 
 import { useTranslation } from 'react-i18next';
 

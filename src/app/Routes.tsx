@@ -1,18 +1,18 @@
 import React from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { accessibleRouteChangeHandler, useDocumentTitle } from '@app/utils';
-import { NotFoundPage } from '@app/pages/NotFound/NotFoundPage';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
-import { KasPage } from '@app/pages/Kas/KasPage';
-import { KafkaPage } from '@app/pages/Kafka/KafkaPage';
-import { QuickStartDrawerFederated } from '@app/pages/Resources/QuickStartDrawerFederated';
-import { ResourcesPage } from '@app/pages/Resources/ResourcesPage';
-import { OverviewPage } from '@app/pages/Overview/OverviewPage';
-import { APIManagementPage } from '@app/pages/APIManagement/APIManagementPage';
-import { DataSciencePage } from '@app/pages/DataScience/DataSciencePage';
-import { ServiceAccountsPage } from '@app/pages/ServiceAccounts/ServiceAccountsPage';
 import { BasenameContext } from "@bf2/ui-shared";
 import { useHistory } from "react-router";
+import {
+  APIManagementPage,
+  DataSciencePage,
+  KafkaPage,
+  KasPage, NotFoundPage,
+  OverviewPage, QuickStartDrawerFederated,
+  ResourcesPage,
+  ServiceAccountsPage
+} from "@app/pages";
 
 
 let routeFocusTimer: number;
