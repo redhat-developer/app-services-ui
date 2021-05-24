@@ -6,7 +6,7 @@ import { resources } from './locale';
 // have a look at the Quick start guide
 // for passing in lng and translations on init
 
-let appServicesi18n = i18n.createInstance();
+const appServicesi18n = i18n.createInstance();
 
 appServicesi18n
     // pass the i18n instance to react-i18next.

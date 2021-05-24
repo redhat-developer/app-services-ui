@@ -1,19 +1,19 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect, Provider } from 'react-redux';
 import './App.scss';
 import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
 import { notifications, NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications/';
-import { InsightsContext } from "@app/utils/insights";
 import { AppRoutes } from "@app/Routes";
-import { FederatedModuleProvider } from "./Components/FederatedModule/FederatedModule";
+import { FederatedModuleProvider } from "./components/FederatedModule/FederatedModule";
+import { InsightsType } from "@app/utils";
 
 const registry = getRegistry();
 registry.register({ notifications });
 
 export const App: React.FunctionComponent = () => {
 
-  const insights = useContext(InsightsContext);
+  const insights: InsightsType = window["insights"];
   const history = useHistory();
 
   const getAppId = () => {

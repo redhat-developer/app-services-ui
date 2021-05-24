@@ -1,5 +1,3 @@
-import React from 'react';
-
 export type InsightsType = {
   chrome: {
     init: () => void;
@@ -43,5 +41,3 @@ export type IdentityType = {
     is_active: boolean;
   }
 };
-
-export const InsightsContext = React.createContext({} as InsightsType);
