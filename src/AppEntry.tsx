@@ -6,7 +6,6 @@ import App from '@app/App';
 import logger from 'redux-logger';
 import getBaseName from '@app/utils/getBaseName';
 import { InsightsType } from "@app/utils/insights";
-import { Loading } from "@app/components/Loading/Loading";
 import { ConfigProvider } from "@app/providers/ConfigContextProvider";
 import { KeycloakInstance } from "keycloak-js";
 import { Alert, AlertContext, Auth, AuthContext, useConfig } from "@bf2/ui-shared";
@@ -15,6 +14,7 @@ import { I18nextProvider } from 'react-i18next';
 import appServicesi18n from '@app/i18n';
 import { AlertVariant } from "@patternfly/react-core";
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
+import { Loading } from "@app/components/Loading/Loading";
 
 declare const __webpack_public_path__: string;
 

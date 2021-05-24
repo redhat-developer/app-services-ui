@@ -11,7 +11,9 @@ const PORT = process.env.PORT || port;
 const PROTOCOL = process.env.PROTOCOL || 'https';
 const BETA = process.env.BETA || true;
 
-const publicPath = `${BETA ? '/beta': ''}/apps/${crc.bundle}/`;
+const basePublicPath = `${BETA ? '/beta': ''}/apps`
+
+const publicPath = `${basePublicPath}/${crc.bundle}/`;
 
 module.exports = merge(common('development'), {
 
@@ -42,7 +44,7 @@ module.exports = merge(common('development'), {
       viewPath:
         {
           target: `${PROTOCOL}://${HOST}:${PORT}${publicPath}`,
-          pathRewrite: {viewPathRewritePattern: ''},
+          pathRewrite: { viewPathRewritePattern: '' },
           secure: false
         }
     }

@@ -17,7 +17,6 @@ export const QuickStartDrawerFederated: FunctionComponent = ({ children }) => {
       fallback={children}
       render={(QuickStartDrawerFederated) => (
         <QuickStartDrawerFederated
-          basePath={config?.federatedModules.guides.basePath}
           showDrafts={config?.guides.showDrafts}
           appendTo={() => document.querySelector("#qs-include")}
           root={() => document.querySelector('#qs-root')}

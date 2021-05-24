@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Configuration, DefaultApi } from "../../../openapi/kas";
 import { useHistory } from "react-router-dom";
 import { getParams } from "@app/pages/Kafka/utils";
-import AccessDeniedPage from '@app/pages/AccessDenied/AccessDeniedPage';
 import getBaseName from '@app/utils/getBaseName';
-import { ServiceDownPage } from "@app/pages/ServiceDown/ServiceDownPage";
 import { useAlert, useAuth, useConfig } from '@bf2/ui-shared';
 import { Loading } from "@app/components/Loading/Loading";
 import { FederatedModule } from "@app/components/FederatedModule/FederatedModule";
 import { DevelopmentPreview } from "@app/components/DevelopmentPreview/DevelopmentPreview";
+import { AccessDeniedPage, ServiceDownPage } from "@app/pages";
 
 enum KafkaUIKafkaModules {
   kafkaMainPageModule = "./Panels/KafkaMainView",
