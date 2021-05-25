@@ -3,34 +3,36 @@
     "hostnames": [ "prod.foo.redhat.com" ],
     "config": {
       "serviceDown": false,
-      "resources": {
+      "guides": {
         "showDrafts": false
       },
-      "controlPlane": {
-        "serviceApiBasePath": "https://api.stage.openshift.com",
-        "amsBasePath": "https://api.stage.openshift.com",
+      "ams": {
+        "apiBasePath": "https://api.stage.openshift.com",
         "eventCode": "onlineService",
         "siteCode": "ocm"
       },
-      "dataPlane": {
-        "keycloak": {
-          "authServerUrl": "https://identity.api.stage.openshift.com/auth",
-          "clientId": "strimzi-ui",
-          "realm": "rhoas"
-        }
+      "kas": {
+        "apiBasePath": "https://api.stage.openshift.com"
+      },
+      "kafka": {
+      },
+      "masSso": {
+        "authServerUrl": "https://identity.api.stage.openshift.com/auth",
+        "clientId": "strimzi-ui",
+        "realm": "rhoas"
       },
       "federatedModules": {
         "kas": {
           "basePath": "http://localhost:9000",
-          "entryPoint": "fed-mods.json"
+          "fallbackBasePath": "/beta/apps/rhosak-control-plane-ui-build"
         },
         "kafka": {
           "basePath": "http://localhost:8080",
-          "entryPoint": "fed-mods.json"
+          "fallbackBasePath": "/beta/apps/rhosak-data-plane-ui-build"
         },
         "guides": {
           "basePath": "http://localhost:9001",
-          "entryPoint": "fed-mods.json"
+          "fallbackBasePath": "/beta/apps/rhoas-guides-build"
         }
       }
     }
@@ -39,34 +41,34 @@
     "hostnames": [ "qaprodauth.cloud.redhat.com" ],
     "config": {
       "serviceDown": false,
-      "resources": {
+      "guides": {
         "showDrafts": true
       },
-      "controlPlane": {
-        "serviceApiBasePath": "https://api.stage.openshift.com",
+      "ams": {
         "amsBasePath": "https://api.stage.openshift.com",
         "eventCode": "onlineService",
         "siteCode": "ocm"
       },
-      "dataPlane": {
-        "keycloak": {
-          "authServerUrl": "https://identity.api.stage.openshift.com/auth",
-          "clientId": "strimzi-ui",
-          "realm": "rhoas"
-        }
+      "kas": {
+        "apiBasePath": "https://api.stage.openshift.com"
+      },
+      "kafka": {
+
+      },
+      "masSso": {
+        "authServerUrl": "https://identity.api.stage.openshift.com/auth",
+        "clientId": "strimzi-ui",
+        "realm": "rhoas"
       },
       "federatedModules": {
         "kas": {
-          "entryPoint": "fed-mods.json",
           "basePath": "/beta/apps/rhosak-control-plane-ui-build"
         },
         "kafka": {
-          "basePath": "/beta/apps/rhosak-data-plane-ui-build",
-          "entryPoint": "fed-mods.json"
+          "basePath": "/beta/apps/rhosak-data-plane-ui-build"
         },
         "guides": {
-          "basePath": "/beta/apps/rhoas-guides-build",
-          "entryPoint": "fed-mods.json"
+          "basePath": "/beta/apps/rhoas-guides-build"
         }
       }
     }
@@ -75,34 +77,33 @@
     "hostnames": [ "cloud.redhat.com" ],
     "config": {
       "serviceDown": false,
-      "resources": {
+      "guides": {
         "showDrafts": false
       },
-      "controlPlane": {
-        "serviceApiBasePath": "https://api.openshift.com",
+      "ams": {
         "amsBasePath": "https://api.openshift.com",
         "eventCode": "onlineService",
         "siteCode": "ocm"
       },
-      "dataPlane": {
-        "keycloak": {
-          "authServerUrl": "https://identity.api.openshift.com/auth",
-          "clientId": "strimzi-ui",
-          "realm": "rhoas"
-        }
+      "kas": {
+        "apiBasePath": "https://api.openshift.com"
+      },
+      "kafka": {
+      },
+      "masSso": {
+        "authServerUrl": "https://identity.api.openshift.com/auth",
+        "clientId": "strimzi-ui",
+        "realm": "rhoas"
       },
       "federatedModules": {
         "kas": {
-          "entryPoint": "fed-mods.json",
           "basePath": "/beta/apps/rhosak-control-plane-ui-build"
         },
         "kafka": {
-          "basePath": "/beta/apps/rhosak-data-plane-ui-build",
-          "entryPoint": "fed-mods.json"
+          "basePath": "/beta/apps/rhosak-data-plane-ui-build"
         },
         "guides": {
-          "basePath": "/beta/apps/rhoas-guides-build",
-          "entryPoint": "fed-mods.json"
+          "basePath": "/beta/apps/rhoas-guides-build"
         }
       }
     }
