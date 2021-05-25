@@ -1,13 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router';
-import { InsightsContext } from '@app/utils/insights';
-import { useDispatch } from 'react-redux';
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
-import { AlertVariant } from '@patternfly/react-core';
-import { FederatedModule } from '../FederatedModule/FederatedModule';
-import { ConfigContext } from '@app/Config/Config';
-import { Loading } from '@app/Components/Loading/Loading';
-import { KafkaRequest } from '../../../openapi/kas';
+import { useConfig } from '@bf2/ui-shared';
+import { Loading, FederatedModule } from '@app/components';
+import { KafkaRequest } from '@openapi/ams';
 
 type InstanceDrawerProps = {
   kafkaDetail: KafkaRequest | undefined;
@@ -27,25 +22,12 @@ export const InstanceDrawer: React.FC<InstanceDrawerProps> = ({
   setIsOpenDeleteInstanceModal,
   isOpenDeleteInstanceModal,
 }) => {
-  const insights = useContext(InsightsContext);
-  const config = useContext(ConfigContext);
-  const dispatch = useDispatch();
+  const config = useConfig();
   const history = useHistory();
-
-  const addAlert = (message: string, variant?: AlertVariant) => {
-    dispatch(
-      addNotification({
-        variant: variant,
-        title: message,
-      })
-    );
-  };
 
   if (config === undefined) {
     return <Loading />;
   }
-
-  const getUsername = () => insights.chrome.auth.getUser().then((user) => user.identity.user.username);
 
   const getConnectToRoutePath = (event: any, routePath: string) => {
     if (routePath === undefined) {
@@ -61,7 +43,7 @@ export const InstanceDrawer: React.FC<InstanceDrawerProps> = ({
     history.push(`/streams/${routePath}`);
   };
 
-  const { authServerUrl, realm } = config?.dataPlane?.keycloak || {};
+  const { authServerUrl, realm } = config?.masSso || {};
   const tokenEndPointUrl = `${authServerUrl}/realms/${realm}/protocol/openid-connect/token`;
 
   return (
@@ -71,10 +53,6 @@ export const InstanceDrawer: React.FC<InstanceDrawerProps> = ({
       render={(InstanceDrawerFederated) => {
         return (
           <InstanceDrawerFederated
-            getToken={insights.chrome.auth.getToken}
-            getUsername={getUsername}
-            addAlert={addAlert}
-            basePath={config?.controlPlane.serviceApiBasePath}
             getConnectToRoutePath={getConnectToRoutePath}
             onConnectToRoute={onConnectToRoute}
             tokenEndPointUrl={tokenEndPointUrl}

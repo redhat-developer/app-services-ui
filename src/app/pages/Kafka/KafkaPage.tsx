@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Configuration, DefaultApi, KafkaRequest } from '../../../openapi/kas';
+import { Configuration, DefaultApi, KafkaRequest } from '@openapi/kas';
 import { useHistory } from 'react-router-dom';
 import { getParams } from '@app/pages/Kafka/utils';
 import getBaseName from '@app/utils/getBaseName';
 import { useAlert, useAuth, useConfig } from '@bf2/ui-shared';
-import { Loading } from '@app/components/Loading/Loading';
-import { FederatedModule } from '@app/components/FederatedModule/FederatedModule';
-import { DevelopmentPreview } from '@app/components/DevelopmentPreview/DevelopmentPreview';
-import { InstanceDrawer } from '@app/components';
+import { Loading, FederatedModule, DevelopmentPreview, InstanceDrawer } from '@app/components';
 import { AccessDeniedPage, ServiceDownPage } from '@app/pages';
 
 enum KafkaUIKafkaModules {
