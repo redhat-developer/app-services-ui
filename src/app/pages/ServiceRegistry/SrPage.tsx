@@ -17,6 +17,7 @@ export const SrPage: React.FunctionComponent<IAppRoute> = ({ path }) => {
 export const SrPageConnected: React.FunctionComponent<{ path: IAppRoute['path'] }> = ({ path }) => {
     const sr = (
     <FederatedModule
+      // TODO This is the wrong scope to load from, but there is a skeleton page in kas-ui already - update once we have the new srs-ui ready
       scope="kas"
       module="./ServiceRegistry"
       render={(ServiceRegistryService) => {
