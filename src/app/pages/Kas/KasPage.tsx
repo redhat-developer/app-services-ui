@@ -1,27 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router';
-import { useAlert, useAuth, useConfig } from '@bf2/ui-shared';
-import { Configuration, DefaultApi, TermsReviewResponse } from '../../../openapi/ams';
+import { useAuth, useConfig } from '@bf2/ui-shared';
+import { Configuration, DefaultApi, TermsReviewResponse } from '@openapi/ams';
 import { getTermsAppURL } from '@app/utils/termsApp';
 import queryString from 'query-string';
-import { ServiceDownPage } from "@app/pages/ServiceDown/ServiceDownPage";
-import { Loading } from "@app/components/Loading/Loading";
-import { FederatedModule } from "@app/components/FederatedModule/FederatedModule";
-import { DevelopmentPreview } from "@app/components/DevelopmentPreview/DevelopmentPreview";
+import { ServiceDownPage } from '@app/pages/ServiceDown/ServiceDownPage';
+import { Loading, FederatedModule, DevelopmentPreview } from '@app/components';
 
 export const KasPage: React.FunctionComponent = () => {
   const config = useConfig();
 
   if (config?.serviceDown) {
-    return (<ServiceDownPage/>);
+    return <ServiceDownPage />;
   }
 
-  return (<KasPageConnected/>);
-}
+  return <KasPageConnected />;
+};
 
 export const KasPageConnected: React.FunctionComponent = () => {
   const config = useConfig();
-  const alert = useAlert();
   const auth = useAuth();
 
   const history = useHistory();
@@ -51,11 +48,15 @@ export const KasPageConnected: React.FunctionComponent = () => {
         accessToken,
         basePath: config?.ams.apiBasePath || '',
       } as Configuration);
-      setTermsReview(await ams.apiAuthorizationsV1SelfTermsReviewPost({
-        event_code: config?.ams.eventCode,
-        site_code: config?.ams.siteCode
-      }).then(resp => resp.data));
-    }
+      setTermsReview(
+        await ams
+          .apiAuthorizationsV1SelfTermsReviewPost({
+            event_code: config?.ams.eventCode,
+            site_code: config?.ams.siteCode,
+          })
+          .then((resp) => resp.data)
+      );
+    };
 
     selfTermsReview();
   }, [config?.ams.apiBasePath, auth]);
@@ -96,7 +97,7 @@ export const KasPageConnected: React.FunctionComponent = () => {
   };
 
   if (config === undefined || termsReview === undefined) {
-    return <Loading/>;
+    return <Loading />;
   }
 
   const { authServerUrl, realm } = config?.masSso || {};
