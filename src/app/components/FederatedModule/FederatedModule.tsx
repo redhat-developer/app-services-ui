@@ -106,7 +106,7 @@ export const FederatedModule: React.FunctionComponent<FederatedModuleProps> = ({
 
   const { ready, failed } = useDynamicScript({ url: moduleInfo?.entryPoint });
 
-  if (!ready || failed) {
+  if (!ready || failed || !moduleInfo) {
     if (failed && fallback) {
       return fallback;
     }
@@ -117,7 +117,7 @@ export const FederatedModule: React.FunctionComponent<FederatedModuleProps> = ({
     loadComponent(scope, module)
   );
   const getPath = () => {
-    return moduleInfo?.basePath
+    return moduleInfo.basePath
   }
 
   return (

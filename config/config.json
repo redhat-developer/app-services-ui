@@ -36,7 +36,7 @@
         },
         "sr": {
           "basePath": "http://localhost:9003",
-          "entryPoint": "/beta/apps/sr-control-plane-ui-build"
+          "fallbackBasePath": "/beta/apps/sr-ui-build"
         }
       }
     }

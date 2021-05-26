@@ -13,6 +13,7 @@ import {
   ResourcesPage,
   ServiceAccountsPage
 } from "@app/pages";
+import { SrPage } from "@app/pages/ServiceRegistry/SrPage";
 
 
 let routeFocusTimer: number;
