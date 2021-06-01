@@ -61,14 +61,14 @@ export const KasPageConnected: React.FunctionComponent = () => {
     selfTermsReview();
   }, [config?.ams.apiBasePath, auth]);
 
-  const onConnectToRoute = async (event: any, routePath: string) => {
+  const onConnectToRoute = async (event: unknown, routePath: string) => {
     if (routePath === undefined) {
       throw new Error('Route path is missing');
     }
     history.push(`/streams/${routePath}`);
   };
 
-  const getConnectToRoutePath = (event: any, routePath: string) => {
+  const getConnectToRoutePath = (event: unknown, routePath: string) => {
     if (routePath === undefined) {
       throw new Error('Route path is missing');
     }

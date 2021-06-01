@@ -112,7 +112,7 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
     setShowUpdate(true);
   };
 
-  const onError = (code: number, message: string) => {
+  const onError = (code: number) => {
     setError(code);
   };
 
