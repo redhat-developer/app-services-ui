@@ -97,7 +97,7 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
   const [activeAction, setActiveAction] = useState();
   const [currentTopic, setCurrentTopic] = useState(topicName);
 
-  const onError = (code: number, message: string) => {
+  const onError = (code: number) => {
     setError(code);
   };
 
