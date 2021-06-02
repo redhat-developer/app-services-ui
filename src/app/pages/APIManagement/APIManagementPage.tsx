@@ -1,6 +1,4 @@
 import React from 'react';
-import { Loading } from '@app/components/Loading/Loading';
-import LoremIpsum from 'react-lorem-ipsum';
 import {
   PageSection,
   PageSectionVariants,

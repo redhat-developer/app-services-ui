@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 
 export const DevelopmentPreview: React.FunctionComponent = ({ children }) => {
   const { t } = useTranslation();
-  return <div id='scrollablePageMain' className='pf-c-page__main' style={{height: '100%'}}>
+  return <div id='scrollablePageMain' className='pf-c-page__main' style={{ height: '100%' }}>
     <Banner isSticky variant="info">
-      <Bullseye>  
+      <Bullseye>
         <Popover
           aria-label="Development Preview Button"
           hasAutoWidth
@@ -15,10 +15,10 @@ export const DevelopmentPreview: React.FunctionComponent = ({ children }) => {
               }
           position='bottom'
           minWidth='300px'
-          maxWidth='25%'> 
+          maxWidth='25%'>
             <Button className='app-services-ui--button--dev-preview' variant='link'>{t('common.developmentPreview')}</Button>
           </Popover>
-      </Bullseye> 
+      </Bullseye>
     </Banner>
     {children}
   </div>
