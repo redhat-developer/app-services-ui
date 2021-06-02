@@ -18,7 +18,7 @@ export const AccessDeniedPage: React.FunctionComponent = () => {
     <Trans
       i18nKey="accessdenied.accessDeniedDescription"
       t={t}
-      components={[<GetLink href="/streams/kafkas" key="get-link" />]}
+      components={[<GetLink key="kafkas" href="/streams/kafkas" />]}
     />
   );
 

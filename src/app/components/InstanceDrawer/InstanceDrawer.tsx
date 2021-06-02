@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router';
 import { useConfig } from '@bf2/ui-shared';
 import { Loading, FederatedModule } from '@app/components';
-import { KafkaRequest } from '@openapi/ams';
+import { KafkaRequest } from '@openapi/kas';
 
 type InstanceDrawerProps = {
   kafkaDetail: KafkaRequest | undefined;
@@ -29,14 +29,14 @@ export const InstanceDrawer: React.FC<InstanceDrawerProps> = ({
     return <Loading />;
   }
 
-  const getConnectToRoutePath = (event: any, routePath: string) => {
+  const getConnectToRoutePath = (event: unknown, routePath: string) => {
     if (routePath === undefined) {
       throw new Error('Route path is missing');
     }
     return history.createHref({ pathname: `/streams/${routePath}` });
   };
 
-  const onConnectToRoute = async (event: any, routePath: string) => {
+  const onConnectToRoute = async (event: unknown, routePath: string) => {
     if (routePath === undefined) {
       throw new Error('Route path is missing');
     }
