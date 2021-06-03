@@ -1,15 +1,11 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { connect, Provider } from 'react-redux';
+import { connect } from 'react-redux';
+import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications/';
 import './App.scss';
-import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
-import { notifications, NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications/';
 import { AppRoutes } from '@app/Routes';
 import { FederatedModuleProvider } from './components/FederatedModule/FederatedModule';
 import { InsightsType } from '@app/utils';
-
-const registry = getRegistry();
-registry.register({ notifications });
 
 export const App: React.FunctionComponent = () => {
   const insights: InsightsType = window['insights'];
@@ -45,12 +41,10 @@ export const App: React.FunctionComponent = () => {
   }, []);
 
   return (
-    <Provider store={registry.getStore()}>
-      <FederatedModuleProvider>
-        <NotificationsPortal />
-        <AppRoutes />
-      </FederatedModuleProvider>
-    </Provider>
+    <FederatedModuleProvider>
+      <NotificationsPortal />
+      <AppRoutes />
+    </FederatedModuleProvider>
   );
 };
 
