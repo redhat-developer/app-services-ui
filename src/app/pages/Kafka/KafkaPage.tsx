@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Configuration, DefaultApi, KafkaRequest } from '@openapi/kas';
+import { Configuration, DefaultApi, KafkaRequest } from '@rhoas/kafka-management-sdk';
 import { useHistory } from 'react-router-dom';
 import { getParams } from '@app/pages/Kafka/utils';
 import getBaseName from '@app/utils/getBaseName';
