@@ -37,6 +37,7 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
+    "@bf2/ui-shared": "0.0.22",
     "@patternfly/react-core": "^4.97.2",
     "@patternfly/react-table": "^4.23.2",
     "@redhat-cloud-services/frontend-components": "^3.0.11",
@@ -60,8 +61,7 @@
     "react-router-last-location": "^2.0.1",
     "redux": "4.0.5",
     "redux-logger": "3.0.6",
-    "redux-promise-middleware": "6.1.2",
-    "@bf2/ui-shared": "0.0.21"
+    "redux-promise-middleware": "6.1.2"
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.1.26",

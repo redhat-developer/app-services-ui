@@ -122,9 +122,9 @@ const AppWithKeycloak: React.FunctionComponent = () => {
         variant,
         description,
         dataTestId,
-        autoDismiss,
-        dismissable,
-        dismissDelay,
+        autoDismiss: autoDismiss || true,
+        dismissable: dismissable || true,
+        dismissDelay: dismissDelay || 8000,
         requestId,
         sentryId,
       })
