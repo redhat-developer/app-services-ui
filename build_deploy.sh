@@ -25,6 +25,8 @@ VERSION="$(git log --pretty=format:'%h' -n 1)"
 IMAGE_REPOSITORY=${IMAGE_REPOSITORY:-"quay.io/rhoas/application-services-ui"}
 IMAGE_TAG=${IMAGE_TAG:-${VERSION}}
 IMAGE="${IMAGE_REPOSITORY}:${IMAGE_TAG}"
+RHOAS_QUAY_USER=${RHOAS_QUAY_USER:-}
+RHOAS_QUAY_TOKEN=${RHOAS_QUAY_TOKEN:-}
 
 step "Build the image"
 ${CONTAINER_ENGINE} build \
