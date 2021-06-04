@@ -95,7 +95,7 @@ while [[ $# -gt 0 ]]; do
         shift
         ;;
     *)
-        fatal "unknow option $1"
+        fatal "unknown option $1"
         ;;
     esac
 done
