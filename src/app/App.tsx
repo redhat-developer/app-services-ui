@@ -38,7 +38,7 @@ export const App: React.FunctionComponent = () => {
       const streamUrls = ['kafkas', 'service-accounts', 'resources'];
       history.push(`/${streamUrls.includes(event.navId) ? 'streams/' : ''}${event.navId}`);
     });
-  });
+  }, []);
 
   return (
     <FederatedModuleProvider>
