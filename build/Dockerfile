@@ -18,7 +18,8 @@ RUN rm -rf /node_modules \
 
 # ---------------------------------------------------------------------------- #
 
-FROM nginx:1.21-alpine
+ARG NGINX_REGISTRY=
+FROM ${NGINX_REGISTRY}nginx:1.21-alpine
 
 RUN mkdir -p /opt/app-root/src
 WORKDIR /opt/app-root/src
