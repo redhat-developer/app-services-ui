@@ -18,13 +18,14 @@ RUN rm -rf /node_modules \
 
 # ---------------------------------------------------------------------------- #
 
-FROM quay.io/app-sre/ubi8-nodejs-12:latest
+FROM nginx:1.21-alpine
 
-# copy required built output to image
+RUN mkdir -p /opt/app-root/src
+WORKDIR /opt/app-root/src
+
 COPY --from=builder --chown=root:root /opt/app-root/src/LICENSE ./
 COPY --from=builder --chown=root:root /opt/app-root/src/dist ./dist
-COPY --from=builder --chown=root:root /opt/app-root/src/node_modules ./node_modules
 
-EXPOSE 3000
+COPY --chown=root:root build/nginx.conf /etc/nginx/conf.d/default.conf
 
-#ENTRYPOINT [ "node" , "./dist/server/main.js" ]
+EXPOSE 8080

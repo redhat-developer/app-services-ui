@@ -48,4 +48,4 @@ echo "TODO"
 step "Test image build"
 run npm run clean    # clean the build dist before testing the container build
 rm -rf node_modules/ # clean node_modules before testing the container build
-docker build -t mk-ui-host:latest -f ./build/dockerfile .
+docker build -t mk-ui-host:latest -f ./build/Dockerfile .
