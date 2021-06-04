@@ -50,5 +50,5 @@ run npm run clean    # clean the build dist before testing the container build
 rm -rf node_modules/ # clean node_modules before testing the container build
 docker build \
     -t mk-ui-host:latest \
-    --build-arg NGINX_REGISTRY=quay.io/app-sre/ \
+    --build-arg NGINX_REGISTRY=quay.io/app-sre \
     -f ./build/Dockerfile .

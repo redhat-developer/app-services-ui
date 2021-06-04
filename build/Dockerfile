@@ -3,6 +3,8 @@
 # License: MIT License see the file LICENSE
 #
 
+ARG NGINX_REGISTRY=docker.io
+
 FROM quay.io/app-sre/ubi8-nodejs-12:latest as builder
 
 
@@ -18,8 +20,7 @@ RUN rm -rf /node_modules \
 
 # ---------------------------------------------------------------------------- #
 
-ARG NGINX_REGISTRY=
-FROM ${NGINX_REGISTRY}nginx:1.21-alpine
+FROM ${NGINX_REGISTRY}/nginx:1.21-alpine
 
 RUN mkdir -p /opt/app-root/src
 WORKDIR /opt/app-root/src
