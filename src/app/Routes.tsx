@@ -2,19 +2,20 @@ import React from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { accessibleRouteChangeHandler, useDocumentTitle } from '@app/utils';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
-import { BasenameContext } from "@bf2/ui-shared";
-import { useHistory } from "react-router";
+import { BasenameContext } from '@bf2/ui-shared';
+import { useHistory } from 'react-router';
 import {
   APIManagementPage,
   DataSciencePage,
   KafkaPage,
-  KasPage, NotFoundPage,
-  OverviewPage, QuickStartDrawerFederated,
+  KasPage,
+  NotFoundPage,
+  OverviewPage,
+  QuickStartDrawerFederated,
   ResourcesPage,
-  ServiceAccountsPage
-} from "@app/pages";
-import { SrPage } from "@app/pages/ServiceRegistry/SrPage";
-
+  ServiceAccountsPage,
+  SrsPage,
+} from '@app/pages';
 
 let routeFocusTimer: number;
 
@@ -37,8 +38,8 @@ export interface IAppRouteGroup {
 
 export type AppRouteConfig = IAppRoute | IAppRouteGroup;
 
-const RedirectToOverview: React.FunctionComponent = () => <Redirect to="/overview"/>;
-const RedirectToStreamsKafkas: React.FunctionComponent = () => <Redirect to="/streams/kafkas"/>;
+const RedirectToOverview: React.FunctionComponent = () => <Redirect to="/overview" />;
+const RedirectToStreamsKafkas: React.FunctionComponent = () => <Redirect to="/streams/kafkas" />;
 
 const routes: AppRouteConfig[] = [
   {
@@ -79,11 +80,11 @@ const routes: AppRouteConfig[] = [
     title: 'Red Hat OpenShift Streams for Apache Kafka',
   },
   {
-    component: SrPage,
+    component: SrsPage,
     exact: true,
-    label: 'SR',
+    label: 'Service Registry',
     path: '/sr',
-    title: 'SR',
+    title: 'Service Registry',
   },
   {
     component: ServiceAccountsPage,
@@ -126,7 +127,7 @@ const routes: AppRouteConfig[] = [
     label: 'QuickStarts for Red Hat OpenShift Application Services',
     path: '/streams/resources',
     title: 'QuickStarts for Red Hat OpenShift Application Services',
-  }
+  },
 ];
 
 // a custom hook for sending focus to the primary content container
@@ -149,7 +150,7 @@ const RouteWithTitleUpdates = ({ component: Component, isAsync = false, title, .
   useDocumentTitle(title);
   const history = useHistory();
   const getBasename = () => {
-    return history.createHref({ pathname: rest.path })
+    return history.createHref({ pathname: rest.path });
   };
 
   function routeWithTitle(routeProps: RouteComponentProps) {
@@ -162,12 +163,12 @@ const RouteWithTitleUpdates = ({ component: Component, isAsync = false, title, .
     );
   }
 
-  return <Route render={routeWithTitle}/>;
+  return <Route render={routeWithTitle} />;
 };
 
 const PageNotFound = ({ title }: { title: string }) => {
   useDocumentTitle(title);
-  return <Route component={NotFoundPage}/>;
+  return <Route component={NotFoundPage} />;
 };
 
 const flattenedRoutes: IAppRoute[] = routes.reduce(
@@ -188,7 +189,7 @@ const AppRoutes = (): React.ReactElement => (
           isAsync={isAsync}
         />
       ))}
-      <PageNotFound title="404 Page Not Found"/>
+      <PageNotFound title="404 Page Not Found" />
     </Switch>
   </LastLocationProvider>
 );

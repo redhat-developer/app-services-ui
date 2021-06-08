@@ -8,3 +8,4 @@ export * from './Overview';
 export * from './Resources';
 export * from './ServiceAccounts';
 export * from './ServiceDown';
+export * from './ServiceRegistry';
