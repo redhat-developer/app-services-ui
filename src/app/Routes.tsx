@@ -83,7 +83,7 @@ const routes: AppRouteConfig[] = [
     component: SrsPage,
     exact: true,
     label: 'Service Registry',
-    path: '/streams/service-registry',
+    path: '/sr',
     title: 'Service Registry',
   },
   {

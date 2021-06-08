@@ -35,7 +35,7 @@ export const App: React.FunctionComponent = () => {
     insights.chrome.identifyApp(appId);
 
     insights.chrome.on('APP_NAVIGATION', (event) => {
-      const streamUrls = ['kafkas', 'service-accounts', 'resources', 'service-registry'];
+      const streamUrls = ['kafkas', 'service-accounts', 'resources'];
       history.push(`/${streamUrls.includes(event.navId) ? 'streams/' : ''}${event.navId}`);
     });
   }, []);
