@@ -28,6 +28,6 @@ WORKDIR /opt/app-root/src
 COPY --from=builder --chown=root:root /opt/app-root/src/LICENSE ./
 COPY --from=builder --chown=root:root /opt/app-root/src/dist ./dist
 
-COPY --chown=root:root build/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --chown=root:root build/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 8080
