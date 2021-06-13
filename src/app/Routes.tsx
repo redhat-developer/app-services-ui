@@ -87,6 +87,34 @@ const routes: AppRouteConfig[] = [
     title: 'Service Registry',
   },
   {
+    component: SrsPage,
+    exact: true,
+    label: 'Service Registry',
+    path: '/sr/t/:tenantId/artifacts',
+    title: 'Service Registry',
+  },
+  {
+    component: SrsPage,
+    exact: true,
+    label: 'Service Registry',
+    path: '/sr/t/:tenantId/rules',
+    title: 'Service Registry',
+  },
+  {
+    component: SrsPage,
+    exact: true,
+    label: 'Service Registry',
+    path: '/sr/t/:tenantId/artifacts/:groupId/:artifactId',
+    title: 'Service Registry',
+  },
+  {
+    component: SrsPage,
+    exact: true,
+    label: 'Service Registry',
+    path: '/sr/t/:tenantId/artifacts/:groupId/:artifactId/versions/:version',
+    title: 'Service Registry',
+  },
+  {
     component: ServiceAccountsPage,
     exact: true,
     label: 'Red Hat OpenShift Streams for Apache Kafka',
@@ -163,7 +191,7 @@ const RouteWithTitleUpdates = ({ component: Component, isAsync = false, title, .
     );
   }
 
-  return <Route render={routeWithTitle} />;
+  return <Route render={routeWithTitle} {...rest} />;
 };
 
 const PageNotFound = ({ title }: { title: string }) => {
