@@ -29,6 +29,7 @@ export interface IAppRoute {
   title: string;
   isAsync?: boolean;
   routes?: undefined;
+  federatedComponent?: string;
 }
 
 export interface IAppRouteGroup {
@@ -85,6 +86,7 @@ const routes: AppRouteConfig[] = [
     label: 'Service Registry',
     path: '/sr',
     title: 'Service Registry',
+    federatedComponent: 'artifacts',
   },
   {
     component: SrsPage,
@@ -92,6 +94,7 @@ const routes: AppRouteConfig[] = [
     label: 'Service Registry',
     path: '/sr/t/:tenantId/artifacts',
     title: 'Service Registry',
+    federatedComponent: 'artifacts',
   },
   {
     component: SrsPage,
@@ -99,6 +102,7 @@ const routes: AppRouteConfig[] = [
     label: 'Service Registry',
     path: '/sr/t/:tenantId/rules',
     title: 'Service Registry',
+    federatedComponent: 'rules',
   },
   {
     component: SrsPage,
@@ -106,6 +110,7 @@ const routes: AppRouteConfig[] = [
     label: 'Service Registry',
     path: '/sr/t/:tenantId/artifacts/:groupId/:artifactId',
     title: 'Service Registry',
+    federatedComponent: 'artifact-redirect',
   },
   {
     component: SrsPage,
@@ -113,6 +118,7 @@ const routes: AppRouteConfig[] = [
     label: 'Service Registry',
     path: '/sr/t/:tenantId/artifacts/:groupId/:artifactId/versions/:version',
     title: 'Service Registry',
+    federatedComponent: 'artifacts-details',
   },
   {
     component: ServiceAccountsPage,
@@ -207,7 +213,7 @@ const flattenedRoutes: IAppRoute[] = routes.reduce(
 const AppRoutes = (): React.ReactElement => (
   <LastLocationProvider>
     <Switch>
-      {flattenedRoutes.map(({ path, exact, component, title, isAsync }, idx) => (
+      {flattenedRoutes.map(({ path, exact, component, title, isAsync, ...rest }, idx) => (
         <RouteWithTitleUpdates
           path={path}
           exact={exact}
@@ -215,6 +221,7 @@ const AppRoutes = (): React.ReactElement => (
           key={idx}
           title={title}
           isAsync={isAsync}
+          {...rest}
         />
       ))}
       <PageNotFound title="404 Page Not Found" />

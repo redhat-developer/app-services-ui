@@ -11,17 +11,21 @@ type ServiceRegistryParams = {
   version: string;
 };
 
-export const SrsPage: React.FC = () => {
+type SrsPageProps = {
+  federatedComponent?: string;
+};
+
+export const SrsPage: React.FC<SrsPageProps> = ({ federatedComponent }) => {
   const config = useConfig();
 
   if (config?.serviceDown) {
     return <ServiceDownPage />;
   }
 
-  return <SrsPageConnected />;
+  return <SrsPageConnected federatedComponent={federatedComponent} />;
 };
 
-const SrsPageConnected: React.FC = () => {
+const SrsPageConnected: React.FC<SrsPageProps> = ({ federatedComponent }) => {
   const config = useConfig();
   const params = useParams<ServiceRegistryParams>();
 
@@ -34,7 +38,7 @@ const SrsPageConnected: React.FC = () => {
       scope="srs"
       module="./ServiceRegistry"
       render={(ServiceRegistryFederated) => {
-        return <ServiceRegistryFederated params={params} />;
+        return <ServiceRegistryFederated params={params} federatedModule={federatedComponent} />;
       }}
     />
   );
