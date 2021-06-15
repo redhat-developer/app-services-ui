@@ -1,18 +1,18 @@
 # Creating a new MicroFrontend to Application Services UI
 
-The Application Services UI is developed as a series of micro-frontends. The Application Services UI app is the host app for all the micro-frontends that make up Managed Services. Each micro-frontend is integrated using [Webpack Module Federation](https://webpack.js.org/concepts/module-federation/) which allows us to have each individual micro-frontend developed and deployed individually and integrated at runtime in the end users browser.
+The Application Services UI is developed as a series of micro-frontends. The Application Services UI app is the host app for all the micro-frontends that make up Managed Services. Each micro-frontend is integrated using [Webpack Module Federation](https://webpack.js.org/concepts/module-federation/) which allows us to have each individual micro-frontend developed and deployed individually and integrated at runtime in the end user's browser.
 
 One or more micro-frontends are stored in a Git repository (normally on [GitHub](https://github.com) if the micro-frontend is open source, or on [GitLab](https://gitlab.cee.redhat.com/) if the micro-frontend isn't open source). The entire set of micro-frontends are stored in many Git repositories.
 
-Each git repository results in one (or more) Webpack builds and the output of the Webpack build is  is deployed to a path on cloud.redhat.com (e.g. https://cloud.redhat.com/beta/apps/rhosak-control-plane-ui-build)
+Each git repository results in one (or more) Webpack builds and the output of the Webpack build is deployed to a path on cloud.redhat.com (e.g. https://cloud.redhat.com/beta/apps/rhosak-control-plane-ui-build)
 
-Each micro-frontend is loaded on demand from that path at runtime using [React Suspense](https://reactjs.org/docs/concurrent-mode-suspense.html). This means that not all the micro-frontends that need loading up front. 
+Each micro-frontend is loaded on demand from that path at runtime using [React Suspense](https://reactjs.org/docs/concurrent-mode-suspense.html). This means that not all the micro-frontends need to be loaded up front. 
 
 NOTE: Multiple micro-frontends can be stored in the same git repository, and built by the same Webpack build.
 
-If you are developing locally you need to run a webpack dev server for each . As the micro-frontends are loaded on demand, with a fallback, not all micro-frontends need to be running for you to develop your micro-frontend.
+If you are developing locally, you need to run a webpack dev server for each micro-frontend. Since the micro-frontends are loaded on demand (with a fallback) not all micro-frontends need to be running for you to develop your micro-frontend.
 
-Most micro-frontends are assigned to a URL path subtree of the application. Some provide "shared functionality" (functionality that other micro-frontends can reuse e.g. the quick start drawer from the `guides` micro-frontend) and can be used in other ways (in our quick start drawer example as a parent component for all other micro-frontends).
+Most micro-frontends are assigned to a URL path subtree of the application. Some provide "shared functionality" (functionality that other micro-frontends can reuse (e.g. the quick start drawer from the `guides` micro-frontend) and can be used in other ways (e.g. in our quick start drawer example as a parent component for all other micro-frontends).
 
 ## Adding a new micro-frontend from a new Git repository
 
@@ -20,14 +20,14 @@ NOTE: If you already have a git repository set up to deploy a federated module t
 
 ### Creating the GitHub build repo
 
-We use the cloud.redhat.com deployment system (based on the Akamai Content Delivery Network) to send the assets to the user. In order to deploy the assets, you add them to a branch on a GitHub repo, and a cloud.redhat.com CI job will sync them to Akamai (or equivalent for staging).
+We use the cloud.redhat.com deployment system (based on the Akamai Content Delivery Network) to send the assets to the user. In order to deploy the assets, you add them to a branch on a GitHub repo, and a cloud.redhat.com CI job will sync them to Akamai (or an equivalent for staging).
 
-To set this up you need to create a minimal new app on [cloud-services-config](https://github.com/RedHatInsights/cloud-services-config) repo as demonstrated by [this commit](https://github.com/RedHatInsights/cloud-services-config/commit/7316dba0dddbf4e1abcf7c1057c055b8eb4e2b01#diff-c608be8e36b8dbaba0b0fc0d75c28bc58ab3a27167774c46f31f14319931c693R693-R696). You should leave a comment on the PR asking the person who merges it to set up the deployment repo, listing the GitHub usernames of any users who need write access.
+To set this up you need to create a minimal new app in the [cloud-services-config](https://github.com/RedHatInsights/cloud-services-config) repo as demonstrated by [this commit](https://github.com/RedHatInsights/cloud-services-config/commit/7316dba0dddbf4e1abcf7c1057c055b8eb4e2b01#diff-c608be8e36b8dbaba0b0fc0d75c28bc58ab3a27167774c46f31f14319931c693R693-R696). You should leave a comment on the PR asking the person who merges it to set up the deployment repo, listing the GitHub usernames of any users who need write access.
 
 
 ### Adding a menu item
 
-The cloud.redhat.com main meny is also driven by the [cloud-services-config](https://github.com/RedHatInsights/cloud-services-config) repo. The Application Services app is called `application-servces` and [this commit](https://github.com/RedHatInsights/cloud-services-config/commit/7316dba0dddbf4e1abcf7c1057c055b8eb4e2b01#diff-c608be8e36b8dbaba0b0fc0d75c28bc58ab3a27167774c46f31f14319931c693R672-R674) shows how to add a top level menu item. The `id` is also used as the subpath under `application-services/`. Nested menus are supported; an example is "Streams for Apache Kafka" which is configured using [this block])(https://github.com/RedHatInsights/cloud-services-config/commit/7316dba0dddbf4e1abcf7c1057c055b8eb4e2b01#diff-c608be8e36b8dbaba0b0fc0d75c28bc58ab3a27167774c46f31f14319931c693R631-R644). The [cloud-services-config](https://github.com/RedHatInsights/cloud-services-config) repo provides additional reference docs for the menu system.
+The cloud.redhat.com main menu is also driven by the [cloud-services-config](https://github.com/RedHatInsights/cloud-services-config) repo. The Application Services app is called `application-servces` and [this commit](https://github.com/RedHatInsights/cloud-services-config/commit/7316dba0dddbf4e1abcf7c1057c055b8eb4e2b01#diff-c608be8e36b8dbaba0b0fc0d75c28bc58ab3a27167774c46f31f14319931c693R672-R674) shows how to add a top level menu item. The `id` is also used as the subpath under `application-services/`. Nested menus are supported; an example is "Streams for Apache Kafka" which is configured using [this block])(https://github.com/RedHatInsights/cloud-services-config/commit/7316dba0dddbf4e1abcf7c1057c055b8eb4e2b01#diff-c608be8e36b8dbaba0b0fc0d75c28bc58ab3a27167774c46f31f14319931c693R631-R644). The [cloud-services-config](https://github.com/RedHatInsights/cloud-services-config) repo provides additional reference docs for the menu system.
 
 ### Exposing your micro-frontend for federation
 
@@ -38,7 +38,7 @@ To expose your micro-frontend for federation you must:
 
 Advice on how to update webpack can be found in the [migration guide](https://webpack.js.org/migrate/5/).
 
-Then you must add configuration to your common webpack configuration:
+Then you must add the following configuration to your common webpack configuration:
 
 ```js
 const {dependencies, scopeName} = require("./package.json");
@@ -75,11 +75,11 @@ Update `package.json` to add the `scopeName`, kas-ui provides an [example of thi
 
 ### Adding configuration for the micro-frontend
 
-In order for the Application Services UI to load the new micro-frontend you must add update the configuration to include references to the micro-frontend's deployment path. Open the `config/config.json` file in this repository.
+In order for the Application Services UI to load the new micro-frontend you must update the configuration to include references to the micro-frontend's deployment path. Open the `config/config.json` file in [this repository](https://gitlab.cee.redhat.com/mk-ci-cd/application-services-ui/-/blob/mk-release/config/config.json).
 
-The configuration file allows different configuration for each supported environment (currently local development aka prod.foo.redhat.com, qaprodauth.cloud.redhat.com and production aka cloud.redhat.com) - so you'll need to specify the micro-frontend location for each environment.
+The configuration file allows different configuration for each supported environment (currently local development aka prod.foo.redhat.com, staging aka qaprodauth.cloud.redhat.com, and production aka cloud.redhat.com) - so you'll need to specify the micro-frontend location for each environment.
 
-Locate the configuration block for local development (prod.foo.redhat.com) and add a new entry to the `federatedModules`; normally for local development you'll use a new port on localhost - this should match your webpack dev configuration. The name of federated micro-frontend must match the `scopeName`. For example:
+Locate the configuration block for local development (prod.foo.redhat.com) and add a new entry to the `federatedModules`; normally for local development you'll use a new port on localhost - this should match your webpack dev configuration. The name of the federated micro-frontend must match the `scopeName`. For example:
 
 ```json
       "federatedModules": {
@@ -102,7 +102,7 @@ Now locate the configuration block for qaprodauth and production, and add your m
       }  
 ```
 
-The `fed-mods.json` entry point allow us to bust the cache when loading the micro-frontend in production as Akamai generally sends assets with long expiry dates, however JSON files are always refreshed. First the app will load the `fed-mods.json` file (which is created by the micro-frontend build), parse the file, then load the micro-frontend entry point `<contenthash>.js` file.
+The `fed-mods.json` entry point allows us to bust the cache when loading the micro-frontend in production as Akamai generally sends assets with long expiry dates, however JSON files are always refreshed. First the app will load the `fed-mods.json` file (which is created by the micro-frontend build), parse the file, then load the micro-frontend entry point `<contenthash>.js` file.
 
 To generate the `fed-mods.json` file add the `ChunkMapper` from the `@redhat-cloud-services/frontend-components-config` dependency. Add this dependency to the common webpack config for your micro-frontend:
 
