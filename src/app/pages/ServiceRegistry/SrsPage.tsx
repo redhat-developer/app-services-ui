@@ -3,6 +3,7 @@ import { useConfig } from '@bf2/ui-shared';
 import { useParams } from 'react-router-dom';
 import { ServiceDownPage } from '@app/pages';
 import { DevelopmentPreview, FederatedModule, Loading } from '@app/components';
+import { SrPage } from './SrPage';
 
 type ServiceRegistryParams = {
   tenantId: string;
@@ -37,11 +38,17 @@ const SrsPageConnected: React.FC<SrsPageProps> = ({ federatedComponent }) => {
     <FederatedModule
       scope="srs"
       module="./ServiceRegistry"
+      fallback={<Loading />}
       render={(ServiceRegistryFederated) => {
         return <ServiceRegistryFederated params={params} federatedModule={federatedComponent} />;
       }}
     />
   );
 
-  return <DevelopmentPreview> {srsFederated} </DevelopmentPreview>;
+  return (
+    <DevelopmentPreview>
+      {srsFederated}
+      <SrPage federatedComponent={federatedComponent} />
+    </DevelopmentPreview>
+  );
 };

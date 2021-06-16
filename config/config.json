@@ -20,6 +20,9 @@
         "clientId": "strimzi-ui",
         "realm": "rhoas"
       },
+      "sr": {
+        "apiBasePath": ""
+      },
       "srs": {
         "apiBasePath": "https://api.stage.openshift.com"
       },
@@ -35,6 +38,10 @@
         "guides": {
           "basePath": "http://localhost:9001",
           "fallbackBasePath": "/beta/apps/rhoas-guides-build"
+        },
+        "sr": {
+          "basePath": "http://localhost:8888",
+          "fallbackBasePath": "/beta/apps/sr-ui-build"
         },
         "srs": {
           "basePath": "http://localhost:9005",
@@ -64,6 +71,9 @@
         "clientId": "strimzi-ui",
         "realm": "rhoas"
       },
+      "sr": {
+        "apiBasePath": ""
+      },
       "srs": {
         "apiBasePath": "https://api.stage.openshift.com"
       },
@@ -78,7 +88,7 @@
           "basePath": "/beta/apps/rhoas-guides-build"
         },
         "sr": {
-          "basePath": "/beta/apps/sr-control-plane-ui-build"
+          "basePath": "/beta/apps/sr-ui-build"
         },
         "srs": {
           "basePath": "/beta/apps/srs-ui-build"
@@ -107,6 +117,9 @@
         "clientId": "strimzi-ui",
         "realm": "rhoas"
       },
+      "sr": {
+        "apiBasePath": ""
+      },
       "srs": {
         "apiBasePath": "https://api.openshift.com"
       },
@@ -122,6 +135,9 @@
         },
         "srs": {
           "basePath": "/beta/apps/srs-ui-build"
+        },
+        "sr": {
+          "basePath": "/beta/apps/sr-ui-build"
         }
       }
     }
