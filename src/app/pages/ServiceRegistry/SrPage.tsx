@@ -16,7 +16,7 @@ type SrsPageProps = {
   tenantId?: string;
 };
 /**
- * This is temporary code for testing. It will remove after 
+ * This is temporary code for testing. It will remove after
  */
 function federatedConfig(tenantId: string, navPrefixPath: string) {
     const config: any = {
@@ -59,10 +59,10 @@ export enum FederatedModuleActions {
 }
 
 export enum SrFederatedModules {
-  Artifacts = 'FederatedArtifactsPage',
-  ArtifactsDetails = 'FederatedArtifactVersionPage',
-  Rules = 'FederatedRulesPage',
-  ArtifactRedirect = 'FederatedArtifactRedirectPage',
+  Artifacts = './FederatedArtifactsPage',
+  ArtifactsDetails = './FederatedArtifactVersionPage',
+  Rules = './FederatedRulesPage',
+  ArtifactRedirect = './FederatedArtifactRedirectPage',
 }
 
 const SrPage: React.FC<SrsPageProps> = ({ federatedComponent, tenantId }) => {
