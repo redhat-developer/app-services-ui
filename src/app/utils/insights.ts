@@ -5,7 +5,7 @@ export type InsightsType = {
     getApp: () => string;
     getBundle: () => string;
     getEnvironment: () => 'ci' | 'qa' | 'prod' | 'stage';
-    on: (type: string, callback: ((event: any) => void)) => void;
+    on: (type: string, callback: ((event: any) => void)) => () => void;
     auth: {
       getToken(): Promise<string>;
       getUser(): Promise<UserType>;
