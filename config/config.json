@@ -45,7 +45,7 @@
     }
   },
   {
-    "hostnames": ["qaprodauth.cloud.redhat.com"],
+    "hostnames": ["qaprodauth.cloud.redhat.com", "qaprodauth.console.redhat.com"],
     "config": {
       "serviceDown": false,
       "guides": {
@@ -85,7 +85,7 @@
     }
   },
   {
-    "hostnames": ["cloud.redhat.com"],
+    "hostnames": ["cloud.redhat.com", "console.redhat.com"],
     "config": {
       "serviceDown": false,
       "guides": {
