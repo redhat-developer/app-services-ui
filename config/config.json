@@ -20,7 +20,7 @@
         "clientId": "strimzi-ui",
         "realm": "rhoas"
       },
-      "sr": {
+      "apircurio_registry": {
         "apiBasePath": ""
       },
       "srs": {
@@ -39,7 +39,7 @@
           "basePath": "http://localhost:9001",
           "fallbackBasePath": "/beta/apps/rhoas-guides-build"
         },
-        "sr": {
+        "apicurio_registry": {
           "basePath": "http://localhost:8888",
           "fallbackBasePath": "/beta/apps/sr-ui-build"
         },
@@ -71,7 +71,7 @@
         "clientId": "strimzi-ui",
         "realm": "rhoas"
       },
-      "sr": {
+      "apircurio_registry": {
         "apiBasePath": ""
       },
       "srs": {
@@ -87,7 +87,7 @@
         "guides": {
           "basePath": "/beta/apps/rhoas-guides-build"
         },
-        "sr": {
+        "apircurio_registry": {
           "basePath": "/beta/apps/sr-ui-build"
         },
         "srs": {
@@ -117,7 +117,7 @@
         "clientId": "strimzi-ui",
         "realm": "rhoas"
       },
-      "sr": {
+      "apircurio_registry": {
         "apiBasePath": ""
       },
       "srs": {
@@ -136,7 +136,7 @@
         "srs": {
           "basePath": "/beta/apps/srs-ui-build"
         },
-        "sr": {
+        "apircurio_registry": {
           "basePath": "/beta/apps/sr-ui-build"
         }
       }

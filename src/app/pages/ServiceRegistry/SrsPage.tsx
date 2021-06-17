@@ -49,7 +49,7 @@ const SrsPageConnected: React.FC<SrsPageProps> = ({ federatedComponent }) => {
       })
     );
     await api.getRegistries().then((res) => {
-      const response = res?.data && res.data[0];
+      const response = res?.data && res.data?.items[0];
       setRegistry(response);
     });
   };
