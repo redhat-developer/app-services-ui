@@ -72,7 +72,7 @@ const SrPageConnected: React.FC<SrsPageProps> = ({ federatedComponent, registry 
 
   const srsFederated = (
     <FederatedModule
-      scope="sr"
+      scope="apicurio_registry"
       module={currentModule}
       fallback={<Loading />}
       render={(ServiceRegistryFederated) => {
