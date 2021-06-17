@@ -41,7 +41,7 @@ const SrsPageConnected: React.FC<SrsPageProps> = ({ federatedComponent }) => {
   }, []);
 
   const fetchRegistries = async () => {
-    const accessToken = await auth?.kas.getToken();
+    const accessToken = await auth?.srs.getToken();
     const api = new RegistriesApi(
       new Configuration({
         accessToken,
