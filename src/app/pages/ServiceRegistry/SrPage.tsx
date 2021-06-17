@@ -1,8 +1,10 @@
 import React from 'react';
-import { useConfig } from '@bf2/ui-shared';
 import { useParams, useHistory } from 'react-router-dom';
+import { Registry } from '@rhoas/registry-management-sdk';
+import { useConfig } from '@bf2/ui-shared';
 import { ServiceDownPage } from '@app/pages';
 import { FederatedModule, Loading } from '@app/components';
+import { federatedConfig } from './utils';
 
 type ServiceRegistryParams = {
   tenantId: string;
@@ -14,42 +16,8 @@ type ServiceRegistryParams = {
 type SrsPageProps = {
   federatedComponent?: string;
   tenantId?: string;
+  registry: Registry;
 };
-/**
- * This is temporary code for testing. It will remove after
- */
-function federatedConfig(tenantId: string, navPrefixPath: string) {
-    const config: any = {
-      auth: {
-        options: {},
-        type: 'none',
-      },
-      tenants: {
-        api: 'http://tenant-manager-mt-apicurio-apicurio-registry.apps.zero.massopen.cloud/api/v1',
-      },
-      registry: {
-        apis: `https://apicurio-registry-mt-apicurio-apicurio-registry.apps.zero.massopen.cloud/t/${tenantId}/apis`,
-        config: {
-          artifacts: {
-            url: `https://apicurio-registry-mt-apicurio-apicurio-registry.apps.zero.massopen.cloud/t/${tenantId}/apis`,
-          },
-          auth: {
-            type: 'none',
-          },
-          features: {
-            readOnly: false,
-            breadcrumbs: false,
-            multiTenant: false,
-          },
-          ui: {
-            navPrefixPath,
-          },
-        },
-      },
-    };
-
-    return config;
-  }
 
 export enum FederatedModuleActions {
   Artifacts = 'artifacts',
@@ -65,17 +33,17 @@ export enum SrFederatedModules {
   ArtifactRedirect = './FederatedArtifactRedirectPage',
 }
 
-const SrPage: React.FC<SrsPageProps> = ({ federatedComponent, tenantId }) => {
+const SrPage: React.FC<SrsPageProps> = ({ federatedComponent, tenantId, registry }) => {
   const config = useConfig();
 
   if (config?.serviceDown) {
     return <ServiceDownPage />;
   }
 
-  return <SrPageConnected federatedComponent={federatedComponent} tenantId={tenantId} />;
+  return <SrPageConnected federatedComponent={federatedComponent} tenantId={tenantId} registry={registry} />;
 };
 
-const SrPageConnected: React.FC<SrsPageProps> = ({ federatedComponent, tenantId = 'tenant-15' }) => {
+const SrPageConnected: React.FC<SrsPageProps> = ({ federatedComponent, registry }) => {
   const config = useConfig();
   const history = useHistory();
   const { groupId, artifactId, version } = useParams<ServiceRegistryParams>();
@@ -96,12 +64,11 @@ const SrPageConnected: React.FC<SrsPageProps> = ({ federatedComponent, tenantId 
   };
 
   const currentModule = getCurrentModule();
+  const federateConfig = federatedConfig(registry?.registryUrl);
 
   if (config === undefined) {
     return <Loading />;
   }
-
-  const srConfig = federatedConfig(tenantId, '');
 
   const srsFederated = (
     <FederatedModule
@@ -111,8 +78,9 @@ const SrPageConnected: React.FC<SrsPageProps> = ({ federatedComponent, tenantId 
       render={(ServiceRegistryFederated) => {
         return (
           <ServiceRegistryFederated
-            config={srConfig}
+            config={federateConfig}
             history={history}
+            tenantId={registry?.id}
             groupId={groupId}
             artifactId={artifactId}
             version={version}
