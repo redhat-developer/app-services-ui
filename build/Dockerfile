@@ -14,13 +14,12 @@ COPY --chown=default:root / .
 RUN npm install -q \
   && npm run build
 # clear deps, and only install prod deps - needed as server build does not bundle them/node provided functions
-RUN rm -rf /node_modules \
+RUN rm -rf /node_modules \ 
   && npm install -q --only=production \
   && npm dedupe
 
 # ---------------------------------------------------------------------------- #
 
-ARG NGINX_REGISTRY=docker.io
 FROM ${NGINX_REGISTRY}/nginx:1.21-alpine
 
 RUN mkdir -p /opt/app-root/src
