@@ -106,6 +106,11 @@ module.exports = (env, argv) => {
             singleton: true,
             requiredVersion: dependencies['react-dom']
           },
+          'react-router-dom': {
+            eager: true,
+            singleton: true,
+            requiredVersion: dependencies['react-router-dom']
+          },
           "@bf2/ui-shared": {
             eager: true,
             singleton: true,
