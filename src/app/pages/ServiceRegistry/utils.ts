@@ -39,17 +39,7 @@ export interface ConfigType {
     ui: UiConfig;
 }
 
-const getNavPrefixPath = () => {
-    const pathname = window.location.pathname;
-    let release = '/';
-    const pathName = pathname.split('/');
-    pathName.shift();
-    if (pathName[0] === 'beta') {
-        pathName.shift();
-        release = `/beta/`;
-    }
-    return `${release}application-services/sr`;
-};
+const getNavPrefixPath = () => "/sr";
 
 const federatedConfig = (apiUrl: string) => {
     const config: ConfigType = {
@@ -68,7 +58,7 @@ const federatedConfig = (apiUrl: string) => {
         ui: {
             navPrefixPath: getNavPrefixPath()
         }
-    }
+    } as ConfigType;
 
     return config;
 }
