@@ -5,16 +5,15 @@ import { LastLocationProvider, useLastLocation } from 'react-router-last-locatio
 import { BasenameContext } from '@bf2/ui-shared';
 import { useHistory } from 'react-router';
 import {
-  APIManagementPage,
+  APIManagementPage, ArtifactRedirect, Artifacts, ArtifactVersionDetails,
   DataSciencePage,
   KafkaPage,
   KasPage,
   NotFoundPage,
   OverviewPage,
   QuickStartDrawerFederated,
-  ResourcesPage,
+  ResourcesPage, Rules,
   ServiceAccountsPage,
-  SrsPage,
 } from '@app/pages';
 
 let routeFocusTimer: number;
@@ -29,7 +28,6 @@ export interface IAppRoute {
   title: string;
   isAsync?: boolean;
   routes?: undefined;
-  federatedComponent?: string;
 }
 
 export interface IAppRouteGroup {
@@ -81,44 +79,39 @@ const routes: AppRouteConfig[] = [
     title: 'Red Hat OpenShift Streams for Apache Kafka',
   },
   {
-    component: SrsPage,
+    component: Artifacts,
     exact: true,
     label: 'Service Registry',
     path: '/sr',
     title: 'Service Registry',
-    federatedComponent: 'artifacts',
   },
   {
-    component: SrsPage,
+    component: Artifacts,
     exact: true,
     label: 'Service Registry',
     path: '/sr/artifacts',
     title: 'Service Registry',
-    federatedComponent: 'artifacts',
   },
   {
-    component: SrsPage,
+    component: Rules,
     exact: true,
     label: 'Service Registry',
     path: '/sr/rules',
     title: 'Service Registry',
-    federatedComponent: 'rules',
   },
   {
-    component: SrsPage,
+    component: ArtifactRedirect,
     exact: true,
     label: 'Service Registry',
     path: '/sr/artifacts/:groupId/:artifactId',
     title: 'Service Registry',
-    federatedComponent: 'artifact-redirect',
   },
   {
-    component: SrsPage,
+    component: ArtifactVersionDetails,
     exact: true,
     label: 'Service Registry',
     path: '/sr/artifacts/:groupId/:artifactId/versions/:version',
     title: 'Service Registry',
-    federatedComponent: 'artifacts-details',
   },
   {
     component: ServiceAccountsPage,
