@@ -41,7 +41,7 @@ const SrsPageConnected: React.FC<SrsPageProps> = ({ federatedComponent }) => {
   }, []);
 
   const fetchRegistries = async () => {
-    const accessToken = await auth?.kas.getToken();
+    const accessToken = await auth?.srs.getToken();
     const api = new RegistriesApi(
       new Configuration({
         accessToken,
@@ -58,7 +58,7 @@ const SrsPageConnected: React.FC<SrsPageProps> = ({ federatedComponent }) => {
     return <Loading />;
   }
 
-  const srsFederated = (
+  const SrsFederated = ({ children }) => (
     <FederatedModule
       scope="srs"
       module="./ServiceRegistry"
@@ -71,12 +71,16 @@ const SrsPageConnected: React.FC<SrsPageProps> = ({ federatedComponent }) => {
             registry={registry}
             fetchRegistry={fetchRegistries}
           >
-            {registry && <SrPage federatedComponent={federatedComponent} registry={registry} />}
+            {children}
           </ServiceRegistryFederated>
         );
       }}
     />
   );
 
-  return <DevelopmentPreview>{srsFederated}</DevelopmentPreview>;
+  return (
+    <DevelopmentPreview>
+      <SrsFederated>{registry && <SrPage federatedComponent={federatedComponent} registry={registry} />}</SrsFederated>
+    </DevelopmentPreview>
+  );
 };
