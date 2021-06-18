@@ -4,8 +4,8 @@ import { SrsLayout } from "@app/pages/ServiceRegistry/SrsLayout";
 
 export const ArtifactVersionDetails: React.FunctionComponent = () => {
   return (
-    <SrsLayout>
-      <FederatedApicurioComponent module="./FederatedArtifactVersionPage"/>
-    </SrsLayout>
+    <SrsLayout breadcrumbId="srs.artifacts_details" render={registry => (
+      <FederatedApicurioComponent registry={registry} module="./FederatedArtifactVersionPage" />
+    )}/>
   );
 };

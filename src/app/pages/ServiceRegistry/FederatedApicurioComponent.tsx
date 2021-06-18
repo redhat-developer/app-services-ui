@@ -1,12 +1,13 @@
-import React, { useContext } from "react";
-import { useConfig } from "@bf2/ui-shared";
+import React from "react";
+import { useBasename, useConfig } from "@bf2/ui-shared";
 import { createApicurioConfig } from "@app/pages/ServiceRegistry/utils";
 import { FederatedModule, Loading } from "@app/components";
 import { useHistory, useParams } from "react-router-dom";
-import { CurrentRegistryContext } from "@app/pages/ServiceRegistry/CurrentRegistryContext";
+import { Registry } from "@rhoas/registry-management-sdk";
 
 export type FederatedApicurioComponentProps = {
   module: string
+  registry: Registry
 };
 
 type ServiceRegistryParams = {
@@ -16,17 +17,17 @@ type ServiceRegistryParams = {
 };
 
 export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProps> = ({
-                                                                                        module,
+                                                                                        module, registry,
                                                                                       }) => {
   const config = useConfig();
   const history = useHistory();
-  const registry = useContext(CurrentRegistryContext);
+  const basename = useBasename();
   const { groupId, artifactId, version } = useParams<ServiceRegistryParams>();
 
   if (config === undefined || registry === undefined) {
     return <Loading/>;
   }
-  const federateConfig = createApicurioConfig(registry.registryUrl, "/sr");
+  const federateConfig = createApicurioConfig(registry.registryUrl, basename.getBasename());
 
   return (
     <FederatedModule

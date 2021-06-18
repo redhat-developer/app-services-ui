@@ -4,8 +4,8 @@ import { SrsLayout } from "@app/pages/ServiceRegistry/SrsLayout";
 
 export const Rules: React.FunctionComponent = () => {
   return (
-    <SrsLayout>
-      <FederatedApicurioComponent module="./FederatedRulesPage"/>
-    </SrsLayout>
+    <SrsLayout breadcrumbId="srs.global_rules" render={registry => (
+      <FederatedApicurioComponent registry={registry} module="./FederatedRulesPage"/>
+    )}/>
   );
 };
