@@ -103,6 +103,12 @@ const AppWithKeycloak: React.FunctionComponent = () => {
     ams: {
       getToken: insights.chrome.auth.getToken,
     },
+    srs: {
+      getToken: insights.chrome.auth.getToken,
+    },
+    apicurio_registry: {
+      getToken: insights.chrome.auth.getToken,
+    },
   };
 
   const addAlert = ({
