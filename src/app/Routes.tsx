@@ -3,18 +3,16 @@ import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { accessibleRouteChangeHandler, useDocumentTitle } from '@app/utils';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
 import { BasenameContext } from '@bf2/ui-shared';
-import { useHistory } from 'react-router';
 import {
-  APIManagementPage,
+  APIManagementPage, ArtifactRedirect, Artifacts, ArtifactVersionDetails,
   DataSciencePage,
   KafkaPage,
   KasPage,
   NotFoundPage,
   OverviewPage,
   QuickStartDrawerFederated,
-  ResourcesPage,
+  ResourcesPage, Rules,
   ServiceAccountsPage,
-  SrsPage,
 } from '@app/pages';
 
 let routeFocusTimer: number;
@@ -29,7 +27,7 @@ export interface IAppRoute {
   title: string;
   isAsync?: boolean;
   routes?: undefined;
-  federatedComponent?: string;
+  basename?: string;
 }
 
 export interface IAppRouteGroup {
@@ -49,6 +47,7 @@ const routes: AppRouteConfig[] = [
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/streams/kafkas/:id',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
+    basename: '/streams/kafkas'
   },
   {
     component: KafkaPage,
@@ -56,6 +55,7 @@ const routes: AppRouteConfig[] = [
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/streams/kafkas/:id/topics/:topicName',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
+    basename: '/streams/kafkas'
   },
   {
     // Handle the redirect from application-services/streams to application-services/streams/kafkas
@@ -79,46 +79,47 @@ const routes: AppRouteConfig[] = [
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/streams/kafkas',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
+    basename: '/streams/kafkas'
   },
   {
-    component: SrsPage,
+    component: Artifacts,
     exact: true,
     label: 'Service Registry',
     path: '/sr',
     title: 'Service Registry',
-    federatedComponent: 'artifacts',
+    basename: '/sr'
   },
   {
-    component: SrsPage,
+    component: Artifacts,
     exact: true,
     label: 'Service Registry',
     path: '/sr/artifacts',
     title: 'Service Registry',
-    federatedComponent: 'artifacts',
+    basename: '/sr'
   },
   {
-    component: SrsPage,
+    component: Rules,
     exact: true,
     label: 'Service Registry',
     path: '/sr/rules',
     title: 'Service Registry',
-    federatedComponent: 'rules',
+    basename: '/sr'
   },
   {
-    component: SrsPage,
+    component: ArtifactRedirect,
     exact: true,
     label: 'Service Registry',
     path: '/sr/artifacts/:groupId/:artifactId',
     title: 'Service Registry',
-    federatedComponent: 'artifact-redirect',
+    basename: '/sr'
   },
   {
-    component: SrsPage,
+    component: ArtifactVersionDetails,
     exact: true,
     label: 'Service Registry',
     path: '/sr/artifacts/:groupId/:artifactId/versions/:version',
     title: 'Service Registry',
-    federatedComponent: 'artifacts-details',
+    basename: '/sr'
   },
   {
     component: ServiceAccountsPage,
@@ -126,6 +127,7 @@ const routes: AppRouteConfig[] = [
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/streams/service-accounts',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
+    basename: '/streams'
   },
   {
     component: OverviewPage,
@@ -179,12 +181,11 @@ const useA11yRouteChange = (isAsync: boolean) => {
   }, [isAsync, lastNavigation]);
 };
 
-const RouteWithTitleUpdates = ({ component: Component, isAsync = false, title, ...rest }: IAppRoute) => {
+const RouteWithTitleUpdates = ({ component: Component, isAsync = false, title, basename, ...rest }: IAppRoute) => {
   useA11yRouteChange(isAsync);
   useDocumentTitle(title);
-  const history = useHistory();
   const getBasename = () => {
-    return history.createHref({ pathname: rest.path });
+    return basename || "";
   };
 
   function routeWithTitle(routeProps: RouteComponentProps) {
