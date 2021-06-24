@@ -1,54 +1,33 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useHistory, useLocation } from 'react-router';
-import { InsightsContext } from '@app/utils/insights';
-import { useDispatch } from 'react-redux';
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
-import { AlertVariant } from '@patternfly/react-core';
-import { FederatedModule } from '../../Components/FederatedModule/FederatedModule';
-import { ConfigContext } from '@app/Config/Config';
-import { Loading } from '@app/Components/Loading/Loading';
-import { Configuration, DefaultApi, TermsReviewResponse } from '../../../openapi/ams';
-import { getTermsAppURL } from '@app/utils/termsApp';
-import queryString from 'query-string';
-import { DevelopmentPreview } from '@app/Components/DevelopmentPreview/DevelopmentPreview';
-import { ServiceDownPage } from "@app/ServiceDownPage/ServiceDownPage";
+import { DevelopmentPreview, FederatedModule, Loading } from '@app/components';
+import { ServiceDownPage } from '@app/pages/ServiceDown/ServiceDownPage';
+import { useConfig } from '@bf2/ui-shared';
+import React from 'react';
+
 
 export const CosPage: React.FunctionComponent = () => {
-  const config = useContext(ConfigContext);
+  const config = useConfig();
 
   if (config?.serviceDown) {
-    return (<ServiceDownPage />);
+    return <ServiceDownPage />;
   }
 
-  return (<CosPageConnected />);
-}
+  return <CosPageConnected />;
+};
 
 export const CosPageConnected: React.FunctionComponent = () => {
-  const insights = useContext(InsightsContext);
-  const config = useContext(ConfigContext);
-
-
+  const config = useConfig();
 
   if (config === undefined) {
     return <Loading />;
   }
 
-  const getUsername = () => insights.chrome.auth.getUser().then((user) => user.identity.user.username);
-
-  const osStreams = (
+  const osCos = (
     <FederatedModule
       scope="cos"
-      module="./TODO"
-      render={(OpenshiftStreamsFederated) => {
-        return (
-          <OpenshiftStreamsFederated
-            getToken={insights.chrome.auth.getToken}
-            getUsername={getUsername}
-          />
-        );
-      }}
+      module="./OpenshiftManagedConnectors"
+      render={(OpenshiftManagedConnectors) => <OpenshiftManagedConnectors/>}
     />
   );
 
-  return <DevelopmentPreview> {osStreams} </DevelopmentPreview>;
+  return <DevelopmentPreview> {osCos} </DevelopmentPreview>;
 };

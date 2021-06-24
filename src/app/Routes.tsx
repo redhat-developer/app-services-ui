@@ -15,6 +15,7 @@ import {
   ServiceAccountsPage,
   CosPage
 } from '@app/pages';
+import getBaseName from './utils/getBaseName';
 
 let routeFocusTimer: number;
 
@@ -124,10 +125,11 @@ const routes: AppRouteConfig[] = [
   },
   {
     component: CosPage,
-    exact: true,
+    exact: false,
     label: 'COS',
     path: '/cos',
     title: 'COS',
+    basename: `${getBaseName(window.location.pathname)}/cos`
   },
   {
     component: ServiceAccountsPage,
