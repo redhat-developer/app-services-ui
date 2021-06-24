@@ -4,15 +4,22 @@ import { accessibleRouteChangeHandler, useDocumentTitle } from '@app/utils';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
 import { BasenameContext } from '@bf2/ui-shared';
 import {
-  APIManagementPage, ArtifactRedirect, Artifacts, ArtifactVersionDetails,
+  APIManagementPage,
+  ArtifactRedirect,
+  Artifacts,
+  ArtifactVersionDetails,
   DataSciencePage,
-  KafkaPage,
   KasPage,
   NotFoundPage,
   OverviewPage,
   QuickStartDrawerFederated,
-  ResourcesPage, Rules,
+  ResourcesPage,
+  Rules,
   ServiceAccountsPage,
+  Topics,
+  TopicDetails,
+  CreateTopic,
+  UpdateTopic,
 } from '@app/pages';
 
 let routeFocusTimer: number;
@@ -42,20 +49,36 @@ const RedirectToStreamsKafkas: React.FunctionComponent = () => <Redirect to="/st
 
 const routes: AppRouteConfig[] = [
   {
-    component: KafkaPage,
+    component: Topics,
     exact: true,
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/streams/kafkas/:id',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
-    basename: '/streams/kafkas'
+    basename: '/streams/kafkas',
   },
   {
-    component: KafkaPage,
+    component: TopicDetails,
     exact: false,
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/streams/kafkas/:id/topics/:topicName',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
-    basename: '/streams/kafkas'
+    basename: '/streams/kafkas',
+  },
+  {
+    component: CreateTopic,
+    exact: false,
+    label: 'Red Hat OpenShift Streams for Apache Kafka',
+    path: '/streams/kafkas/:id/topic/create',
+    title: 'Red Hat OpenShift Streams for Apache Kafka',
+    basename: '/streams/kafkas',
+  },
+  {
+    component: UpdateTopic,
+    exact: false,
+    label: 'Red Hat OpenShift Streams for Apache Kafka',
+    path: '/streams/kafkas/:id/topic/update/:topicName',
+    title: 'Red Hat OpenShift Streams for Apache Kafka',
+    basename: '/streams/kafkas',
   },
   {
     // Handle the redirect from application-services/streams to application-services/streams/kafkas
@@ -79,7 +102,7 @@ const routes: AppRouteConfig[] = [
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/streams/kafkas',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
-    basename: '/streams/kafkas'
+    basename: '/streams/kafkas',
   },
   {
     component: Artifacts,
@@ -87,7 +110,7 @@ const routes: AppRouteConfig[] = [
     label: 'Service Registry',
     path: '/sr',
     title: 'Service Registry',
-    basename: '/sr'
+    basename: '/sr',
   },
   {
     component: Artifacts,
@@ -95,7 +118,7 @@ const routes: AppRouteConfig[] = [
     label: 'Service Registry',
     path: '/sr/artifacts',
     title: 'Service Registry',
-    basename: '/sr'
+    basename: '/sr',
   },
   {
     component: Rules,
@@ -103,7 +126,7 @@ const routes: AppRouteConfig[] = [
     label: 'Service Registry',
     path: '/sr/rules',
     title: 'Service Registry',
-    basename: '/sr'
+    basename: '/sr',
   },
   {
     component: ArtifactRedirect,
@@ -111,7 +134,7 @@ const routes: AppRouteConfig[] = [
     label: 'Service Registry',
     path: '/sr/artifacts/:groupId/:artifactId',
     title: 'Service Registry',
-    basename: '/sr'
+    basename: '/sr',
   },
   {
     component: ArtifactVersionDetails,
@@ -119,7 +142,7 @@ const routes: AppRouteConfig[] = [
     label: 'Service Registry',
     path: '/sr/artifacts/:groupId/:artifactId/versions/:version',
     title: 'Service Registry',
-    basename: '/sr'
+    basename: '/sr',
   },
   {
     component: ServiceAccountsPage,
@@ -127,7 +150,7 @@ const routes: AppRouteConfig[] = [
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/streams/service-accounts',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
-    basename: '/streams'
+    basename: '/streams',
   },
   {
     component: OverviewPage,
@@ -185,15 +208,15 @@ const RouteWithTitleUpdates = ({ component: Component, isAsync = false, title, b
   useA11yRouteChange(isAsync);
   useDocumentTitle(title);
   const getBasename = () => {
-    return basename || "";
+    return basename || '';
   };
 
   function routeWithTitle(routeProps: RouteComponentProps) {
     return (
       <QuickStartDrawerFederated>
-        <BasenameContext.Provider value={{ getBasename }}>
-          <Component {...rest} {...routeProps} />
-        </BasenameContext.Provider>
+      <BasenameContext.Provider value={{ getBasename }}>
+        <Component {...rest} {...routeProps} />
+      </BasenameContext.Provider>
       </QuickStartDrawerFederated>
     );
   }

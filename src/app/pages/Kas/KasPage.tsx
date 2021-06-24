@@ -61,20 +61,6 @@ export const KasPageConnected: React.FunctionComponent = () => {
     selfTermsReview();
   }, [config?.ams.apiBasePath, auth]);
 
-  const onConnectToRoute = async (event: unknown, routePath: string) => {
-    if (routePath === undefined) {
-      throw new Error('Route path is missing');
-    }
-    history.push(`/streams/${routePath}`);
-  };
-
-  const getConnectToRoutePath = (event: unknown, routePath: string) => {
-    if (routePath === undefined) {
-      throw new Error('Route path is missing');
-    }
-    return history.createHref({ pathname: `/streams/${routePath}` });
-  };
-
   const preCreateInstance = async (open: boolean) => {
     // if termsReview is set, we can proceed, otherwise wait for the effect to complete - the state update will cause the page to rerender
     if (termsReview) {
@@ -110,8 +96,6 @@ export const KasPageConnected: React.FunctionComponent = () => {
       render={(OpenshiftStreamsFederated) => {
         return (
           <OpenshiftStreamsFederated
-            onConnectToRoute={onConnectToRoute}
-            getConnectToRoutePath={getConnectToRoutePath}
             preCreateInstance={preCreateInstance}
             createDialogOpen={createDialogOpen}
             tokenEndPointUrl={tokenEndPointUrl}

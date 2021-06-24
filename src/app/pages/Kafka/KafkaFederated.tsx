@@ -1,43 +1,32 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Configuration, DefaultApi, KafkaRequest } from '@rhoas/kafka-management-sdk';
-import { useHistory } from 'react-router-dom';
-import { getParams } from '@app/pages/Kafka/utils';
 import getBaseName from '@app/utils/getBaseName';
 import { useAlert, useAuth, useConfig } from '@bf2/ui-shared';
 import { Loading, FederatedModule, DevelopmentPreview, InstanceDrawer } from '@app/components';
 import { AccessDeniedPage, ServiceDownPage } from '@app/pages';
 
-enum KafkaActionsModules {
-  ViewTopics = './Panels/KafkaMainView',
-  DetailsTopic = './Panels/TopicDetails',
-  CreateTopic = './Panels/CreateTopic',
-  UpdateTopic = './Panels/UpdateTopic',
-}
+type KafkaFederatedProps = {
+  module: string;
+};
 
-export enum KafkaActions {
-  ViewTopics = 'ViewTopics',
-  CreateTopic = 'CreateTopic',
-  DetailsTopic = 'DetailsTopic',
-  UpdateTopic = 'UpdateTopic',
-}
-
-export const KafkaPage: React.FunctionComponent = () => {
+export const KafkaFederated: React.FunctionComponent<KafkaFederatedProps> = ({ module }) => {
   const config = useConfig();
 
   if (config?.serviceDown) {
     return <ServiceDownPage />;
   }
 
-  return <KafkaPageConnected />;
+  return <KafkaPageConnected module={module} />;
 };
 
-const KafkaPageConnected: React.FunctionComponent = () => {
+const KafkaPageConnected: React.FunctionComponent<KafkaFederatedProps> = ({ module }) => {
   const config = useConfig();
   const auth = useAuth();
   const [adminServerUrl, setAdminServerUrl] = useState<undefined | string>();
   const [kafkaDetail, setKafkaDetail] = useState<KafkaRequest | undefined>();
 
-  const { id, topicName } = getParams();
+  const { id, topicName } = useParams<{ id: string; topicName: string }>();
   const [kafkaName, setKafkaName] = useState<undefined | string>();
   useEffect(() => {
     const getAdminApiUrl = async () => {
@@ -67,6 +56,7 @@ const KafkaPageConnected: React.FunctionComponent = () => {
       topicName={topicName}
       kafkaName={kafkaName}
       kafkaDetail={kafkaDetail}
+      module={module}
     />
   );
 };
@@ -77,6 +67,7 @@ type KafkaPageContentProps = {
   topicName?: string;
   kafkaName?: string;
   kafkaDetail: KafkaRequest | undefined;
+  module: string;
 };
 
 const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
@@ -85,48 +76,20 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
   topicName,
   kafkaName,
   kafkaDetail,
+  module,
 }) => {
   const auth = useAuth();
   const alert = useAlert();
-  const history = useHistory();
 
   const [error, setError] = useState<undefined | number>();
   const [isInstanceDrawerOpen, setIsInstanceDrawerOpen] = useState<boolean | undefined>();
   const [activeDrawerTab, setActiveDrawerTab] = useState<string>('');
   const [isOpenDeleteInstanceModal, setIsOpenDeleteInstanceModal] = useState<boolean>(false);
-  const [activeAction, setActiveAction] = useState();
   const [currentTopic, setCurrentTopic] = useState(topicName);
 
   const onError = (code: number) => {
     setError(code);
   };
-
-  const onConnectToRoute = (routePath: string) => {
-    if (routePath) {
-      history.push(`/streams/kafkas/${id}/${routePath}`);
-    } else {
-      history.push(`/streams/kafkas/${id}`);
-    }
-  };
-
-  const getConnectToRoutePath = (routePath: string, topicName?: string) => {
-    if (routePath === undefined) {
-      throw new Error('Route path is missing');
-    }
-    if (topicName) {
-      return history.createHref({ pathname: `/streams/kafkas/${id}/${routePath}`, key: topicName });
-    }
-    return history.createHref({ pathname: `/streams/kafkas/${id}/${routePath}` });
-  };
-
-  let kafkaModule;
-  if (topicName && !activeAction) {
-    kafkaModule = KafkaActionsModules.DetailsTopic;
-  } else if (activeAction) {
-    kafkaModule = KafkaActionsModules[activeAction];
-  } else {
-    kafkaModule = KafkaActionsModules.ViewTopics;
-  }
 
   const kafkaPageLink = `${getBaseName(window.location.pathname)}/streams/kafkas/`;
   const kafkaInstanceLink = `${getBaseName(window.location.pathname)}/streams/kafkas/${id}`;
@@ -140,20 +103,13 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
     setIsInstanceDrawerOpen(false);
   };
 
-  const dispatchKafkaAction = (kafkaAction: KafkaActions, topic: string | undefined) => {
-    if (topic) {
-      setCurrentTopic(topic);
-    }
-    setActiveAction(kafkaAction);
-  };
-
   let kafkaUIPage = (
     <FederatedModule
       data-ouia-app-id="dataPlane-streams"
       scope="kafka"
-      module={kafkaModule}
-      render={(FederatedTopics) => (
-        <FederatedTopics
+      module={module}
+      render={(FederatedKafka) => (
+        <FederatedKafka
           getToken={auth?.kafka.getToken}
           apiBasePath={adminServerUrl}
           kafkaName={kafkaName}
@@ -164,9 +120,6 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
           onError={onError}
           handleInstanceDrawer={handleInstanceDrawer}
           setIsOpenDeleteInstanceModal={setIsOpenDeleteInstanceModal}
-          dispatchKafkaAction={dispatchKafkaAction}
-          onConnectToRoute={onConnectToRoute}
-          getConnectToRoutePath={getConnectToRoutePath}
         />
       )}
     />
