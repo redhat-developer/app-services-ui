@@ -13,7 +13,9 @@ import {
   QuickStartDrawerFederated,
   ResourcesPage, Rules,
   ServiceAccountsPage,
+  CosPage
 } from '@app/pages';
+import getBaseName from './utils/getBaseName';
 
 let routeFocusTimer: number;
 
@@ -120,6 +122,14 @@ const routes: AppRouteConfig[] = [
     path: '/sr/artifacts/:groupId/:artifactId/versions/:version',
     title: 'Service Registry',
     basename: '/sr'
+  },
+  {
+    component: CosPage,
+    exact: false,
+    label: 'COS',
+    path: '/cos',
+    title: 'COS',
+    basename: `${getBaseName(window.location.pathname)}/cos`
   },
   {
     component: ServiceAccountsPage,
