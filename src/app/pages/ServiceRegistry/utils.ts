@@ -15,6 +15,7 @@ export interface UiConfig {
 
 export interface AuthConfig {
   type: string;
+  getToken: () => Promise<string>;
 }
 
 // Used when `type=keycloakjs`
@@ -27,26 +28,21 @@ export interface NoneAuthConfig extends AuthConfig {
 
 }
 
-// Used when `type=gettoken`
-export interface GetTokenAuthConfig extends AuthConfig {
-  getToken: () => string;
-}
-
 export interface ConfigType {
   artifacts: ArtifactsConfig;
-  auth: KeycloakJsAuthConfig | NoneAuthConfig | GetTokenAuthConfig;
+  auth: KeycloakJsAuthConfig | NoneAuthConfig;
   features?: FeaturesConfig;
   ui: UiConfig;
 }
 
-const createApicurioConfig = (apiUrl: string, navPathPrefix: string) => {
+const createApicurioConfig = (apiUrl: string, navPathPrefix: string, getToken: () => Promise<string>) => {
   const config: ConfigType = {
     artifacts: {
       url: `${apiUrl}/apis/registry`,
     },
     auth: {
-      options: {},
-      type: 'none',
+      type: "gettoken",
+      getToken
     },
     features: {
       readOnly: false,

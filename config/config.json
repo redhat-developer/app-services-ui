@@ -26,6 +26,26 @@
       "srs": {
         "apiBasePath": "https://api.stage.openshift.com"
       },
+      "cos": {
+        "apiBasePath": "https://kas-fleet-manager-managed-services-chirino.apps.kammellol.rhmw-integrations.net",
+        "configurators": {
+          "debezium-mongodb-1.5.0.Final": {
+            "remoteEntry": "http://localhost:8888/dbz-connector-configurator.remoteEntry.js",
+            "scope": "debezium_ui",
+            "module": "./config"
+          },
+          "debezium-mysql-1.5.0.Final": {
+            "remoteEntry": "http://localhost:8888/dbz-connector-configurator.remoteEntry.js",
+            "scope": "debezium_ui",
+            "module": "./config"
+          },
+          "debezium-postgres-1.5.0.Final": {
+            "remoteEntry": "http://localhost:8888/dbz-connector-configurator.remoteEntry.js",
+            "scope": "debezium_ui",
+            "module": "./config"
+          }
+        }
+      },
       "federatedModules": {
         "kas": {
           "basePath": "http://localhost:9000",
@@ -46,6 +66,10 @@
         "srs": {
           "basePath": "http://localhost:9005",
           "fallbackBasePath": "/beta/apps/srs-ui-build"
+        },
+        "cos": {
+          "basePath": "http://localhost:9002",
+          "fallbackBasePath": "/beta/apps/cos-ui-build"
         }
       }
     }
@@ -77,6 +101,26 @@
       "srs": {
         "apiBasePath": "https://api.stage.openshift.com"
       },
+      "cos": {
+        "apiBasePath": "https://kas-fleet-manager-managed-services-chirino.apps.kammellol.rhmw-integrations.net",
+        "configurators": {
+          "debezium-mongodb-1.5.0.Final": {
+            "remoteEntry": "http://localhost:8888/dbz-connector-configurator.remoteEntry.js",
+            "scope": "debezium_ui",
+            "module": "./config"
+          },
+          "debezium-mysql-1.5.0.Final": {
+            "remoteEntry": "http://localhost:8888/dbz-connector-configurator.remoteEntry.js",
+            "scope": "debezium_ui",
+            "module": "./config"
+          },
+          "debezium-postgres-1.5.0.Final": {
+            "remoteEntry": "http://localhost:8888/dbz-connector-configurator.remoteEntry.js",
+            "scope": "debezium_ui",
+            "module": "./config"
+          }
+        }
+      },
       "federatedModules": {
         "kas": {
           "basePath": "/beta/apps/rhosak-control-plane-ui-build"
@@ -92,6 +136,9 @@
         },
         "srs": {
           "basePath": "/beta/apps/srs-ui-build"
+        },
+        "cos": {
+          "basePath": "/beta/apps/cos-ui-build"
         }
       }
     }
@@ -123,6 +170,26 @@
       "srs": {
         "apiBasePath": "https://api.openshift.com"
       },
+      "cos": {
+        "apiBasePath": "https://api.openshift.com",
+        "configurators": {
+          "debezium-mongodb-1.5.0.Final": {
+            "remoteEntry": "http://localhost:8888/dbz-connector-configurator.remoteEntry.js",
+            "scope": "debezium_ui",
+            "module": "./config"
+          },
+          "debezium-mysql-1.5.0.Final": {
+            "remoteEntry": "http://localhost:8888/dbz-connector-configurator.remoteEntry.js",
+            "scope": "debezium_ui",
+            "module": "./config"
+          },
+          "debezium-postgres-1.5.0.Final": {
+            "remoteEntry": "http://localhost:8888/dbz-connector-configurator.remoteEntry.js",
+            "scope": "debezium_ui",
+            "module": "./config"
+          }
+        }
+      },
       "federatedModules": {
         "kas": {
           "basePath": "/beta/apps/rhosak-control-plane-ui-build"
@@ -138,6 +205,9 @@
         },
         "apicurio_registry": {
           "basePath": "/beta/apps/sr-ui-build"
+        },
+        "cos": {
+          "basePath": "/beta/apps/cos-ui-build"
         }
       }
     }

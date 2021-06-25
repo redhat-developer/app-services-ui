@@ -60,22 +60,23 @@ export type AlertProps = {
 };
 
 const AppWithKeycloak: React.FunctionComponent = () => {
+  const insights: InsightsType = window['insights'];
   const config = useConfig();
 
   React.useEffect(() => {
     if (config != undefined) {
-      const loadToken = async () => {
+      const loadKeycloak = async () => {
         const keycloak = await getKeycloakInstance({
           url: config.masSso.authServerUrl,
           clientId: config.masSso.clientId,
           realm: config.masSso.realm,
-        });
+        }, insights.chrome.auth?.getToken);
         setKeycloak(keycloak);
         setLoadingKeycloak(false);
       };
-      loadToken();
+      loadKeycloak();
     }
-  }, [config]);
+  }, [config, insights.chrome.auth]);
 
   const [keycloak, setKeycloak] = useState<KeycloakInstance | undefined>(undefined);
   const [loadingKeycloak, setLoadingKeycloak] = useState(true);
@@ -86,10 +87,8 @@ const AppWithKeycloak: React.FunctionComponent = () => {
     return <Loading />;
   }
 
-  const insights: InsightsType = window['insights'];
-
   const getToken = () => {
-    return getValidAccessToken();
+    return getValidAccessToken(insights.chrome.auth.getToken);
   };
 
   const auth: Auth = {
