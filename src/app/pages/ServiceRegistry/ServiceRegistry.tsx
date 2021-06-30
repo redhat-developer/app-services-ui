@@ -1,31 +1,34 @@
 import React from 'react';
 import { useConfig } from '@bf2/ui-shared';
 import { DevelopmentPreview, FederatedModule, Loading } from '@app/components';
-import { Registry } from "@rhoas/registry-management-sdk";
+import { ServiceDownPage } from '@app/pages';
 
-type SrsLayoutProps = {
-  render: (registry: Registry) => JSX.Element
-  breadcrumbId?: string
-}
+export const ServiceRegistry: React.FunctionComponent = () => {
+  const config = useConfig();
 
-export const SrsLayout: React.FC<SrsLayoutProps> = ({ render, breadcrumbId }) => {
+  if (config?.serviceDown) {
+    return <ServiceDownPage />;
+  }
+
+  return <ServiceRegistryConnected />;
+};
+
+export const ServiceRegistryConnected: React.FC = () => {
   const config = useConfig();
 
   // Wait for the config and the registry to load
   if (config === undefined) {
-    return <Loading/>;
+    return <Loading />;
   }
 
   return (
     <DevelopmentPreview>
       <FederatedModule
         scope="srs"
-        module="./ApicurioRegistry"
-        fallback={<Loading/>}
+        module="./ServiceRegistry"
+        fallback={<Loading />}
         render={(ServiceRegistryFederated) => {
-          return (
-            <ServiceRegistryFederated render={render} breadcrumbId={breadcrumbId} />
-          );
+          return <ServiceRegistryFederated />;
         }}
       />
     </DevelopmentPreview>

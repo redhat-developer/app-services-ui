@@ -13,7 +13,8 @@ import {
   QuickStartDrawerFederated,
   ResourcesPage, Rules,
   ServiceAccountsPage,
-  CosPage
+  CosPage,
+  ServiceRegistry
 } from '@app/pages';
 import getBaseName from './utils/getBaseName';
 
@@ -84,7 +85,7 @@ const routes: AppRouteConfig[] = [
     basename: '/streams/kafkas'
   },
   {
-    component: Artifacts,
+    component: ServiceRegistry,
     exact: true,
     label: 'Service Registry',
     path: '/sr',
@@ -95,7 +96,15 @@ const routes: AppRouteConfig[] = [
     component: Artifacts,
     exact: true,
     label: 'Service Registry',
-    path: '/sr/artifacts',
+    path: '/sr/t/:tenantId',
+    title: 'Service Registry',
+    basename: '/sr'
+  },
+  {
+    component: Artifacts,
+    exact: true,
+    label: 'Service Registry',
+    path: '/sr/t/:tenantId/artifacts',
     title: 'Service Registry',
     basename: '/sr'
   },
@@ -103,7 +112,7 @@ const routes: AppRouteConfig[] = [
     component: Rules,
     exact: true,
     label: 'Service Registry',
-    path: '/sr/rules',
+    path: '/sr/t/:tenantId/rules',
     title: 'Service Registry',
     basename: '/sr'
   },
@@ -111,7 +120,7 @@ const routes: AppRouteConfig[] = [
     component: ArtifactRedirect,
     exact: true,
     label: 'Service Registry',
-    path: '/sr/artifacts/:groupId/:artifactId',
+    path: '/sr/t/:tenantId/artifacts/:groupId/:artifactId',
     title: 'Service Registry',
     basename: '/sr'
   },
@@ -119,7 +128,7 @@ const routes: AppRouteConfig[] = [
     component: ArtifactVersionDetails,
     exact: true,
     label: 'Service Registry',
-    path: '/sr/artifacts/:groupId/:artifactId/versions/:version',
+    path: '/sr/t/:tenantId/artifacts/:groupId/:artifactId/versions/:version',
     title: 'Service Registry',
     basename: '/sr'
   },
