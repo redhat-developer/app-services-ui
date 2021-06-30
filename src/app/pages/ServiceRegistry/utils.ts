@@ -35,13 +35,14 @@ export interface ConfigType {
   ui: UiConfig;
 }
 
-const createApicurioConfig = (apiUrl: string, navPathPrefix: string) => {
+const createApicurioConfig = (apiUrl: string, navPathPrefix: string, getToken: () => Promise<string>) => {
   const config: ConfigType = {
     artifacts: {
       url: `${apiUrl}/apis/registry`,
     },
     auth: {
       type: "gettoken",
+      getToken
     },
     features: {
       readOnly: false,
