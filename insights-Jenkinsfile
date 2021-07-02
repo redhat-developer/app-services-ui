@@ -13,16 +13,29 @@ node {
       String APP_NAME = "application-services"
       String BRANCH = env.BRANCH_NAME.replaceAll("origin/", "")
 
+      BETA = false
       if (BRANCH == "prod-stable") {
         PREFIX = ""
       } else if (BRANCH == "prod-beta") {
         PREFIX = "beta/"
+        BETA = true
       } else if (BRANCH == "qa-stable") {
         PREFIX = "stage/"
       } else if (BRANCH == "qa-beta") {
         PREFIX = "stage/beta/"
+        BETA = true
       } else {
         error "Bug: invalid branch name, we only support (prod/qa)-(beta/stable) and we got ${BRANCH}"
+      }
+
+      if (BETA == false) {
+        sh """
+          sed -i 's/\\/beta\\/apps\\/chrome\\/snippets\\//\\/apps\\/chrome\\/snippets\\//g' index.html
+          echo "updated ESI paths to non-beta"
+          echo "-------------"
+          cat index.html
+          echo "-------------"
+        """
       }
 
       // Write build info into app.info.json
