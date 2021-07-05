@@ -145,7 +145,7 @@ const init = async (config: KeycloakConfig, getInsightsAccessToken: () => Promis
  * @throws error if a token is not available
  *
  */
-export const getValidAccessToken = async (getInsightsAccessToken: () => Promise<string>): Promise<string> => {
+export const getMASSSOToken = async (getInsightsAccessToken: () => Promise<string>): Promise<string> => {
   await keycloak?.updateToken(MIN_VALIDITY);
   if (!keycloak?.token || !keycloak.tokenParsed) {
     throw new Error("No token from keycloak!");
