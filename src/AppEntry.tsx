@@ -8,56 +8,14 @@ import getBaseName from '@app/utils/getBaseName';
 import { InsightsType } from '@app/utils/insights';
 import { ConfigProvider } from '@app/providers/ConfigContextProvider';
 import { KeycloakInstance } from 'keycloak-js';
-import { Alert, AlertContext, Auth, AuthContext, useConfig } from '@bf2/ui-shared';
-import { getKeycloakInstance, getValidAccessToken } from '@app/utils/keycloakAuth';
+import { Alert, AlertContext, Auth, AuthContext, useConfig, AlertProps } from '@bf2/ui-shared';
+import { getKeycloakInstance, getMASSSOToken } from '@app/utils/keycloakAuth';
 import { I18nextProvider } from 'react-i18next';
 import appServicesi18n from '@app/i18n';
-import { AlertVariant } from '@patternfly/react-core';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
 import { Loading } from '@app/components/Loading/Loading';
 
 declare const __webpack_public_path__: string;
-/**
- * Remove after upgrade @bf2/ui-shared package
- */
-export type AlertProps = {
-  /**
-   * Flag to automatically call `onDismiss` after `dismissDelay` runs out.
-   */
-  autoDismiss?: boolean;
-  /**
-   * Flag to show/hide notification close button.
-   */
-  dismissable?: boolean;
-  /**
-   * Alert variant
-   */
-  variant: AlertVariant;
-  /**
-   * Alert title
-   */
-  title: string;
-  /**
-   * Alert description
-   */
-  description?: string | React.ReactElement;
-  /**
-   * Time period after which `onDismiss` is called.
-   */
-  dismissDelay?: number;
-  /**
-   * Unique request ID.
-   */
-  requestId?: string;
-  /**
-   * Unique sentry error ID.
-   */
-  sentryId?: string;
-  /**
-   * data-testid attribute
-   */
-  dataTestId?: string;
-};
 
 const AppWithKeycloak: React.FunctionComponent = () => {
   const insights: InsightsType = window['insights'];
@@ -66,11 +24,14 @@ const AppWithKeycloak: React.FunctionComponent = () => {
   React.useEffect(() => {
     if (config != undefined) {
       const loadKeycloak = async () => {
-        const keycloak = await getKeycloakInstance({
-          url: config.masSso.authServerUrl,
-          clientId: config.masSso.clientId,
-          realm: config.masSso.realm,
-        }, insights.chrome.auth?.getToken);
+        const keycloak = await getKeycloakInstance(
+          {
+            url: config.masSso.authServerUrl,
+            clientId: config.masSso.clientId,
+            realm: config.masSso.realm,
+          },
+          insights.chrome.auth?.getToken
+        );
         setKeycloak(keycloak);
         setLoadingKeycloak(false);
       };
@@ -88,7 +49,7 @@ const AppWithKeycloak: React.FunctionComponent = () => {
   }
 
   const getToken = () => {
-    return getValidAccessToken(insights.chrome.auth.getToken);
+    return getMASSSOToken(insights.chrome.auth.getToken);
   };
 
   const auth: Auth = {
@@ -106,7 +67,7 @@ const AppWithKeycloak: React.FunctionComponent = () => {
       getToken: insights.chrome.auth.getToken,
     },
     apicurio_registry: {
-      getToken: insights.chrome.auth.getToken,
+      getToken,
     },
   };
 

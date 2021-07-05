@@ -30,7 +30,7 @@ export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProp
   const federateConfig: ConfigType = createApicurioConfig(
     registry.registryUrl,
     `${basename.getBasename()}/t/${registry?.id}`,
-    auth?.srs.getToken
+    auth?.apicurio_registry.getToken
   );
 
   return (
