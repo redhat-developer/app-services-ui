@@ -147,6 +147,10 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
     setActiveAction(kafkaAction);
   };
 
+  const showMetrics = () => {
+    return <Metrics kafkaId={id} />;
+  };
+
   let kafkaUIPage = (
     <FederatedModule
       data-ouia-app-id="dataPlane-streams"
@@ -167,6 +171,7 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
           dispatchKafkaAction={dispatchKafkaAction}
           onConnectToRoute={onConnectToRoute}
           getConnectToRoutePath={getConnectToRoutePath}
+          showMetrics={showMetrics}
         />
       )}
     />
@@ -188,7 +193,6 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
         >
           {kafkaUIPage}
         </InstanceDrawer>
-        <Metrics kafkaId={id} />
       </DevelopmentPreview>
     </div>
   );
