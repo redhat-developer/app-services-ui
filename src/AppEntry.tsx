@@ -54,7 +54,7 @@ const AppWithKeycloak: React.FunctionComponent = () => {
 
   const auth: Auth = {
     getUsername: () => insights.chrome.auth.getUser().then((value) => value.identity.user.username),
-    getIsOrgAdmin = () => insights.chrome.auth.getUser().then((value) => value.identity.user.is_org_admin),
+    getIsOrgAdmin: () => insights.chrome.auth.getUser().then((value) => value.identity.user.is_org_admin),
     kafka: {
       getToken,
     },
