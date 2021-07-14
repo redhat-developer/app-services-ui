@@ -50,7 +50,7 @@ const KafkaPageConnected: React.FunctionComponent = () => {
       const kafka = await apisService.getKafkaById(id);
       setKafkaDetail(kafka.data);
       setKafkaName(kafka.data.name);
-      setAdminServerUrl(`https://admin-server-${kafka.data.bootstrapServerHost}/rest`);
+      setAdminServerUrl(`https://admin-server-${kafka.data.bootstrap_server_host}/rest`);
     };
 
     getAdminApiUrl();
