@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Configuration, DefaultApi, KafkaRequest } from '@rhoas/kafka-management-sdk';
-import { useHistory } from 'react-router-dom';
-import { getParams } from '@app/pages/Kafka/utils';
+import { useHistory, useParams } from 'react-router-dom';
 import getBaseName from '@app/utils/getBaseName';
 import { useAlert, useAuth, useConfig } from '@bf2/ui-shared';
 import { Loading, FederatedModule, DevelopmentPreview, InstanceDrawer } from '@app/components';
@@ -37,8 +36,9 @@ const KafkaPageConnected: React.FunctionComponent = () => {
   const [adminServerUrl, setAdminServerUrl] = useState<undefined | string>();
   const [kafkaDetail, setKafkaDetail] = useState<KafkaRequest | undefined>();
 
-  const { id, topicName } = getParams();
+  const { id, topicName } = useParams<{ id: string; topicName: string }>();
   const [kafkaName, setKafkaName] = useState<undefined | string>();
+
   useEffect(() => {
     const getAdminApiUrl = async () => {
       const accessToken = await auth?.kas.getToken();

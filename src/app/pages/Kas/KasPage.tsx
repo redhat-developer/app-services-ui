@@ -26,6 +26,7 @@ export const KasPageConnected: React.FunctionComponent = () => {
 
   const [create, setCreate] = useState<boolean>(false);
   const [termsReview, setTermsReview] = useState<TermsReviewResponse | undefined>();
+  const [orgId, setOrgId] = useState<string>();
 
   useEffect(() => {
     // Handle being passed ?create=true by setting the create state, then removing it from the search params
@@ -48,18 +49,47 @@ export const KasPageConnected: React.FunctionComponent = () => {
         accessToken,
         basePath: config?.ams.apiBasePath || '',
       } as Configuration);
-      setTermsReview(
-        await ams
-          .apiAuthorizationsV1SelfTermsReviewPost({
-            event_code: config?.ams.eventCode,
-            site_code: config?.ams.siteCode,
-          })
-          .then((resp) => resp.data)
-      );
+
+      await ams
+        .apiAuthorizationsV1SelfTermsReviewPost({
+          event_code: config?.ams.eventCode,
+          site_code: config?.ams.siteCode,
+        })
+        .then((resp) => setTermsReview(resp.data));
     };
 
     selfTermsReview();
   }, [config?.ams.apiBasePath, auth]);
+
+  useEffect(() => {
+    const getCurrentAccount = async () => {
+      const accessToken = await auth?.ams.getToken();
+      const ams = new DefaultApi({
+        accessToken,
+        basePath: config?.ams.apiBasePath || '',
+      } as Configuration);
+
+      await ams.apiAccountsMgmtV1CurrentAccountGet().then((account) => {
+        const orgID = account?.data?.organization?.id;
+        setOrgId(orgID);
+      });
+    };
+
+    getCurrentAccount();
+  }, [config?.ams.apiBasePath, auth]);
+
+  const getAMSQuataCost = async () => {
+    if (orgId) {
+      const accessToken = await auth?.ams.getToken();
+      const ams = new DefaultApi({
+        accessToken,
+        basePath: config?.ams.apiBasePath || '',
+      } as Configuration);
+
+      return ams.apiAccountsMgmtV1OrganizationsOrgIdQuotaCostGet(orgId);
+    }
+    return;
+  };
 
   const onConnectToRoute = async (event: unknown, routePath: string) => {
     if (routePath === undefined) {
@@ -115,6 +145,7 @@ export const KasPageConnected: React.FunctionComponent = () => {
             preCreateInstance={preCreateInstance}
             createDialogOpen={createDialogOpen}
             tokenEndPointUrl={tokenEndPointUrl}
+            getAMSQuataCost={getAMSQuataCost}
           />
         );
       }}
