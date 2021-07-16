@@ -78,7 +78,7 @@ export const KasPageConnected: React.FunctionComponent = () => {
     getCurrentAccount();
   }, [config?.ams.apiBasePath, auth]);
 
-  const getAMSQuataCost = async () => {
+  const getAMSQuotaCost = async () => {
     if (orgId) {
       const accessToken = await auth?.ams.getToken();
       const ams = new DefaultApi({
@@ -145,7 +145,7 @@ export const KasPageConnected: React.FunctionComponent = () => {
             preCreateInstance={preCreateInstance}
             createDialogOpen={createDialogOpen}
             tokenEndPointUrl={tokenEndPointUrl}
-            getAMSQuataCost={getAMSQuataCost}
+            getAMSQuotaCost={getAMSQuotaCost}
           />
         );
       }}
