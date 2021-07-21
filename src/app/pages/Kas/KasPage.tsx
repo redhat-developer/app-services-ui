@@ -26,7 +26,7 @@ export const KasPageConnected: React.FunctionComponent = () => {
 
   const [create, setCreate] = useState<boolean>(false);
   const [termsReview, setTermsReview] = useState<TermsReviewResponse | undefined>();
-  const [orgId, setOrgId] = useState<string>();
+  const [orgId, setOrgId] = useState<string | undefined>('');
 
   useEffect(() => {
     // Handle being passed ?create=true by setting the create state, then removing it from the search params
@@ -88,7 +88,6 @@ export const KasPageConnected: React.FunctionComponent = () => {
 
       return ams.apiAccountsMgmtV1OrganizationsOrgIdQuotaCostGet(orgId);
     }
-    return;
   };
 
   const onConnectToRoute = async (event: unknown, routePath: string) => {
