@@ -148,7 +148,10 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
   };
 
   const showMetrics = () => {
-    return <Metrics kafkaId={id} />;
+if(kafkaModule===KafkaActionsModules.ViewTopics){
+  return <Metrics kafkaId={id} />;
+}
+    
   };
 
   let kafkaUIPage = (
