@@ -171,7 +171,7 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
           dispatchKafkaAction={dispatchKafkaAction}
           onConnectToRoute={onConnectToRoute}
           getConnectToRoutePath={getConnectToRoutePath}
-          showMetrics={showMetrics}
+          showMetrics={showMetrics()}
         />
       )}
     />
