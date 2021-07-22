@@ -5,20 +5,18 @@ import { notificationsReducer } from '@redhat-cloud-services/frontend-components
 let registry;
 
 export function init(...middleware) {
-    if (registry) {
-        throw new Error('store already initialized');
+    if (!registry) {
+        registry = new ReducerRegistry({}, [
+            promiseMiddleware,
+            ...middleware
+        ]);
+    
+        //If you want to register all of your reducers, this is good place.
+    
+        registry.register({
+            notifications: notificationsReducer
+        });
     }
-
-    registry = new ReducerRegistry({}, [
-        promiseMiddleware,
-        ...middleware
-    ]);
-
-    //If you want to register all of your reducers, this is good place.
-
-    registry.register({
-        notifications: notificationsReducer
-    });
 
     return registry;
 }
