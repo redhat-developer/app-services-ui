@@ -10,7 +10,8 @@ class ChunkMapper {
 
     apply(compiler) {
         compiler.hooks.emit.tap('ChunkMapper', (compilation) => {
-            const prefix = this.options.prefix || RegExp('^/.*/$').test(compiler.options.output.publicPath) ? compiler.options.output.publicPath : '/';
+            const prefix = this.options.prefix;
+            console.log(JSON.stringify(this.options, null, 2), prefix)
             compilation.chunks.forEach(({ name, files, runtime }) => {
                 const modules = Array.isArray(this.options.modules) ? this.options.modules : [ this.options.modules ];
                 if (modules.find((oneEntry) => RegExp(`${oneEntry}$`).test(runtime))) {
