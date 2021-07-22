@@ -3,7 +3,7 @@ import { Configuration, DefaultApi, KafkaRequest } from '@rhoas/kafka-management
 import { useHistory, useParams } from 'react-router-dom';
 import getBaseName from '@app/utils/getBaseName';
 import { useAlert, useAuth, useConfig } from '@bf2/ui-shared';
-import { Loading, FederatedModule, DevelopmentPreview, InstanceDrawer } from '@app/components';
+import { Loading, FederatedModule, DevelopmentPreview, InstanceDrawer, Metrics } from '@app/components';
 import { AccessDeniedPage, ServiceDownPage } from '@app/pages';
 
 enum KafkaActionsModules {
@@ -147,6 +147,13 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
     setActiveAction(kafkaAction);
   };
 
+  const showMetrics = () => {
+    if (kafkaModule === KafkaActionsModules.ViewTopics) {
+      return <Metrics kafkaId={id}/>;
+    }
+    return <></>;
+  };
+
   let kafkaUIPage = (
     <FederatedModule
       data-ouia-app-id="dataPlane-streams"
@@ -167,6 +174,7 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
           dispatchKafkaAction={dispatchKafkaAction}
           onConnectToRoute={onConnectToRoute}
           getConnectToRoutePath={getConnectToRoutePath}
+          showMetrics={showMetrics()}
         />
       )}
     />
@@ -175,7 +183,6 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
   if (error === 401) {
     kafkaUIPage = <AccessDeniedPage />;
   }
-
   return (
     <div className="app-services-ui--u-display-contents" data-ouia-app-id="dataPlane-streams">
       <DevelopmentPreview>
