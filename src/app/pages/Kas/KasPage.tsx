@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import { useAuth, useConfig } from '@bf2/ui-shared';
 import { Configuration, DefaultApi, TermsReviewResponse } from '@openapi/ams';
 import { getTermsAppURL } from '@app/utils/termsApp';
@@ -20,8 +20,6 @@ export const KasPage: React.FunctionComponent = () => {
 export const KasPageConnected: React.FunctionComponent = () => {
   const config = useConfig();
   const auth = useAuth();
-
-  const history = useHistory();
   const location = useLocation();
 
   const [create, setCreate] = useState<boolean>(false);
@@ -79,29 +77,24 @@ export const KasPageConnected: React.FunctionComponent = () => {
   }, [config?.ams.apiBasePath, auth]);
 
   const getAMSQuotaCost = async () => {
+    let filteredQuotaCost;
     if (orgId) {
+      const {
+        ams: { quotaId, trialQuotaId },
+      } = config;
       const accessToken = await auth?.ams.getToken();
       const ams = new DefaultApi({
         accessToken,
         basePath: config?.ams.apiBasePath || '',
       } as Configuration);
 
-      return ams.apiAccountsMgmtV1OrganizationsOrgIdQuotaCostGet(orgId);
+      await ams.apiAccountsMgmtV1OrganizationsOrgIdQuotaCostGet(orgId).then((result) => {
+        filteredQuotaCost = result?.data?.items?.filter(
+          (q) => q.quota_id.trim() === quotaId || q.quota_id.trim() === trialQuotaId
+        )[0];
+      });
     }
-  };
-
-  const onConnectToRoute = async (event: unknown, routePath: string) => {
-    if (routePath === undefined) {
-      throw new Error('Route path is missing');
-    }
-    history.push(`/streams/${routePath}`);
-  };
-
-  const getConnectToRoutePath = (event: unknown, routePath: string) => {
-    if (routePath === undefined) {
-      throw new Error('Route path is missing');
-    }
-    return history.createHref({ pathname: `/streams/${routePath}` });
+    return filteredQuotaCost;
   };
 
   const preCreateInstance = async (open: boolean) => {
@@ -139,8 +132,6 @@ export const KasPageConnected: React.FunctionComponent = () => {
       render={(OpenshiftStreamsFederated) => {
         return (
           <OpenshiftStreamsFederated
-            onConnectToRoute={onConnectToRoute}
-            getConnectToRoutePath={getConnectToRoutePath}
             preCreateInstance={preCreateInstance}
             createDialogOpen={createDialogOpen}
             tokenEndPointUrl={tokenEndPointUrl}
