@@ -209,11 +209,11 @@ const RouteWithTitleUpdates = ({ component: Component, isAsync = false, title, b
 
   function routeWithTitle(routeProps: RouteComponentProps) {
     return (
-      // <QuickStartDrawerFederated>
+       <QuickStartDrawerFederated>
         <BasenameContext.Provider value={{ getBasename }}>
           <Component {...rest} {...routeProps} />
         </BasenameContext.Provider>
-      // </QuickStartDrawerFederated>
+       </QuickStartDrawerFederated>
     );
   }
 
