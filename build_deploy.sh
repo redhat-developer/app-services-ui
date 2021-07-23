@@ -32,7 +32,6 @@ RHOAS_QUAY_TOKEN=${RHOAS_QUAY_TOKEN:-}
 step "Build the image"
 ${CONTAINER_ENGINE} build \
     -t ${IMAGE} \
-    --build-arg NGINX_REGISTRY=quay.io/app-sre \
     -f ./build/Dockerfile .
 
 if [[ ! -z "${RHOAS_QUAY_USER}" ]] && [[ ! -z "${RHOAS_QUAY_TOKEN}" ]]; then
