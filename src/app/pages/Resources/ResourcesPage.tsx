@@ -8,3 +8,5 @@ export const ResourcesPage: FunctionComponent = () => (
     render={(QuickStartCatalogFederated) => <QuickStartCatalogFederated />}
   />
 );
+
+export default ResourcesPage;

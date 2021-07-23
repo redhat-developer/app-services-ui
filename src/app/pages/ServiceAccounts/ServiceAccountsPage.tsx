@@ -32,3 +32,5 @@ const ServiceAccountsPageConnected: React.FunctionComponent = () => {
     </DevelopmentPreview>
   );
 };
+
+export default ServiceAccountsPage;
