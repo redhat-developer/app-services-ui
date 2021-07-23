@@ -28,3 +28,5 @@ export const QuickStartDrawerFederated: FunctionComponent = ({ children }) => {
     />
   );
 };
+
+export default QuickStartDrawerFederated;

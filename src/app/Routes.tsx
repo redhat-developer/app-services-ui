@@ -3,20 +3,24 @@ import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { accessibleRouteChangeHandler, useDocumentTitle } from '@app/utils';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
 import { BasenameContext } from '@bf2/ui-shared';
-import {
-  APIManagementPage, ArtifactRedirect, Artifacts, ArtifactVersionDetails,
-  DataSciencePage,
-  KafkaPage,
-  KasPage,
-  NotFoundPage,
-  OverviewPage,
-  QuickStartDrawerFederated,
-  ResourcesPage, Rules,
-  ServiceAccountsPage,
-  CosPage,
-  ServiceRegistry
-} from '@app/pages';
 import getBaseName from './utils/getBaseName';
+import { Loading } from "@app/components";
+
+const APIManagementPage = React.lazy(() => import("@app/pages/APIManagement/APIManagementPage"));
+const ArtifactRedirect = React.lazy(() => import("@app/pages/ServiceRegistry/ArtifactsRedirect"));
+const Artifacts = React.lazy(() => import("@app/pages/ServiceRegistry/Artifacts"));
+const ArtifactVersionDetails =React.lazy(() => import("@app/pages/ServiceRegistry/ArtifactVersion"));
+const DataSciencePage = React.lazy(() => import("@app/pages/DataScience/DataSciencePage"));
+const KafkaPage = React.lazy(() => import("@app/pages/Kafka/KafkaPage"));
+const KasPage = React.lazy(() => import("@app/pages/Kas/KasPage"));
+const NotFoundPage = React.lazy(() => import("@app/pages/NotFound/NotFoundPage"));
+const OverviewPage = React.lazy(() => import("@app/pages/Overview/OverviewPage"));
+const QuickStartDrawerFederated = React.lazy(() => import("@app/pages/Resources/QuickStartDrawerFederated"));
+const ResourcesPage = React.lazy(() => import("@app/pages/Resources/ResourcesPage"));
+const RulesPage = React.lazy(() => import("@app/pages/ServiceRegistry/RulesPage"));
+const ServiceAccountsPage = React.lazy(() => import("@app/pages/ServiceAccounts/ServiceAccountsPage"));
+const CosPage = React.lazy(() => import("@app/pages/CosPage/CosPage"));
+const ServiceRegistryPage = React.lazy(() => import("@app/pages/ServiceRegistry/ServiceRegistryPage"));
 
 let routeFocusTimer: number;
 
@@ -85,7 +89,7 @@ const routes: AppRouteConfig[] = [
     basename: '/streams/kafkas'
   },
   {
-    component: ServiceRegistry,
+    component: ServiceRegistryPage,
     exact: true,
     label: 'Service Registry',
     path: '/sr',
@@ -109,7 +113,7 @@ const routes: AppRouteConfig[] = [
     basename: '/sr'
   },
   {
-    component: Rules,
+    component: RulesPage,
     exact: true,
     label: 'Service Registry',
     path: '/sr/t/:tenantId/rules',
@@ -232,20 +236,22 @@ const flattenedRoutes: IAppRoute[] = routes.reduce(
 
 const AppRoutes = (): React.ReactElement => (
   <LastLocationProvider>
-    <Switch>
-      {flattenedRoutes.map(({ path, exact, component, title, isAsync, ...rest }, idx) => (
-        <RouteWithTitleUpdates
-          path={path}
-          exact={exact}
-          component={component}
-          key={idx}
-          title={title}
-          isAsync={isAsync}
-          {...rest}
-        />
-      ))}
-      <PageNotFound title="404 Page Not Found" />
-    </Switch>
+    <React.Suspense fallback={<Loading />}>
+      <Switch>
+        {flattenedRoutes.map(({ path, exact, component, title, isAsync, ...rest }, idx) => (
+          <RouteWithTitleUpdates
+            path={path}
+            exact={exact}
+            component={component}
+            key={idx}
+            title={title}
+            isAsync={isAsync}
+            {...rest}
+          />
+        ))}
+        <PageNotFound title="404 Page Not Found" />
+      </Switch>
+    </React.Suspense>
   </LastLocationProvider>
 );
 

@@ -123,3 +123,5 @@ export const KasPageConnected: React.FunctionComponent = () => {
 
   return <DevelopmentPreview> {osStreams} </DevelopmentPreview>;
 };
+
+export default KasPage;

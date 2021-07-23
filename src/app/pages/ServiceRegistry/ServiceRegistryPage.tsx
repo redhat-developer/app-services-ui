@@ -3,17 +3,17 @@ import { useConfig } from '@bf2/ui-shared';
 import { DevelopmentPreview, FederatedModule, Loading } from '@app/components';
 import { ServiceDownPage } from '@app/pages';
 
-export const ServiceRegistry: React.FunctionComponent = () => {
+export const ServiceRegistryPage: React.FunctionComponent = () => {
   const config = useConfig();
 
   if (config?.serviceDown) {
     return <ServiceDownPage />;
   }
 
-  return <ServiceRegistryConnected />;
+  return <ServiceRegistryPageConnected />;
 };
 
-export const ServiceRegistryConnected: React.FC = () => {
+export const ServiceRegistryPageConnected: React.FC = () => {
   const config = useConfig();
 
   // Wait for the config and the registry to load
@@ -34,3 +34,5 @@ export const ServiceRegistryConnected: React.FC = () => {
     </DevelopmentPreview>
   );
 };
+
+export default ServiceRegistryPage;
