@@ -5,7 +5,9 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 
-module.exports = merge(common("production", { mode: "production" }), {
+const publicPath = `${process.env.TRAVIS_BRANCH ? process.env.TRAVIS_BRANCH.includes('-beta') ? '/beta/' : '/' : '/'}apps/application-services/`
+
+module.exports = merge(common("production", { mode: "production", publicPath }), {
   mode: "production",
   devtool: 'source-map',
   optimization: {

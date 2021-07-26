@@ -7,12 +7,13 @@ const { dependencies, federatedModuleName } = require('./package.json');
 const webpack = require('webpack');
 const {crc} = require('./package.json');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ChunkMapper = require('./config/chunk-mapper');
+const ChunkMapper = require('@redhat-cloud-services/frontend-components-config-utilities/chunk-mapper');
 
 const isPatternflyStyles = (stylesheet) => stylesheet.includes('@patternfly/react-styles/css/') || stylesheet.includes('@patternfly/react-core/'););
 
 module.exports = (env, argv) => {
   const isProduction = argv && argv.mode === 'production';
+  const publicPath = argv && argv.publicPath;
   return {
     entry: {
       app: path.resolve(__dirname, 'src', 'index.tsx')
@@ -144,7 +145,7 @@ module.exports = (env, argv) => {
           }
         }
       }),
-      new ChunkMapper({ prefix: '/beta/apps/application-services/', modules: [federatedModuleName] })
+      new ChunkMapper({ prefix: publicPath, modules: [federatedModuleName] })
     ],
     resolve: {
       extensions: ['.js', '.ts', '.tsx', '.jsx'],

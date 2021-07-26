@@ -1,10 +1,10 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const {merge} = require("webpack-merge");
+const { merge } = require("webpack-merge");
 const common = require("./webpack.common.js");
 const CopyPlugin = require('copy-webpack-plugin');
-const {port, crc} = require('./package.json');
+const { port, crc } = require('./package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HOST = process.env.HOST || "localhost";
 const PORT = process.env.PORT || port;
@@ -15,7 +15,9 @@ const basePublicPath = `${BETA ? '/beta': ''}/apps`
 
 const publicPath = `${basePublicPath}/${crc.bundle}/`;
 
-module.exports = merge(common('development'), {
+module.exports = merge(common('development', {
+  publicPath
+}), {
 
   mode: "development",
   devtool: "eval-source-map",
