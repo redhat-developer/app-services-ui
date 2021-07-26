@@ -78,6 +78,7 @@ export const KasPageConnected: React.FunctionComponent = () => {
 
   const getAMSQuotaCost = async () => {
     let filteredQuotaCost;
+    let isAMSServiceDown = false;
     if (orgId) {
       const {
         ams: { quotaId, trialQuotaId },
@@ -88,13 +89,18 @@ export const KasPageConnected: React.FunctionComponent = () => {
         basePath: config?.ams.apiBasePath || '',
       } as Configuration);
 
-      await ams.apiAccountsMgmtV1OrganizationsOrgIdQuotaCostGet(orgId).then((result) => {
-        filteredQuotaCost = result?.data?.items?.filter(
-          (q) => q.quota_id.trim() === quotaId || q.quota_id.trim() === trialQuotaId
-        )[0];
-      });
+      await ams
+        .apiAccountsMgmtV1OrganizationsOrgIdQuotaCostGet(orgId)
+        .then((result) => {
+          filteredQuotaCost = result?.data?.items?.filter(
+            (q) => q.quota_id.trim() === quotaId || q.quota_id.trim() === trialQuotaId
+          )[0];
+        })
+        .catch((error) => {
+          isAMSServiceDown = true;
+        });
     }
-    return filteredQuotaCost;
+    return { ...filteredQuotaCost, isAMSServiceDown };
   };
 
   const preCreateInstance = async (open: boolean) => {
