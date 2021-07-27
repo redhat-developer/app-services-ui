@@ -5,7 +5,7 @@ export type InsightsType = {
     getApp: () => string;
     getBundle: () => string;
     getEnvironment: () => 'ci' | 'qa' | 'prod' | 'stage';
-    on: (type: string, callback: ((event: any) => void)) => () => void;
+    on: (type: string, callback: (event: any) => void) => () => void;
     auth?: {
       getToken(): Promise<string>;
       getUser(): Promise<UserType>;
@@ -21,8 +21,8 @@ export type UserType = {
     [key: string]: {
       is_entitled: boolean;
       is_trial: boolean;
-    }
-  },
+    };
+  };
   identity: IdentityType;
 };
 
@@ -32,12 +32,12 @@ export type IdentityType = {
   internal: {
     org_id: string;
     account_id: string;
-  }
+  };
   user: {
     username: string;
     email: string;
     first_name: string;
     last_name: string;
     is_active: boolean;
-  }
+  };
 };

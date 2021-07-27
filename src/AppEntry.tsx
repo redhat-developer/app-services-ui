@@ -6,7 +6,6 @@ import App from '@app/App';
 import logger from 'redux-logger';
 import getBaseName from '@app/utils/getBaseName';
 import { InsightsType } from '@app/utils/insights';
-import { ConfigProvider } from '@app/providers/ConfigContextProvider';
 import { KeycloakInstance } from 'keycloak-js';
 import { Alert, AlertContext, Auth, AuthContext, useConfig, AlertProps } from '@bf2/ui-shared';
 import { getKeycloakInstance, getMASSSOToken } from '@app/utils/keycloakAuth';
@@ -14,8 +13,7 @@ import { I18nextProvider } from 'react-i18next';
 import appServicesi18n from '@app/i18n';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
 import { Loading } from '@app/components/Loading/Loading';
-
-declare const __webpack_public_path__: string;
+import { EmbeddedConfigProvider } from "@app/providers/config/EmbeddedConfigContextProvider";
 
 const AppWithKeycloak: React.FunctionComponent = () => {
   const insights: InsightsType = window['insights'];
@@ -117,9 +115,9 @@ const AppWithKeycloak: React.FunctionComponent = () => {
 const AppEntry: React.FunctionComponent = () => (
   <Provider store={init(logger).getStore()}>
     <I18nextProvider i18n={appServicesi18n}>
-      <ConfigProvider configUrl={`${__webpack_public_path__}config.json`}>
+      <EmbeddedConfigProvider>
         <AppWithKeycloak />
-      </ConfigProvider>
+      </EmbeddedConfigProvider>
     </I18nextProvider>
   </Provider>
 );
