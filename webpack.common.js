@@ -6,6 +6,9 @@ const BG_IMAGES_DIRNAME = 'bgimages';
 const { dependencies, federatedModuleName } = require('./package.json');
 const webpack = require('webpack');
 const {crc} = require('./package.json');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+const isPatternflyStyles = (stylesheet) => stylesheet.includes('@patternfly/react-styles/css/') || stylesheet.includes('@patternfly/react-core/');
 
 module.exports = (env, argv) => {
   const isProduction = argv && argv.mode === 'production';
@@ -16,15 +19,22 @@ module.exports = (env, argv) => {
     module: {
       rules: [
         {
-          test: /\.s[ac]ss$/i,
-          use: [
-            // Creates `style` nodes from JS strings
-            "style-loader",
-            // Translates CSS into CommonJS
-            "css-loader",
-            // Compiles Sass to CSS
-            "sass-loader",
-          ],
+          test: /\.s[ac]ss$/,
+          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+          include: (stylesheet => !isPatternflyStyles(stylesheet)),
+          sideEffects: true,
+        },
+        {
+          test: /\.css$/,
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
+          include: (stylesheet => !isPatternflyStyles(stylesheet)),
+          sideEffects: true,
+        },
+        {
+          test: /\.css$/,
+          include: isPatternflyStyles,
+          use: ['null-loader'],
+          sideEffects: true,
         },
         {
           test: /\.(tsx|ts|jsx)?$/,
@@ -87,6 +97,18 @@ module.exports = (env, argv) => {
           useShortDoctype: true,
           minifyJS: true
         } : false,
+      }),
+      new MiniCssExtractPlugin({
+        filename: '[name].[contenthash:8].css',
+        chunkFilename: '[contenthash:8].css',
+        insert: (linkTag) => {
+          const preloadLinkTag = document.createElement('link')
+          preloadLinkTag.rel = 'preload'
+          preloadLinkTag.as = 'style'
+          preloadLinkTag.href = linkTag.href
+          document.head.appendChild(preloadLinkTag)
+          document.head.appendChild(linkTag)
+        },
       }),
       new Dotenv({
         systemvars: true,
