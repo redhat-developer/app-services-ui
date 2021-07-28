@@ -5,7 +5,12 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 
-const publicPath = `${process.env.TRAVIS_BRANCH ? process.env.TRAVIS_BRANCH.includes('-beta') ? '/beta/' : '/' : '/'}apps/application-services/`
+/**
+ * The deploy on stable is currently using beta assets.
+ * The puclich path has to be fixed once stable uses stable assets.
+ * The /beta prefix must be removed for stable env to load correct modules.
+ */
+const publicPath = '/beta/apps/application-services/'
 
 module.exports = merge(common("production", { mode: "production", publicPath }), {
   mode: "production",
