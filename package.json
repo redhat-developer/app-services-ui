@@ -68,6 +68,7 @@
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.1.26",
+    "@redhat-cloud-services/frontend-components-config-utilities": "^1.4.3",
     "@testing-library/react": "^11.2.5",
     "@types/enzyme": "^3.10.7",
     "@types/enzyme-adapter-react-16": "^1.0.6",

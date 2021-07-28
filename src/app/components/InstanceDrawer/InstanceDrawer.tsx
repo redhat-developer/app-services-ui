@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { useConfig } from '@bf2/ui-shared';
 import { Loading, FederatedModule } from '@app/components';
 import { KafkaRequest } from '@openapi/kas';
