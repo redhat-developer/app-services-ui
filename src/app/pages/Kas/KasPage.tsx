@@ -20,12 +20,12 @@ export const KasPage: React.FunctionComponent = () => {
 export const KasPageConnected: React.FunctionComponent = () => {
   const config = useConfig();
   const auth = useAuth();
-
-  const history = useHistory();
   const location = useLocation();
+  const history = useHistory();
 
   const [create, setCreate] = useState<boolean>(false);
   const [termsReview, setTermsReview] = useState<TermsReviewResponse | undefined>();
+  const [orgId, setOrgId] = useState<string | undefined>('');
 
   useEffect(() => {
     // Handle being passed ?create=true by setting the create state, then removing it from the search params
@@ -71,18 +71,48 @@ export const KasPageConnected: React.FunctionComponent = () => {
     selfTermsReview();
   }, [config?.ams.apiBasePath, auth]);
 
-  const onConnectToRoute = async (event: unknown, routePath: string) => {
-    if (routePath === undefined) {
-      throw new Error('Route path is missing');
-    }
-    history.push(`/streams/${routePath}`);
-  };
+  useEffect(() => {
+    const getCurrentAccount = async () => {
+      const accessToken = await auth?.ams.getToken();
+      const ams = new DefaultApi({
+        accessToken,
+        basePath: config?.ams.apiBasePath || '',
+      } as Configuration);
 
-  const getConnectToRoutePath = (event: unknown, routePath: string) => {
-    if (routePath === undefined) {
-      throw new Error('Route path is missing');
+      await ams.apiAccountsMgmtV1CurrentAccountGet().then((account) => {
+        const orgID = account?.data?.organization?.id;
+        setOrgId(orgID);
+      });
+    };
+
+    getCurrentAccount();
+  }, [config?.ams.apiBasePath, auth]);
+
+  const getAMSQuotaCost = async () => {
+    let filteredQuotaCost;
+    let isAMSServiceDown = false;
+    if (orgId) {
+      const {
+        ams: { quotaId, trialQuotaId },
+      } = config;
+      const accessToken = await auth?.ams.getToken();
+      const ams = new DefaultApi({
+        accessToken,
+        basePath: config?.ams.apiBasePath || '',
+      } as Configuration);
+
+      await ams
+        .apiAccountsMgmtV1OrganizationsOrgIdQuotaCostGet(orgId)
+        .then((result) => {
+          filteredQuotaCost = result?.data?.items?.filter(
+            (q) => q.quota_id.trim() === quotaId || q.quota_id.trim() === trialQuotaId
+          )[0];
+        })
+        .catch((error) => {
+          isAMSServiceDown = true;
+        });
     }
-    return history.createHref({ pathname: `/streams/${routePath}` });
+    return { ...filteredQuotaCost, isAMSServiceDown };
   };
 
   const preCreateInstance = async (open: boolean) => {
@@ -120,11 +150,10 @@ export const KasPageConnected: React.FunctionComponent = () => {
       render={(OpenshiftStreamsFederated) => {
         return (
           <OpenshiftStreamsFederated
-            onConnectToRoute={onConnectToRoute}
-            getConnectToRoutePath={getConnectToRoutePath}
             preCreateInstance={preCreateInstance}
             shouldOpenCreateModal={createDialogOpen()}
             tokenEndPointUrl={tokenEndPointUrl}
+            getAMSQuotaCost={getAMSQuotaCost}
           />
         );
       }}

@@ -9,7 +9,9 @@
       "ams": {
         "apiBasePath": "https://api.stage.openshift.com",
         "eventCode": "onlineService",
-        "siteCode": "ocm"
+        "siteCode": "ocm",
+        "quotaId": "cluster|rhinfra|rhosak|marketplace",
+        "trialQuotaId": "cluster|rhinfra|rhosaktrial|marketplace"
       },
       "kas": {
         "apiBasePath": "https://api.stage.openshift.com"
@@ -84,7 +86,9 @@
       "ams": {
         "amsBasePath": "https://api.stage.openshift.com",
         "eventCode": "onlineService",
-        "siteCode": "ocm"
+        "siteCode": "ocm",
+        "quotaId": "cluster|rhinfra|rhosak|marketplace",
+        "trialQuotaId": "cluster|rhinfra|rhosaktrial|marketplace"
       },
       "kas": {
         "apiBasePath": "https://api.stage.openshift.com"
@@ -153,7 +157,9 @@
       "ams": {
         "amsBasePath": "https://api.openshift.com",
         "eventCode": "onlineService",
-        "siteCode": "ocm"
+        "siteCode": "ocm",
+        "quotaId": "cluster|rhinfra|rhosak|marketplace",
+        "trialQuotaId": "cluster|rhinfra|rhosaktrial|marketplace"
       },
       "kas": {
         "apiBasePath": "https://api.openshift.com"

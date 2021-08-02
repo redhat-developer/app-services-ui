@@ -1874,6 +1874,12 @@ export interface NotificationRequest {
     include_red_hat_associates?: boolean;
     /**
      * 
+     * @type {boolean}
+     * @memberof NotificationRequest
+     */
+    internal_only?: boolean;
+    /**
+     * 
      * @type {string}
      * @memberof NotificationRequest
      */
@@ -3665,20 +3671,6 @@ export interface ResourceQuota {
      * 
      * @type {string}
      * @memberof ResourceQuota
-     * @deprecated
-     */
-    availability_zone_type?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ResourceQuota
-     * @deprecated
-     */
-    byoc: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof ResourceQuota
      */
     created_at?: string;
     /**
@@ -3687,20 +3679,6 @@ export interface ResourceQuota {
      * @memberof ResourceQuota
      */
     organization_id?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ResourceQuota
-     * @deprecated
-     */
-    resource_name: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ResourceQuota
-     * @deprecated
-     */
-    resource_type: string;
     /**
      * 
      * @type {string}
@@ -3747,20 +3725,6 @@ export interface ResourceQuotaAllOf {
      * 
      * @type {string}
      * @memberof ResourceQuotaAllOf
-     * @deprecated
-     */
-    availability_zone_type?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ResourceQuotaAllOf
-     * @deprecated
-     */
-    byoc: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof ResourceQuotaAllOf
      */
     created_at?: string;
     /**
@@ -3769,20 +3733,6 @@ export interface ResourceQuotaAllOf {
      * @memberof ResourceQuotaAllOf
      */
     organization_id?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ResourceQuotaAllOf
-     * @deprecated
-     */
-    resource_name: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ResourceQuotaAllOf
-     * @deprecated
-     */
-    resource_type: string;
     /**
      * 
      * @type {string}
