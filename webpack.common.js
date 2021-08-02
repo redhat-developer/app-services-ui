@@ -6,25 +6,46 @@ const BG_IMAGES_DIRNAME = 'bgimages';
 const { dependencies, federatedModuleName } = require('./package.json');
 const webpack = require('webpack');
 const {crc} = require('./package.json');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ChunkMapper = require('@redhat-cloud-services/frontend-components-config-utilities/chunk-mapper');
+
+const isPatternflyStyles = (stylesheet) => stylesheet.includes('@patternfly/react-styles/css/') || stylesheet.includes('@patternfly/react-core/');
 
 module.exports = (env, argv) => {
   const isProduction = argv && argv.mode === 'production';
+  const publicPath = argv && argv.publicPath;
+  const appEntry = path.resolve(__dirname, 'src', 'index.tsx')
   return {
     entry: {
-      app: path.resolve(__dirname, 'src', 'index.tsx')
+      app: appEntry
     },
     module: {
       rules: [
         {
-          test: /\.s[ac]ss$/i,
-          use: [
-            // Creates `style` nodes from JS strings
-            "style-loader",
-            // Translates CSS into CommonJS
-            "css-loader",
-            // Compiles Sass to CSS
-            "sass-loader",
-          ],
+          test: new RegExp(appEntry),
+          loader: path.resolve(__dirname, './node_modules/@redhat-cloud-services/frontend-components-config-utilities/chrome-render-loader.js'),
+          options: {
+            appName: crc.bundle,
+            // skipChrome2: true, enable this line to use chrome 1 rendering
+          }
+        },
+        {
+          test: /\.s[ac]ss$/,
+          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+          include: (stylesheet => !isPatternflyStyles(stylesheet)),
+          sideEffects: true,
+        },
+        {
+          test: /\.css$/,
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
+          include: (stylesheet => !isPatternflyStyles(stylesheet)),
+          sideEffects: true,
+        },
+        {
+          test: /\.css$/,
+          include: isPatternflyStyles,
+          use: ['null-loader'],
+          sideEffects: true,
         },
         {
           test: /\.(tsx|ts|jsx)?$/,
@@ -88,12 +109,29 @@ module.exports = (env, argv) => {
           minifyJS: true
         } : false,
       }),
+      new MiniCssExtractPlugin({
+        filename: '[name].[contenthash:8].css',
+        chunkFilename: '[contenthash:8].css',
+        insert: (linkTag) => {
+          const preloadLinkTag = document.createElement('link')
+          preloadLinkTag.rel = 'preload'
+          preloadLinkTag.as = 'style'
+          preloadLinkTag.href = linkTag.href
+          document.head.appendChild(preloadLinkTag)
+          document.head.appendChild(linkTag)
+        },
+      }),
       new Dotenv({
         systemvars: true,
         silent: true
       }),
       new webpack.container.ModuleFederationPlugin({
         name: federatedModuleName,
+        filename: `${federatedModuleName}.[hash].js`,
+        library: { type: 'var', name: federatedModuleName },
+        exposes: {
+          './RootApp': path.resolve(__dirname, './src/AppEntry.tsx')
+        },
         shared: {
           ...dependencies,
           react: {
@@ -107,8 +145,6 @@ module.exports = (env, argv) => {
             requiredVersion: dependencies['react-dom']
           },
           'react-router-dom': {
-            eager: true,
-            singleton: true,
             requiredVersion: dependencies['react-router-dom']
           },
           "@bf2/ui-shared": {
@@ -118,6 +154,7 @@ module.exports = (env, argv) => {
           }
         }
       }),
+      new ChunkMapper({ prefix: publicPath, modules: [federatedModuleName] })
     ],
     resolve: {
       extensions: ['.js', '.ts', '.tsx', '.jsx'],

@@ -2,9 +2,6 @@
 # Copyright RedHat.
 # License: MIT License see the file LICENSE
 #
-
-ARG NGINX_REGISTRY=docker.io
-
 FROM quay.io/app-sre/ubi8-nodejs-12:latest as builder
 
 
@@ -20,7 +17,7 @@ RUN rm -rf /node_modules \
 
 # ---------------------------------------------------------------------------- #
 
-FROM ${NGINX_REGISTRY}/ubi8-nodejs-12:latest
+FROM quay.io/app-sre/ubi8-nginx-118
 
 RUN mkdir -p /opt/app-root/src
 WORKDIR /opt/app-root/src

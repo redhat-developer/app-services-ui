@@ -31,3 +31,5 @@ export const CosPageConnected: React.FunctionComponent = () => {
 
   return <DevelopmentPreview> {osCos} </DevelopmentPreview>;
 };
+
+export default CosPage;

@@ -22,3 +22,5 @@ const ArtifactsConnected: React.FunctionComponent = () => {
     />
   );
 };
+
+export default Artifacts;

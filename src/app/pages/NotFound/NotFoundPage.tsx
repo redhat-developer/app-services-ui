@@ -38,3 +38,6 @@ const NotFoundPage: React.FunctionComponent = () => {
 };
 
 export { NotFoundPage };
+
+export default NotFoundPage;
+

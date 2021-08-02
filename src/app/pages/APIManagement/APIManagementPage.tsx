@@ -154,3 +154,5 @@ export const APIManagementPage: React.FunctionComponent = () => {
     </>
   );
 };
+
+export default APIManagementPage;

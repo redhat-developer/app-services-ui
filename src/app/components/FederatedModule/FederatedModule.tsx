@@ -3,6 +3,18 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { FederatedModuleConfig, useConfig, AssetsContext } from "@bf2/ui-shared";
 import { Loading } from "@app/components/Loading/Loading";
+import { useRef } from 'react';
+
+const useIsMounted = () => {
+  const isMounted = useRef(false)
+  useEffect(() => {
+    isMounted.current = true
+    return () => {
+      isMounted.current = false
+    }
+  }, [])
+  return isMounted
+}
 
 export type FederatedModuleContextProps = {
   [module: string]: FederatedModuleConfig
@@ -40,41 +52,46 @@ function loadComponent(scope, module) {
 }
 
 const useDynamicScript = ({ url }) => {
-
+  const isMounted = useIsMounted()
   const [ready, setReady] = React.useState(false);
   const [failed, setFailed] = React.useState(false);
 
   React.useEffect(() => {
-    if (!url) {
-      setFailed(true);
-      return;
+    let element;
+    if(isMounted.current) {
+      if (!url) {
+        setFailed(true);
+        return;
+      }
+  
+      element = document.createElement('script');
+  
+      element.src = url;
+      element.type = 'text/javascript';
+      element.async = true;
+  
+      setReady(false);
+      setFailed(false);
+  
+      element.onload = () => {
+        console.log(`Dynamic federated module Loaded: ${url}`);
+        setReady(true);
+      };
+  
+      element.onerror = () => {
+        console.error(`Dynamic federated module Error: ${url}`);
+        setReady(false);
+        setFailed(true);
+      };
+  
+      document.head.appendChild(element);
     }
 
-    const element = document.createElement('script');
-
-    element.src = url;
-    element.type = 'text/javascript';
-    element.async = true;
-
-    setReady(false);
-    setFailed(false);
-
-    element.onload = () => {
-      console.log(`Dynamic federated module Loaded: ${url}`);
-      setReady(true);
-    };
-
-    element.onerror = () => {
-      console.error(`Dynamic federated module Error: ${url}`);
-      setReady(false);
-      setFailed(true);
-    };
-
-    document.head.appendChild(element);
-
     return () => {
-      console.log(`Dynamic federated module Removed: ${url}`);
-      document.head.removeChild(element);
+      if(element) {
+        console.log(`Dynamic federated module Removed: ${url}`);
+        document.head.removeChild(element);
+      }
     };
   }, [url]);
 
@@ -92,6 +109,7 @@ export type FederatedModuleProps = {
 }
 
 export const FederatedModule: React.FunctionComponent<FederatedModuleProps> = ({ scope, module, render, fallback }) => {
+  const isMounted = useIsMounted()
 
   const federatedModuleContext = React.useContext(FederatedModuleContext);
   const [moduleInfo, setModuleInfo] = useState<ModuleInfo | undefined>();
@@ -99,7 +117,9 @@ export const FederatedModule: React.FunctionComponent<FederatedModuleProps> = ({
   useEffect(() => {
     const fetchModuleInfo = async () => {
       const moduleInfo = await getModuleInfo(federatedModuleContext[scope].basePath, scope, federatedModuleContext[scope].fallbackBasePath);
-      setModuleInfo(moduleInfo);
+      if(isMounted.current) {
+        setModuleInfo(moduleInfo);
+      }
     }
     fetchModuleInfo();
   }, [scope, federatedModuleContext]);

@@ -200,3 +200,5 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
     </div>
   );
 };
+
+export default KafkaPage;

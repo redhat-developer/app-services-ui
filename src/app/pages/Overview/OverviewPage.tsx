@@ -178,3 +178,5 @@ export const OverviewPage: React.FunctionComponent = () => {
     </>
   );
 };
+
+export default OverviewPage;
