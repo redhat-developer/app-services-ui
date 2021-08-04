@@ -50,6 +50,7 @@ export const InstanceDrawer: React.FC<InstanceDrawerProps> = ({
     <FederatedModule
       scope="kas"
       module="./InstanceDrawer"
+      fallback={children}
       render={(InstanceDrawerFederated) => {
         return (
           <InstanceDrawerFederated

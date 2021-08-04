@@ -24,6 +24,7 @@ export const CosPageConnected: React.FunctionComponent = () => {
   const osCos = (
     <FederatedModule
       scope="cos"
+      fallback={<Loading />}
       module="./OpenshiftManagedConnectors"
       render={(OpenshiftManagedConnectors) => <OpenshiftManagedConnectors/>}
     />

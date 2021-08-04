@@ -18,6 +18,7 @@ export const Metrics: React.FC<MetricsProps> = ({ kafkaId }) => {
     <FederatedModule
       scope="kas"
       module="./Metrics"
+      fallback={<Loading />}
       render={(MetricsFederated) => <MetricsFederated kafkaId={kafkaId}/>}
     />
   );
