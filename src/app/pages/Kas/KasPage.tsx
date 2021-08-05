@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { useAuth, useConfig } from '@bf2/ui-shared';
 import { Configuration, DefaultApi, TermsReviewResponse } from '@openapi/ams';
 import { getTermsAppURL } from '@app/utils/termsApp';
@@ -21,6 +21,7 @@ export const KasPageConnected: React.FunctionComponent = () => {
   const config = useConfig();
   const auth = useAuth();
   const location = useLocation();
+  const history = useHistory();
 
   const [create, setCreate] = useState<boolean>(false);
   const [termsReview, setTermsReview] = useState<TermsReviewResponse | undefined>();
