@@ -76,9 +76,9 @@ export const KasPageConnected: React.FunctionComponent = () => {
     getCurrentAccount();
   }, [config?.ams.apiBasePath, auth]);
 
-  const getAMSQuotaCost = async () => {
-    let filteredQuotaCost;
-    let isAMSServiceDown = false;
+  const getAMSQuota = async () => {
+    let filteredQuota;
+    let isServiceDown = false;
     if (orgId) {
       const {
         ams: { quotaId, trialQuotaId },
@@ -91,16 +91,23 @@ export const KasPageConnected: React.FunctionComponent = () => {
 
       await ams
         .apiAccountsMgmtV1OrganizationsOrgIdQuotaCostGet(orgId)
-        .then((result) => {
-          filteredQuotaCost = result?.data?.items?.filter(
+        .then((res) => {
+          const { allowed, consumed, quota_id } = res?.data?.items?.filter(
             (q) => q.quota_id.trim() === quotaId || q.quota_id.trim() === trialQuotaId
           )[0];
+
+          filteredQuota = {
+            allowed,
+            consumed,
+            remaining: allowed - consumed,
+            isTrial: quota_id === trialQuotaId,
+          };
         })
         .catch((error) => {
-          isAMSServiceDown = true;
+          isServiceDown = true;
         });
     }
-    return { ...filteredQuotaCost, isAMSServiceDown };
+    return { ...filteredQuota, isServiceDown };
   };
 
   const preCreateInstance = async (open: boolean) => {
@@ -141,7 +148,7 @@ export const KasPageConnected: React.FunctionComponent = () => {
             preCreateInstance={preCreateInstance}
             createDialogOpen={createDialogOpen}
             tokenEndPointUrl={tokenEndPointUrl}
-            getAMSQuotaCost={getAMSQuotaCost}
+            getQuota={getAMSQuota}
           />
         );
       }}

@@ -37,10 +37,10 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "@bf2/ui-shared": "^0.4.0",
+    "@bf2/ui-shared": "^0.7.2",
     "@patternfly/react-core": "^4.97.2",
     "@patternfly/react-table": "^4.23.2",
-    "@redhat-cloud-services/frontend-components": "^3.0.11",
+    "@redhat-cloud-services/frontend-components": "^3.3.9",
     "@redhat-cloud-services/frontend-components-notifications": "^3.0.4",
     "@redhat-cloud-services/frontend-components-utilities": "3.0.3",
     "@rhoas/kafka-management-sdk": "^0.10.0",
