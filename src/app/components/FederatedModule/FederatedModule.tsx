@@ -127,7 +127,7 @@ export const FederatedModule: React.FunctionComponent<FederatedModuleProps> = ({
   const { ready, failed } = useDynamicScript({ url: moduleInfo?.entryPoint });
 
   if (!ready || failed || !moduleInfo) {
-    if (failed && fallback) {
+    if (fallback) {
       return fallback;
     }
     return null;
@@ -142,7 +142,7 @@ export const FederatedModule: React.FunctionComponent<FederatedModuleProps> = ({
 
   return (
     <AssetsContext.Provider value={{ getPath }}>
-      <React.Suspense fallback={null}>
+      <React.Suspense fallback={<Loading />}>
           {render(Component)}
       </React.Suspense>
     </AssetsContext.Provider>

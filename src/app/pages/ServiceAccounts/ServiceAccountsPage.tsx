@@ -25,6 +25,7 @@ const ServiceAccountsPageConnected: React.FunctionComponent = () => {
       <FederatedModule
         scope="kas"
         module="./ServiceAccounts"
+        fallback={<Loading />}
         render={(ServiceAccountsFederated) => {
           return <ServiceAccountsFederated />;
         }}

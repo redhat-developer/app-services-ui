@@ -28,32 +28,43 @@ export const KasPageConnected: React.FunctionComponent = () => {
 
   useEffect(() => {
     // Handle being passed ?create=true by setting the create state, then removing it from the search params
-    const handleCreateParam = () => {
+    const handleCreateParam = async () => {
       const parsed = queryString.parse(location.search);
       const c = parsed['create'] === 'true';
       if (c) {
-        setCreate(true);
+        const terms = await getTermsReview();
+        if (terms?.terms_required === false) {
+          history.replace({
+            search: '',
+          });
+          setCreate(true);
+        }
       }
     };
 
     handleCreateParam();
-  }, [create, location.search]);
+  }, [location.search]);
+
+  const getTermsReview = async () => {
+    const accessToken = await auth?.ams.getToken();
+    const ams = new DefaultApi({
+      accessToken,
+      basePath: config?.ams.apiBasePath || '',
+    } as Configuration);
+    const response = await ams
+      .apiAuthorizationsV1SelfTermsReviewPost({
+        event_code: config?.ams.eventCode,
+        site_code: config?.ams.siteCode,
+      })
+      .then((resp) => resp.data);
+    return response;
+  };
 
   useEffect(() => {
     // Load the terms review state asynchronously, to avoid the user waiting when they press the Create Kafka Instance button
     const selfTermsReview = async () => {
-      const accessToken = await auth?.ams.getToken();
-      const ams = new DefaultApi({
-        accessToken,
-        basePath: config?.ams.apiBasePath || '',
-      } as Configuration);
-
-      await ams
-        .apiAuthorizationsV1SelfTermsReviewPost({
-          event_code: config?.ams.eventCode,
-          site_code: config?.ams.siteCode,
-        })
-        .then((resp) => setTermsReview(resp.data));
+      const termsReviewResponse = await getTermsReview();
+      setTermsReview(termsReviewResponse);
     };
 
     selfTermsReview();
@@ -142,11 +153,12 @@ export const KasPageConnected: React.FunctionComponent = () => {
     <FederatedModule
       scope="kas"
       module="./OpenshiftStreams"
+      fallback={<Loading />}
       render={(OpenshiftStreamsFederated) => {
         return (
           <OpenshiftStreamsFederated
             preCreateInstance={preCreateInstance}
-            createDialogOpen={createDialogOpen}
+            shouldOpenCreateModal={createDialogOpen()}
             tokenEndPointUrl={tokenEndPointUrl}
             getQuota={getAMSQuota}
           />
