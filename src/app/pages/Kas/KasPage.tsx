@@ -107,6 +107,7 @@ export const KasPageConnected: React.FunctionComponent = () => {
     <FederatedModule
       scope="kas"
       module="./OpenshiftStreams"
+      fallback={<Loading />}
       render={(OpenshiftStreamsFederated) => {
         return (
           <OpenshiftStreamsFederated

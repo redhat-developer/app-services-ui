@@ -159,6 +159,7 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
       data-ouia-app-id="dataPlane-streams"
       scope="kafka"
       module={kafkaModule}
+      fallback={<Loading />}
       render={(FederatedTopics) => (
         <FederatedTopics
           getToken={auth?.kafka.getToken}
