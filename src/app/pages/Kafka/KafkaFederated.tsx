@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Configuration, DefaultApi, KafkaRequest } from '@rhoas/kafka-management-sdk';
+import { Configuration, DefaultApi, KafkaRequest, SecurityApi } from '@rhoas/kafka-management-sdk';
 import getBaseName from '@app/utils/getBaseName';
-import { useAuth, useConfig } from '@bf2/ui-shared';
-import { Loading, FederatedModule, DevelopmentPreview, InstanceDrawer } from '@app/components';
+import { Principal, Principals, PrincipalsContext, PrincipalType, useAuth, useConfig } from '@bf2/ui-shared';
+import { DevelopmentPreview, FederatedModule, InstanceDrawer, Loading } from '@app/components';
 import { AccessDeniedPage, ServiceDownPage } from '@app/pages';
+import { PrincipalApi } from '@redhat-cloud-services/rbac-client';
 
 type KafkaFederatedProps = {
   module: string;
@@ -16,10 +17,10 @@ export const KafkaFederated: React.FunctionComponent<KafkaFederatedProps> = ({ m
   const config = useConfig();
 
   if (config?.serviceDown) {
-    return <ServiceDownPage />;
+    return <ServiceDownPage/>;
   }
 
-  return <KafkaPageConnected module={module} showMetrics={showMetrics} activeTab={activeTab} />;
+  return <KafkaPageConnected module={module} showMetrics={showMetrics} activeTab={activeTab}/>;
 };
 
 const KafkaPageConnected: React.FunctionComponent<KafkaFederatedProps> = ({ module, showMetrics, activeTab }) => {
@@ -30,15 +31,17 @@ const KafkaPageConnected: React.FunctionComponent<KafkaFederatedProps> = ({ modu
 
   const { id, topicName } = useParams<{ id: string; topicName: string }>();
   const [kafkaName, setKafkaName] = useState<undefined | string>();
+  const [principals, setPrincipals] = useState<Principal[] | undefined>();
+
   useEffect(() => {
     const getAdminApiUrl = async () => {
       const accessToken = await auth?.kas.getToken();
-      const apisService = new DefaultApi({
+      const kasService = new DefaultApi({
         accessToken,
         basePath: config?.kas.apiBasePath || '',
       } as Configuration);
 
-      const kafka = await apisService.getKafkaById(id);
+      const kafka = await kasService.getKafkaById(id);
       setKafkaDetail(kafka.data);
       setKafkaName(kafka.data.name);
       setAdminServerUrl(`https://admin-server-${kafka.data.bootstrap_server_host}/rest`);
@@ -47,8 +50,47 @@ const KafkaPageConnected: React.FunctionComponent<KafkaFederatedProps> = ({ modu
     getAdminApiUrl();
   }, [auth, config, id]);
 
+  useEffect(() => {
+    const getPrincipals = async () => {
+      const accessToken = await auth?.kas.getToken();
+      const securityApi = new SecurityApi({
+        accessToken,
+        basePath: config?.kas.apiBasePath || '',
+      } as Configuration);
+      const serviceAccounts = await securityApi.getServiceAccounts().then(response => response.data.items.map(sa => {
+        return {
+          id: sa.client_id,
+          principalType: PrincipalType.ServiceAccount
+        } as Principal;
+      }));
+
+      const principalApi = new PrincipalApi({
+        accessToken,
+        basePath: config?.rbac.basePath
+      });
+
+      const currentlyLoggedInuser = await auth?.getUsername();
+
+      const userAccounts = await principalApi.listPrincipals(-1).then(response => response.data.data.map(p => {
+        return {
+          id: p.username,
+          principalType: PrincipalType.UserAccount,
+          displayName: `${p.first_name} ${p.last_name}`,
+          emailAddress: p.email
+        } as Principal;
+      }).filter(p => (p.id !== currentlyLoggedInuser && p.id !== kafkaDetail?.owner)));
+
+      setPrincipals(userAccounts.concat(serviceAccounts));
+    }
+    if (config?.rbac.basePath) {
+      // Only load the principals if rbac is configured
+      getPrincipals();
+    }
+
+  }, [auth, config]);
+
   if (config === undefined || adminServerUrl === undefined) {
-    return <Loading />;
+    return <Loading/>;
   }
 
   return (
@@ -61,6 +103,7 @@ const KafkaPageConnected: React.FunctionComponent<KafkaFederatedProps> = ({ modu
       module={module}
       showMetrics={showMetrics}
       activeTab={activeTab}
+      principals={principals}
     />
   );
 };
@@ -71,17 +114,19 @@ type KafkaPageContentProps = KafkaFederatedProps & {
   topicName?: string;
   kafkaName?: string;
   kafkaDetail: KafkaRequest | undefined;
+  principals: Principal[] | undefined
 };
 
 const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
-  adminServerUrl,
-  id,
-  kafkaName,
-  kafkaDetail,
-  module,
-  showMetrics,
-  activeTab,
-}) => {
+                                                                            adminServerUrl,
+                                                                            id,
+                                                                            kafkaName,
+                                                                            kafkaDetail,
+                                                                            module,
+                                                                            showMetrics,
+                                                                            activeTab,
+                                                                            principals
+                                                                          }) => {
   const auth = useAuth();
 
   const [error, setError] = useState<undefined | number>();
@@ -111,24 +156,28 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
       scope="kafka"
       module={module}
       render={(FederatedKafka) => (
-        <FederatedKafka
-          getToken={auth?.kafka.getToken}
-          apiBasePath={adminServerUrl}
-          kafkaName={kafkaName}
-          kafkaPageLink={kafkaPageLink}
-          kafkaInstanceLink={kafkaInstanceLink}
-          onError={onError}
-          handleInstanceDrawer={handleInstanceDrawer}
-          setIsOpenDeleteInstanceModal={setIsOpenDeleteInstanceModal}
-          showMetrics={showMetrics}
-          activeTab={activeTab}
-        />
+        <PrincipalsContext.Provider value={principals ? {
+          getAllPrincipals: () => principals || [] as Principal[]
+        } as Principals : undefined}>
+          <FederatedKafka
+            getToken={auth?.kafka.getToken}
+            apiBasePath={adminServerUrl}
+            kafkaName={kafkaName}
+            kafkaPageLink={kafkaPageLink}
+            kafkaInstanceLink={kafkaInstanceLink}
+            onError={onError}
+            handleInstanceDrawer={handleInstanceDrawer}
+            setIsOpenDeleteInstanceModal={setIsOpenDeleteInstanceModal}
+            showMetrics={showMetrics}
+            activeTab={activeTab}
+          />
+        </PrincipalsContext.Provider>
       )}
     />
   );
 
   if (error === 401) {
-    kafkaUIPage = <AccessDeniedPage />;
+    kafkaUIPage = <AccessDeniedPage/>;
   }
 
   return (
