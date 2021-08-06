@@ -63,6 +63,13 @@ export const KasPage: React.FunctionComponent = () => {
           return open;
         };
 
+        const getTokenEndPointUrl = () => {
+          if (config) {
+            return `${config.masSso.authServerUrl}/realms/${config.masSso.realm}/protocol/openid-connect/token`;
+          }
+          return undefined;
+        }
+
         if (config?.serviceDown) {
           return <ServiceDownPage/>;
         }
@@ -73,6 +80,7 @@ export const KasPage: React.FunctionComponent = () => {
             getConnectToRoutePath={getConnectToRoutePath}
             preCreateInstance={preCreateInstance}
             shouldOpenCreateModal={shouldOpenCreateModal}
+            tokenEndPointUrl={getTokenEndPointUrl()}
           />
         );
       }}
