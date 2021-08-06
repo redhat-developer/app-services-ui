@@ -3,9 +3,9 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications/';
 import './App.scss';
-import { AppRoutes } from '@app/Routes';
 import { FederatedModuleProvider } from './components/FederatedModule/FederatedModule';
 import { InsightsType } from '@app/utils';
+import { AppRoutes } from '@app/Routes';
 
 export const App: React.FunctionComponent = () => {
   const insights: InsightsType = window['insights'];
@@ -40,8 +40,8 @@ export const App: React.FunctionComponent = () => {
     });
     return () => {
       unregister();
-    }
-  }, []);
+    };
+  }, [getAppId, history, insights.chrome]);
 
   return (
     <FederatedModuleProvider>

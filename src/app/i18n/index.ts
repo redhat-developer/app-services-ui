@@ -9,23 +9,23 @@ import { resources } from './locale';
 const appServicesi18n = i18n.createInstance();
 
 appServicesi18n
-    // pass the i18n instance to react-i18next.
-    .use(initReactI18next)
-    .use(LanguageDetector)
-    // init i18next
-    // for all options read: https://www.i18next.com/overview/configuration-options
-    .init({
-      detection: {
-        order: ['htmlTag', 'navigator'],
-        caches: [],
-      },
-      fallbackLng: 'en',
-      debug: true,
+  // pass the i18n instance to react-i18next.
+  .use(initReactI18next)
+  .use(LanguageDetector)
+  // init i18next
+  // for all options read: https://www.i18next.com/overview/configuration-options
+  .init({
+    detection: {
+      order: ['htmlTag', 'navigator'],
+      caches: [],
+    },
+    fallbackLng: 'en',
+    debug: true,
 
-      interpolation: {
-        escapeValue: false, // not needed for react as it escapes by default
-      },
-      resources,
-    });
+    interpolation: {
+      escapeValue: false, // not needed for react as it escapes by default
+    },
+    resources,
+  });
 
 export default appServicesi18n;

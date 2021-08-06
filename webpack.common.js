@@ -9,12 +9,18 @@ const {crc} = require('./package.json');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ChunkMapper = require('@redhat-cloud-services/frontend-components-config-utilities/chunk-mapper');
 
+const { federatedModules } = require('./config/config.json');
+
 const isPatternflyStyles = (stylesheet) => stylesheet.includes('@patternfly/react-styles/css/') || stylesheet.includes('@patternfly/react-core/');
 
 module.exports = (env, argv) => {
   const isProduction = argv && argv.mode === 'production';
   const publicPath = argv && argv.publicPath;
   const appEntry = path.resolve(__dirname, 'src', 'index.tsx')
+
+  const preloadTags = Object.values(federatedModules).map(v => v.fallbackBasePath).map(p => `<link rel="preload" href="${p}/fed-mods.json" as="fetch" type="application/json" />`).join('\n');
+  console.log(preloadTags);
+
   return {
     entry: {
       app: appEntry
@@ -95,7 +101,8 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, 'src', 'index.html'),
         templateParameters: {
-          'appName': crc.bundle
+          'appName': crc.bundle,
+          preloadTags
         },
         inject: false,
         minify: isProduction ? {
