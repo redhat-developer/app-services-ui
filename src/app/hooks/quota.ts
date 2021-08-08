@@ -49,7 +49,7 @@ export const useQuota = (productId: ProductType) => {
     }, [config?.ams.apiBasePath, auth]);
 
     const getQuota = async () => {
-        let filteredQuota: Quota = { loading: true, isServiceDown: false, data: undefined } as Quota;
+        let filteredQuota: Quota = { loading: true, isServiceDown: false, data: undefined };
 
         if (orgId) {
             const {
