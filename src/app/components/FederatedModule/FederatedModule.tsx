@@ -46,7 +46,7 @@ function loadComponent(scope, module) {
     await container.init(__webpack_share_scopes__.default);
     const factory = await window[scope].get(module);
     const Module = factory();
-    console.log(`${Module} loaded ${module} from ${scope}`);
+    console.debug(`loaded ${module} from ${scope}`);
     return Module;
   };
 }
@@ -63,27 +63,27 @@ const useDynamicScript = ({ url }) => {
         setFailed(true);
         return;
       }
-  
+
       element = document.createElement('script');
-  
+
       element.src = url;
       element.type = 'text/javascript';
       element.async = true;
-  
+
       setReady(false);
       setFailed(false);
-  
+
       element.onload = () => {
         console.log(`Dynamic federated module Loaded: ${url}`);
         setReady(true);
       };
-  
+
       element.onerror = () => {
         console.error(`Dynamic federated module Error: ${url}`);
         setReady(false);
         setFailed(true);
       };
-  
+
       document.head.appendChild(element);
     }
 
