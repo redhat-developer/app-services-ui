@@ -27,9 +27,7 @@
   },
   "config": [
     {
-      "hostnames": [
-        "prod.foo.redhat.com"
-      ],
+      "hostnames": ["prod.foo.redhat.com"],
       "type": "proxy",
       "config": {
         "serviceDown": false,
@@ -39,7 +37,9 @@
         "ams": {
           "apiBasePath": "https://api.stage.openshift.com",
           "eventCode": "onlineService",
-          "siteCode": "ocm"
+          "siteCode": "ocm",
+          "quotaId": "cluster|rhinfra|rhosak|marketplace",
+          "trialQuotaId": "cluster|rhinfra|rhosaktrial|marketplace"
         },
         "kas": {
           "apiBasePath": "https://api.stage.openshift.com"
@@ -79,10 +79,7 @@
       }
     },
     {
-      "hostnames": [
-        "qaprodauth.cloud.redhat.com",
-        "qaprodauth.console.redhat.com"
-      ],
+      "hostnames": ["qaprodauth.cloud.redhat.com", "qaprodauth.console.redhat.com"],
       "config": {
         "serviceDown": false,
         "guides": {
@@ -91,7 +88,9 @@
         "ams": {
           "apiBasePath": "https://api.stage.openshift.com",
           "eventCode": "onlineService",
-          "siteCode": "ocm"
+          "siteCode": "ocm",
+          "quotaId": "cluster|rhinfra|rhosak|marketplace",
+          "trialQuotaId": "cluster|rhinfra|rhosaktrial|marketplace"
         },
         "kas": {
           "apiBasePath": "https://api.stage.openshift.com"
@@ -131,10 +130,7 @@
       }
     },
     {
-      "hostnames": [
-        "cloud.redhat.com",
-        "console.redhat.com"
-      ],
+      "hostnames": ["cloud.redhat.com", "console.redhat.com"],
       "config": {
         "serviceDown": false,
         "guides": {
@@ -143,7 +139,9 @@
         "ams": {
           "apiBasePath": "https://api.openshift.com",
           "eventCode": "onlineService",
-          "siteCode": "ocm"
+          "siteCode": "ocm",
+          "quotaId": "cluster|rhinfra|rhosak|marketplace",
+          "trialQuotaId": "cluster|rhinfra|rhosaktrial|marketplace"
         },
         "kas": {
           "apiBasePath": "https://api.openshift.com"

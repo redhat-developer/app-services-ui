@@ -6,12 +6,14 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { getTermsAppURL } from '@app/utils/termsApp';
 import { parse as parseQueryString, stringifyUrl } from 'query-string';
 import { useTermsReview } from '@app/services/termsReview';
+import { useQuota, ProductType } from '@app/hooks';
 
 export const KasPage: React.FunctionComponent = () => {
   const config = useConfig();
   const history = useHistory();
   const location = useLocation();
   const termsReview = useTermsReview();
+  const { getQuota } = useQuota(ProductType?.kas);
 
   return (
     <FederatedModule
@@ -19,7 +21,6 @@ export const KasPage: React.FunctionComponent = () => {
       module="./OpenshiftStreams"
       fallback={<Loading />}
       render={(OpenshiftStreamsFederated) => {
-        
         const onConnectToRoute = async (event: unknown, routePath: string) => {
           if (routePath === undefined) {
             throw new Error('Route path is missing');
@@ -79,6 +80,7 @@ export const KasPage: React.FunctionComponent = () => {
             preCreateInstance={preCreateInstance}
             shouldOpenCreateModal={shouldOpenCreateModal}
             tokenEndPointUrl={getTokenEndPointUrl()}
+            getQuota={getQuota}
           />
         );
       }}
