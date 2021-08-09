@@ -120,13 +120,15 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
     return history.createHref({ pathname: `/streams/kafkas/${id}/${routePath}` });
   };
 
-  if (topicName && !activeAction) {
-    setKafkaModule(KafkaActionsModules.DetailsTopic);
-  } else if (activeAction) {
-    setKafkaModule(KafkaActionsModules[activeAction]);
-  } else {
-    setKafkaModule(KafkaActionsModules.ViewTopics);
-  }
+  useEffect(() => {
+    if (topicName && !activeAction) {
+      setKafkaModule(KafkaActionsModules.DetailsTopic);
+    } else if (activeAction) {
+      setKafkaModule(KafkaActionsModules[activeAction]);
+    } else {
+      setKafkaModule(KafkaActionsModules.ViewTopics);
+    }
+  }, []);
 
   const kafkaPageLink = `${getBaseName(window.location.pathname)}/streams/kafkas/`;
   const kafkaInstanceLink = `${getBaseName(window.location.pathname)}/streams/kafkas/${id}`;
