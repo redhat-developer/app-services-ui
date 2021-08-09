@@ -21,20 +21,6 @@ export const KasPage: React.FunctionComponent = () => {
       module="./OpenshiftStreams"
       fallback={<Loading />}
       render={(OpenshiftStreamsFederated) => {
-        const onConnectToRoute = async (event: unknown, routePath: string) => {
-          if (routePath === undefined) {
-            throw new Error('Route path is missing');
-          }
-          history.push(`/streams/${routePath}`);
-        };
-
-        const getConnectToRoutePath = (event: unknown, routePath: string) => {
-          if (routePath === undefined) {
-            throw new Error('Route path is missing');
-          }
-          return history.createHref({ pathname: `/streams/${routePath}` });
-        };
-
         const shouldOpenCreateModal = async () => {
           const parsed = parseQueryString(location.search);
           const c = parsed['create'] === 'true';
@@ -76,8 +62,6 @@ export const KasPage: React.FunctionComponent = () => {
         return (
           <QuotaContext.Provider value={{ getQuota }}>
             <OpenshiftStreamsFederated
-              onConnectToRoute={onConnectToRoute}
-              getConnectToRoutePath={getConnectToRoutePath}
               preCreateInstance={preCreateInstance}
               shouldOpenCreateModal={shouldOpenCreateModal}
               tokenEndPointUrl={getTokenEndPointUrl()}
