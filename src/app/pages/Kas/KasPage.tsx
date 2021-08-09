@@ -1,12 +1,12 @@
 import React from 'react';
-import { useConfig } from '@bf2/ui-shared';
+import { useConfig, ProductType, QuotaContext } from '@bf2/ui-shared';
 import { ServiceDownPage } from '@app/pages/ServiceDown/ServiceDownPage';
 import { FederatedModule, Loading } from '@app/components';
 import { useHistory, useLocation } from 'react-router-dom';
 import { getTermsAppURL } from '@app/utils/termsApp';
 import { parse as parseQueryString, stringifyUrl } from 'query-string';
 import { useTermsReview } from '@app/services/termsReview';
-import { useQuota, ProductType } from '@app/hooks';
+import { useQuota } from '@app/hooks';
 
 export const KasPage: React.FunctionComponent = () => {
   const config = useConfig();
@@ -74,14 +74,15 @@ export const KasPage: React.FunctionComponent = () => {
         }
 
         return (
-          <OpenshiftStreamsFederated
-            onConnectToRoute={onConnectToRoute}
-            getConnectToRoutePath={getConnectToRoutePath}
-            preCreateInstance={preCreateInstance}
-            shouldOpenCreateModal={shouldOpenCreateModal}
-            tokenEndPointUrl={getTokenEndPointUrl()}
-            getQuota={getQuota}
-          />
+          <QuotaContext.Provider value={{ getQuota }}>
+            <OpenshiftStreamsFederated
+              onConnectToRoute={onConnectToRoute}
+              getConnectToRoutePath={getConnectToRoutePath}
+              preCreateInstance={preCreateInstance}
+              shouldOpenCreateModal={shouldOpenCreateModal}
+              tokenEndPointUrl={getTokenEndPointUrl()}
+            />
+          </QuotaContext.Provider>
         );
       }}
     />

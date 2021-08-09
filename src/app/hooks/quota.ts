@@ -1,27 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
-import { useAuth, useConfig } from '@bf2/ui-shared';
+import { useAuth, useConfig, Quota, QuotaValue, QuotaType, ProductType } from '@bf2/ui-shared';
 import { Configuration, DefaultApi } from '@openapi/ams';
-
-export type QuotaValue = {
-    allowed: number;
-    consumed: number;
-    remaining: number;
-};
-
-export enum QuotaType {
-    kas = 'kas',
-    kasTrial = 'kas-trial'
-}
-
-export enum ProductType {
-    kas = 'kas'
-}
-
-export type Quota = {
-    data: Map<QuotaType, QuotaValue> | undefined;
-    loading: boolean;
-    isServiceDown: boolean;
-};
 
 export const useQuota = (productId: ProductType) => {
     const config = useConfig();

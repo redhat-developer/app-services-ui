@@ -37,7 +37,7 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "@bf2/ui-shared": "^0.7.2",
+    "@bf2/ui-shared": "0.8.0",
     "@patternfly/react-core": "^4.97.2",
     "@patternfly/react-table": "^4.23.2",
     "@redhat-cloud-services/frontend-components": "^3.3.9",
