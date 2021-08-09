@@ -128,7 +128,7 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
     } else {
       setKafkaModule(KafkaActionsModules.ViewTopics);
     }
-  }, []);
+  }, [activeAction, topicName]);
 
   const kafkaPageLink = `${getBaseName(window.location.pathname)}/streams/kafkas/`;
   const kafkaInstanceLink = `${getBaseName(window.location.pathname)}/streams/kafkas/${id}`;
