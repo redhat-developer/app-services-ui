@@ -7,6 +7,4 @@ function accessibleRouteChangeHandler() {
   }, 50);
 }
 
-export {
-  accessibleRouteChangeHandler
-};
+export { accessibleRouteChangeHandler };

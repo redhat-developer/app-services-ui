@@ -4,20 +4,22 @@ import { SrsLayout } from "@app/pages/ServiceRegistry/SrsLayout";
 import { useConfig } from "@bf2/ui-shared";
 import { ServiceDownPage } from "@app/pages";
 
-export const Rules: React.FunctionComponent = () => {
+export const RulesPage: React.FunctionComponent = () => {
   const config = useConfig();
 
   if (config?.serviceDown) {
     return <ServiceDownPage />;
   }
 
-  return <RulesConnected />;
+  return <RulesPageConnected />;
 };
 
-const RulesConnected: React.FunctionComponent = () => {
+const RulesPageConnected: React.FunctionComponent = () => {
   return (
     <SrsLayout breadcrumbId="srs.global_rules" render={registry => (
       <FederatedApicurioComponent registry={registry} module="./FederatedRulesPage"/>
     )}/>
   );
 };
+
+export default RulesPage;

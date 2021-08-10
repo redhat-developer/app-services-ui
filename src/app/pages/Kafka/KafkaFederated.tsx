@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Configuration, DefaultApi, KafkaRequest } from '@rhoas/kafka-management-sdk';
 import getBaseName from '@app/utils/getBaseName';
 import { useAlert, useAuth, useConfig } from '@bf2/ui-shared';
-import { Loading, FederatedModule, DevelopmentPreview, InstanceDrawer } from '@app/components';
+import { Loading, FederatedModule, DevelopmentPreview, InstanceDrawer, Metrics } from '@app/components';
 import { AccessDeniedPage, ServiceDownPage } from '@app/pages';
 
 type KafkaFederatedProps = {
@@ -28,6 +28,7 @@ const KafkaPageConnected: React.FunctionComponent<KafkaFederatedProps> = ({ modu
 
   const { id, topicName } = useParams<{ id: string; topicName: string }>();
   const [kafkaName, setKafkaName] = useState<undefined | string>();
+
   useEffect(() => {
     const getAdminApiUrl = async () => {
       const accessToken = await auth?.kas.getToken();
@@ -39,7 +40,7 @@ const KafkaPageConnected: React.FunctionComponent<KafkaFederatedProps> = ({ modu
       const kafka = await apisService.getKafkaById(id);
       setKafkaDetail(kafka.data);
       setKafkaName(kafka.data.name);
-      setAdminServerUrl(`https://admin-server-${kafka.data.bootstrapServerHost}/rest`);
+      setAdminServerUrl(`https://admin-server-${kafka.data.bootstrap_server_host}/rest`);
     };
 
     getAdminApiUrl();
@@ -108,6 +109,7 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
       data-ouia-app-id="dataPlane-streams"
       scope="kafka"
       module={module}
+      fallback={<Loading />}
       render={(FederatedKafka) => (
         <FederatedKafka
           getToken={auth?.kafka.getToken}
@@ -120,6 +122,7 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
           onError={onError}
           handleInstanceDrawer={handleInstanceDrawer}
           setIsOpenDeleteInstanceModal={setIsOpenDeleteInstanceModal}
+          // showMetrics={showMetrics()}
         />
       )}
     />
@@ -128,7 +131,6 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
   if (error === 401) {
     kafkaUIPage = <AccessDeniedPage />;
   }
-
   return (
     <div className="app-services-ui--u-display-contents" data-ouia-app-id="dataPlane-streams">
       <DevelopmentPreview>
@@ -146,3 +148,5 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
     </div>
   );
 };
+
+export default KafkaFederated;

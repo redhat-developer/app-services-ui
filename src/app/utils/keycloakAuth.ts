@@ -1,23 +1,22 @@
 import Keycloak, { KeycloakConfig, KeycloakInitOptions, KeycloakInstance } from 'keycloak-js';
 import Cookies from 'js-cookie';
-import jwtDecode, { JwtPayload } from "jwt-decode";
-import getUnixTime from "date-fns/getUnixTime";
+import jwtDecode, { JwtPayload } from 'jwt-decode';
+import getUnixTime from 'date-fns/getUnixTime';
 import { Base64 } from 'js-base64';
 
 let keycloak: KeycloakInstance | undefined;
 
-const OLD_REFRESH_TOKEN_COOKIE_NAME = "masSSORefreshToken";
+const OLD_REFRESH_TOKEN_COOKIE_NAME = 'masSSORefreshToken';
 // Clean out the old token from cookies
 Cookies.remove(OLD_REFRESH_TOKEN_COOKIE_NAME);
 
-const REFRESH_TOKEN_COOKIE_NAME = "mrt";
+const REFRESH_TOKEN_COOKIE_NAME = 'mrt';
 const MIN_VALIDITY = 50;
 
 type StoredToken = {
   refreshToken: string;
   rhUserId: string;
-}
-
+};
 
 /**
  * Get keycloak instance
@@ -34,26 +33,25 @@ export const getKeycloakInstance = async (config: KeycloakConfig, getInsightsAcc
     keycloak = await init(config, getInsightsAccessToken);
   }
   return keycloak;
-}
+};
 
 const storeRefreshToken = async (refreshToken: string, getInsightsAccessToken: () => Promise<string>) => {
-
   const insightsToken = await getInsightsAccessToken();
   const insightsJWT = jwtDecode<JwtPayload>(insightsToken);
   const rhUserId = insightsJWT['account_id'];
   const storedToken = JSON.stringify({
     refreshToken,
-    rhUserId
+    rhUserId,
   } as StoredToken);
   const encoded = Base64.encode(storedToken);
-  console.debug("storing refresh token");
+  console.debug('storing refresh token');
   Cookies.set(REFRESH_TOKEN_COOKIE_NAME, encoded);
-}
+};
 
 const clearRefreshToken = () => {
-  console.debug("clearing stored refresh token");
+  console.debug('clearing stored refresh token');
   Cookies.remove(REFRESH_TOKEN_COOKIE_NAME);
-}
+};
 
 const retrieveRefreshToken = async (getInsightsAccessToken: () => Promise<string>): Promise<string | undefined> => {
   const encoded = Cookies.get(REFRESH_TOKEN_COOKIE_NAME);
@@ -61,7 +59,7 @@ const retrieveRefreshToken = async (getInsightsAccessToken: () => Promise<string
     return undefined;
   }
   const storedToken = Base64.decode(encoded);
-  const storedRefreshToken = JSON.parse(storedToken) as unknown as StoredToken;
+  const storedRefreshToken = (JSON.parse(storedToken) as unknown) as StoredToken;
   // parse the refresh token so we can later check for validity
   let refreshJWT: JwtPayload | undefined;
   try {
@@ -89,8 +87,7 @@ const retrieveRefreshToken = async (getInsightsAccessToken: () => Promise<string
     return undefined;
   }
   return storedRefreshToken.refreshToken;
-}
-
+};
 
 /**
  * Initiate keycloak instance.
@@ -99,10 +96,12 @@ const retrieveRefreshToken = async (getInsightsAccessToken: () => Promise<string
  * keycloak isn't configured
  *
  */
-const init = async (config: KeycloakConfig, getInsightsAccessToken: () => Promise<string>): Promise<KeycloakInstance | undefined> => {
-
+const init = async (
+  config: KeycloakConfig,
+  getInsightsAccessToken: () => Promise<string>
+): Promise<KeycloakInstance | undefined> => {
   const initOptions = {
-    responseMode: "query",
+    responseMode: 'query',
   } as KeycloakInitOptions;
 
   const refreshToken = await retrieveRefreshToken(getInsightsAccessToken);
@@ -114,7 +113,7 @@ const init = async (config: KeycloakConfig, getInsightsAccessToken: () => Promis
       // Perform a keycloak init without a login
       await rk.init(initOptions);
       // Set the saved refresh token into Keycloak
-      rk.refreshToken = refreshToken
+      rk.refreshToken = refreshToken;
       // Then force a token refresh to check if the refresh token is actually valid
       await rk.updateToken(-1);
       return rk;
@@ -124,13 +123,13 @@ const init = async (config: KeycloakConfig, getInsightsAccessToken: () => Promis
     }
   }
   const lk = Keycloak(config);
-  initOptions.onLoad = "login-required";
+  initOptions.onLoad = 'login-required';
   await lk.init(initOptions);
   if (lk.refreshToken) {
     await storeRefreshToken(lk.refreshToken, getInsightsAccessToken);
   }
   return lk;
-}
+};
 
 /**
  * Use keycloak update token function to retrieve
@@ -145,23 +144,23 @@ const init = async (config: KeycloakConfig, getInsightsAccessToken: () => Promis
  * @throws error if a token is not available
  *
  */
-export const getValidAccessToken = async (getInsightsAccessToken: () => Promise<string>): Promise<string> => {
+export const getMASSSOToken = async (getInsightsAccessToken: () => Promise<string>): Promise<string> => {
   await keycloak?.updateToken(MIN_VALIDITY);
   if (!keycloak?.token || !keycloak.tokenParsed) {
-    throw new Error("No token from keycloak!");
+    throw new Error('No token from keycloak!');
   }
   const insightsToken = await getInsightsAccessToken();
   const insightsJWT = jwtDecode<JwtPayload>(insightsToken);
   if (insightsJWT['account_id'] !== keycloak.tokenParsed['rh-user-id']) {
     await logout(keycloak);
-    return "";
+    return '';
   }
   if (keycloak?.refreshToken) {
     // Save the most recent refresh token
     await storeRefreshToken(keycloak.refreshToken, getInsightsAccessToken);
   }
   return keycloak?.token;
-}
+};
 
 /**
  * logout of keycloak, clear cache and offline store then redirect to
@@ -173,7 +172,7 @@ export const getValidAccessToken = async (getInsightsAccessToken: () => Promise<
  */
 export const logout = async (k: Keycloak.KeycloakInstance | undefined) => {
   if (k) {
-    console.info("Trigger MASSSO logout")
+    console.info('Trigger MASSSO logout');
     await k.logout();
   }
-}
+};

@@ -13,8 +13,7 @@ export const getTermsAppURL = (baseURL: string, redirectURL: string, cancelURL: 
   return `${baseURL}&${buildUrlParams(params)}`;
 };
 
-export const buildUrlParams = params => Object.keys(params)
-  .map(key => `${key}=${encodeURIComponent(params[key])}`)
-  .join('&');
-
-
+export const buildUrlParams = (params) =>
+  Object.keys(params)
+    .map((key) => `${key}=${encodeURIComponent(params[key])}`)
+    .join('&');

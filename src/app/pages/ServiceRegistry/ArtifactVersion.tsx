@@ -21,3 +21,5 @@ const ArtifactVersionDetailsConnected: React.FunctionComponent = () => {
     )}/>
   );
 };
+
+export default ArtifactVersionDetails;

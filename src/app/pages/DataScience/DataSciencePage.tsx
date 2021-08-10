@@ -93,3 +93,5 @@ export const DataSciencePage: React.FunctionComponent = () => {
     </>
   );
 };
+
+export default DataSciencePage;

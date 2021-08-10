@@ -21,3 +21,5 @@ const ArtifactRedirectConnected: React.FunctionComponent = () => {
     )} />
   );
 };
+
+export default ArtifactRedirect;

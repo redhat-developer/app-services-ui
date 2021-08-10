@@ -11,23 +11,14 @@ export const CosPage: React.FunctionComponent = () => {
     return <ServiceDownPage />;
   }
 
-  return <CosPageConnected />;
-};
-
-export const CosPageConnected: React.FunctionComponent = () => {
-  const config = useConfig();
-
-  if (config === undefined) {
-    return <Loading />;
-  }
-
-  const osCos = (
+  return (
     <FederatedModule
       scope="cos"
+      fallback={<Loading />}
       module="./OpenshiftManagedConnectors"
       render={(OpenshiftManagedConnectors) => <OpenshiftManagedConnectors/>}
     />
-  );
-
-  return <DevelopmentPreview> {osCos} </DevelopmentPreview>;
+  )
 };
+
+export default CosPage;

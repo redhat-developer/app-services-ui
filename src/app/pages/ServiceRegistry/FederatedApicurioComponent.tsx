@@ -26,9 +26,13 @@ export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProp
   if (config === undefined || registry === undefined) {
     return <Loading />;
   }
-  
-  const federateConfig: ConfigType = createApicurioConfig(registry.registryUrl, basename.getBasename(),auth?.srs.getToken);
- 
+
+  const federateConfig: ConfigType = createApicurioConfig(
+    registry.registryUrl,
+    `${basename.getBasename()}/t/${registry?.id}`,
+    auth?.apicurio_registry.getToken
+  );
+
   return (
     <FederatedModule
       scope="apicurio_registry"
