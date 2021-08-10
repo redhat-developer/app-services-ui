@@ -52,7 +52,7 @@ export const useFetch = <T extends any>({ key, fetch }: ServiceProps<T>): Respon
 
     const doFetch = async () => {
       dispatch({ type: Status.FETCHING });
-      if (cache.current) {
+      if (cache.current[key]) {
         const data = cache.current[key];
         dispatch({ type: Status.FETCHED, payload: data });
       } else {
