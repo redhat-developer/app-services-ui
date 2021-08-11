@@ -32,8 +32,9 @@ export const useQuota = (productId: ProductType) => {
 
         if (orgId) {
             const {
-                ams: { quotaId, trialQuotaId },
-            } = config;
+                ams: amsConfig
+            } = config || {};
+            const { quotaId, trialQuotaId } = amsConfig || {};
             const accessToken = await auth?.ams.getToken();
             const ams = new DefaultApi({
                 accessToken,
@@ -41,7 +42,7 @@ export const useQuota = (productId: ProductType) => {
             } as Configuration);
 
             await ams
-                .apiAccountsMgmtV1OrganizationsOrgIdQuotaCostGet(orgId)
+                .apiAccountsMgmtV1OrganizationsOrgIdQuotaCostGet(orgId, undefined, true)
                 .then((res) => {
                     const quotaData = new Map<QuotaType, QuotaValue>();
                     const kasQuota = res?.data?.items?.filter(
