@@ -36,7 +36,7 @@ export const OverviewPage: React.FunctionComponent = () => {
       <PageSection className="app-services-ui--page-section--marketing app-services-ui--banner pf-t-dark pf-u-background-color-dark-100" variant={PageSectionVariants.dark}>
         <Stack hasGutter>
           <Title headingLevel="h1" size="2xl">
-            {t('overview.heroTitle')}
+            Hello world! {t('overview.heroTitle')}
           </Title>
           <Text className="app-services-ui--banner__tagline">{t('overview.heroTagline')}</Text>
           <Text component={TextVariants.p}>

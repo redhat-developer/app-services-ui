@@ -158,7 +158,8 @@ module.exports = (env, argv) => {
             eager: true,
             singleton: true,
             requiredVersion: dependencies["@bf2/ui-shared"]
-          }
+          },
+          '@scalprum/react-core': { requiredVersion: '*', singleton: true }
         }
       }),
       new ChunkMapper({ prefix: publicPath, modules: [federatedModuleName] })

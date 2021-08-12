@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { accessibleRouteChangeHandler, useDocumentTitle } from '@app/utils';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
@@ -6,6 +6,8 @@ import { BasenameContext } from '@bf2/ui-shared';
 import getBaseName from './utils/getBaseName';
 import { DevelopmentPreview, Loading } from '@app/components';
 import { QuickStartDrawerWrapper } from '@app/pages';
+const QuickStartLoaderFederated = React.lazy(() => import('@app/pages/Resources/QuickStartLoaderFederated'));
+import useChrome from '@redhat-cloud-services/frontend-components/useChrome/useChrome';
 
 const APIManagementPage = React.lazy(() => import('@app/pages/APIManagement/APIManagementPage'));
 const ArtifactRedirect = React.lazy(() => import('@app/pages/ServiceRegistry/ArtifactsRedirect'));
@@ -220,15 +222,45 @@ const WrappedRoute = ({ component: Component, isAsync = false, title, basename, 
   const getBasename = () => {
     return basename || '';
   };
+  const chrome = useChrome();
+  const { quickStarts } = chrome;
+  try {
+    console.group('Experimental API notice');
+    console.log('Using experimental chrome API "useChrome"');
+    console.log('Api value: ', chrome);
+    console.groupEnd();
+  } catch (error) {
+    /**
+     * Do nothing does not break UI
+     */
+  }
+  const onLoad = (qs) => {
+    debugger;
+    console.log(`settings chrome quick starts`);
+    console.log(qs);
+    // quickStarts && quickStarts.set(qs);
+    qsContext.loading && setQsContext({
+      quickStarts: qs,
+      loading: false,
+    })
+  }
+  const [qsContext, setQsContext] = React.useState({
+    quickStarts: [],
+    loading: true
+  });
 
   function wrapRoute(routeProps: RouteComponentProps) {
     return (
       <DevelopmentPreview show={devPreview}>
-        <QuickStartDrawerWrapper>
           <BasenameContext.Provider value={{ getBasename }}>
-            <Component {...rest} {...routeProps} />
+            <QsContext.Provider value={qsContext}>
+              <QuickStartDrawerWrapper>
+                <Component {...rest} {...routeProps} />
+                {/* {qsContext.loading && <QuickStartLoaderFederated onLoad={onLoad} />} */}
+              </QuickStartDrawerWrapper>
+            </QsContext.Provider>
           </BasenameContext.Provider>
-        </QuickStartDrawerWrapper>
+        {/* </QuickStartDrawerWrapper> */}
       </DevelopmentPreview>
     );
   }
@@ -246,25 +278,64 @@ const flattenedRoutes: IAppRoute[] = routes.reduce(
   [] as IAppRoute[]
 );
 
-const AppRoutes = (): React.ReactElement => (
-  <LastLocationProvider>
-    <React.Suspense fallback={<Loading />}>
-      <Switch>
-        {flattenedRoutes.map(({ path, exact, component, title, isAsync, ...rest }, idx) => (
-          <WrappedRoute
-            path={path}
-            exact={exact}
-            component={component}
-            key={idx}
-            title={title}
-            isAsync={isAsync}
-            {...rest}
-          />
-        ))}
-        <PageNotFound title="404 Page Not Found" />
-      </Switch>
-    </React.Suspense>
-  </LastLocationProvider>
-);
+export const QsContext = React.createContext({
+  quickStarts: [],
+  loading: true
+});
+
+const AppRoutes = (): React.ReactElement => {
+  // const chrome = useChrome();
+  // const { quickStarts } = chrome;
+  // try {
+  //   console.group('Experimental API notice');
+  //   console.log('Using experimental chrome API "useChrome"');
+  //   console.log('Api value: ', chrome);
+  //   console.groupEnd();
+  // } catch (error) {
+  //   /**
+  //    * Do nothing does not break UI
+  //    */
+  // }
+  // const onLoad = (qs) => {
+  //   debugger;
+  //   console.log(`settings chrome quick starts`);
+  //   console.log(qs);
+  //   // quickStarts && quickStarts.set(qs);
+  //   qsContext.loading && setQsContext({
+  //     quickStarts: qs,
+  //     loading: false,
+  //   })
+  // }
+  // const [qsContext, setQsContext] = React.useState({
+  //   quickStarts: [],
+  //   loading: true
+  // });
+  return (
+  <>
+    <LastLocationProvider>
+      <React.Suspense fallback={<Loading />}>
+        {/* <QsContext.Provider value={qsContext}> */}
+          {/* <QuickStartDrawerWrapper> */}
+            <Switch>
+              {flattenedRoutes.map(({ path, exact, component, title, isAsync, ...rest }, idx) => (
+                <WrappedRoute
+                  path={path}
+                  exact={exact}
+                  component={component}
+                  key={idx}
+                  title={title}
+                  isAsync={isAsync}
+                  {...rest}
+                />
+              ))}
+              <PageNotFound title="404 Page Not Found" />
+            </Switch>
+          {/* </QuickStartDrawerWrapper> */}
+        {/* </QsContext.Provider> */}
+      </React.Suspense>
+    </LastLocationProvider>
+    {/* {qsContext.loading && <QuickStartLoaderFederated onLoad={onLoad} />} */}
+  </>
+)};
 
 export { AppRoutes, routes };

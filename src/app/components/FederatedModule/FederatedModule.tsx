@@ -58,6 +58,7 @@ const useDynamicScript = ({ url }) => {
 
   React.useEffect(() => {
     let element;
+    // debugger;
     if(isMounted.current) {
       if (!url) {
         setFailed(true);
