@@ -96,6 +96,7 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
   const [isOpenDeleteInstanceModal, setIsOpenDeleteInstanceModal] = useState<boolean>(false);
   const [activeAction, setActiveAction] = useState();
   const [currentTopic, setCurrentTopic] = useState(topicName);
+  const [kafkaModule, setKafkaModule] = useState<KafkaActionsModules>(KafkaActionsModules.ViewTopics);
 
   const onError = (code: number) => {
     setError(code);
@@ -119,14 +120,15 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
     return history.createHref({ pathname: `/streams/kafkas/${id}/${routePath}` });
   };
 
-  let kafkaModule;
-  if (topicName && !activeAction) {
-    kafkaModule = KafkaActionsModules.DetailsTopic;
-  } else if (activeAction) {
-    kafkaModule = KafkaActionsModules[activeAction];
-  } else {
-    kafkaModule = KafkaActionsModules.ViewTopics;
-  }
+  useEffect(() => {
+    if (topicName && !activeAction) {
+      setKafkaModule(KafkaActionsModules.DetailsTopic);
+    } else if (activeAction) {
+      setKafkaModule(KafkaActionsModules[activeAction]);
+    } else {
+      setKafkaModule(KafkaActionsModules.ViewTopics);
+    }
+  }, [activeAction, topicName]);
 
   const kafkaPageLink = `${getBaseName(window.location.pathname)}/streams/kafkas/`;
   const kafkaInstanceLink = `${getBaseName(window.location.pathname)}/streams/kafkas/${id}`;
@@ -147,9 +149,13 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
     setActiveAction(kafkaAction);
   };
 
+  const onCreateTopic = () => {
+    setKafkaModule(KafkaActionsModules.CreateTopic);
+  };
+
   const showMetrics = () => {
     if (kafkaModule === KafkaActionsModules.ViewTopics) {
-      return <Metrics kafkaId={id}/>;
+      return <Metrics kafkaId={id} onCreateTopic={onCreateTopic} />;
     }
     return <></>;
   };
