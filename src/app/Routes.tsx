@@ -60,7 +60,7 @@ const routes: AppRouteConfig[] = [
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/streams/kafkas/:id',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
-    basename: '/streams/kafkas',
+    basename: '/streams/kafkas/:id',
     devPreview: true,
   },
   {
@@ -69,7 +69,7 @@ const routes: AppRouteConfig[] = [
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/streams/kafkas/:id/topics/:topicName',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
-    basename: '/streams/kafkas',
+    basename: '/streams/kafkas/:id',
     devPreview: true,
   },
   {
@@ -78,7 +78,7 @@ const routes: AppRouteConfig[] = [
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/streams/kafkas/:id/topic/create',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
-    basename: '/streams/kafkas',
+    basename: '/streams/kafkas/:id',
     devPreview: true,
   },
   {
@@ -87,7 +87,7 @@ const routes: AppRouteConfig[] = [
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/streams/kafkas/:id/topic/update/:topicName',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
-    basename: '/streams/kafkas',
+    basename: '/streams/kafkas/:id',
     devPreview: true,
   },
   {
@@ -241,6 +241,11 @@ const WrappedRoute = ({ component: Component, isAsync = false, title, basename, 
   useA11yRouteChange(isAsync);
   useDocumentTitle(title);
   const getBasename = () => {
+    const { computedMatch } = rest || {};
+
+    if (computedMatch?.params?.id && basename) {
+      return basename?.replace(':id', computedMatch?.params?.id);
+    }
     return basename || '';
   };
 
