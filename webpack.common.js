@@ -159,7 +159,8 @@ module.exports = (env, argv) => {
             singleton: true,
             requiredVersion: dependencies["@bf2/ui-shared"]
           },
-          '@scalprum/react-core': { requiredVersion: '*', singleton: true }
+          '@scalprum/react-core': { requiredVersion: '*', singleton: true },
+          '@patternfly/quickstarts': { requiredVersion: '1.2.0-rc.1', singleton: true }
         }
       }),
       new ChunkMapper({ prefix: publicPath, modules: [federatedModuleName] })

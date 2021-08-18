@@ -252,6 +252,7 @@ const WrappedRoute = ({ component: Component, isAsync = false, title, basename, 
       <DevelopmentPreview show={devPreview}>
         <BasenameContext.Provider value={{ getBasename }}>
           <Component {...rest} {...routeProps} />
+          <QuickStartLoaderFederated />
         </BasenameContext.Provider>
       </DevelopmentPreview>
     );
@@ -292,7 +293,7 @@ const AppRoutes = (): React.ReactElement => {
         </Switch>
       </React.Suspense>
     </LastLocationProvider>
-    <QuickStartLoaderFederated />
+    {/* <QuickStartLoaderFederated /> */}
   </>
 )};
 
