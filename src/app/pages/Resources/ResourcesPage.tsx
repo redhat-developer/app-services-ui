@@ -1,6 +1,5 @@
-import { FederatedModule } from "@app/components/FederatedModule/FederatedModule";
 import React, { FunctionComponent } from 'react';
-import { Loading } from '@app/components';
+import { FederatedModule, Loading } from '@app/components';
 
 export const ResourcesPage: FunctionComponent = () => (
   <FederatedModule
