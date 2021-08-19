@@ -112,9 +112,8 @@ const AppWithKeycloak: React.FunctionComponent = () => {
   );
 };
 
-const AppEntry: React.FunctionComponent = () => {
-  debugger;
-  return (
+// eslint-disable-next-line react/display-name
+const AppEntry: React.FunctionComponent = React.memo(() => (
   <Provider store={init(logger).getStore()}>
     <I18nextProvider i18n={appServicesi18n}>
       <EmbeddedConfigProvider>
@@ -122,5 +121,6 @@ const AppEntry: React.FunctionComponent = () => {
       </EmbeddedConfigProvider>
     </I18nextProvider>
   </Provider>
-)};
+));
+
 export default AppEntry;

@@ -4,6 +4,8 @@ import { useConfig } from '@bf2/ui-shared';
 import { Loading } from '@app/components/Loading/Loading';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome/useChrome';
 
+export const appIdentifier = 'applicationServices';
+
 export const QuickStartLoaderFederated: FunctionComponent = () => {
   const chrome = useChrome();
   const { quickStarts } = chrome;
@@ -13,25 +15,19 @@ export const QuickStartLoaderFederated: FunctionComponent = () => {
     return <Loading/>;
   }
 
-  if (!quickStarts || quickStarts.initialized) {
+  if (!quickStarts) {
     return null;
   }
 
-  try {
-    console.group('Experimental API notice');
-    console.log('Using experimental chrome API "useChrome"');
-    console.log('Api value: ', chrome);
-    console.groupEnd();
-  } catch (error) {
-    /**
-     * Do nothing does not break UI
-     */
-  }
   const onLoad = (qs) => {
-    // update chrome context with quick starts
-    quickStarts.set(qs);
-    console.log(`settings chrome quick starts`);
-    console.log(qs);
+    if (quickStarts) {
+      if (quickStarts.version >= 1) {
+        // update chrome context with quick starts
+        quickStarts.set(appIdentifier, qs);
+      } else {
+        quickStarts.set(qs);
+      }
+    }
   }
 
   return (<FederatedModule

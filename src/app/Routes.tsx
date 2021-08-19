@@ -5,6 +5,7 @@ import { LastLocationProvider, useLastLocation } from 'react-router-last-locatio
 import { BasenameContext } from '@bf2/ui-shared';
 import getBaseName from './utils/getBaseName';
 import { DevelopmentPreview, Loading } from '@app/components';
+// import { QuickStartDrawerWrapper } from '@app/pages';
 const QuickStartLoaderFederated = React.lazy(() => import('@app/pages/Resources/QuickStartLoaderFederated'));
 
 const APIManagementPage = React.lazy(() => import('@app/pages/APIManagement/APIManagementPage'));
@@ -220,41 +221,16 @@ const WrappedRoute = ({ component: Component, isAsync = false, title, basename, 
   const getBasename = () => {
     return basename || '';
   };
-  // const chrome = useChrome();
-  // const { quickStarts } = chrome;
-  // try {
-  //   console.group('Experimental API notice');
-  //   console.log('Using experimental chrome API "useChrome"');
-  //   console.log('Api value: ', chrome);
-  //   console.groupEnd();
-  // } catch (error) {
-  //   /**
-  //    * Do nothing does not break UI
-  //    */
-  // }
-  // const onLoad = (qs) => {
-  //   debugger;
-  //   console.log(`settings chrome quick starts`);
-  //   console.log(qs);
-  //   quickStarts && quickStarts.set(qs);
-  //   qsContext.loading && setQsContext({
-  //     quickStarts: qs,
-  //     loading: false,
-  //   })
-  // }
-  // const [qsContext, setQsContext] = React.useState({
-  //   quickStarts: [],
-  //   loading: true
-  // });
 
   function wrapRoute(routeProps: RouteComponentProps) {
     return (
-      <DevelopmentPreview show={devPreview}>
-        <BasenameContext.Provider value={{ getBasename }}>
-          <Component {...rest} {...routeProps} />
-          <QuickStartLoaderFederated />
-        </BasenameContext.Provider>
-      </DevelopmentPreview>
+      // <QuickStartDrawerWrapper>
+        <DevelopmentPreview show={devPreview}>
+          <BasenameContext.Provider value={{ getBasename }}>
+            <Component {...rest} {...routeProps} />
+          </BasenameContext.Provider>
+        </DevelopmentPreview>
+      // </QuickStartDrawerWrapper>
     );
   }
 
@@ -271,9 +247,7 @@ const flattenedRoutes: IAppRoute[] = routes.reduce(
   [] as IAppRoute[]
 );
 
-const AppRoutes = (): React.ReactElement => {
-  debugger;
-  return (
+const AppRoutes = (): React.ReactElement => (
   <>
     <LastLocationProvider>
       <React.Suspense fallback={<Loading />}>
@@ -293,8 +267,8 @@ const AppRoutes = (): React.ReactElement => {
         </Switch>
       </React.Suspense>
     </LastLocationProvider>
-    {/* <QuickStartLoaderFederated /> */}
+    <QuickStartLoaderFederated />
   </>
-)};
+);
 
 export { AppRoutes, routes };
