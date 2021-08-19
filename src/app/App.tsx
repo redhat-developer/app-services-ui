@@ -33,7 +33,6 @@ export const App: React.FunctionComponent = () => {
     insights.chrome.init();
     const appId = getAppId();
     insights.chrome.identifyApp(appId);
-    console.log(`identifyApp ${appId}`)
 
     const unregister = insights.chrome.on('APP_NAVIGATION', (event) => {
       const streamUrls = ['kafkas', 'service-accounts', 'resources'];

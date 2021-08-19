@@ -5,7 +5,6 @@ import { LastLocationProvider, useLastLocation } from 'react-router-last-locatio
 import { BasenameContext } from '@bf2/ui-shared';
 import getBaseName from './utils/getBaseName';
 import { DevelopmentPreview, Loading } from '@app/components';
-import { QuickStartDrawerWrapper } from '@app/pages';
 const QuickStartLoaderFederated = React.lazy(() => import('@app/pages/Resources/QuickStartLoaderFederated'));
 
 const APIManagementPage = React.lazy(() => import('@app/pages/APIManagement/APIManagementPage'));
@@ -224,13 +223,11 @@ const WrappedRoute = ({ component: Component, isAsync = false, title, basename, 
 
   function wrapRoute(routeProps: RouteComponentProps) {
     return (
-      <QuickStartDrawerWrapper>
         <DevelopmentPreview show={devPreview}>
           <BasenameContext.Provider value={{ getBasename }}>
             <Component {...rest} {...routeProps} />
           </BasenameContext.Provider>
         </DevelopmentPreview>
-      </QuickStartDrawerWrapper>
     );
   }
 

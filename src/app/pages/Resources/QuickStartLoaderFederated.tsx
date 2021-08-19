@@ -15,18 +15,9 @@ export const QuickStartLoaderFederated: FunctionComponent = () => {
     return <Loading/>;
   }
 
-  if (!quickStarts.version) {
-    return null;
-  }
-
   const onLoad = (qs) => {
     if (quickStarts) {
-      if (quickStarts.version >= 1) {
-        // update chrome context with quick starts
-        quickStarts.set(appIdentifier, qs);
-      } else {
-        quickStarts.set(qs);
-      }
+      quickStarts.set(appIdentifier, qs);
     }
   }
 
