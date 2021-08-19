@@ -40,7 +40,6 @@ export const App: React.FunctionComponent = () => {
       history.push(`/${streamUrls.includes(event.navId) ? 'streams/' : ''}${event.navId}`);
     });
     return () => {
-      console.log(`unregister`)
       unregister();
     };
   }, [getAppId, history, insights.chrome]);

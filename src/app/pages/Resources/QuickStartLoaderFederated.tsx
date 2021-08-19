@@ -15,7 +15,7 @@ export const QuickStartLoaderFederated: FunctionComponent = () => {
     return <Loading/>;
   }
 
-  if (!quickStarts) {
+  if (!quickStarts.version) {
     return null;
   }
 

@@ -9,10 +9,6 @@
         <link rel="preconnect" href="https://redhat.tt.omtrdc.net" />
         <link rel="preconnect" href="https://ws22.hotjar.com" />
 
-        <link rel="stylesheet" href="https://www.unpkg.com/@patternfly/patternfly@4.35.2/base/patternfly-shield-inheritable.css" />
-        <link rel="stylesheet" href="https://www.unpkg.com/@patternfly/patternfly@4.35.2/patternfly.min.css" />
-        <link rel="stylesheet" href="https://www.unpkg.com/@patternfly/patternfly@4.35.2/utilities/Accessibility/accessibility.css" />
-
         <%= preloadTags %>
 
         <meta charset="UTF-8">
@@ -41,6 +37,12 @@
         </script>
     </head>
     <body>
-      <esi:include src="/beta/apps/chrome/snippets/body.html"/>
+      <div class="pf-c-drawer pf-m-inline" id="qs-root">
+        <div class="pf-c-drawer__main" id="qs-include">
+          <div class="pf-c-drawer__content" id="qs-content">
+            <esi:include src="/beta/apps/chrome/snippets/body.html"/>
+          </div>
+        </div>
+      </div>
     </body>
 </html>
