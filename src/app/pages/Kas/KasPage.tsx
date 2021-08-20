@@ -77,24 +77,25 @@ export const KasPage: React.FunctionComponent = () => {
     <FederatedModule
       scope="kas"
       module="./OpenshiftStreams"
-      fallback={<Loading/>}
+      fallback={<Loading />}
       render={(OpenshiftStreamsFederated) => {
 
         if (config?.serviceDown) {
-          return <ServiceDownPage/>;
+          return <ServiceDownPage />;
         }
 
         return (
           <OpenshiftStreamsFederated
-            onConnectToRoute={onConnectToRoute}
-            getConnectToRoutePath={getConnectToRoutePath}
             preCreateInstance={preCreateInstance}
             shouldOpenCreateModal={shouldOpenCreateModal}
             tokenEndPointUrl={getTokenEndPointUrl()}
+            onConnectToRoute={onConnectToRoute}
+            getConnectToRoutePath={getConnectToRoutePath}
           />
         );
       }}
-    />);
-}
+    />
+  );
+};
 
 export default KasPage;
