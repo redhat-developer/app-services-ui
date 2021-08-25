@@ -22,26 +22,10 @@ export const InstanceDrawer: React.FC<InstanceDrawerProps> = ({
   setIsOpenDeleteInstanceModal,
   isOpenDeleteInstanceModal,
 }) => {
-  const config = useConfig();
-  const history = useHistory();
-
+  const config = useConfig()
   if (config === undefined) {
     return <Loading />;
   }
-
-  const getConnectToRoutePath = (event: unknown, routePath: string) => {
-    if (routePath === undefined) {
-      throw new Error('Route path is missing');
-    }
-    return history.createHref({ pathname: `/streams/${routePath}` });
-  };
-
-  const onConnectToRoute = async (event: unknown, routePath: string) => {
-    if (routePath === undefined) {
-      throw new Error('Route path is missing');
-    }
-    history.push(`/streams/${routePath}`);
-  };
 
   const { authServerUrl, realm } = config?.masSso || {};
   const tokenEndPointUrl = `${authServerUrl}/realms/${realm}/protocol/openid-connect/token`;
@@ -54,8 +38,6 @@ export const InstanceDrawer: React.FC<InstanceDrawerProps> = ({
       render={(InstanceDrawerFederated) => {
         return (
           <InstanceDrawerFederated
-            getConnectToRoutePath={getConnectToRoutePath}
-            onConnectToRoute={onConnectToRoute}
             tokenEndPointUrl={tokenEndPointUrl}
             isExpanded={isExpanded}
             onClose={onClose}

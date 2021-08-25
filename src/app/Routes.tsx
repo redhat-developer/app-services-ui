@@ -12,7 +12,12 @@ const ArtifactRedirect = React.lazy(() => import('@app/pages/ServiceRegistry/Art
 const Artifacts = React.lazy(() => import('@app/pages/ServiceRegistry/Artifacts'));
 const ArtifactVersionDetails = React.lazy(() => import('@app/pages/ServiceRegistry/ArtifactVersion'));
 const DataSciencePage = React.lazy(() => import('@app/pages/DataScience/DataSciencePage'));
-const KafkaPage = React.lazy(() => import('@app/pages/Kafka/KafkaPage'));
+
+const CreateTopic = React.lazy(() => import('@app/pages/Kafka/CreateTopic'));
+const Topics = React.lazy(() => import('@app/pages/Kafka/Topics'));
+const TopicDetails = React.lazy(() => import('@app/pages/Kafka/TopicDetails'));
+const UpdateTopic = React.lazy(() => import('@app/pages/Kafka/UpdateTopic'));
+
 const KasPage = React.lazy(() => import('@app/pages/Kas/KasPage'));
 const NotFoundPage = React.lazy(() => import('@app/pages/NotFound/NotFoundPage'));
 const OverviewPage = React.lazy(() => import('@app/pages/Overview/OverviewPage'));
@@ -50,21 +55,39 @@ const RedirectToStreamsKafkas: React.FunctionComponent = () => <Redirect to="/st
 
 const routes: AppRouteConfig[] = [
   {
-    component: KafkaPage,
+    component: Topics,
     exact: true,
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/streams/kafkas/:id',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
-    basename: '/streams/kafkas',
+    basename: '/streams/kafkas/:id',
     devPreview: true,
   },
   {
-    component: KafkaPage,
+    component: TopicDetails,
     exact: false,
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/streams/kafkas/:id/topics/:topicName',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
-    basename: '/streams/kafkas',
+    basename: '/streams/kafkas/:id',
+    devPreview: true,
+  },
+  {
+    component: CreateTopic,
+    exact: false,
+    label: 'Red Hat OpenShift Streams for Apache Kafka',
+    path: '/streams/kafkas/:id/topic/create',
+    title: 'Red Hat OpenShift Streams for Apache Kafka',
+    basename: '/streams/kafkas/:id',
+    devPreview: true,
+  },
+  {
+    component: UpdateTopic,
+    exact: false,
+    label: 'Red Hat OpenShift Streams for Apache Kafka',
+    path: '/streams/kafkas/:id/topic/update/:topicName',
+    title: 'Red Hat OpenShift Streams for Apache Kafka',
+    basename: '/streams/kafkas/:id',
     devPreview: true,
   },
   {
@@ -218,6 +241,11 @@ const WrappedRoute = ({ component: Component, isAsync = false, title, basename, 
   useA11yRouteChange(isAsync);
   useDocumentTitle(title);
   const getBasename = () => {
+    const { computedMatch } = rest || {};
+
+    if (computedMatch?.params?.id && basename) {
+      return basename?.replace(':id', computedMatch?.params?.id);
+    }
     return basename || '';
   };
 
