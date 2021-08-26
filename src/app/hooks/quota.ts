@@ -54,10 +54,11 @@ export const useQuota = (productId: ProductType) => {
                     )[0];
 
                     if (kasQuota) {
+                        const remaining = kasQuota?.allowed - kasQuota?.consumed;
                         quotaData?.set(QuotaType?.kas, {
                             allowed: kasQuota?.allowed,
                             consumed: kasQuota?.consumed,
-                            remaining: kasQuota?.allowed - kasQuota?.consumed
+                            remaining: remaining < 0 ? 0 : remaining
                         });
                     }
 
