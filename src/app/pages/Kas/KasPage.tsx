@@ -1,20 +1,18 @@
 import React from 'react';
-import { useConfig } from '@bf2/ui-shared';
+import { useConfig, ProductType, QuotaContext } from '@bf2/ui-shared';
 import { ServiceDownPage } from '@app/pages/ServiceDown/ServiceDownPage';
 import { FederatedModule, Loading } from '@app/components';
-import { useHistory, useLocation } from "react-router-dom";
-import { getTermsAppURL } from "@app/utils/termsApp";
-import { parse as parseQueryString, stringifyUrl } from "query-string";
-import { useAsyncTermsReview } from "@app/services/termsReview";
+import { useQuota } from '@app/hooks';
+import { useLocation } from 'react-router-dom';
+import { getTermsAppURL } from '@app/utils/termsApp';
+import { parse as parseQueryString, stringifyUrl } from 'query-string';
+import { useAsyncTermsReview } from '@app/services/termsReview';
 
 const useModalControl = () => {
-
   const loadTermsReview = useAsyncTermsReview();
-  const history = useHistory();
   const location = useLocation();
 
   const shouldOpenCreateModal = async () => {
-
     const parsed = parseQueryString(location.search);
     const c = parsed['create'] === 'true';
     if (c) {
@@ -24,7 +22,7 @@ const useModalControl = () => {
       }
     }
     return false;
-  }
+  };
 
   const preCreateInstance = async (open: boolean) => {
     const termsReview = await loadTermsReview();
@@ -40,38 +38,21 @@ const useModalControl = () => {
     return open;
   };
 
-  return { shouldOpenCreateModal, preCreateInstance }
-}
+  return { shouldOpenCreateModal, preCreateInstance };
+};
 
 export const KasPage: React.FunctionComponent = () => {
   const config = useConfig();
-
-  const history = useHistory();
+  const { getQuota } = useQuota(ProductType?.kas);
 
   const { preCreateInstance, shouldOpenCreateModal } = useModalControl();
-
-
-  const onConnectToRoute = async (event: unknown, routePath: string) => {
-    if (routePath === undefined) {
-      throw new Error('Route path is missing');
-    }
-    history.push(`/streams/${routePath}`);
-  };
-
-  const getConnectToRoutePath = (event: unknown, routePath: string) => {
-    if (routePath === undefined) {
-      throw new Error('Route path is missing');
-    }
-    return history.createHref({ pathname: `/streams/${routePath}` });
-  };
-
 
   const getTokenEndPointUrl = () => {
     if (config) {
       return `${config.masSso.authServerUrl}/realms/${config.masSso.realm}/protocol/openid-connect/token`;
     }
     return undefined;
-  }
+  };
 
   return (
     <FederatedModule
@@ -79,19 +60,18 @@ export const KasPage: React.FunctionComponent = () => {
       module="./OpenshiftStreams"
       fallback={<Loading />}
       render={(OpenshiftStreamsFederated) => {
-
         if (config?.serviceDown) {
           return <ServiceDownPage />;
         }
 
         return (
-          <OpenshiftStreamsFederated
-            preCreateInstance={preCreateInstance}
-            shouldOpenCreateModal={shouldOpenCreateModal}
-            tokenEndPointUrl={getTokenEndPointUrl()}
-            onConnectToRoute={onConnectToRoute}
-            getConnectToRoutePath={getConnectToRoutePath}
-          />
+          <QuotaContext.Provider value={{ getQuota }}>
+            <OpenshiftStreamsFederated
+              preCreateInstance={preCreateInstance}
+              shouldOpenCreateModal={shouldOpenCreateModal}
+              tokenEndPointUrl={getTokenEndPointUrl()}
+            />
+          </QuotaContext.Provider>
         );
       }}
     />

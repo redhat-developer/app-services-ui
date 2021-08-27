@@ -5,6 +5,6 @@ import { Spinner } from '@redhat-cloud-services/frontend-components';
 
 export const Loading: React.FunctionComponent = () => (
   <Bullseye>
-    <Spinner/>
+    <Spinner />
   </Bullseye>
 );
