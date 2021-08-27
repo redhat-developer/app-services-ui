@@ -53,7 +53,7 @@ export const useQuota = (productId: ProductType) => {
                         (q) => q.quota_id.trim() === trialQuotaId
                     )[0];
 
-                    if (kasQuota) {
+                    if (kasQuota && kasQuota.allowed > 0) {
                         const remaining = kasQuota?.allowed - kasQuota?.consumed;
                         quotaData?.set(QuotaType?.kas, {
                             allowed: kasQuota?.allowed,
