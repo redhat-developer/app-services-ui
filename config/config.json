@@ -57,7 +57,7 @@
           "apiBasePath": "https://api.stage.openshift.com"
         },
         "cos": {
-          "apiBasePath": "https://cos-fleet-manager-cos.rh-fuse-153f1de160110098c1928a6c05e19444-0000.eu-de.containers.appdomain.cloud",
+          "apiBasePath": "https://cos-fm.apps.kammellol.rhmw-integrations.net",
           "configurators": {
             "debezium-mongodb-1.5.0.Final": {
               "remoteEntry": "https://dbz-ui.apps.kammellol.rhmw-integrations.net/dbz-connector-configurator.remoteEntry.js",
@@ -108,7 +108,7 @@
           "apiBasePath": "https://api.stage.openshift.com"
         },
         "cos": {
-          "apiBasePath": "https://cos-fleet-manager-cos.rh-fuse-153f1de160110098c1928a6c05e19444-0000.eu-de.containers.appdomain.cloud",
+          "apiBasePath": "https://cos-fm.apps.kammellol.rhmw-integrations.net",
           "configurators": {
             "debezium-mongodb-1.5.0.Final": {
               "remoteEntry": "https://dbz-ui.apps.kammellol.rhmw-integrations.net/dbz-connector-configurator.remoteEntry.js",
