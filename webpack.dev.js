@@ -22,21 +22,27 @@ module.exports = merge(common('development', {
   mode: "development",
   devtool: "eval-source-map",
   devServer: {
-    contentBasePublicPath: publicPath,
-    contentBase: "./dist",
+    static: {
+      publicPath,
+      directory: "./dist",
+    },
     host: HOST,
     port: PORT,
     compress: true,
-    inline: true,
     historyApiFallback: {
       index: `${publicPath}index.html`
     },
     hot: true,
-    overlay: true,
-    open: true,
-    openPage: `https://prod.foo.redhat.com:1337${BETA ? '/beta': ''}/${crc.bundle}/`,
-    disableHostCheck: true,
-    publicPath,
+    client: {
+      overlay: true,
+    },
+    open: {
+      target: [`https://prod.foo.redhat.com:1337${BETA ? '/beta': ''}/${crc.bundle}/`]
+    },
+    allowedHosts: "all",
+    devMiddleware: {
+      publicPath,
+    },
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
