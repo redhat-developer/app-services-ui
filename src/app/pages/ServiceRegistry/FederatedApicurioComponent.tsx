@@ -17,21 +17,25 @@ type ServiceRegistryParams = {
 };
 
 export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProps> = ({ module, registry }) => {
+  let federateConfig: ConfigType;
   const auth = useAuth();
   const config = useConfig();
   const history = useHistory();
   const basename = useBasename();
+  const getToken = auth?.apicurio_registry.getToken;
   const { groupId, artifactId, version } = useParams<ServiceRegistryParams>();
 
   if (config === undefined || registry === undefined) {
     return <Loading />;
   }
 
-  const federateConfig: ConfigType = createApicurioConfig(
-    registry.registryUrl,
-    `${basename.getBasename()}/t/${registry?.id}`,
-    auth?.apicurio_registry.getToken
-  );
+  if (getToken && basename) {
+    federateConfig = createApicurioConfig(
+      registry.registryUrl,
+      `${basename.getBasename()}/t/${registry?.id}`,
+      getToken
+    );
+  }
 
   return (
     <FederatedModule
