@@ -19,7 +19,6 @@ module.exports = (env, argv) => {
   const appEntry = path.resolve(__dirname, 'src', 'index.tsx')
 
   const preloadTags = Object.values(federatedModules).map(v => v.fallbackBasePath).map(p => `<link rel="preload" href="${p}/fed-mods.json" as="fetch" type="application/json" />`).join('\n');
-  console.log(preloadTags);
 
   return {
     entry: {
