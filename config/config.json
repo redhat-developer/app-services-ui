@@ -164,6 +164,8 @@
         "srs": {
           "apiBasePath": "https://api.openshift.com"
         },
+        "rbac": {
+        },
         "cos": {
           "apiBasePath": "https://api.openshift.com",
           "configurators": {
