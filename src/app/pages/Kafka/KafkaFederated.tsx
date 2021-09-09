@@ -138,7 +138,7 @@ const KafkaPageContent: React.FunctionComponent<KafkaPageContentProps> = ({
     setError(code);
   };
 
-  const kafkaPageLink = `${getBaseName(window.location.pathname)}/streams/kafkas/`;
+  const kafkaPageLink = `${getBaseName(window.location.pathname)}/streams/kafkas`;
   const kafkaInstanceLink = `${getBaseName(window.location.pathname)}/streams/kafkas/${id}`;
 
   const handleInstanceDrawer = (isOpen: boolean, activeTab?: string) => {
