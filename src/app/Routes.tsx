@@ -179,9 +179,8 @@ const routes: AppRouteConfig[] = [
     component: ServiceAccountsPage,
     exact: true,
     label: 'Red Hat OpenShift Streams for Apache Kafka',
-    path: '/streams/service-accounts',
+    path: '/service-accounts',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
-    basename: '/streams',
     devPreview: true,
   },
   {
