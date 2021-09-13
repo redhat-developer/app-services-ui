@@ -2,6 +2,7 @@ import React from 'react';
 import { useConfig } from '@bf2/ui-shared';
 import { DevelopmentPreview, FederatedModule, Loading } from '@app/components';
 import { ServiceDownPage } from '@app/pages';
+import { useModalControl } from '@app/hooks';
 
 export const ServiceRegistryPage: React.FunctionComponent = () => {
   const config = useConfig();
@@ -15,6 +16,7 @@ export const ServiceRegistryPage: React.FunctionComponent = () => {
 
 export const ServiceRegistryPageConnected: React.FC = () => {
   const config = useConfig();
+  const { preCreateInstance, shouldOpenCreateModal } = useModalControl();
 
   // Wait for the config and the registry to load
   if (config === undefined) {
@@ -28,7 +30,12 @@ export const ServiceRegistryPageConnected: React.FC = () => {
         module="./ServiceRegistry"
         fallback={<Loading />}
         render={(ServiceRegistryFederated) => {
-          return <ServiceRegistryFederated />;
+          return (
+            <ServiceRegistryFederated
+              preCreateInstance={preCreateInstance}
+              shouldOpenCreateModal={shouldOpenCreateModal}
+            />
+          );
         }}
       />
     </DevelopmentPreview>
