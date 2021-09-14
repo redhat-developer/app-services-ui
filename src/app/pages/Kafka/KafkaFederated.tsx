@@ -60,6 +60,7 @@ const KafkaPageConnected: React.FunctionComponent<KafkaFederatedProps> = ({ modu
       const serviceAccounts = await securityApi.getServiceAccounts().then(response => response.data.items.map(sa => {
         return {
           id: sa.client_id,
+          displayName: sa.name,
           principalType: PrincipalType.ServiceAccount
         } as Principal;
       }));
