@@ -1,4 +1,4 @@
-import { Auth, Config, useAuth, useConfig } from '@bf2/ui-shared';
+import { Auth, Config, useAuth, useConfig } from '@rhoas/app-services-ui-shared';
 import { Configuration, DefaultApi, TermsReviewResponse } from '@openapi/ams';
 import { useFetch } from '@app/services/fetch';
 import { useEffect, useRef } from "react";

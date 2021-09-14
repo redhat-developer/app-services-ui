@@ -1,6 +1,6 @@
 import { DevelopmentPreview, FederatedModule, Loading } from '@app/components';
 import { ServiceDownPage } from '@app/pages/ServiceDown/ServiceDownPage';
-import { useConfig } from '@bf2/ui-shared';
+import { useConfig } from '@rhoas/app-services-ui-shared';
 import React from 'react';
 
 

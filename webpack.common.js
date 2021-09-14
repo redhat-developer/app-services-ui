@@ -153,10 +153,10 @@ module.exports = (env, argv) => {
           'react-router-dom': {
             requiredVersion: dependencies['react-router-dom']
           },
-          "@bf2/ui-shared": {
+          "@rhoas/app-services-ui-shared": {
             eager: true,
             singleton: true,
-            requiredVersion: dependencies["@bf2/ui-shared"]
+            requiredVersion: dependencies["@rhoas/app-services-ui-shared"]
           }
         }
       }),

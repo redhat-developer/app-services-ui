@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { useConfig } from '@bf2/ui-shared';
+import { useConfig } from '@rhoas/app-services-ui-shared';
 import './QuickStartDrawerWrapper.scss';
 import { FederatedModule } from "@app/components";
 

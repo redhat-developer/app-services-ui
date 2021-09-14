@@ -1,5 +1,5 @@
 import React from 'react';
-import { useConfig } from '@bf2/ui-shared';
+import { useConfig } from '@rhoas/app-services-ui-shared';
 import { Loading, FederatedModule } from '@app/components';
 
 type MetricsProps = {

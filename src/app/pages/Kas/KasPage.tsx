@@ -1,5 +1,5 @@
 import React from 'react';
-import { useConfig, ProductType, QuotaContext } from '@bf2/ui-shared';
+import { useConfig, ProductType, QuotaContext } from '@rhoas/app-services-ui-shared';
 import { ServiceDownPage } from '@app/pages/ServiceDown/ServiceDownPage';
 import { FederatedModule, Loading } from '@app/components';
 import { useQuota } from '@app/hooks';

@@ -1,7 +1,8 @@
 import React from 'react';
-import { useConfig } from '@bf2/ui-shared';
+import { useConfig, QuotaContext, ProductType } from '@rhoas/app-services-ui-shared';
 import { DevelopmentPreview, FederatedModule, Loading } from '@app/components';
 import { ServiceDownPage } from '@app/pages';
+import { useQuota } from '@app/hooks';
 
 export const ServiceRegistryPage: React.FunctionComponent = () => {
   const config = useConfig();
@@ -15,6 +16,7 @@ export const ServiceRegistryPage: React.FunctionComponent = () => {
 
 export const ServiceRegistryPageConnected: React.FC = () => {
   const config = useConfig();
+  const { getQuota } = useQuota(ProductType.srs);
 
   // Wait for the config and the registry to load
   if (config === undefined) {
@@ -28,7 +30,11 @@ export const ServiceRegistryPageConnected: React.FC = () => {
         module="./ServiceRegistry"
         fallback={<Loading />}
         render={(ServiceRegistryFederated) => {
-          return <ServiceRegistryFederated />;
+          return (
+            <QuotaContext.Provider value={{ getQuota }}>
+              <ServiceRegistryFederated />
+            </QuotaContext.Provider>
+          );
         }}
       />
     </DevelopmentPreview>

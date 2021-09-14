@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { accessibleRouteChangeHandler, useDocumentTitle } from '@app/utils';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
-import { BasenameContext } from '@bf2/ui-shared';
+import { BasenameContext } from '@rhoas/app-services-ui-shared';
 import getBaseName from './utils/getBaseName';
 import { DevelopmentPreview, Loading } from '@app/components';
 import { QuickStartDrawerWrapper } from '@app/pages';

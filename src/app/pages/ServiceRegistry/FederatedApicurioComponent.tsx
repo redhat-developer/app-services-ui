@@ -1,5 +1,5 @@
 import React from 'react';
-import { useBasename, useConfig, useAuth } from '@bf2/ui-shared';
+import { useBasename, useConfig, useAuth } from '@rhoas/app-services-ui-shared';
 import { createApicurioConfig, ConfigType } from '@app/pages/ServiceRegistry/utils';
 import { FederatedModule, Loading } from '@app/components';
 import { useHistory, useParams } from 'react-router-dom';

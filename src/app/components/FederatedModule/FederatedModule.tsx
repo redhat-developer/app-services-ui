@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-undef */
 import React, { ComponentType, ReactNode, useEffect, useRef, useState } from 'react';
-import { AssetsContext } from "@bf2/ui-shared";
+import { AssetsContext } from "@rhoas/app-services-ui-shared";
 import { Loading } from "@app/components/Loading/Loading";
 import { getModuleInfo, ModuleInfo } from "@app/components/FederatedModule/moduleInfo";
 import { FederatedModuleContext } from "@app/components";

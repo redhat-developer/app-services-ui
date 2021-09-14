@@ -1,5 +1,5 @@
 import React from "react";
-import { ConfigContext } from '@bf2/ui-shared';
+import { ConfigContext } from '@rhoas/app-services-ui-shared';
 import config from '../../../../config/config.json';
 import { EnvironmentConfigs, filterConfig } from "@app/providers/config/utils";
 

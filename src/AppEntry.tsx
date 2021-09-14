@@ -7,7 +7,7 @@ import logger from 'redux-logger';
 import getBaseName from '@app/utils/getBaseName';
 import { InsightsType } from '@app/utils/insights';
 import { KeycloakInstance } from 'keycloak-js';
-import { Alert, AlertContext, Auth, AuthContext, useConfig, AlertProps } from '@bf2/ui-shared';
+import { Alert, AlertContext, Auth, AuthContext, useConfig, AlertProps } from '@rhoas/app-services-ui-shared';
 import { getKeycloakInstance, getMASSSOToken } from '@app/utils/keycloakAuth';
 import { I18nextProvider } from 'react-i18next';
 import appServicesi18n from '@app/i18n';
