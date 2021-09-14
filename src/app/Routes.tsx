@@ -52,6 +52,7 @@ export type AppRouteConfig = IAppRoute | IAppRouteGroup;
 
 const RedirectToOverview: React.FunctionComponent = () => <Redirect to="/overview" />;
 const RedirectToStreamsKafkas: React.FunctionComponent = () => <Redirect to="/streams/kafkas" />;
+const RedirectToServiceAccounts: React.FunctionComponent = () => <Redirect to="/service-accounts" />;
 
 const routes: AppRouteConfig[] = [
   {
@@ -179,9 +180,16 @@ const routes: AppRouteConfig[] = [
     component: ServiceAccountsPage,
     exact: true,
     label: 'Red Hat OpenShift Streams for Apache Kafka',
+    path: '/service-accounts',
+    title: 'Red Hat OpenShift Streams for Apache Kafka',
+    devPreview: true,
+  },
+  {
+    component: ServiceAccountsPage,
+    exact: true,
+    label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/streams/service-accounts',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
-    basename: '/streams',
     devPreview: true,
   },
   {
