@@ -5,7 +5,7 @@ import { LastLocationProvider, useLastLocation } from 'react-router-last-locatio
 import { BasenameContext } from '@bf2/ui-shared';
 import getBaseName from './utils/getBaseName';
 import { DevelopmentPreview, Loading } from '@app/components';
-import { QuickStartDrawerWrapper } from '@app/pages';
+const QuickStartLoaderFederated = React.lazy(() => import('@app/pages/Resources/QuickStartLoaderFederated'));
 
 const APIManagementPage = React.lazy(() => import('@app/pages/APIManagement/APIManagementPage'));
 const ArtifactRedirect = React.lazy(() => import('@app/pages/ServiceRegistry/ArtifactsRedirect'));
@@ -259,13 +259,11 @@ const WrappedRoute = ({ component: Component, isAsync = false, title, basename, 
 
   function wrapRoute(routeProps: RouteComponentProps) {
     return (
-      <DevelopmentPreview show={devPreview}>
-        <QuickStartDrawerWrapper>
+        <DevelopmentPreview show={devPreview}>
           <BasenameContext.Provider value={{ getBasename }}>
             <Component {...rest} {...routeProps} />
           </BasenameContext.Provider>
-        </QuickStartDrawerWrapper>
-      </DevelopmentPreview>
+        </DevelopmentPreview>
     );
   }
 
@@ -283,24 +281,27 @@ const flattenedRoutes: IAppRoute[] = routes.reduce(
 );
 
 const AppRoutes = (): React.ReactElement => (
-  <LastLocationProvider>
-    <React.Suspense fallback={<Loading />}>
-      <Switch>
-        {flattenedRoutes.map(({ path, exact, component, title, isAsync, ...rest }, idx) => (
-          <WrappedRoute
-            path={path}
-            exact={exact}
-            component={component}
-            key={idx}
-            title={title}
-            isAsync={isAsync}
-            {...rest}
-          />
-        ))}
-        <PageNotFound title="404 Page Not Found" />
-      </Switch>
-    </React.Suspense>
-  </LastLocationProvider>
+  <>
+    <LastLocationProvider>
+      <React.Suspense fallback={<Loading />}>
+        <Switch>
+          {flattenedRoutes.map(({ path, exact, component, title, isAsync, ...rest }, idx) => (
+            <WrappedRoute
+              path={path}
+              exact={exact}
+              component={component}
+              key={idx}
+              title={title}
+              isAsync={isAsync}
+              {...rest}
+            />
+          ))}
+          <PageNotFound title="404 Page Not Found" />
+        </Switch>
+      </React.Suspense>
+    </LastLocationProvider>
+    <QuickStartLoaderFederated />
+  </>
 );
 
 export { AppRoutes, routes };
