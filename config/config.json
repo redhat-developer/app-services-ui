@@ -165,6 +165,7 @@
           "apiBasePath": "https://api.openshift.com"
         },
         "rbac": {
+          "basePath": "/api/rbac/v1"
         },
         "cos": {
           "apiBasePath": "https://api.openshift.com",
