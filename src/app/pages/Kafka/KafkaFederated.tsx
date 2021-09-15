@@ -65,6 +65,8 @@ const KafkaPageConnected: React.FunctionComponent<KafkaFederatedProps> = ({ modu
         } as Principal;
       }));
 
+      setPrincipals(serviceAccounts);
+
       const principalApi = new PrincipalApi({
         accessToken,
         basePath: config?.rbac.basePath
@@ -72,16 +74,21 @@ const KafkaPageConnected: React.FunctionComponent<KafkaFederatedProps> = ({ modu
 
       const currentlyLoggedInuser = await auth?.getUsername();
 
-      const userAccounts = await principalApi.listPrincipals(-1).then(response => response.data.data.map(p => {
-        return {
-          id: p.username,
-          principalType: PrincipalType.UserAccount,
-          displayName: `${p.first_name} ${p.last_name}`,
-          emailAddress: p.email
-        } as Principal;
-      }).filter(p => (p.id !== currentlyLoggedInuser && p.id !== kafkaDetail?.owner)));
+      try {
+        const userAccounts = await principalApi.listPrincipals(-1).then(response => response.data.data.map(p => {
+          return {
+            id: p.username,
+            principalType: PrincipalType.UserAccount,
+            displayName: `${p.first_name} ${p.last_name}`,
+            emailAddress: p.email
+          } as Principal;
+        }).filter(p => (p.id !== currentlyLoggedInuser && p.id !== kafkaDetail?.owner)));
+        setPrincipals(prevState => prevState?.concat(userAccounts));
+      } catch (e) {
+        // ignore the error
+      }
 
-      setPrincipals(userAccounts.concat(serviceAccounts));
+
     }
     if (config?.rbac.basePath) {
       // Only load the principals if rbac is configured
