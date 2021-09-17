@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
-import { useAuth, useConfig, Quota, QuotaValue, QuotaType, ProductType } from '@bf2/ui-shared';
+import { useAuth, useConfig, Quota, QuotaValue, QuotaType, ProductType } from '@rhoas/app-services-ui-shared';
 import { Configuration, DefaultApi } from '@openapi/ams';
 
 export const useQuota = (productId: ProductType) => {

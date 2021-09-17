@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Configuration, KafkaRequest, SecurityApi } from "@rhoas/kafka-management-sdk";
-import { Principal, Principals, PrincipalsContext, PrincipalType, useAuth, useConfig } from "@bf2/ui-shared";
+import { Principal, Principals, PrincipalsContext, PrincipalType, useAuth, useConfig } from "@rhoas/app-services-ui-shared";
 import { PrincipalApi } from "@redhat-cloud-services/rbac-client";
 
 export type PrincipalsProviderProps = {

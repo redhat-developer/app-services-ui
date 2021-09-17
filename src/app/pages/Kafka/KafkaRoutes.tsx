@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
-import { InstanceDrawer, Loading } from '@app/components';
+import { InstanceDrawer } from '@app/components';
 import { AppRouteConfig, flattenedRoutes, IAppRoute, PageNotFoundRoute, useA11yRouteChange, } from "@app/utils/Routing";
 import { useDocumentTitle } from "@app/utils";
-import { BasenameContext, useAuth, useConfig } from "@bf2/ui-shared";
 import { AccessDeniedPage, CreateTopic, Metrics, ServiceDownPage, TopicDetails, Topics, UpdateTopic } from "@app/pages";
 import { useKafkaInstance } from "@app/pages/Kafka/kafka-instance";
 import { UnderlyingProps } from "@app/pages/Kafka/KafkaFederatedComponent";
 import { PrincipalsProvider } from "@app/components/PrincipalsProvider/PrincipalsProvider";
+import { AppServicesLoading, BasenameContext, useAuth, useConfig } from "@rhoas/app-services-ui-shared";
 
 const kafkaRoutes: AppRouteConfig<UnderlyingProps>[] = [
   {
@@ -54,14 +54,14 @@ type WrappedRouteProps = IAppRoute<UnderlyingProps> & {
  * without having to add these to each component. They must happen inside the route.
  */
 const WrappedRoute: React.FunctionComponent<WrappedRouteProps> = ({
-                                                                           component: Component,
-                                                                           isAsync = false,
-                                                                           title,
-                                                                           devPreview,
-                                                                           underlyingProps,
-                                                                           url,
-                                                                           ...rest
-                                                                         }) => {
+                                                                    component: Component,
+                                                                    isAsync = false,
+                                                                    title,
+                                                                    devPreview,
+                                                                    underlyingProps,
+                                                                    url,
+                                                                    ...rest
+                                                                  }) => {
   useA11yRouteChange(isAsync);
   useDocumentTitle(title);
 
@@ -111,7 +111,7 @@ const KafkaRoutes = (): React.ReactElement => {
   }
 
   if (kafkaDetail === undefined || kafkaDetail.id === undefined || adminServerUrl === undefined) {
-    return <Loading/>;
+    return <AppServicesLoading/>;
   }
 
   const props = {

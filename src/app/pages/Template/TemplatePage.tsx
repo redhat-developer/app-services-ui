@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ConfigContext } from "@bf2/ui-shared";
+import { ConfigContext } from "@rhoas/app-services-ui-shared";
 import { ServiceDownPage } from "@app/pages";
 import { DevelopmentPreview, FederatedModule } from "@app/components";
 

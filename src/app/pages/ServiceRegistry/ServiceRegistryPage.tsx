@@ -1,6 +1,6 @@
 import React from 'react';
-import { useConfig } from '@bf2/ui-shared';
-import { DevelopmentPreview, FederatedModule, Loading } from '@app/components';
+import { AppServicesLoading, useConfig } from '@rhoas/app-services-ui-shared';
+import { DevelopmentPreview, FederatedModule } from '@app/components';
 import { ServiceDownPage } from '@app/pages';
 import { useModalControl } from '@app/hooks';
 
@@ -8,10 +8,10 @@ export const ServiceRegistryPage: React.FunctionComponent = () => {
   const config = useConfig();
 
   if (config?.serviceDown) {
-    return <ServiceDownPage />;
+    return <ServiceDownPage/>;
   }
 
-  return <ServiceRegistryPageConnected />;
+  return <ServiceRegistryPageConnected/>;
 };
 
 export const ServiceRegistryPageConnected: React.FC = () => {
@@ -20,7 +20,7 @@ export const ServiceRegistryPageConnected: React.FC = () => {
 
   // Wait for the config and the registry to load
   if (config === undefined) {
-    return <Loading />;
+    return <AppServicesLoading/>;
   }
 
   return (
@@ -28,7 +28,7 @@ export const ServiceRegistryPageConnected: React.FC = () => {
       <FederatedModule
         scope="srs"
         module="./ServiceRegistry"
-        fallback={<Loading />}
+        fallback={<AppServicesLoading/>}
         render={(ServiceRegistryFederated) => {
           return (
             <ServiceRegistryFederated

@@ -2,8 +2,6 @@ import React from 'react';
 import { Route, RouteComponentProps } from 'react-router-dom';
 import { accessibleRouteChangeHandler, useDocumentTitle } from '@app/utils';
 import { useLastLocation } from 'react-router-last-location';
-import { BasenameContext } from '@bf2/ui-shared';
-import { DevelopmentPreview } from '@app/components';
 
 const NotFoundPage = React.lazy(() => import('@app/pages/NotFound/NotFoundPage'));
 

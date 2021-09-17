@@ -1,7 +1,7 @@
 import React from 'react';
-import { useConfig } from '@bf2/ui-shared';
-import { FederatedModule, Loading } from '@app/components';
+import { FederatedModule } from '@app/components';
 import { KafkaRequest } from "@rhoas/kafka-management-sdk";
+import { AppServicesLoading, useConfig } from '@rhoas/app-services-ui-shared';
 
 type InstanceDrawerProps = {
   kafkaDetail: KafkaRequest | undefined;
@@ -23,7 +23,7 @@ export const InstanceDrawer: React.FC<InstanceDrawerProps> = ({
                                                               }) => {
   const config = useConfig()
   if (config === undefined) {
-    return <Loading/>;
+    return <AppServicesLoading/>;
   }
 
   const { authServerUrl, realm } = config?.masSso || {};

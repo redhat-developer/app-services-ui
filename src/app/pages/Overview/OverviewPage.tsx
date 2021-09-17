@@ -28,7 +28,7 @@ import ServiceRegistryLogo from "static/images/Logo-Red_Hat-OpenShift_Service_Re
 import { useTranslation } from 'react-i18next';
 
 import { useHistory } from 'react-router-dom';
-import { useBasename } from '@bf2/ui-shared';
+import { useBasename } from '@rhoas/app-services-ui-shared';
 
 export const OverviewPage: React.FunctionComponent = () => {
 

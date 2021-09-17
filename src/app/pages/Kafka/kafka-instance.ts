@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Configuration, DefaultApi, KafkaRequest } from "@rhoas/kafka-management-sdk";
 import { useParams } from "react-router-dom";
-import { useAuth, useConfig } from "@bf2/ui-shared";
+import { useAuth, useConfig } from "@rhoas/app-services-ui-shared";
 
 export const getAdminServerUrl = (kafkaRequest?: KafkaRequest): string => {
   if (kafkaRequest === undefined) {
