@@ -5,6 +5,7 @@ import { FederatedModule, Loading } from '@app/components';
 import { useQuota, useModalControl } from '@app/hooks';
 
 export const KasPage: React.FunctionComponent = () => {
+  console.log('starting kaspage');
   const config = useConfig();
   const { getQuota } = useQuota(ProductType?.kas);
 
