@@ -24,6 +24,8 @@ import ApacheKafkaLogo from "/static/images/Logo-Red_Hat-OpenShift_Streams_for_A
 import APIMgmtLogo from "/static/images/Logo-Red_Hat-OpenShift-API_Management-A-Standard-RGB.svg";
 import DataScienceLogo from "static/images/Logo-Red_Hat-OpenShift-Data_Science-A-Standard-RGB.svg";
 import ServiceRegistryLogo from "static/images/Logo-Red_Hat-OpenShift_Service_Registry-A-Standard-RGB.png"
+import DataServicesLogo from 'static/images/Logo-Red_Hat-Data_Services-A-Standard-RGB.png';
+
 
 import { useTranslation } from 'react-i18next';
 
@@ -232,6 +234,43 @@ export const OverviewPage: React.FunctionComponent = () => {
             </CardBody>
             <CardFooter>
               <Button data-testid="cardRHOSAK-buttonCreateKafka" variant={ButtonVariant.secondary} component="a" href={kafkaHref} onClick={onClickKafkainstance} >{t('overview.rhosakCallToActionButton')}</Button>
+            </CardFooter>
+          </Card>
+
+          {/* Database access card */}
+          <Card>
+            <CardHeader>
+              <CardHeaderMain>
+                <img
+                  src={DataServicesLogo}
+                  alt="Red Hat OpenShift Data Science logo"
+                  style={{ height: '50px' }}
+                />
+              </CardHeaderMain>
+            </CardHeader>
+            <CardTitle>
+              <Title headingLevel="h2" size="xl">
+              {t('overview.dbaasTitle')}
+              </Title>
+            </CardTitle>
+            <CardBody>
+              <Stack hasGutter>
+                <StackItem className="pf-u-mb-lg">
+                  <Label>{t('overview.alpha')}</Label>
+                </StackItem>
+                <StackItem>
+                {t('overview.dbaasMainText')}
+                </StackItem>
+                <StackItem className="pf-u-color-200">
+                {t('overview.dbaasSecondaryText')} <Button data-testid="cardRHODS-linkOpenShift" isInline variant={ButtonVariant.link} component="a" target="_blank" href="http://openshift.com"> OpenShift
+                  <ExternalLinkAltIcon className="pf-u-ml-xs" /></Button>.
+                </StackItem>
+              </Stack>
+            </CardBody>
+            <CardFooter>
+              <Button data-testid="cardRHODS-buttonCTA" variant={ButtonVariant.secondary} component="a" target="_blank" href="https://access.redhat.com/documentation/en-us/red_hat_managed_data_services/1/html-single/red_hat_openshift_database_access_quick_start_guide/index">
+                {t('overview.learnMore')} <ExternalLinkAltIcon className="pf-u-ml-sm" />
+              </Button>
             </CardFooter>
           </Card>
         </Grid>
