@@ -32,6 +32,15 @@ module.exports = merge(common('development', {
     hot: true,
     client: {
       overlay: true,
+      webSocketURL: 'ws://localhost:7003/ws'
+    },
+    webSocketServer:{
+      type: "ws",
+      options: {
+        host: "localhost",
+        port: 7003,
+        path: "/ws"
+      }
     },
     open: {
       target: [`https://prod.foo.redhat.com:1337${BETA ? '/beta': ''}/${crc.bundle}/`]
