@@ -170,7 +170,9 @@
         "srs": {
           "apiBasePath": "https://api.openshift.com"
         },
-        "rbac": {},
+        "rbac": {
+          "basePath": "/api/rbac/v1"
+        },
         "cos": {
           "apiBasePath": "https://api.openshift.com",
           "configurators": {

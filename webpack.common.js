@@ -157,7 +157,9 @@ module.exports = (env, argv) => {
             eager: true,
             singleton: true,
             requiredVersion: dependencies["@rhoas/app-services-ui-shared"]
-          }
+          },            
+          '@scalprum/react-core': { requiredVersion: '*', singleton: true },
+          '@patternfly/quickstarts': { requiredVersion: '*', singleton: true }
         }
       }),
       new ChunkMapper({ prefix: publicPath, modules: [federatedModuleName] })

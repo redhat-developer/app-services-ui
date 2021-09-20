@@ -5,7 +5,7 @@ import { LastLocationProvider, useLastLocation } from 'react-router-last-locatio
 import { BasenameContext } from '@rhoas/app-services-ui-shared';
 import getBaseName from './utils/getBaseName';
 import { DevelopmentPreview, Loading } from '@app/components';
-import { QuickStartDrawerWrapper } from '@app/pages';
+const QuickStartLoaderFederated = React.lazy(() => import('@app/pages/Resources/QuickStartLoaderFederated'));
 
 const APIManagementPage = React.lazy(() => import('@app/pages/APIManagement/APIManagementPage'));
 const ArtifactRedirect = React.lazy(() => import('@app/pages/ServiceRegistry/ArtifactsRedirect'));
@@ -52,6 +52,7 @@ export type AppRouteConfig = IAppRoute | IAppRouteGroup;
 
 const RedirectToOverview: React.FunctionComponent = () => <Redirect to="/overview" />;
 const RedirectToStreamsKafkas: React.FunctionComponent = () => <Redirect to="/streams/kafkas" />;
+const RedirectToServiceAccounts: React.FunctionComponent = () => <Redirect to="/service-accounts" />;
 
 const routes: AppRouteConfig[] = [
   {
@@ -179,9 +180,16 @@ const routes: AppRouteConfig[] = [
     component: ServiceAccountsPage,
     exact: true,
     label: 'Red Hat OpenShift Streams for Apache Kafka',
+    path: '/service-accounts',
+    title: 'Red Hat OpenShift Streams for Apache Kafka',
+    devPreview: true,
+  },
+  {
+    component: ServiceAccountsPage,
+    exact: true,
+    label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/streams/service-accounts',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
-    basename: '/streams',
     devPreview: true,
   },
   {
@@ -251,13 +259,11 @@ const WrappedRoute = ({ component: Component, isAsync = false, title, basename, 
 
   function wrapRoute(routeProps: RouteComponentProps) {
     return (
-      <DevelopmentPreview show={devPreview}>
-        <QuickStartDrawerWrapper>
+        <DevelopmentPreview show={devPreview}>
           <BasenameContext.Provider value={{ getBasename }}>
             <Component {...rest} {...routeProps} />
           </BasenameContext.Provider>
-        </QuickStartDrawerWrapper>
-      </DevelopmentPreview>
+        </DevelopmentPreview>
     );
   }
 
@@ -275,24 +281,27 @@ const flattenedRoutes: IAppRoute[] = routes.reduce(
 );
 
 const AppRoutes = (): React.ReactElement => (
-  <LastLocationProvider>
-    <React.Suspense fallback={<Loading />}>
-      <Switch>
-        {flattenedRoutes.map(({ path, exact, component, title, isAsync, ...rest }, idx) => (
-          <WrappedRoute
-            path={path}
-            exact={exact}
-            component={component}
-            key={idx}
-            title={title}
-            isAsync={isAsync}
-            {...rest}
-          />
-        ))}
-        <PageNotFound title="404 Page Not Found" />
-      </Switch>
-    </React.Suspense>
-  </LastLocationProvider>
+  <>
+    <LastLocationProvider>
+      <React.Suspense fallback={<Loading />}>
+        <Switch>
+          {flattenedRoutes.map(({ path, exact, component, title, isAsync, ...rest }, idx) => (
+            <WrappedRoute
+              path={path}
+              exact={exact}
+              component={component}
+              key={idx}
+              title={title}
+              isAsync={isAsync}
+              {...rest}
+            />
+          ))}
+          <PageNotFound title="404 Page Not Found" />
+        </Switch>
+      </React.Suspense>
+    </LastLocationProvider>
+    {/* <QuickStartLoaderFederated /> */}
+  </>
 );
 
 export { AppRoutes, routes };
