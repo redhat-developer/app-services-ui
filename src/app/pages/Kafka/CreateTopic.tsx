@@ -1,8 +1,9 @@
 import React from 'react';
-import { KafkaFederated } from './KafkaFederated';
+import { KafkaFederatedComponent, UnderlyingProps } from "@app/pages/Kafka/KafkaFederatedComponent";
 
-const CreateTopic: React.FC = () => {
-  return <KafkaFederated module="./CreateTopic" />;
-};
-
-export default CreateTopic;
+export const CreateTopic: React.FunctionComponent<UnderlyingProps> = (props) => (
+  <KafkaFederatedComponent
+    module="./CreateTopic"
+    {...props}
+  />
+);
