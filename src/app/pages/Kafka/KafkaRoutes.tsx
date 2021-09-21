@@ -89,7 +89,7 @@ const KafkaRoutes = (): React.ReactElement => {
   const auth = useAuth();
   const history = useHistory();
   const config = useConfig();
-  const { adminServerUrl, kafkaDetail } = useKafkaInstance();
+  const { adminServerUrl, kafkaDetail } = useKafkaInstance() || {};
   const routeMatch = useRouteMatch();
 
   const [error, setError] = useState<undefined | number>();

@@ -15,7 +15,7 @@ export type KafkaInstance = {
   adminServerUrl?: string
 }
 
-export const useKafkaInstance = (): KafkaInstance => {
+export const useKafkaInstance = (): KafkaInstance | undefined => {
   const config = useConfig();
   const auth = useAuth();
   const [kafkaRequest, setKafkaRequest] = useState<KafkaRequest | undefined>();
@@ -39,7 +39,7 @@ export const useKafkaInstance = (): KafkaInstance => {
     getAdminApiUrl();
   }, [auth, config, id]);
 
-  return {
+  return kafkaRequest === undefined ? undefined : {
     kafkaDetail: kafkaRequest,
     adminServerUrl: getAdminServerUrl(kafkaRequest),
   }
