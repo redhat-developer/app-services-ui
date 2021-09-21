@@ -169,9 +169,9 @@ const appRoutes: AppRouteConfig<any>[] = [
   {
     component: ResourcesPage,
     exact: true,
-    label: 'QuickStarts for Red Hat OpenShift Application Services',
-    path: '/streams/resources',
-    title: 'QuickStarts for Red Hat OpenShift Application Services',
+    label: 'Learning Resources | Red Hat OpenShift Application Services',
+    path: '/resources',
+    title: 'Learning Resources | Red Hat OpenShift Application Services',
     devPreview: true,
   },
 ];
