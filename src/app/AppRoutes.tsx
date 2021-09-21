@@ -25,8 +25,10 @@ const ServiceAccountsPage = React.lazy(() => import('@app/pages/ServiceAccounts/
 const CosPage = React.lazy(() => import('@app/pages/CosPage/CosPage'));
 const ServiceRegistryPage = React.lazy(() => import('@app/pages/ServiceRegistry/ServiceRegistryPage'));
 
-const RedirectToOverview: React.FunctionComponent = () => <Redirect to="/overview" />;
-const RedirectToStreamsKafkas: React.FunctionComponent = () => <Redirect to="/streams/kafkas" />;
+const RedirectToOverview: React.FunctionComponent = () => <Redirect to="/overview"/>;
+const RedirectToStreamsKafkas: React.FunctionComponent = () => <Redirect to="/streams/kafkas"/>;
+const RedirectToServiceAccounts: React.FunctionComponent = () => <Redirect to="/service-accounts"/>;
+const RedirectToResources: React.FunctionComponent = () => <Redirect to="/learning-resources" />;
 
 const appRoutes: AppRouteConfig<any>[] = [
   {
@@ -131,7 +133,7 @@ const appRoutes: AppRouteConfig<any>[] = [
     devPreview: true,
   },
   {
-    component: ServiceAccountsPage,
+    component: RedirectToServiceAccounts,
     exact: true,
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/streams/service-accounts',
@@ -167,10 +169,20 @@ const appRoutes: AppRouteConfig<any>[] = [
     title: 'Red Hat OpenShift Streams for Apache Kafka',
   },
   {
+    // Handle the redirect for the old url application-services/streams/resources to application-services/learning-resources
+    component: RedirectToResources,
+    label: 'QuickStarts for Red Hat OpenShift Application Services',
+    path: '/streams/resources',
+    title: 'QuickStarts for Red Hat OpenShift Application Services',
+    devPreview: true,
+
+
+  },
+  {
     component: ResourcesPage,
     exact: true,
     label: 'Learning Resources | Red Hat OpenShift Application Services',
-    path: '/resources',
+    path: '/learning-resources',
     title: 'Learning Resources | Red Hat OpenShift Application Services',
     devPreview: true,
   },
