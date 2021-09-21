@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { useConfig, useBasename } from '@bf2/ui-shared';
-import { Loading, FederatedModule } from '@app/components';
+import { AppServicesLoading, useBasename, useConfig } from '@rhoas/app-services-ui-shared';
+import { FederatedModule } from '@app/components';
 
 type MetricsProps = {
   kafkaId: string;
@@ -14,7 +14,7 @@ export const Metrics: React.FC<MetricsProps> = ({ kafkaId }) => {
   const basename = getBasename && getBasename();
 
   if (config === undefined) {
-    return <Loading />;
+    return <AppServicesLoading/>;
   }
 
   const onCreateTopic = () => {
@@ -25,7 +25,7 @@ export const Metrics: React.FC<MetricsProps> = ({ kafkaId }) => {
     <FederatedModule
       scope="kas"
       module="./Metrics"
-      render={(MetricsFederated) => <MetricsFederated kafkaId={kafkaId} onCreateTopic={onCreateTopic} />}
+      render={(MetricsFederated) => <MetricsFederated kafkaId={kafkaId} onCreateTopic={onCreateTopic}/>}
     />
   );
 };

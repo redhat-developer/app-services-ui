@@ -1,6 +1,7 @@
 import React from 'react';
-import { FederatedModule, Loading } from '@app/components';
+import { FederatedModule } from '@app/components';
 import { Registry } from "@rhoas/registry-management-sdk";
+import { AppServicesLoading } from "@rhoas/app-services-ui-shared";
 
 type SrsLayoutProps = {
   render: (registry: Registry) => JSX.Element
@@ -12,7 +13,7 @@ export const SrsLayout: React.FC<SrsLayoutProps> = ({ render, breadcrumbId }) =>
     <FederatedModule
       scope="srs"
       module="./ApicurioRegistry"
-      fallback={<Loading/>}
+      fallback={<AppServicesLoading/>}
       render={(ServiceRegistryFederated) => {
         return (
           <ServiceRegistryFederated render={render} breadcrumbId={breadcrumbId}/>

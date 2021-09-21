@@ -1,4 +1,4 @@
-import { Config } from '@bf2/ui-shared';
+import { Config } from '@rhoas/app-services-ui-shared';
 
 const defaultHostname = 'console.redhat.com';
 

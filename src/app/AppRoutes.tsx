@@ -2,11 +2,11 @@ import React from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { LastLocationProvider } from 'react-router-last-location';
 import getBaseName from './utils/getBaseName';
-import { DevelopmentPreview, Loading } from '@app/components';
+import { DevelopmentPreview } from '@app/components';
 import { AppRouteConfig, flattenedRoutes, IAppRoute, PageNotFoundRoute, useA11yRouteChange, } from "@app/utils/Routing";
 import { useDocumentTitle } from "@app/utils";
-import { BasenameContext } from "@bf2/ui-shared";
 import { KafkaRoutes } from "@app/pages/Kafka/KafkaRoutes";
+import { AppServicesLoading, BasenameContext } from '@rhoas/app-services-ui-shared';
 
 const QuickStartLoaderFederated = React.lazy(() => import('@app/pages/Resources/QuickStartLoaderFederated'));
 
@@ -26,7 +26,6 @@ const ServiceRegistryPage = React.lazy(() => import('@app/pages/ServiceRegistry/
 
 const RedirectToOverview: React.FunctionComponent = () => <Redirect to="/overview"/>;
 const RedirectToStreamsKafkas: React.FunctionComponent = () => <Redirect to="/streams/kafkas"/>;
-const RedirectToServiceAccounts: React.FunctionComponent = () => <Redirect to="/service-accounts"/>;
 
 const appRoutes: AppRouteConfig<any>[] = [
   {
@@ -206,7 +205,7 @@ const WrappedRoute: React.FunctionComponent<IAppRoute<any>> = ({
 const AppRoutes = (): React.ReactElement => (
   <>
     <LastLocationProvider>
-      <React.Suspense fallback={<Loading/>}>
+      <React.Suspense fallback={<AppServicesLoading/>}>
         <Switch>
           {flattenedRoutes(appRoutes).map(({ path, exact, component, title, isAsync, ...rest }, idx) => (
             <WrappedRoute

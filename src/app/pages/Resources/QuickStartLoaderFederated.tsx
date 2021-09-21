@@ -1,7 +1,6 @@
 import { FederatedModule } from '@app/components/FederatedModule/FederatedModule';
 import React, { FunctionComponent, useState } from 'react';
-import { useConfig } from '@bf2/ui-shared';
-import { Loading } from '@app/components/Loading/Loading';
+import { AppServicesLoading, useConfig } from '@rhoas/app-services-ui-shared';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome/useChrome';
 
 export const appIdentifier = 'applicationServices';
@@ -13,7 +12,7 @@ export const QuickStartLoaderFederated: FunctionComponent = () => {
 
   const config = useConfig();
   if (config === undefined) {
-    return <Loading />;
+    return <AppServicesLoading/>;
   }
 
   const onLoad = (qs) => {
@@ -28,7 +27,7 @@ export const QuickStartLoaderFederated: FunctionComponent = () => {
       scope="guides"
       module="./QuickStartLoader"
       render={(QuickStartLoaderFederated) => (
-        <QuickStartLoaderFederated showDrafts={config?.guides.showDrafts} onLoad={onLoad} />
+        <QuickStartLoaderFederated showDrafts={config?.guides.showDrafts} onLoad={onLoad}/>
       )}
     />
   ) : null;

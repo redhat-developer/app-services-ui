@@ -1,8 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-undef */
 import React, { ComponentType, ReactNode, useEffect, useRef, useState } from 'react';
-import { AssetsContext } from "@bf2/ui-shared";
-import { Loading } from "@app/components/Loading/Loading";
+import { AppServicesLoading, AssetsContext } from "@rhoas/app-services-ui-shared";
 import { getModuleInfo, ModuleInfo } from "@app/components/FederatedModule/moduleInfo";
 import { FederatedModuleContext } from "@app/components";
 
@@ -148,7 +147,7 @@ const DynamicFederatedModule: React.FunctionComponent<DynamicFederatedModuleProp
 
     return (
       <AssetsContext.Provider value={{ getPath }}>
-        <React.Suspense fallback={<Loading/>}>
+        <React.Suspense fallback={<AppServicesLoading/>}>
           {render(Component)}
         </React.Suspense>
       </AssetsContext.Provider>

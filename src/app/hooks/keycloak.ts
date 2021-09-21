@@ -1,5 +1,5 @@
 import { KeycloakConfig, KeycloakInstance } from "keycloak-js";
-import { Auth, Config, useConfig } from "@bf2/ui-shared";
+import { Auth, Config, useConfig } from "@rhoas/app-services-ui-shared";
 import { getAccessToken, initKeycloak } from "@app/utils";
 import { useEffect, useRef } from "react";
 import { useInsights } from "@app/hooks/insights";

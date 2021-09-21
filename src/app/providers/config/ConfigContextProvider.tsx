@@ -1,5 +1,5 @@
 import React from "react";
-import { Config, ConfigContext } from '@bf2/ui-shared';
+import { Config, ConfigContext } from '@rhoas/app-services-ui-shared';
 import { filterConfig } from "@app/providers/config/utils";
 
 export type ConfigProviderProps = {

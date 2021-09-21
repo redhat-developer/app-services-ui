@@ -1,12 +1,13 @@
 import React, { FunctionComponent } from 'react';
-import { FederatedModule, Loading } from '@app/components';
+import { FederatedModule } from '@app/components';
+import { AppServicesLoading } from "@rhoas/app-services-ui-shared";
 
 export const ResourcesPage: FunctionComponent = () => (
   <FederatedModule
     scope="guides"
     module="./QuickStartCatalog"
-    fallback={<Loading />}
-    render={(QuickStartCatalogFederated) => <QuickStartCatalogFederated />}
+    fallback={<AppServicesLoading/>}
+    render={(QuickStartCatalogFederated) => <QuickStartCatalogFederated/>}
   />
 );
 
