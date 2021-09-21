@@ -1,8 +1,9 @@
 import React from 'react';
-import { AppServicesLoading, ProductType, QuotaContext, useConfig } from '@rhoas/app-services-ui-shared';
+import { ProductType, QuotaContext, useConfig } from '@rhoas/app-services-ui-shared';
 import { ServiceDownPage } from '@app/pages/ServiceDown/ServiceDownPage';
 import { FederatedModule } from '@app/components';
 import { useModalControl, useQuota } from '@app/hooks';
+import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 
 export const KasPage: React.FunctionComponent = () => {
   console.log('starting kaspage');

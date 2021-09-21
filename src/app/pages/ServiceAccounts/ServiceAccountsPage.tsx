@@ -1,7 +1,8 @@
 import React from 'react';
 import { FederatedModule } from '@app/components';
-import { AppServicesLoading, useConfig } from '@rhoas/app-services-ui-shared';
+import { useConfig } from '@rhoas/app-services-ui-shared';
 import { ServiceDownPage } from '@app/pages/ServiceDown/ServiceDownPage';
+import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 
 export const ServiceAccountsPage: React.FunctionComponent = () => {
   const config = useConfig();
