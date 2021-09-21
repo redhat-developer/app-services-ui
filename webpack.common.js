@@ -19,7 +19,6 @@ module.exports = (env, argv) => {
   const appEntry = path.resolve(__dirname, 'src', 'index.tsx')
 
   const preloadTags = Object.values(federatedModules).map(v => v.fallbackBasePath).map(p => `<link rel="preload" href="${p}/fed-mods.json" as="fetch" type="application/json" />`).join('\n');
-  console.log(preloadTags);
 
   return {
     entry: {
@@ -158,7 +157,9 @@ module.exports = (env, argv) => {
             eager: true,
             singleton: true,
             requiredVersion: dependencies["@bf2/ui-shared"]
-          }
+          },
+          '@scalprum/react-core': { requiredVersion: '*', singleton: true },
+          '@patternfly/quickstarts': { requiredVersion: '*', singleton: true }
         }
       }),
       new ChunkMapper({ prefix: publicPath, modules: [federatedModuleName] })

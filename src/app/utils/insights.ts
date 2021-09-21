@@ -34,6 +34,7 @@ export type IdentityType = {
     account_id: string;
   };
   user: {
+    is_org_admin: boolean;
     username: string;
     email: string;
     first_name: string;

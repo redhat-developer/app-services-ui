@@ -53,6 +53,9 @@
         "apicurio_registry": {
           "apiBasePath": ""
         },
+        "rbac": {
+          "basePath": "/api/rbac/v1"
+        },
         "srs": {
           "apiBasePath": "https://api.stage.openshift.com"
         },
@@ -107,6 +110,9 @@
         "srs": {
           "apiBasePath": "https://api.stage.openshift.com"
         },
+        "rbac": {
+          "basePath": "/api/rbac/v1"
+        },
         "cos": {
           "apiBasePath": "https://cos-fleet-manager-cos.rh-fuse-153f1de160110098c1928a6c05e19444-0000.eu-de.containers.appdomain.cloud",
           "configurators": {
@@ -157,6 +163,9 @@
         },
         "srs": {
           "apiBasePath": "https://api.openshift.com"
+        },
+        "rbac": {
+          "basePath": "/api/rbac/v1"
         },
         "cos": {
           "apiBasePath": "https://api.openshift.com",
