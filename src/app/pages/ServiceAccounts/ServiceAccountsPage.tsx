@@ -1,6 +1,6 @@
 import React from 'react';
-import { FederatedModule, Loading } from '@app/components';
-import { useConfig } from '@rhoas/app-services-ui-shared';
+import { FederatedModule } from '@app/components';
+import { AppServicesLoading, useConfig } from '@rhoas/app-services-ui-shared';
 import { ServiceDownPage } from '@app/pages/ServiceDown/ServiceDownPage';
 
 export const ServiceAccountsPage: React.FunctionComponent = () => {
@@ -9,7 +9,7 @@ export const ServiceAccountsPage: React.FunctionComponent = () => {
     <FederatedModule
       scope="kas"
       module="./ServiceAccounts"
-      fallback={<Loading/>}
+      fallback={<AppServicesLoading/>}
       render={(ServiceAccountsFederated) => {
 
 

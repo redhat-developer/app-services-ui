@@ -5,7 +5,7 @@ import { init } from '@app/store';
 import App from '@app/App';
 import logger from 'redux-logger';
 import getBaseName from '@app/utils/getBaseName';
-import { Alert, AlertContext, AuthContext, AlertProps } from '@rhoas/app-services-ui-shared';
+import { Alert, AlertContext, AlertProps, AuthContext } from '@rhoas/app-services-ui-shared';
 import { I18nextProvider } from 'react-i18next';
 import appServicesi18n from '@app/i18n';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';

@@ -1,6 +1,5 @@
 import React from "react";
-import { FederatedModuleConfig, useConfig } from "@rhoas/app-services-ui-shared";
-import { Loading } from "@app/components";
+import { AppServicesLoading, FederatedModuleConfig, useConfig } from "@rhoas/app-services-ui-shared";
 
 export type FederatedModuleContextProps = {
   [module: string]: FederatedModuleConfig
@@ -13,7 +12,7 @@ export const FederatedModuleProvider: React.FunctionComponent = ({ children }) =
   const config = useConfig();
 
   if (config === undefined) {
-    return <Loading/>;
+    return <AppServicesLoading/>;
   }
 
   return (

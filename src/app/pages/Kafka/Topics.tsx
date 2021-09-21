@@ -1,16 +1,9 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
-import { KafkaFederated } from './KafkaFederated';
-import { Metrics } from '@app/components';
+import { KafkaFederatedComponent, UnderlyingProps } from "@app/pages/Kafka/KafkaFederatedComponent";
 
-const Topics: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
-
-  const showMetrics = () => {
-    return <Metrics kafkaId={id} />;
-  };
-
-  return <KafkaFederated module="./KafkaMainView" showMetrics={showMetrics()} />;
-};
-
-export default Topics;
+export const Topics: React.FunctionComponent<UnderlyingProps> = (props) => (
+  <KafkaFederatedComponent
+    module="./KafkaMainView"
+    {...props}
+  />
+);

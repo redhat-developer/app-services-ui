@@ -1,8 +1,8 @@
 import React from 'react';
-import { useConfig, ProductType, QuotaContext } from '@rhoas/app-services-ui-shared';
+import { AppServicesLoading, ProductType, QuotaContext, useConfig } from '@rhoas/app-services-ui-shared';
 import { ServiceDownPage } from '@app/pages/ServiceDown/ServiceDownPage';
-import { FederatedModule, Loading } from '@app/components';
-import { useQuota, useModalControl } from '@app/hooks';
+import { FederatedModule } from '@app/components';
+import { useModalControl, useQuota } from '@app/hooks';
 
 export const KasPage: React.FunctionComponent = () => {
   console.log('starting kaspage');
@@ -22,10 +22,10 @@ export const KasPage: React.FunctionComponent = () => {
     <FederatedModule
       scope="kas"
       module="./OpenshiftStreams"
-      fallback={<Loading />}
+      fallback={<AppServicesLoading/>}
       render={(OpenshiftStreamsFederated) => {
         if (config?.serviceDown) {
-          return <ServiceDownPage />;
+          return <ServiceDownPage/>;
         }
 
         return (

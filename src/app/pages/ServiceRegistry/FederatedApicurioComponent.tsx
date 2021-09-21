@@ -1,7 +1,7 @@
 import React from 'react';
-import { useBasename, useConfig, useAuth } from '@rhoas/app-services-ui-shared';
-import { createApicurioConfig, ConfigType } from '@app/pages/ServiceRegistry/utils';
-import { FederatedModule, Loading } from '@app/components';
+import { AppServicesLoading, useAuth, useBasename, useConfig } from '@rhoas/app-services-ui-shared';
+import { ConfigType, createApicurioConfig } from '@app/pages/ServiceRegistry/utils';
+import { FederatedModule } from '@app/components';
 import { useHistory, useParams } from 'react-router-dom';
 import { Registry } from '@rhoas/registry-management-sdk';
 
@@ -26,7 +26,7 @@ export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProp
   const { groupId, artifactId, version } = useParams<ServiceRegistryParams>();
 
   if (config === undefined || registry === undefined) {
-    return <Loading />;
+    return <AppServicesLoading/>;
   }
 
   if (getToken && basename) {
@@ -41,7 +41,7 @@ export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProp
     <FederatedModule
       scope="apicurio_registry"
       module={module}
-      fallback={<Loading />}
+      fallback={<AppServicesLoading/>}
       render={(ServiceRegistryFederated) => {
         return (
           <ServiceRegistryFederated

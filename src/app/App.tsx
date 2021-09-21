@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications/';
 import './App.scss';
-import { AppRoutes } from '@app/Routes';
+import { AppRoutes } from '@app/AppRoutes';
 import { FederatedModuleProvider } from "@app/components";
 import { useInsights } from "@app/hooks";
 
