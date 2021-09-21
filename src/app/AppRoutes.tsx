@@ -6,7 +6,8 @@ import { DevelopmentPreview } from '@app/components';
 import { AppRouteConfig, flattenedRoutes, IAppRoute, PageNotFoundRoute, useA11yRouteChange, } from "@app/utils/Routing";
 import { useDocumentTitle } from "@app/utils";
 import { KafkaRoutes } from "@app/pages/Kafka/KafkaRoutes";
-import { AppServicesLoading, BasenameContext } from '@rhoas/app-services-ui-shared';
+import { BasenameContext } from '@rhoas/app-services-ui-shared';
+import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 
 const QuickStartLoaderFederated = React.lazy(() => import('@app/pages/Resources/QuickStartLoaderFederated'));
 

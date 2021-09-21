@@ -1,7 +1,8 @@
 import React from 'react';
 import { FederatedModule } from '@app/components';
 import { KafkaRequest } from "@rhoas/kafka-management-sdk";
-import { AppServicesLoading, useConfig } from '@rhoas/app-services-ui-shared';
+import { useConfig } from '@rhoas/app-services-ui-shared';
+import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 
 type InstanceDrawerProps = {
   kafkaDetail: KafkaRequest | undefined;

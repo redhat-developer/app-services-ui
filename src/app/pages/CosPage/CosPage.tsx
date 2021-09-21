@@ -1,7 +1,8 @@
 import { FederatedModule } from '@app/components';
 import { ServiceDownPage } from '@app/pages/ServiceDown/ServiceDownPage';
-import { AppServicesLoading, useConfig } from '@rhoas/app-services-ui-shared';
+import { useConfig } from '@rhoas/app-services-ui-shared';
 import React from 'react';
+import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 
 
 export const CosPage: React.FunctionComponent = () => {

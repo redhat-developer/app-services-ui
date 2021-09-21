@@ -1,7 +1,8 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { AppServicesLoading, useBasename, useConfig } from '@rhoas/app-services-ui-shared';
+import { useBasename, useConfig } from '@rhoas/app-services-ui-shared';
 import { FederatedModule } from '@app/components';
+import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 
 type MetricsProps = {
   kafkaId: string;

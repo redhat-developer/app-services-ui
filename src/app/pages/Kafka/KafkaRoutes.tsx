@@ -7,7 +7,8 @@ import { AccessDeniedPage, CreateTopic, Metrics, ServiceDownPage, TopicDetails, 
 import { useKafkaInstance } from "@app/pages/Kafka/kafka-instance";
 import { UnderlyingProps } from "@app/pages/Kafka/KafkaFederatedComponent";
 import { PrincipalsProvider } from "@app/components/PrincipalsProvider/PrincipalsProvider";
-import { AppServicesLoading, BasenameContext, useAuth, useConfig } from "@rhoas/app-services-ui-shared";
+import { BasenameContext, useAuth, useConfig } from "@rhoas/app-services-ui-shared";
+import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 
 const kafkaRoutes: AppRouteConfig<UnderlyingProps>[] = [
   {
