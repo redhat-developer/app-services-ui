@@ -8,3 +8,4 @@ storybook-static
 .idea
 .env
 yarn.lock
+modules
