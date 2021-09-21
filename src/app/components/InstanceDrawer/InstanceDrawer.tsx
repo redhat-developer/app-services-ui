@@ -1,8 +1,7 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import { useConfig } from '@bf2/ui-shared';
-import { Loading, FederatedModule } from '@app/components';
-import { KafkaRequest } from '@openapi/kas';
+import { FederatedModule, Loading } from '@app/components';
+import { KafkaRequest } from "@rhoas/kafka-management-sdk";
 
 type InstanceDrawerProps = {
   kafkaDetail: KafkaRequest | undefined;
@@ -14,17 +13,17 @@ type InstanceDrawerProps = {
 };
 
 export const InstanceDrawer: React.FC<InstanceDrawerProps> = ({
-  isExpanded,
-  onClose,
-  kafkaDetail,
-  activeTab,
-  children,
-  setIsOpenDeleteInstanceModal,
-  isOpenDeleteInstanceModal,
-}) => {
+                                                                isExpanded,
+                                                                onClose,
+                                                                kafkaDetail,
+                                                                activeTab,
+                                                                children,
+                                                                setIsOpenDeleteInstanceModal,
+                                                                isOpenDeleteInstanceModal,
+                                                              }) => {
   const config = useConfig()
   if (config === undefined) {
-    return <Loading />;
+    return <Loading/>;
   }
 
   const { authServerUrl, realm } = config?.masSso || {};
