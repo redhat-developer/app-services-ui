@@ -17,10 +17,10 @@ Application Services UI is based on the https://github.com/RedHatInsights/insigh
 
 Project can be run in two modes:
 
-- Using compiled federated components (preview)
-- Running federated modules local (dev)
+- Using remote federated components from console.redhat.com
+- Running federated modules locally (dev)
 
-## Running project with compiled components
+## Running project with remote components
 
 Run:
 ```
@@ -34,13 +34,13 @@ Go to https://prod.foo.redhat.com:1337/beta/application-services/streams/kafkas
 
 #### Setting up all repositories for development
 
-First we need to download all external repositories by running script.
+First we need to download all external repositories by running a script.
 
 ```
 ./scripts/checkout-repos.sh
 ```
 
-After that we can run any of the federated UI component in `./modules` folder and it will be automatiocally discovered by application services-ui
+After that we can run any of the federated UI component in `./modules` folder and it will automatically be used by the app-services-ui
 
  
 ## Contributing Guide
