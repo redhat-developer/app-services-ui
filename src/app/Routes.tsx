@@ -1,14 +1,10 @@
 import React from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
-import { LastLocationProvider } from 'react-router-last-location';
-import getBaseName from './utils/getBaseName';
-import { DevelopmentPreview } from '@app/components';
-import { AppRouteConfig, flattenedRoutes, IAppRoute, PageNotFoundRoute, useA11yRouteChange, } from "@app/utils/Routing";
-import { useDocumentTitle } from "@app/utils";
-import { KafkaRoutes } from "@app/pages/Kafka/KafkaRoutes";
+import { accessibleRouteChangeHandler, useDocumentTitle } from '@app/utils';
+import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
 import { BasenameContext } from '@rhoas/app-services-ui-shared';
-import { AppServicesLoading } from "@rhoas/app-services-ui-components";
-
+import getBaseName from './utils/getBaseName';
+import { DevelopmentPreview, Loading } from '@app/components';
 const QuickStartLoaderFederated = React.lazy(() => import('@app/pages/Resources/QuickStartLoaderFederated'));
 
 const APIManagementPage = React.lazy(() => import('@app/pages/APIManagement/APIManagementPage'));
@@ -17,7 +13,13 @@ const Artifacts = React.lazy(() => import('@app/pages/ServiceRegistry/Artifacts'
 const ArtifactVersionDetails = React.lazy(() => import('@app/pages/ServiceRegistry/ArtifactVersion'));
 const DataSciencePage = React.lazy(() => import('@app/pages/DataScience/DataSciencePage'));
 
+const CreateTopic = React.lazy(() => import('@app/pages/Kafka/CreateTopic'));
+const Topics = React.lazy(() => import('@app/pages/Kafka/Topics'));
+const TopicDetails = React.lazy(() => import('@app/pages/Kafka/TopicDetails'));
+const UpdateTopic = React.lazy(() => import('@app/pages/Kafka/UpdateTopic'));
+
 const KasPage = React.lazy(() => import('@app/pages/Kas/KasPage'));
+const NotFoundPage = React.lazy(() => import('@app/pages/NotFound/NotFoundPage'));
 const OverviewPage = React.lazy(() => import('@app/pages/Overview/OverviewPage'));
 const ResourcesPage = React.lazy(() => import('@app/pages/Resources/ResourcesPage'));
 const RulesPage = React.lazy(() => import('@app/pages/ServiceRegistry/RulesPage'));
@@ -25,14 +27,66 @@ const ServiceAccountsPage = React.lazy(() => import('@app/pages/ServiceAccounts/
 const CosPage = React.lazy(() => import('@app/pages/CosPage/CosPage'));
 const ServiceRegistryPage = React.lazy(() => import('@app/pages/ServiceRegistry/ServiceRegistryPage'));
 
+let routeFocusTimer: number;
+
+export interface IAppRoute {
+  label?: string; // Excluding the label will exclude the route from the nav sidebar in AppLayout
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  component: React.ComponentType<RouteComponentProps<any>> | React.ComponentType<any>;
+  /* eslint-enable @typescript-eslint/no-explicit-any */
+  exact?: boolean;
+  path: string;
+  title: string;
+  isAsync?: boolean;
+  routes?: undefined;
+  basename?: string;
+  devPreview?: boolean;
+}
+
+export interface IAppRouteGroup {
+  label: string;
+  routes: IAppRoute[];
+}
+
+export type AppRouteConfig = IAppRoute | IAppRouteGroup;
+
 const RedirectToOverview: React.FunctionComponent = () => <Redirect to="/overview" />;
 const RedirectToStreamsKafkas: React.FunctionComponent = () => <Redirect to="/streams/kafkas" />;
+const RedirectToServiceAccounts: React.FunctionComponent = () => <Redirect to="/service-accounts" />;
 
-const appRoutes: AppRouteConfig<any>[] = [
+const routes: AppRouteConfig[] = [
   {
-    component: KafkaRoutes,
+    component: Topics,
+    exact: true,
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/streams/kafkas/:id',
+    title: 'Red Hat OpenShift Streams for Apache Kafka',
+    basename: '/streams/kafkas/:id',
+    devPreview: true,
+  },
+  {
+    component: TopicDetails,
+    exact: false,
+    label: 'Red Hat OpenShift Streams for Apache Kafka',
+    path: '/streams/kafkas/:id/topics/:topicName',
+    title: 'Red Hat OpenShift Streams for Apache Kafka',
+    basename: '/streams/kafkas/:id',
+    devPreview: true,
+  },
+  {
+    component: CreateTopic,
+    exact: false,
+    label: 'Red Hat OpenShift Streams for Apache Kafka',
+    path: '/streams/kafkas/:id/topic/create',
+    title: 'Red Hat OpenShift Streams for Apache Kafka',
+    basename: '/streams/kafkas/:id',
+    devPreview: true,
+  },
+  {
+    component: UpdateTopic,
+    exact: false,
+    label: 'Red Hat OpenShift Streams for Apache Kafka',
+    path: '/streams/kafkas/:id/topic/update/:topicName',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
     basename: '/streams/kafkas/:id',
     devPreview: true,
@@ -176,39 +230,62 @@ const appRoutes: AppRouteConfig<any>[] = [
   },
 ];
 
-const WrappedRoute: React.FunctionComponent<IAppRoute<any>> = ({
-  component: Component,
-  isAsync = false,
-  title,
-  basename,
-  devPreview,
-  ...rest
-}) => {
+// a custom hook for sending focus to the primary content container
+// after a view has loaded so that subsequent press of tab key
+// sends focus directly to relevant content
+const useA11yRouteChange = (isAsync: boolean) => {
+  const lastNavigation = useLastLocation();
+  React.useEffect(() => {
+    if (!isAsync && lastNavigation !== null) {
+      routeFocusTimer = accessibleRouteChangeHandler();
+    }
+    return () => {
+      window.clearTimeout(routeFocusTimer);
+    };
+  }, [isAsync, lastNavigation]);
+};
+
+const WrappedRoute = ({ component: Component, isAsync = false, title, basename, devPreview, ...rest }: IAppRoute) => {
   useA11yRouteChange(isAsync);
   useDocumentTitle(title);
   const getBasename = () => {
+    const { computedMatch } = rest || {};
+
+    if (computedMatch?.params?.id && basename) {
+      return basename?.replace(':id', computedMatch?.params?.id);
+    }
     return basename || '';
   };
 
   function wrapRoute(routeProps: RouteComponentProps) {
     return (
-      <DevelopmentPreview show={devPreview}>
-        <BasenameContext.Provider value={{ getBasename }}>
-          <Component {...rest} {...routeProps} />
-        </BasenameContext.Provider>
-      </DevelopmentPreview>
+        <DevelopmentPreview show={devPreview}>
+          <BasenameContext.Provider value={{ getBasename }}>
+            <Component {...rest} {...routeProps} />
+          </BasenameContext.Provider>
+        </DevelopmentPreview>
     );
   }
 
   return <Route render={wrapRoute} {...rest} />;
 };
 
+const PageNotFound = ({ title }: { title: string }) => {
+  useDocumentTitle(title);
+  return <Route component={NotFoundPage} />;
+};
+
+const flattenedRoutes: IAppRoute[] = routes.reduce(
+  (flattened, route) => [...flattened, ...(route.routes ? route.routes : [route])],
+  [] as IAppRoute[]
+);
+
 const AppRoutes = (): React.ReactElement => (
   <>
     <LastLocationProvider>
-      <React.Suspense fallback={<AppServicesLoading />}>
+      <React.Suspense fallback={<Loading />}>
         <Switch>
-          {flattenedRoutes(appRoutes).map(({ path, exact, component, title, isAsync, ...rest }, idx) => (
+          {flattenedRoutes.map(({ path, exact, component, title, isAsync, ...rest }, idx) => (
             <WrappedRoute
               path={path}
               exact={exact}
@@ -219,7 +296,7 @@ const AppRoutes = (): React.ReactElement => (
               {...rest}
             />
           ))}
-          <PageNotFoundRoute title="404 Page Not Found" />
+          <PageNotFound title="404 Page Not Found" />
         </Switch>
       </React.Suspense>
     </LastLocationProvider>
@@ -227,4 +304,4 @@ const AppRoutes = (): React.ReactElement => (
   </>
 );
 
-export { AppRoutes, appRoutes };
+export { AppRoutes, routes };

@@ -14,17 +14,17 @@ type InstanceDrawerProps = {
 };
 
 export const InstanceDrawer: React.FC<InstanceDrawerProps> = ({
-                                                                isExpanded,
-                                                                onClose,
-                                                                kafkaDetail,
-                                                                activeTab,
-                                                                children,
-                                                                setIsOpenDeleteInstanceModal,
-                                                                isOpenDeleteInstanceModal,
-                                                              }) => {
-  const config = useConfig()
+  isExpanded,
+  onClose,
+  kafkaDetail,
+  activeTab,
+  children,
+  setIsOpenDeleteInstanceModal,
+  isOpenDeleteInstanceModal,
+}) => {
+  const config = useConfig();
   if (config === undefined) {
-    return <AppServicesLoading/>;
+    return <AppServicesLoading />;
   }
 
   const { authServerUrl, realm } = config?.masSso || {};

@@ -9,8 +9,8 @@ import { Alert, AlertContext, AlertProps, AuthContext } from '@rhoas/app-service
 import { I18nextProvider } from 'react-i18next';
 import appServicesi18n from '@app/i18n';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
-import { EmbeddedConfigProvider } from "@app/providers/config/EmbeddedConfigContextProvider";
-import { useAuth } from "@app/hooks";
+import { EmbeddedConfigProvider } from '@app/providers/config/EmbeddedConfigContextProvider';
+import { useAuth } from '@app/hooks';
 
 const AppWithKeycloak: React.FunctionComponent = () => {
   console.log('starting appwithkeycloak');
@@ -18,16 +18,16 @@ const AppWithKeycloak: React.FunctionComponent = () => {
   const dispatch = useDispatch();
 
   const addAlert = ({
-                      title,
-                      variant,
-                      description,
-                      dataTestId,
-                      autoDismiss,
-                      dismissable,
-                      dismissDelay,
-                      requestId,
-                      sentryId,
-                    }: AlertProps) => {
+    title,
+    variant,
+    description,
+    dataTestId,
+    autoDismiss,
+    dismissable,
+    dismissDelay,
+    requestId,
+    sentryId,
+  }: AlertProps) => {
     dispatch(
       addNotification({
         title,
@@ -52,7 +52,7 @@ const AppWithKeycloak: React.FunctionComponent = () => {
     <AuthContext.Provider value={auth}>
       <AlertContext.Provider value={alert}>
         <Router basename={baseName}>
-          <App/>
+          <App />
         </Router>
       </AlertContext.Provider>
     </AuthContext.Provider>
@@ -64,7 +64,7 @@ const AppEntry: React.FunctionComponent = React.memo(() => (
   <Provider store={init(logger).getStore()}>
     <I18nextProvider i18n={appServicesi18n}>
       <EmbeddedConfigProvider>
-        <AppWithKeycloak/>
+        <AppWithKeycloak />
       </EmbeddedConfigProvider>
     </I18nextProvider>
   </Provider>

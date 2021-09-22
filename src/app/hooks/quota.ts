@@ -27,14 +27,24 @@ export const useQuota = (productId: ProductType) => {
         getCurrentAccount();
     }, [config?.ams.apiBasePath, auth]);
 
+    const getQuotaTypesByProductId = () => {
+        const {
+            ams: amsConfig
+        } = config || {};
+        const { kasQuotaId, kasTrialQuotaId, srsQuotaId, srsTrialQuotaId } = amsConfig || {};
+        if (productId === ProductType.kas) {
+            return { quotaId: kasQuotaId, trialQuotaId: kasTrialQuotaId, quotaKey: QuotaType.kas, trialQuotaKey: QuotaType.kasTrial };
+        } else if (productId === ProductType.srs) {
+            return { quotaId: srsQuotaId, trialQuotaId: srsTrialQuotaId, quotaKey: QuotaType.srs, trialQuotaKey: QuotaType.srsTrial };
+        }
+    }
+
     const getQuota = async () => {
         let filteredQuota: Quota = { loading: true, isServiceDown: false, data: undefined };
 
         if (orgId) {
-            const {
-                ams: amsConfig
-            } = config || {};
-            const { quotaId, trialQuotaId } = amsConfig || {};
+            const { quotaId, trialQuotaId, quotaKey, trialQuotaKey } = getQuotaTypesByProductId() || {};
+
             const accessToken = await auth?.ams.getToken();
             const ams = new DefaultApi({
                 accessToken,
@@ -45,28 +55,28 @@ export const useQuota = (productId: ProductType) => {
                 .apiAccountsMgmtV1OrganizationsOrgIdQuotaCostGet(orgId, undefined, true)
                 .then((res) => {
                     const quotaData = new Map<QuotaType, QuotaValue>();
-                    const kasQuota = res?.data?.items?.filter(
+                    const quota = res?.data?.items?.filter(
                         (q) => q.quota_id.trim() === quotaId
                     )[0];
 
-                    const kasTrialQuota = res?.data?.items?.filter(
+                    const trialQuota = res?.data?.items?.filter(
                         (q) => q.quota_id.trim() === trialQuotaId
                     )[0];
 
-                    if (kasQuota && kasQuota.allowed > 0) {
-                        const remaining = kasQuota?.allowed - kasQuota?.consumed;
-                        quotaData?.set(QuotaType?.kas, {
-                            allowed: kasQuota?.allowed,
-                            consumed: kasQuota?.consumed,
+                    if (quota && quota.allowed > 0) {
+                        const remaining = quota?.allowed - quota?.consumed;
+                        quotaData?.set(quotaKey, {
+                            allowed: quota?.allowed,
+                            consumed: quota?.consumed,
                             remaining: remaining < 0 ? 0 : remaining
                         });
                     }
 
-                    if (kasTrialQuota) {
-                        quotaData?.set(QuotaType?.kasTrial, {
-                            allowed: kasTrialQuota?.allowed,
-                            consumed: kasTrialQuota?.consumed,
-                            remaining: kasTrialQuota?.allowed - kasTrialQuota?.consumed
+                    if (trialQuota) {
+                        quotaData?.set(trialQuotaKey, {
+                            allowed: trialQuota?.allowed,
+                            consumed: trialQuota?.consumed,
+                            remaining: trialQuota?.allowed - trialQuota?.consumed
                         });
                     }
 
