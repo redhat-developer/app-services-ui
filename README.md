@@ -1,49 +1,53 @@
 [![Build Status](https://travis-ci.org/RedHatInsights/insights-frontend-starter-app.svg?branch=master)](https://travis-ci.org/RedHatInsights/insights-frontend-starter-app)
 
+> NOTE: This project is still under active development
+
 # Application Services UI
 
-mk-ui is based on the https://github.com/RedHatInsights/insights-frontend-starter-app.git which is React.js starter app for Red Hat Insights products that includes Patternfly 4 and shared cloud.redhat.com services
+Application Services UI is based on the https://github.com/RedHatInsights/insights-frontend-starter-app.git which is React.js starter app for Red Hat Insights products that includes Patternfly 4 and shared cloud.redhat.com services
 
 ## Services 
 
 - Managed Kafka UI (https://github.com/bf2fc6cc711aee1a0c2a/kas-ui)
 - Kafka instance UI (https://github.com/bf2fc6cc711aee1a0c2a/kafka-ui)
-- Guides (https://github.com/bf2fc6cc711aee1a0c2a/guides)
 - Service Registry UI (https://github.com/bf2fc6cc711aee1a0c2a/srs-ui)
+- Guides (https://github.com/redhat-developer/app-services-guides)
 
 ## Running Project
 
-### Prerequisites
+Project can be run in two modes:
 
-- Docker 
-- NVM (node version manager)
+- Using remote federated components from console.redhat.com
+- Running federated modules locally (dev)
 
-## Initial dev setup
+## Running project with remote components
 
+Run:
 ```
-./scripts/checkout-repos.sh
-```
-This will download all required repositories for development and setup insights container
-
-## Running project
-
-```
-./scripts/run.sh
+npm install
+npm run start:dev
 ```
 
 Go to https://prod.foo.redhat.com:1337/beta/application-services/streams/kafkas
 
-## Manual instructions for running project
+## Running project with compiled components
 
+#### Setting up all repositories for development
 
-1. Follow the [Control Plane UI Readme](https://github.com/bf2fc6cc711aee1a0c2a/mk-ui-frontend) to start the development server
-2. Once you have the development server running successfully, shut it down, and run `npm run start:federate` instead
-3. Clone the [Data UI Readme](https://github.com/bf2fc6cc711aee1a0c2a/kafka-ui), then follow the instructions to install and start the client in development mode.
-4. Clone the guides repo [Managed Kafka Guides](https://github.com/bf2fc6cc711aee1a0c2a/guides), then follow the instructions under .build to install and start the guides.
-5. Clone [insights-proxy](https://github.com/RedHatInsights/insights-proxy)
-6. First time around, you need to follow the [setup guide for insights-proxy](https://github.com/RedHatInsights/insights-proxy#setup)
-6. Run `export PROXY_PATH=<path to local insights proxy clone>`
-7. In this project, run `SPANDX_CONFIG="./profiles/local-frontend.js" bash $PROXY_PATH/scripts/run.sh`
-8. In this project, run `npm install`
-9. In this project, run `npm run start:dev`
-10. Visit https://prod.foo.redhat.com:1337/beta/application-services/streams/kafkas.__
+First we need to download all external repositories by running a script.
+
+```
+./scripts/checkout-repos.sh
+```
+
+After that we can run any of the federated UI component in `./modules` folder and it will automatically be used by the app-services-ui
+
+ 
+## Contributing Guide
+
+[CONTRIBUTING](./CONTRIBUTING.md)
+
+ 
+## Creating new Module Guide
+
+[New module guide](./CREATING-NEW-MODULE.md)
