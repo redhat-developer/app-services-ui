@@ -1,5 +1,6 @@
 import React from "react";
-import { AppServicesLoading, FederatedModuleConfig, useConfig } from "@rhoas/app-services-ui-shared";
+import { FederatedModuleConfig, useConfig } from "@rhoas/app-services-ui-shared";
+import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 
 export type FederatedModuleContextProps = {
   [module: string]: FederatedModuleConfig

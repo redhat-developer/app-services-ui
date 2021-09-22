@@ -1,9 +1,10 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-undef */
 import React, { ComponentType, ReactNode, useEffect, useRef, useState } from 'react';
-import { AppServicesLoading, AssetsContext } from '@rhoas/app-services-ui-shared';
-import { getModuleInfo, ModuleInfo } from '@app/components/FederatedModule/moduleInfo';
-import { FederatedModuleContext } from '@app/components';
+import { AssetsContext } from "@rhoas/app-services-ui-shared";
+import { getModuleInfo, ModuleInfo } from "@app/components/FederatedModule/moduleInfo";
+import { FederatedModuleContext } from "@app/components";
+import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 
 const useIsMounted = () => {
   const isMounted = useRef(false);

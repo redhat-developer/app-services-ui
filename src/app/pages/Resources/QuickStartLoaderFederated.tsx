@@ -1,7 +1,8 @@
 import { FederatedModule } from '@app/components/FederatedModule/FederatedModule';
 import React, { FunctionComponent, useState } from 'react';
-import { AppServicesLoading, useConfig } from '@rhoas/app-services-ui-shared';
+import { useConfig } from '@rhoas/app-services-ui-shared';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome/useChrome';
+import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 
 export const appIdentifier = 'applicationServices';
 

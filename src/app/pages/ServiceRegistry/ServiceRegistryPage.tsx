@@ -1,8 +1,10 @@
 import React from 'react';
-import { AppServicesLoading, useConfig, QuotaContext, ProductType } from '@rhoas/app-services-ui-shared';
+import { useConfig } from '@rhoas/app-services-ui-shared';
 import { DevelopmentPreview, FederatedModule } from '@app/components';
 import { ServiceDownPage } from '@app/pages';
 import { useModalControl, useQuota } from '@app/hooks';
+import { AppServicesLoading } from '@rhoas/app-services-ui-components';
+import { ProductType, QuotaContext } from '@rhoas/app-services-ui-shared';
 
 export const ServiceRegistryPage: React.FunctionComponent = () => {
   const config = useConfig();

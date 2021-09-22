@@ -7,7 +7,8 @@ import { AccessDeniedPage, CreateTopic, Metrics, ServiceDownPage, TopicDetails, 
 import { useKafkaInstance } from "@app/pages/Kafka/kafka-instance";
 import { UnderlyingProps } from "@app/pages/Kafka/KafkaFederatedComponent";
 import { PrincipalsProvider } from "@app/components/PrincipalsProvider/PrincipalsProvider";
-import { AppServicesLoading, BasenameContext, useAuth, useConfig } from "@rhoas/app-services-ui-shared";
+import { BasenameContext, useAuth, useConfig } from "@rhoas/app-services-ui-shared";
+import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 
 const kafkaRoutes: AppRouteConfig<UnderlyingProps>[] = [
   {
@@ -89,7 +90,7 @@ const KafkaRoutes = (): React.ReactElement => {
   const auth = useAuth();
   const history = useHistory();
   const config = useConfig();
-  const { adminServerUrl, kafkaDetail } = useKafkaInstance();
+  const { adminServerUrl, kafkaDetail } = useKafkaInstance() || {};
   const routeMatch = useRouteMatch();
 
   const [error, setError] = useState<undefined | number>();

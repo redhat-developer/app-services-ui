@@ -1,9 +1,10 @@
 import React from 'react';
-import { AppServicesLoading, useAuth, useBasename, useConfig } from '@rhoas/app-services-ui-shared';
+import { useAuth, useBasename, useConfig } from '@rhoas/app-services-ui-shared';
 import { ConfigType, createApicurioConfig } from '@app/pages/ServiceRegistry/utils';
 import { FederatedModule } from '@app/components';
 import { useHistory, useParams } from 'react-router-dom';
 import { Registry } from '@rhoas/registry-management-sdk';
+import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 
 export type FederatedApicurioComponentProps = {
   module: string;
