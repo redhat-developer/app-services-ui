@@ -36,9 +36,9 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "@patternfly/patternfly": "4.125.3",
-    "@patternfly/react-core": "^4.135.0",
-    "@patternfly/react-table": "^4.29.0",
+    "@patternfly/patternfly": "4.132.2",
+    "@patternfly/react-core": "4.152.4",
+    "@patternfly/react-table": "4.29.58",
     "@redhat-cloud-services/frontend-components": "3.4.3",
     "@redhat-cloud-services/frontend-components-notifications": "3.2.4",
     "@redhat-cloud-services/frontend-components-utilities": "3.2.4",
