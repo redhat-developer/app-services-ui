@@ -27,7 +27,7 @@ import ServiceRegistryLogo from "static/images/Logo-Red_Hat-OpenShift_Service_Re
 
 import { useTranslation } from 'react-i18next';
 
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useBasename } from "@rhoas/app-services-ui-shared";
 
 export const OverviewPage: React.FunctionComponent = () => {
@@ -38,8 +38,7 @@ export const OverviewPage: React.FunctionComponent = () => {
   const { getBasename } = useBasename() || { getBasename: () => '' };
   const basename = getBasename();
 
-  const { pathname } = useLocation();
-  const beta = pathname.startsWith('/beta');
+  const beta = location.pathname.startsWith('/beta');
 
   const onClickKafkainstance = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (beta) {
