@@ -5,7 +5,7 @@ const { port, crc } = require('./package.json');
 const proxy = require('@redhat-cloud-services/frontend-components-config-utilities/proxy');
 const HOST = process.env.HOST || "localhost";
 const PORT = process.env.PORT || port;
-const BETA = process.env.BETA || true;
+const BETA = true;
 
 const basePublicPath = `${BETA ? '/beta' : ''}/apps`
 const proxyPublicPath = `${BETA ? '/beta' : ''}/${crc.bundle}/`
@@ -16,10 +16,14 @@ const buildv4ProxyConfig = () => {
   const proxyConfig = proxy({
     useProxy: true,
     useCloud: false,
-    env: 'prod-beta',
+    env: BETA ? 'prod-beta' : 'prod-stable',
     standalone: false,
     publicPath: proxyPublicPath,
-    proxyVerbose: true
+    proxyVerbose: true,
+    routes: {
+      '/config': { host: 'http://127.0.0.1:8889' },
+      '/beta/config': { host: 'http://127.0.0.1:8889' }
+    },
   });
 
   // Create a new object from the proxyConfig
