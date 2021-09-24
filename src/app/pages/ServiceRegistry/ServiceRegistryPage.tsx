@@ -26,6 +26,13 @@ export const ServiceRegistryPageConnected: React.FC = () => {
     return <AppServicesLoading />;
   }
 
+  const getTokenEndPointUrl = () => {
+    if (config) {
+      return `${config.masSso.authServerUrl}/realms/${config.masSso.realm}/protocol/openid-connect/token`;
+    }
+    return undefined;
+  };
+
   return (
     <DevelopmentPreview>
       <FederatedModule
@@ -38,6 +45,7 @@ export const ServiceRegistryPageConnected: React.FC = () => {
               <ServiceRegistryFederated
                 preCreateInstance={preCreateInstance}
                 shouldOpenCreateModal={shouldOpenCreateModal}
+                tokenEndPointUrl={getTokenEndPointUrl()}
               />
             </QuotaContext.Provider>
           );
