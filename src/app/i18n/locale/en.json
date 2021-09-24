@@ -14,7 +14,7 @@
     "rhosakTitle": "Red Hat OpenShift Streams for Apache Kafka",
     "rhosakMainText": "Streams for Apache Kafka enables IT development teams to capture, process, and stream real-time data across hybrid cloud environments.",
     "rhosakSecondaryText": "This service is fully hosted and managed by Red Hat for stream-based applications",
-    "rhosakCallToActionButton": "Create an instance",
+    "rhosakCallToActionButton": "Create a Kafka instance",
 
     "rhoamTitle": "Red Hat OpenShift API Management",
     "rhoamMainText": "API Management supports application development teams that want to take an API-first approach to building microservices-based applications.",
@@ -23,11 +23,6 @@
     "rhodsTitle": "Red Hat OpenShift Data Science",
     "rhodsMainText": "Data Science provides a fully-supported sandbox to rapidly develop, train, and test containerized machine learning models in the public cloud before deploying in production.",
     "rhodsSecondaryText": "This service is hosted and managed by Red Hat as an add-on for managed",
-
-    "rhosrTitle": "Red Hat OpenShift Service Registry",
-    "rhosrMainText": "Service Registry provides a metadata layer for developers and applications to publish, discover and evolve schema definitions and API designs.",
-    "rhosrSecondaryText": "This service is fully hosted and managed by Red Hat and offered at no cost to Streams for Apache Kafka and API Management users.",
-    "rhosrCallToActionButton": "Create an instance",
 
     "developmentPreview": "Development preview",
     "generalAvailability": "General availability",
