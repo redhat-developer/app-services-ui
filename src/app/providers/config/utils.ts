@@ -6,6 +6,7 @@ type FederatedModulesConfig = Config['federatedModules'];
 
 type EnvironmentConfig = {
   hostnames: string[];
+  fetchConfig?: boolean;
   type?: string;
   config: Omit<Config, 'federatedModules'>;
 };
@@ -15,7 +16,7 @@ export type EnvironmentConfigs = Array<EnvironmentConfig>;
 export const filterConfig = (
   environmentConfig: EnvironmentConfigs,
   federatedModulesConfig: FederatedModulesConfig
-): Config => {
+): [Config, boolean] => {
   const hostname = window.location.hostname;
   console.log(`Loading config for ${hostname}`);
   const possibleConfigs = environmentConfig.filter((entry) => entry.hostnames.includes(hostname));
@@ -31,12 +32,12 @@ export const filterConfig = (
     } else {
       const config = addFederatedModulesToConfig(possibleDefaultConfigs[0], federatedModulesConfig);
       console.log('Done loading default config', config);
-      return config;
+      return [config, <boolean>possibleDefaultConfigs[0].fetchConfig];
     }
   }
   const config = addFederatedModulesToConfig(possibleConfigs[0], federatedModulesConfig);
-  console.log('Done loading default config', config);
-  return config;
+  console.log('Done loading config', config);
+  return [config, <boolean>possibleConfigs[0].fetchConfig];
 };
 
 const addFederatedModulesToConfig = (
