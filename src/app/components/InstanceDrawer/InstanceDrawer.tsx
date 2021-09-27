@@ -3,6 +3,7 @@ import { FederatedModule } from '@app/components';
 import { KafkaRequest } from "@rhoas/kafka-management-sdk";
 import { useConfig } from '@rhoas/app-services-ui-shared';
 import { AppServicesLoading } from "@rhoas/app-services-ui-components";
+import { useHistory } from "react-router-dom";
 
 type InstanceDrawerProps = {
   kafkaDetail: KafkaRequest | undefined;
@@ -23,12 +24,17 @@ export const InstanceDrawer: React.FC<InstanceDrawerProps> = ({
   isOpenDeleteInstanceModal,
 }) => {
   const config = useConfig();
+  const history = useHistory();
   if (config === undefined) {
     return <AppServicesLoading />;
   }
 
   const { authServerUrl, realm } = config?.masSso || {};
   const tokenEndPointUrl = `${authServerUrl}/realms/${realm}/protocol/openid-connect/token`;
+
+  const onDeleteInstance = () => {
+    history.push('/streams/kafkas');
+  }
 
   return (
     <FederatedModule
@@ -45,6 +51,7 @@ export const InstanceDrawer: React.FC<InstanceDrawerProps> = ({
             activeTab={activeTab}
             isOpenDeleteInstanceModal={isOpenDeleteInstanceModal}
             setIsOpenDeleteInstanceModal={setIsOpenDeleteInstanceModal}
+            onDeleteInstance={onDeleteInstance}
           >
             {children}
           </InstanceDrawerFederated>
