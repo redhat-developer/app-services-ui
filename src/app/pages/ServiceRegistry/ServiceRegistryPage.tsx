@@ -1,10 +1,12 @@
 import React from 'react';
 import { useConfig } from '@rhoas/app-services-ui-shared';
+import { RegistryRest } from '@rhoas/registry-management-sdk';
 import { DevelopmentPreview, FederatedModule } from '@app/components';
 import { ServiceDownPage } from '@app/pages';
 import { useModalControl, useQuota } from '@app/hooks';
 import { AppServicesLoading } from '@rhoas/app-services-ui-components';
 import { ProductType, QuotaContext } from '@rhoas/app-services-ui-shared';
+import {DownloadArtifacts} from './DownloadArtifacts';
 
 export const ServiceRegistryPage: React.FunctionComponent = () => {
   const config = useConfig();
@@ -46,6 +48,7 @@ export const ServiceRegistryPageConnected: React.FC = () => {
                 preCreateInstance={preCreateInstance}
                 shouldOpenCreateModal={shouldOpenCreateModal}
                 tokenEndPointUrl={getTokenEndPointUrl()}
+                renderDownloadArtifacts={(registry:RegistryRest, downloadLabel?:string)=><DownloadArtifacts registry={registry} downloadLabel={downloadLabel}/>}
               />
             </QuotaContext.Provider>
           );
