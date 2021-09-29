@@ -13,15 +13,12 @@ type EnvironmentConfig = {
 
 export type EnvironmentConfigs = Array<EnvironmentConfig>;
 
-export const filterConfig = (
-  environmentConfig: EnvironmentConfigs,
-  federatedModulesConfig: FederatedModulesConfig
-): [Config, boolean] => {
+export const filterEnvironmentConfig = (environmentConfig: EnvironmentConfigs): EnvironmentConfig => {
   const hostname = window.location.hostname;
-  console.log(`Loading config for ${hostname}`);
+  console.log(`Filter config for ${hostname}`);
   const possibleConfigs = environmentConfig.filter((entry) => entry.hostnames.includes(hostname));
   if (possibleConfigs.length > 1) {
-    throw new Error(`Unable to load config for ${hostname}, more than one config matched ${possibleConfigs}`);
+    throw new Error(`Unable to find config for ${hostname}, more than one config matched ${possibleConfigs}`);
   } else if (possibleConfigs.length < 1) {
     // Use the default config
     const possibleDefaultConfigs = environmentConfig.filter((entry) => entry.hostnames.includes(defaultHostname));
@@ -30,17 +27,13 @@ export const filterConfig = (
     } else if (possibleDefaultConfigs.length < 1) {
       throw new Error(`Unable to load default config, no configs matched`);
     } else {
-      const config = addFederatedModulesToConfig(possibleDefaultConfigs[0], federatedModulesConfig);
-      console.log('Done loading default config', config);
-      return [config, <boolean>possibleDefaultConfigs[0].fetchConfig];
+      return possibleDefaultConfigs[0];
     }
   }
-  const config = addFederatedModulesToConfig(possibleConfigs[0], federatedModulesConfig);
-  console.log('Done loading config', config);
-  return [config, <boolean>possibleConfigs[0].fetchConfig];
+  return possibleConfigs[0];
 };
 
-const addFederatedModulesToConfig = (
+export const addFederatedModulesToConfig = (
   environmentConfig: EnvironmentConfig,
   federatedModulesConfig: FederatedModulesConfig
 ): Config => {
