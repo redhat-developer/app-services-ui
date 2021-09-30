@@ -28,6 +28,7 @@
   "config": [
     {
       "hostnames": ["prod.foo.redhat.com"],
+      "fetchConfig": true,
       "type": "proxy",
       "config": {
         "serviceDown": false,

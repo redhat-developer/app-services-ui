@@ -19,11 +19,7 @@ const buildv4ProxyConfig = () => {
     env: BETA ? 'prod-beta' : 'prod-stable',
     standalone: false,
     publicPath: proxyPublicPath,
-    proxyVerbose: true,
-    routes: {
-      '/config': { host: 'http://127.0.0.1:8889' },
-      '/beta/config': { host: 'http://127.0.0.1:8889' }
-    },
+    proxyVerbose: true
   });
 
   // Create a new object from the proxyConfig
