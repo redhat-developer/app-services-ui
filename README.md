@@ -51,3 +51,15 @@ After that we can run any of the federated UI component in `./modules` folder an
 ## Creating new Module Guide
 
 [New module guide](./CREATING-NEW-MODULE.md)
+
+## Testing changes to nav
+
+1. Edit `webpack.dev.js` and add the following to `proxyConfig`: 
+```
+    routes: {
+      '/config': { host: 'http://127.0.0.1:8889' },
+      '/beta/config': { host: 'http://127.0.0.1:8889' }
+    },
+```
+2. Clone https://github.com/RedHatInsights/cloud-services-config and follow the instructions there to make your changes
+3. run npx http-server -p 8889 in cloud-services-config to try the changes out
