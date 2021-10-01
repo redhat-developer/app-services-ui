@@ -2,8 +2,8 @@
 /* eslint-disable no-undef */
 import React, { ComponentType, ReactNode, useEffect, useRef, useState } from 'react';
 import { AssetsContext } from "@rhoas/app-services-ui-shared";
-import { getModuleInfo, ModuleInfo } from "@app/components/FederatedModule/moduleInfo";
-import { FederatedModuleContext } from "@app/components";
+import { ModuleInfo } from "@app/components/FederatedModule/moduleInfo";
+import { useFederatedModule } from "@app/components";
 import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 
 const useIsMounted = () => {
@@ -102,22 +102,22 @@ export type FederatedModuleProps = {
 export const FederatedModule: React.FunctionComponent<FederatedModuleProps> = ({ scope, module, render, fallback }) => {
   const isMounted = useIsMounted();
 
-  const federatedModuleContext = React.useContext(FederatedModuleContext);
+  const { getModuleInfo, modules } = useFederatedModule();
   const [moduleInfo, setModuleInfo] = useState<ModuleInfo | undefined>();
 
   useEffect(() => {
     const fetchModuleInfo = async () => {
       const moduleInfo = await getModuleInfo(
-        federatedModuleContext[scope].basePath,
+        modules[scope].basePath,
         scope,
-        federatedModuleContext[scope].fallbackBasePath
+        modules[scope].fallbackBasePath
       );
       if (isMounted.current) {
         setModuleInfo(moduleInfo);
       }
     };
     fetchModuleInfo();
-  }, [scope, federatedModuleContext]);
+  }, [scope, modules]);
 
   if (moduleInfo !== undefined) {
     return <DynamicFederatedModule scope={scope} module={module} render={render} moduleInfo={moduleInfo} />;
