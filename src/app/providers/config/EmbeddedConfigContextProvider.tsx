@@ -1,14 +1,32 @@
-import React from "react";
-import { ConfigContext } from '@rhoas/app-services-ui-shared';
-import config from '../../../../config/config.json';
-import { EnvironmentConfigs, filterConfig } from "@app/providers/config/utils";
+import React from 'react';
+import { Config, ConfigContext } from '@rhoas/app-services-ui-shared';
+import configs from '../../../../config/config.json';
+import { addFederatedModulesToConfig, EnvironmentConfigs, filterEnvironmentConfig } from '@app/providers/config/utils';
 
+declare const __webpack_public_path__: string;
 
 export const EmbeddedConfigProvider: React.FunctionComponent = ({ children }) => {
-  const c = config.config as EnvironmentConfigs;
-  return (
-    <ConfigContext.Provider value={filterConfig(c, config.federatedModules)}>
-      {children}
-    </ConfigContext.Provider>
-  );
-}
+  const [value, setValue] = React.useState<Config | undefined>(() => {
+    const environmentConfig = filterEnvironmentConfig(configs.config as EnvironmentConfigs);
+    if (environmentConfig.fetchConfig) {
+      return undefined;
+    }
+    const config = addFederatedModulesToConfig(environmentConfig, configs.federatedModules);
+    console.log('Done loading config', config);
+    return config;
+  });
+
+  React.useEffect(() => {
+    (async () => {
+      if (value === undefined) {
+        const response = await fetch(`${__webpack_public_path__}config.json`);
+        const jsonConfig = await response.json();
+        const environmentConfig = filterEnvironmentConfig(jsonConfig.config);
+        const config = addFederatedModulesToConfig(environmentConfig, jsonConfig.federatedModules);
+        console.log('Done loading config', config);
+        setValue(config);
+      }
+    })();
+  }, []);
+  return <ConfigContext.Provider value={value}>{children}</ConfigContext.Provider>;
+};

@@ -28,7 +28,7 @@ import ServiceRegistryLogo from "static/images/Logo-Red_Hat-OpenShift_Service_Re
 import { useTranslation } from 'react-i18next';
 
 import { useHistory } from 'react-router-dom';
-import { useBasename } from '@rhoas/app-services-ui-shared';
+import { useBasename } from "@rhoas/app-services-ui-shared";
 
 export const OverviewPage: React.FunctionComponent = () => {
 
@@ -38,24 +38,42 @@ export const OverviewPage: React.FunctionComponent = () => {
   const { getBasename } = useBasename() || { getBasename: () => '' };
   const basename = getBasename();
 
+  const beta = location.pathname.startsWith('/beta');
+
   const onClickKafkainstance = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    event.preventDefault();
-    history.push(`${basename}/streams/kafkas`);
+    if (beta) {
+      event.preventDefault();
+      history.push(`${basename}/streams/kafkas`);
+    }
   }
 
-  const kafkaHref = history.createHref({
-    pathname: '/streams/kafkas'
-  })
+  const getKafkaHref = () => {
+    if (beta) {
+      return history.createHref({
+        pathname: '/streams/kafkas'
+      })
+    }
+    return '/beta/application-services/streams/kafkas'
+  }
+
+
 
 
   const onClickServiceRegistry = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    event.preventDefault();
-    history.push(`${basename}/service-registry`);
+    if (beta) {
+      event.preventDefault();
+      history.push(`${basename}/service-registry`);
+    }
   }
 
-  const serviceRegistryHref = history.createHref({
-    pathname: '/service-registry'
-  })
+  const getServiceRegistryHref = () => {
+    if (beta) {
+      history.createHref({
+        pathname: '/service-registry'
+      })
+    }
+    return '/beta/application-services/service-registry'
+  }
 
   return (
     <>
@@ -73,7 +91,7 @@ export const OverviewPage: React.FunctionComponent = () => {
             {t('overview.heroDescription2')}
           </Text>
           <StackItem>
-            <Button variant={ButtonVariant.primary} isLarge component="a" data-testid="hero-buttonTryKafka" href={kafkaHref} onClick={onClickKafkainstance}>
+            <Button variant={ButtonVariant.primary} isLarge component="a" data-testid="hero-buttonTryKafka" href={getKafkaHref()} onClick={onClickKafkainstance}>
               {t('overview.heroCallToActionButton')}
             </Button>
           </StackItem>
@@ -197,7 +215,7 @@ export const OverviewPage: React.FunctionComponent = () => {
               </Stack>
             </CardBody>
             <CardFooter>
-              <Button data-testid="cardRHOSR-buttonCTA" variant={ButtonVariant.secondary} component="a" href={serviceRegistryHref} onClick={onClickServiceRegistry}>{t('overview.rhosrCallToActionButton')}</Button>
+              <Button data-testid="cardRHOSR-buttonCTA" variant={ButtonVariant.secondary} component="a" href={getServiceRegistryHref()} onClick={onClickServiceRegistry}>{t('overview.rhosrCallToActionButton')}</Button>
             </CardFooter>
           </Card>
 
@@ -231,7 +249,7 @@ export const OverviewPage: React.FunctionComponent = () => {
               </Stack>
             </CardBody>
             <CardFooter>
-              <Button data-testid="cardRHOSAK-buttonCreateKafka" variant={ButtonVariant.secondary} component="a" href={kafkaHref} onClick={onClickKafkainstance} >{t('overview.rhosakCallToActionButton')}</Button>
+              <Button data-testid="cardRHOSAK-buttonCreateKafka" variant={ButtonVariant.secondary} component="a" href={getKafkaHref()} onClick={onClickKafkainstance} >{t('overview.rhosakCallToActionButton')}</Button>
             </CardFooter>
           </Card>
         </Grid>
