@@ -9,6 +9,8 @@ import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 export type FederatedApicurioComponentProps = {
   module: string;
   registry: RegistryRest;
+  instanceName?:string;
+  downloadLinkLabel?:string;
 };
 
 type ServiceRegistryParams = {
@@ -17,7 +19,7 @@ type ServiceRegistryParams = {
   version: string;
 };
 
-export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProps> = ({ module, registry }) => {
+export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProps> = ({ module, registry, ...rest }) => {
   let federateConfig: ConfigType;
   const auth = useAuth();
   const config = useConfig();
@@ -52,6 +54,7 @@ export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProp
             artifactId={artifactId}
             version={version}
             history={history}
+            {...rest}
           />
         );
       }}
