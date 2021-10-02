@@ -70,7 +70,7 @@
     "redux-promise-middleware": "6.1.2"
   },
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "2.4.9",
+    "@openapitools/openapi-generator-cli": "2.4.10",
     "@redhat-cloud-services/frontend-components-config-utilities": "1.4.13",
     "@testing-library/react": "12.1.1",
     "@types/enzyme": "3.10.9",
