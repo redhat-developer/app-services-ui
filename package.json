@@ -99,7 +99,7 @@
     "jws": "4.0.0",
     "mini-css-extract-plugin": "2.3.0",
     "null-loader": "4.0.1",
-    "postcss": "8.3.8",
+    "postcss": "8.3.9",
     "prettier": "2.4.1",
     "prop-types": "15.7.2",
     "raw-loader": "4.0.2",
