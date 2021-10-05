@@ -28,7 +28,8 @@ const buildv4ProxyConfig = () => {
   delete answer['before'];
 
   // create the new onBeforeSetupMiddleware property, mapping the arguments
-  answer.onBeforeSetupMiddleware = (devServer) => proxyConfig.before(devServer.app, devServer);
+  //Note: commenting below line of code due to compile error i.e. TypeError: proxyConfig.before is not a function at Object.answer.onBeforeSetupMiddleware 
+  //answer.onBeforeSetupMiddleware = (devServer) => proxyConfig.before(devServer.app, devServer);
   return answer;
 }
 
