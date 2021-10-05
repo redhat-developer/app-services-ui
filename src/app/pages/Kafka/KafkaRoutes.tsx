@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
 import { InstanceDrawer } from '@app/components';
-import { AppRouteConfig, flattenedRoutes, IAppRoute, PageNotFoundRoute, useA11yRouteChange, } from "@app/utils/Routing";
+import { AppRouteConfig, flattenedRoutes, IAppRoute, PageNotFoundRoute, useA11yRouteChange} from "@app/utils/Routing";
 import { useDocumentTitle } from "@app/utils";
 import { AccessDeniedPage, CreateTopic, Metrics, ServiceDownPage, TopicDetails, Topics, UpdateTopic } from "@app/pages";
 import { useKafkaInstance } from "@app/pages/Kafka/kafka-instance";
@@ -9,6 +9,7 @@ import { UnderlyingProps } from "@app/pages/Kafka/KafkaFederatedComponent";
 import { PrincipalsProvider } from "@app/components/PrincipalsProvider/PrincipalsProvider";
 import { BasenameContext, useAuth, useConfig } from "@rhoas/app-services-ui-shared";
 import { AppServicesLoading } from "@rhoas/app-services-ui-components";
+import {ServiceRegistrySchemaMapping} from '@app/pages/ServiceRegistry';
 
 const kafkaRoutes: AppRouteConfig<UnderlyingProps>[] = [
   {
@@ -130,7 +131,8 @@ const KafkaRoutes = (): React.ReactElement => {
     apiBasePath: adminServerUrl,
     getToken: auth?.kafka.getToken,
     handleInstanceDrawer,
-    setIsOpenDeleteInstanceModal
+    setIsOpenDeleteInstanceModal,
+    showSchemas:<ServiceRegistrySchemaMapping/>
   } as UnderlyingProps;
 
   if (error === 401) {
