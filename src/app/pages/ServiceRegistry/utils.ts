@@ -1,3 +1,5 @@
+import { Principal } from '@bf2/ui-shared';
+
 export interface FeaturesConfig {
   readOnly?: boolean;
   breadcrumbs?: boolean;
@@ -31,6 +33,7 @@ export interface ConfigType {
   auth: KeycloakJsAuthConfig | NoneAuthConfig;
   features?: FeaturesConfig;
   ui: UiConfig;
+  principals?: Principal[];
 }
 
 const createApicurioConfig = (apiUrl: string, navPathPrefix: string, getToken: () => Promise<string>) => {
@@ -45,6 +48,7 @@ const createApicurioConfig = (apiUrl: string, navPathPrefix: string, getToken: (
     features: {
       readOnly: false,
       breadcrumbs: false,
+      roleManagement: true,
       multiTenant: true,
     },
     ui: {

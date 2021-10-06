@@ -1,10 +1,12 @@
-import React from 'react';
-import { useAuth, useBasename, useConfig } from '@rhoas/app-services-ui-shared';
+import React, {useEffect, useState} from 'react';
 import { ConfigType, createApicurioConfig } from '@app/pages/ServiceRegistry/utils';
 import { FederatedModule } from '@app/components';
 import { useHistory, useParams } from 'react-router-dom';
 import { RegistryRest } from '@rhoas/registry-management-sdk';
+import { Principal, useAuth, useBasename, useConfig } from '@rhoas/app-services-ui-shared';
 import { AppServicesLoading } from "@rhoas/app-services-ui-components";
+import { getPrincipals } from "@app/utils";
+
 
 export type FederatedApicurioComponentProps = {
   module: string;
@@ -29,6 +31,7 @@ export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProp
   const history = useHistory();
   const basename = useBasename();
   const getToken = auth?.apicurio_registry.getToken;
+  const [principals, setPrincipals] = useState<Principal[] | undefined>();
   const { groupId, artifactId, version } = useParams<ServiceRegistryParams>();
 
   if (config === undefined || registry === undefined) {
@@ -41,8 +44,14 @@ export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProp
       `${basename.getBasename()}/t/${registry?.id}`,
       getToken
     );
+    federateConfig.principals = principals;
   }
-
+  useEffect(() => {
+    if (auth) {    
+      getPrincipals(auth, config).then((value: Principal[])=>{setPrincipals(value)})
+    }
+  }, [auth, config])
+   
   return (
     <FederatedModule
       scope="apicurio_registry"

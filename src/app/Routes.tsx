@@ -23,6 +23,7 @@ const NotFoundPage = React.lazy(() => import('@app/pages/NotFound/NotFoundPage')
 const OverviewPage = React.lazy(() => import('@app/pages/Overview/OverviewPage'));
 const ResourcesPage = React.lazy(() => import('@app/pages/Resources/ResourcesPage'));
 const RulesPage = React.lazy(() => import('@app/pages/ServiceRegistry/RulesPage'));
+const RolesPage = React.lazy(() => import('@app/pages/ServiceRegistry/RolesPage'))
 const ServiceAccountsPage = React.lazy(() => import('@app/pages/ServiceAccounts/ServiceAccountsPage'));
 const CosPage = React.lazy(() => import('@app/pages/CosPage/CosPage'));
 const ServiceRegistryPage = React.lazy(() => import('@app/pages/ServiceRegistry/ServiceRegistryPage'));
@@ -146,6 +147,15 @@ const routes: AppRouteConfig[] = [
     exact: true,
     label: 'Service Registry',
     path: '/service-registry/t/:tenantId/rules',
+    title: 'Service Registry | Red Hat OpenShift Application Services',
+    basename: '/service-registry',
+    devPreview: true,
+  },
+  {
+    component: RolesPage,
+    exact: true,
+    label: 'Service Registry',
+    path: '/service-registry/t/:tenantId/roles',
     title: 'Service Registry | Red Hat OpenShift Application Services',
     basename: '/service-registry',
     devPreview: true,
