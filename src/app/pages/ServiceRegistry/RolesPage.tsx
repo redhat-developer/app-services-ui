@@ -1,7 +1,7 @@
-import { FederatedApicurioComponent } from "@app/pages/ServiceRegistry/FederatedApicurioComponent";
 import React from "react";
+import { FederatedApicurioComponent } from "@app/pages/ServiceRegistry/FederatedApicurioComponent";
 import { SrsLayout } from "@app/pages/ServiceRegistry/SrsLayout";
-import { useConfig } from "@bf2/ui-shared";
+import { useConfig } from "@rhoas/app-services-ui-shared";
 import { ServiceDownPage } from "@app/pages";
 
 export const RolesPage: React.FunctionComponent = () => {

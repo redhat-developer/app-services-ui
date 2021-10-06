@@ -1,6 +1,6 @@
 import { PrincipalApi } from '@redhat-cloud-services/rbac-client';
 import { Configuration, SecurityApi } from '@rhoas/kafka-management-sdk';
-import { Principal, PrincipalType, Auth, Config } from '@bf2/ui-shared';
+import { Principal, PrincipalType, Auth, Config } from '@rhoas/app-services-ui-shared';
 
 /**
  * Retrieves the list of user accounts and service accounts using the Principal API.

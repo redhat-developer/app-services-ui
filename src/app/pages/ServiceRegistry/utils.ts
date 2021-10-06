@@ -1,4 +1,4 @@
-import { Principal } from '@bf2/ui-shared';
+import { Principal } from '@rhoas/app-services-ui-shared';
 
 export interface FeaturesConfig {
   readOnly?: boolean;
