@@ -22,7 +22,7 @@ type ServiceRegistryParams = {
   version: string;
 };
 
-export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProps> = ({ module, registry, overrideBasePath, ...rest }) => {
+export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProps> = ({ module, registry, ...rest }) => {
   let federateConfig: ConfigType;
   const auth = useAuth();
   const config = useConfig();
