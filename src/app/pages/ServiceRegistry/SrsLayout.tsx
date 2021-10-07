@@ -1,11 +1,11 @@
 import React from 'react';
 import { FederatedModule } from '@app/components';
-import { Registry } from '@rhoas/registry-management-sdk';
+import { RegistryRest } from '@rhoas/registry-management-sdk';
 import { AppServicesLoading } from '@rhoas/app-services-ui-components';
 import { useMASToken } from '@app/hooks';
 
 type SrsLayoutProps = {
-  render: (registry: Registry) => JSX.Element;
+  render: (registry: RegistryRest) => JSX.Element;
   breadcrumbId?: string;
 };
 
