@@ -40,18 +40,19 @@ export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProp
 
   if (getToken && basename) {
     federateConfig = createApicurioConfig(
+      config,
       registry.registryUrl,
       `${basename.getBasename()}/t/${registry?.id}`,
-      getToken
+      getToken,
+      principals
     );
-    federateConfig.principals = principals;
   }
   useEffect(() => {
-    if (auth) {    
+    if (auth) {
       getPrincipals(auth, config).then((value: Principal[])=>{setPrincipals(value)})
     }
   }, [auth, config])
-   
+
   return (
     <FederatedModule
       scope="apicurio_registry"
