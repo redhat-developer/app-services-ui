@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { ConfigType, createApicurioConfig } from '@app/pages/ServiceRegistry/utils';
 import { FederatedModule } from '@app/components';
 import { useHistory, useParams } from 'react-router-dom';
@@ -34,6 +34,12 @@ export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProp
   const [principals, setPrincipals] = useState<Principal[] | undefined>();
   const { groupId, artifactId, version } = useParams<ServiceRegistryParams>();
 
+  useEffect(() => {
+    if (auth) {
+      getPrincipals(auth, config).then((value: Principal[])=>{setPrincipals(value)})
+    }
+  }, [auth, config])
+
   if (config === undefined || registry === undefined) {
     return <AppServicesLoading/>;
   }
@@ -41,17 +47,12 @@ export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProp
   if (getToken && basename) {
     federateConfig = createApicurioConfig(
       config,
-      registry.registryUrl,
+      registry.registryUrl as string,
       `${basename.getBasename()}/t/${registry?.id}`,
       getToken,
       principals
     );
   }
-  useEffect(() => {
-    if (auth) {
-      getPrincipals(auth, config).then((value: Principal[])=>{setPrincipals(value)})
-    }
-  }, [auth, config])
 
   return (
     <FederatedModule

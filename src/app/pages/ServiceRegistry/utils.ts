@@ -38,7 +38,8 @@ export interface ConfigType {
   principals?: Principal[];
 }
 
-const createApicurioConfig = (config: Config, apiUrl: string, navPathPrefix: string, getToken: () => Promise<string>, principals?: Principal[]) => {
+const createApicurioConfig = (config: Config, apiUrl: string, navPathPrefix: string,
+                              getToken: () => Promise<string> | undefined, principals?: Principal[] | undefined) => {
   const apicurioConfig: ConfigType = {
     artifacts: {
       url: `${apiUrl}/apis/registry`,
