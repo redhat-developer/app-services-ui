@@ -3,12 +3,17 @@ import { useAuth, useBasename, useConfig } from '@rhoas/app-services-ui-shared';
 import { ConfigType, createApicurioConfig } from '@app/pages/ServiceRegistry/utils';
 import { FederatedModule } from '@app/components';
 import { useHistory, useParams } from 'react-router-dom';
-import { Registry } from '@rhoas/registry-management-sdk';
+import { RegistryRest } from '@rhoas/registry-management-sdk';
 import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 
 export type FederatedApicurioComponentProps = {
   module: string;
-  registry: Registry;
+  registry: RegistryRest | undefined;
+  topicName?:string;
+  groupId?:string | null | undefined;
+  version?:string;
+  registryId?:string;
+  basename?:string;
 };
 
 type ServiceRegistryParams = {
@@ -17,7 +22,7 @@ type ServiceRegistryParams = {
   version: string;
 };
 
-export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProps> = ({ module, registry }) => {
+export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProps> = ({ module, registry, ...rest }) => {
   let federateConfig: ConfigType;
   const auth = useAuth();
   const config = useConfig();
@@ -52,6 +57,7 @@ export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProp
             artifactId={artifactId}
             version={version}
             history={history}
+            {...rest}
           />
         );
       }}
