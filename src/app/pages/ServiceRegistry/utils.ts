@@ -1,3 +1,7 @@
+import { Principal } from '@rhoas/app-services-ui-shared';
+import { Config } from "@rhoas/app-services-ui-shared";
+
+
 export interface FeaturesConfig {
   readOnly?: boolean;
   breadcrumbs?: boolean;
@@ -24,17 +28,19 @@ export interface KeycloakJsAuthConfig extends AuthConfig {
 }
 
 // Used when `type=none`
-export interface NoneAuthConfig extends AuthConfig {}
+export interface NoneAuthConfig extends AuthConfig { }
 
 export interface ConfigType {
   artifacts: ArtifactsConfig;
   auth: KeycloakJsAuthConfig | NoneAuthConfig;
   features?: FeaturesConfig;
   ui: UiConfig;
+  principals?: Principal[] | undefined;
 }
 
-const createApicurioConfig = (apiUrl: string, navPathPrefix: string, getToken: () => Promise<string>) => {
-  const config: ConfigType = {
+const createApicurioConfig = (config: Config, apiUrl: string, navPathPrefix: string,
+  getToken: () => Promise<string> | undefined, principals?: Principal[] | undefined) => {
+  const apicurioConfig: ConfigType = {
     artifacts: {
       url: `${apiUrl}/apis/registry`,
     },
@@ -45,14 +51,16 @@ const createApicurioConfig = (apiUrl: string, navPathPrefix: string, getToken: (
     features: {
       readOnly: false,
       breadcrumbs: false,
+      roleManagement: config.srs.apiBasePath == "https://api.stage.openshift.com",
       multiTenant: true,
     },
     ui: {
       navPrefixPath: navPathPrefix,
     },
+    principals
   } as ConfigType;
 
-  return config;
+  return apicurioConfig;
 };
 
 export { createApicurioConfig };
