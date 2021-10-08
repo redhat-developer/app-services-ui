@@ -5,12 +5,14 @@ import { PrincipalApi } from "@redhat-cloud-services/rbac-client";
 
 export type PrincipalsProviderProps = {
   kafkaInstance?: KafkaRequest
+  shouldIncludeServiceAccount?: boolean
 }
 
 export const PrincipalsProvider: React.FunctionComponent<PrincipalsProviderProps> = ({
-                                                                                       children,
-                                                                                       kafkaInstance
-                                                                                     }) => {
+  children,
+  kafkaInstance,
+  shouldIncludeServiceAccount = true
+}) => {
 
   const config = useConfig();
   const auth = useAuth();
@@ -78,7 +80,7 @@ export const PrincipalsProvider: React.FunctionComponent<PrincipalsProviderProps
           answer = answer.concat(userAcountPrincipals);
         }
         if (serviceAccountPrincipals !== undefined) {
-          answer = answer.concat(serviceAccountPrincipals);
+          answer = answer.concat(serviceAccountPrincipals && shouldIncludeServiceAccount);
         }
         return answer;
       }

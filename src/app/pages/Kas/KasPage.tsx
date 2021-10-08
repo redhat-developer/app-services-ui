@@ -4,6 +4,7 @@ import { ServiceDownPage } from '@app/pages/ServiceDown/ServiceDownPage';
 import { FederatedModule } from '@app/components';
 import { useModalControl, useQuota, useMASToken } from '@app/hooks';
 import { AppServicesLoading } from '@rhoas/app-services-ui-components';
+import { PrincipalsProvider } from '@app/components/PrincipalsProvider/PrincipalsProvider';
 
 export const KasPage: React.FunctionComponent = () => {
   console.log('starting kaspage');
@@ -11,6 +12,12 @@ export const KasPage: React.FunctionComponent = () => {
   const { getQuota } = useQuota(ProductType?.kas);
   const { preCreateInstance, shouldOpenCreateModal } = useModalControl();
   const { getTokenEndPointUrl } = useMASToken();
+
+  let kafkaInstance;
+
+  const getKafkaInstance = (kafka) => {
+    kafkaInstance = kafka;
+  }
 
   return (
     <FederatedModule
@@ -24,11 +31,14 @@ export const KasPage: React.FunctionComponent = () => {
 
         return (
           <QuotaContext.Provider value={{ getQuota }}>
-            <OpenshiftStreamsFederated
-              preCreateInstance={preCreateInstance}
-              shouldOpenCreateModal={shouldOpenCreateModal}
-              tokenEndPointUrl={getTokenEndPointUrl()}
-            />
+            <PrincipalsProvider kafkaInstance={kafkaInstance} shouldIncludeServiceAccount={false}>
+              <OpenshiftStreamsFederated
+                preCreateInstance={preCreateInstance}
+                shouldOpenCreateModal={shouldOpenCreateModal}
+                tokenEndPointUrl={getTokenEndPointUrl()}
+                getKafkaInstance={getKafkaInstance}
+              />
+            </PrincipalsProvider>
           </QuotaContext.Provider>
         );
       }}
