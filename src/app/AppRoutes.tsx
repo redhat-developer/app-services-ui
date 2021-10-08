@@ -26,9 +26,9 @@ const ServiceAccountsPage = React.lazy(() => import('@app/pages/ServiceAccounts/
 const CosPage = React.lazy(() => import('@app/pages/CosPage/CosPage'));
 const ServiceRegistryPage = React.lazy(() => import('@app/pages/ServiceRegistry/ServiceRegistryPage'));
 
-const RedirectToOverview: React.FunctionComponent = () => <Redirect to="/overview"/>;
-const RedirectToStreamsKafkas: React.FunctionComponent = () => <Redirect to="/streams/kafkas"/>;
-const RedirectToServiceAccounts: React.FunctionComponent = () => <Redirect to="/service-accounts"/>;
+const RedirectToOverview: React.FunctionComponent = () => <Redirect to="/overview" />;
+const RedirectToStreamsKafkas: React.FunctionComponent = () => <Redirect to="/streams/kafkas" />;
+const RedirectToServiceAccounts: React.FunctionComponent = () => <Redirect to="/service-accounts" />;
 const RedirectToResources: React.FunctionComponent = () => <Redirect to="/learning-resources" />;
 
 const appRoutes: AppRouteConfig<any>[] = [
@@ -72,6 +72,7 @@ const appRoutes: AppRouteConfig<any>[] = [
     path: '/service-registry',
     title: 'Service Registry | Red Hat OpenShift Application Services',
     basename: '/service-registry',
+    devPreview: true,
   },
   {
     component: Artifacts,
@@ -89,6 +90,7 @@ const appRoutes: AppRouteConfig<any>[] = [
     path: '/service-registry/t/:tenantId/artifacts',
     title: 'Service Registry | Red Hat OpenShift Application Services',
     basename: '/service-registry',
+    devPreview: true,
   },
   {
     component: RulesPage,
@@ -115,6 +117,7 @@ const appRoutes: AppRouteConfig<any>[] = [
     path: '/service-registry/t/:tenantId/artifacts/:groupId/:artifactId',
     title: 'Service Registry | Red Hat OpenShift Application Services',
     basename: '/service-registry',
+    devPreview: true,
   },
   {
     component: ArtifactVersionDetails,
