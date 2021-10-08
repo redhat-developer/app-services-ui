@@ -1,19 +1,19 @@
 import React from 'react';
-import { useAuth, useBasename, useConfig } from '@rhoas/app-services-ui-shared';
 import { ConfigType, createApicurioConfig } from '@app/pages/ServiceRegistry/utils';
-import { FederatedModule } from '@app/components';
+import { FederatedModule, usePrincipal } from '@app/components';
 import { useHistory, useParams } from 'react-router-dom';
 import { RegistryRest } from '@rhoas/registry-management-sdk';
-import { AppServicesLoading } from "@rhoas/app-services-ui-components";
+import { useAuth, useBasename, useConfig } from '@rhoas/app-services-ui-shared';
+import { AppServicesLoading } from '@rhoas/app-services-ui-components';
 
 export type FederatedApicurioComponentProps = {
   module: string;
   registry: RegistryRest | undefined;
-  topicName?:string;
-  groupId?:string | null | undefined;
-  version?:string;
-  registryId?:string;
-  basename?:string;
+  topicName?: string;
+  groupId?: string | null | undefined;
+  version?: string;
+  registryId?: string;
+  basename?: string;
 };
 
 type ServiceRegistryParams = {
@@ -22,7 +22,11 @@ type ServiceRegistryParams = {
   version: string;
 };
 
-export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProps> = ({ module, registry, ...rest }) => {
+export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProps> = ({
+  module,
+  registry,
+  ...rest
+}) => {
   let federateConfig: ConfigType;
   const auth = useAuth();
   const config = useConfig();
@@ -30,16 +34,19 @@ export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProp
   const basename = useBasename();
   const getToken = auth?.apicurio_registry.getToken;
   const { groupId, artifactId, version } = useParams<ServiceRegistryParams>();
+  const principlas = usePrincipal(registry?.owner);
 
   if (config === undefined || registry === undefined) {
-    return <AppServicesLoading/>;
+    return <AppServicesLoading />;
   }
 
   if (getToken && basename) {
     federateConfig = createApicurioConfig(
-      registry.registryUrl,
+      config,
+      registry.registryUrl as string,
       `${basename.getBasename()}/t/${registry?.id}`,
-      getToken
+      getToken,
+      principlas?.getAllPrincipals()
     );
   }
 
@@ -47,7 +54,7 @@ export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProp
     <FederatedModule
       scope="apicurio_registry"
       module={module}
-      fallback={<AppServicesLoading/>}
+      fallback={<AppServicesLoading />}
       render={(ServiceRegistryFederated) => {
         return (
           <ServiceRegistryFederated
