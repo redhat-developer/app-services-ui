@@ -28,18 +28,18 @@ export interface KeycloakJsAuthConfig extends AuthConfig {
 }
 
 // Used when `type=none`
-export interface NoneAuthConfig extends AuthConfig {}
+export interface NoneAuthConfig extends AuthConfig { }
 
 export interface ConfigType {
   artifacts: ArtifactsConfig;
   auth: KeycloakJsAuthConfig | NoneAuthConfig;
   features?: FeaturesConfig;
   ui: UiConfig;
-  principals?: Principal[];
+  principals?: Principal[] | undefined;
 }
 
 const createApicurioConfig = (config: Config, apiUrl: string, navPathPrefix: string,
-                              getToken: () => Promise<string> | undefined, principals?: Principal[] | undefined) => {
+  getToken: () => Promise<string> | undefined, principals?: Principal[] | undefined) => {
   const apicurioConfig: ConfigType = {
     artifacts: {
       url: `${apiUrl}/apis/registry`,
