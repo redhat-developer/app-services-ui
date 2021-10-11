@@ -8,18 +8,14 @@ import { PrincipalsProvider } from '@app/components/PrincipalsProvider/Principal
 import { KafkaRequest } from '@rhoas/kafka-management-sdk';
 
 type KasPageConnectedProps = {
-  getKafkaInstance: (kafka: KafkaRequest) => void;
+  setKafkaInstance: (kafka: KafkaRequest) => void;
 };
 
-const KasPageConnected: React.FC<KasPageConnectedProps> = React.memo(({ getKafkaInstance }) => {
+const KasPageConnected: React.FC<KasPageConnectedProps> = ({ setKafkaInstance }) => {
   const config = useConfig();
   const { getQuota } = useQuota(ProductType?.kas);
   const { preCreateInstance, shouldOpenCreateModal } = useModalControl();
   const { getTokenEndPointUrl } = useMASToken();
-
-  if (config?.serviceDown) {
-    return <ServiceDownPage />;
-  }
 
   return (
     <FederatedModule
@@ -27,35 +23,39 @@ const KasPageConnected: React.FC<KasPageConnectedProps> = React.memo(({ getKafka
       module="./OpenshiftStreams"
       fallback={<AppServicesLoading />}
       render={(OpenshiftStreamsFederated) => {
+        if (config?.serviceDown) {
+          return <ServiceDownPage />;
+        }
+
         return (
           <QuotaContext.Provider value={{ getQuota }}>
             <OpenshiftStreamsFederated
               preCreateInstance={preCreateInstance}
               shouldOpenCreateModal={shouldOpenCreateModal}
               tokenEndPointUrl={getTokenEndPointUrl()}
-              getKafkaInstance={getKafkaInstance}
+              setKafkaInstance={setKafkaInstance}
             />
           </QuotaContext.Provider>
         );
       }}
     />
   );
-});
+};
 
-KasPageConnected.displayName = 'KasPageConnected';
+const KasPageConnectedMemoized = React.memo(KasPageConnected);
 
 const KasPage = () => {
-  const [kafkaInstance, setKafkaInstance] = useState<KafkaRequest>();
+  const [kafka, setKafka] = useState<KafkaRequest>();
 
-  const getKafkaInstance = (kafka: KafkaRequest) => {
-    setKafkaInstance(kafka);
+  const setKafkaInstance = (kafka: KafkaRequest) => {
+    setKafka(kafka);
   };
 
-  const getKafkaInstanceMemoized = useMemo(() => getKafkaInstance, []);
+  const setKafkaInstanceMemoized = useMemo(() => setKafkaInstance, []);
 
   return (
-    <PrincipalsProvider kafkaInstance={kafkaInstance}>
-      <KasPageConnected getKafkaInstance={getKafkaInstanceMemoized} />
+    <PrincipalsProvider kafkaInstance={kafka}>
+      <KasPageConnectedMemoized setKafkaInstance={setKafkaInstanceMemoized} />
     </PrincipalsProvider>
   );
 };
