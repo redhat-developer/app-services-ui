@@ -42,6 +42,8 @@ const KasPageConnected: React.FC<KasPageConnectedProps> = React.memo(({ getKafka
   );
 });
 
+KasPageConnected.displayName = 'KasPageConnected';
+
 const KasPage = () => {
   const [kafkaInstance, setKafkaInstance] = useState<KafkaRequest>();
 
