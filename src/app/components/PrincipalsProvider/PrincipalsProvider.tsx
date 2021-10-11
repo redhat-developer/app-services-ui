@@ -89,20 +89,24 @@ export const usePrincipal = (instanceOwner: string | undefined) => {
     fetchServiceAccounts();
   }, [auth, config, instanceOwner]);
 
-  const value = serviceAccountPrincipals
-    ? ({
-        getAllPrincipals: () => {
-          let answer: Principal[] = [];
-          if (userAcountPrincipals !== undefined) {
-            answer = answer.concat(userAcountPrincipals);
-          }
-          if (serviceAccountPrincipals !== undefined) {
-            answer = answer.concat(serviceAccountPrincipals);
-          }
-          return answer;
-        },
-      } as Principals)
-    : undefined;
+  const value = {
+    getAllPrincipals: () => {
+      let answer: Principal[] = [];
+      if (userAcountPrincipals !== undefined && serviceAccountPrincipals !== undefined) {
+        answer = answer.concat(userAcountPrincipals);
+      }
+      if (serviceAccountPrincipals !== undefined) {
+        answer = answer.concat(serviceAccountPrincipals);
+      }
+      return answer;
+    },
+    getAllUserAccounts: () => {
+      return userAcountPrincipals;
+    },
+    getAllServiceAccounts: () => {
+      return serviceAccountPrincipals;
+    },
+  };
 
   return value;
 };
