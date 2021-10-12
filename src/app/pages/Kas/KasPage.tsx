@@ -1,16 +1,16 @@
 import React from 'react';
 import { ProductType, QuotaContext, useConfig } from '@rhoas/app-services-ui-shared';
 import { ServiceDownPage } from '@app/pages/ServiceDown/ServiceDownPage';
-import { FederatedModule } from '@app/components';
+import { FederatedModule, usePrincipal } from '@app/components';
 import { useModalControl, useQuota, useMASToken } from '@app/hooks';
 import { AppServicesLoading } from '@rhoas/app-services-ui-components';
 
-export const KasPage: React.FunctionComponent = () => {
-  console.log('starting kaspage');
+const KasPage: React.FC = () => {
   const config = useConfig();
   const { getQuota } = useQuota(ProductType?.kas);
   const { preCreateInstance, shouldOpenCreateModal } = useModalControl();
   const { getTokenEndPointUrl } = useMASToken();
+  const { getAllUserAccounts } = usePrincipal();
 
   return (
     <FederatedModule
@@ -28,6 +28,7 @@ export const KasPage: React.FunctionComponent = () => {
               preCreateInstance={preCreateInstance}
               shouldOpenCreateModal={shouldOpenCreateModal}
               tokenEndPointUrl={getTokenEndPointUrl()}
+              getAllUserAccounts={getAllUserAccounts}
             />
           </QuotaContext.Provider>
         );

@@ -112,6 +112,10 @@ const KafkaRoutes = (): React.ReactElement => {
     return <AppServicesLoading />;
   }
 
+  const redirectAfterDeleteInstance = () => {
+    history.push('/streams/kafkas');
+  };
+
   const props = {
     kafkaPageLink: history.createHref({
       pathname: '/streams/kafkas',
@@ -129,6 +133,7 @@ const KafkaRoutes = (): React.ReactElement => {
     handleInstanceDrawer,
     showSchemas: <ServiceRegistrySchemaMapping />,
     kafka: kafkaDetail,
+    redirectAfterDeleteInstance,
   } as UnderlyingProps;
 
   if (error === 401) {

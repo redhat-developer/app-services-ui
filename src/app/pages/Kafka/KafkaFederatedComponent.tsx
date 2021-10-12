@@ -18,6 +18,7 @@ export type UnderlyingProps = {
   showMetrics?: JSX.Element;
   showSchemas?: JSX.Element;
   kafka?: KafkaRequest;
+  redirectAfterDeleteInstance?: () => void;
 };
 
 // Provides properties for component path and it's underlying properties
