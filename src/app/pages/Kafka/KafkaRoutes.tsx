@@ -94,7 +94,6 @@ const KafkaRoutes = (): React.ReactElement => {
   const [error, setError] = useState<undefined | number>();
   const [isInstanceDrawerOpen, setIsInstanceDrawerOpen] = useState<boolean | undefined>();
   const [activeDrawerTab, setActiveDrawerTab] = useState<string>('');
-  const [isOpenDeleteInstanceModal, setIsOpenDeleteInstanceModal] = useState<boolean>(false);
 
   const handleInstanceDrawer = (isOpen: boolean, activeTab?: string) => {
     activeTab && setActiveDrawerTab(activeTab);
@@ -128,7 +127,6 @@ const KafkaRoutes = (): React.ReactElement => {
     apiBasePath: adminServerUrl,
     getToken: auth?.kafka.getToken,
     handleInstanceDrawer,
-    setIsOpenDeleteInstanceModal,
     showSchemas: <ServiceRegistrySchemaMapping />,
     kafka: kafkaDetail,
   } as UnderlyingProps;
@@ -145,8 +143,6 @@ const KafkaRoutes = (): React.ReactElement => {
           onClose={onCloseInstanceDrawer}
           kafkaDetail={kafkaDetail}
           activeTab={activeDrawerTab}
-          isOpenDeleteInstanceModal={isOpenDeleteInstanceModal}
-          setIsOpenDeleteInstanceModal={setIsOpenDeleteInstanceModal}
         >
           <Switch>
             {flattenedRoutes(kafkaRoutes).map(({ path, exact, component, title, isAsync, ...rest }, idx) => {

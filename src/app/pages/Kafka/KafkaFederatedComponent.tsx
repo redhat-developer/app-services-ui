@@ -15,7 +15,6 @@ export type UnderlyingProps = {
   kafkaInstanceLink?: string;
   onError?: (errorCode: number, message?: string) => void;
   handleInstanceDrawer?: (isOpen: boolean, activeTab?: string) => void;
-  setIsOpenDeleteInstanceModal?: (isOpenModal: boolean) => void;
   showMetrics?: JSX.Element;
   showSchemas?: JSX.Element;
   kafka?: KafkaRequest;
