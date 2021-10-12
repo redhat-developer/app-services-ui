@@ -1,17 +1,15 @@
 import React from 'react';
 import { FederatedModule } from '@app/components';
-import { KafkaRequest } from "@rhoas/kafka-management-sdk";
+import { KafkaRequest } from '@rhoas/kafka-management-sdk';
 import { useConfig } from '@rhoas/app-services-ui-shared';
-import { AppServicesLoading } from "@rhoas/app-services-ui-components";
-import { useHistory } from "react-router-dom";
+import { AppServicesLoading } from '@rhoas/app-services-ui-components';
+import { useHistory } from 'react-router-dom';
 
 type InstanceDrawerProps = {
   kafkaDetail: KafkaRequest | undefined;
   isExpanded: boolean | undefined;
   activeTab: string;
   onClose: () => void;
-  isOpenDeleteInstanceModal: boolean;
-  setIsOpenDeleteInstanceModal: (isopen: boolean) => void;
 };
 
 export const InstanceDrawer: React.FC<InstanceDrawerProps> = ({
@@ -20,8 +18,6 @@ export const InstanceDrawer: React.FC<InstanceDrawerProps> = ({
   kafkaDetail,
   activeTab,
   children,
-  setIsOpenDeleteInstanceModal,
-  isOpenDeleteInstanceModal,
 }) => {
   const config = useConfig();
   const history = useHistory();
@@ -34,7 +30,7 @@ export const InstanceDrawer: React.FC<InstanceDrawerProps> = ({
 
   const onDeleteInstance = () => {
     history.push('/streams/kafkas');
-  }
+  };
 
   return (
     <FederatedModule
@@ -49,8 +45,6 @@ export const InstanceDrawer: React.FC<InstanceDrawerProps> = ({
             onClose={onClose}
             instanceDetail={kafkaDetail}
             activeTab={activeTab}
-            isOpenDeleteInstanceModal={isOpenDeleteInstanceModal}
-            setIsOpenDeleteInstanceModal={setIsOpenDeleteInstanceModal}
             onDeleteInstance={onDeleteInstance}
           >
             {children}
