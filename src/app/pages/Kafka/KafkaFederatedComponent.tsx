@@ -1,5 +1,6 @@
-import { FederatedModule } from '@app/components';
 import React from 'react';
+import { FederatedModule } from '@app/components';
+import { KafkaRequest } from '@rhoas/kafka-management-sdk';
 
 export type KafkaFederatedComponentProps = UnderlyingProps & {
   module: string;
@@ -15,8 +16,9 @@ export type UnderlyingProps = {
   onError?: (errorCode: number, message?: string) => void;
   handleInstanceDrawer?: (isOpen: boolean, activeTab?: string) => void;
   setIsOpenDeleteInstanceModal?: (isOpenModal: boolean) => void;
-  showMetrics?: JSX.Element | undefined;
-  showSchemas?: JSX.Element | undefined;
+  showMetrics?: JSX.Element;
+  showSchemas?: JSX.Element;
+  kafka?: KafkaRequest;
 };
 
 // Provides properties for component path and it's underlying properties

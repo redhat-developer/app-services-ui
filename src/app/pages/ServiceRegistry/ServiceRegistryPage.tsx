@@ -1,6 +1,6 @@
 import React from 'react';
 import { useConfig } from '@rhoas/app-services-ui-shared';
-import { DevelopmentPreview, FederatedModule } from '@app/components';
+import { DevelopmentPreview, FederatedModule, KasModalLoader } from '@app/components';
 import { ServiceDownPage } from '@app/pages';
 import { useModalControl, useQuota, useMASToken } from '@app/hooks';
 import { AppServicesLoading } from '@rhoas/app-services-ui-components';
@@ -36,11 +36,13 @@ export const ServiceRegistryPageConnected: React.FC = () => {
         render={(ServiceRegistryFederated) => {
           return (
             <QuotaContext.Provider value={{ getQuota }}>
-              <ServiceRegistryFederated
-                preCreateInstance={preCreateInstance}
-                shouldOpenCreateModal={shouldOpenCreateModal}
-                tokenEndPointUrl={getTokenEndPointUrl()}
-              />
+              <KasModalLoader>
+                <ServiceRegistryFederated
+                  preCreateInstance={preCreateInstance}
+                  shouldOpenCreateModal={shouldOpenCreateModal}
+                  tokenEndPointUrl={getTokenEndPointUrl()}
+                />
+              </KasModalLoader>
             </QuotaContext.Provider>
           );
         }}
