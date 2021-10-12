@@ -42,7 +42,7 @@ export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProp
     return <AppServicesLoading />;
   }
 
-  const principlas = getAllPrincipals()?.filter((p) => p.id !== currentlyLoggedInuser && p.id !== registry?.owner);
+  const principals = getAllPrincipals()?.filter((p) => p.id !== currentlyLoggedInuser && p.id !== registry?.owner);
 
   if (getToken && basename) {
     federateConfig = createApicurioConfig(
@@ -50,7 +50,7 @@ export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProp
       registry.registryUrl as string,
       `${basename.getBasename()}/t/${registry?.id}`,
       getToken,
-      principlas
+      principals
     );
   }
 
