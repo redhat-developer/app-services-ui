@@ -33,12 +33,16 @@ export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProp
   const history = useHistory();
   const basename = useBasename();
   const getToken = auth?.apicurio_registry.getToken;
+  const currentlyLoggedInuser = auth?.getUsername() || '';
+
   const { groupId, artifactId, version } = useParams<ServiceRegistryParams>();
-  const principlas = usePrincipal(registry?.owner);
+  const { getAllPrincipals } = usePrincipal();
 
   if (config === undefined || registry === undefined) {
     return <AppServicesLoading />;
   }
+
+  const principlas = getAllPrincipals()?.filter((p) => p.id !== currentlyLoggedInuser && p.id !== registry?.owner);
 
   if (getToken && basename) {
     federateConfig = createApicurioConfig(
@@ -46,7 +50,7 @@ export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProp
       registry.registryUrl as string,
       `${basename.getBasename()}/t/${registry?.id}`,
       getToken,
-      principlas?.getAllPrincipals()
+      principlas
     );
   }
 

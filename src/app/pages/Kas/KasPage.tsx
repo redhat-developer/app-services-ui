@@ -1,21 +1,16 @@
-import React, { useState, useMemo } from 'react';
+import React from 'react';
 import { ProductType, QuotaContext, useConfig } from '@rhoas/app-services-ui-shared';
 import { ServiceDownPage } from '@app/pages/ServiceDown/ServiceDownPage';
-import { FederatedModule } from '@app/components';
+import { FederatedModule, usePrincipal } from '@app/components';
 import { useModalControl, useQuota, useMASToken } from '@app/hooks';
 import { AppServicesLoading } from '@rhoas/app-services-ui-components';
-import { PrincipalsProvider } from '@app/components/PrincipalsProvider/PrincipalsProvider';
-import { KafkaRequest } from '@rhoas/kafka-management-sdk';
 
-type KasPageConnectedProps = {
-  setKafkaInstance: (kafka: KafkaRequest) => void;
-};
-
-const KasPageConnected: React.FC<KasPageConnectedProps> = ({ setKafkaInstance }) => {
+const KasPage: React.FC = () => {
   const config = useConfig();
   const { getQuota } = useQuota(ProductType?.kas);
   const { preCreateInstance, shouldOpenCreateModal } = useModalControl();
   const { getTokenEndPointUrl } = useMASToken();
+  const { getAllUserAccounts } = usePrincipal();
 
   return (
     <FederatedModule
@@ -33,30 +28,12 @@ const KasPageConnected: React.FC<KasPageConnectedProps> = ({ setKafkaInstance })
               preCreateInstance={preCreateInstance}
               shouldOpenCreateModal={shouldOpenCreateModal}
               tokenEndPointUrl={getTokenEndPointUrl()}
-              setKafkaInstance={setKafkaInstance}
+              getAllUserAccounts={getAllUserAccounts}
             />
           </QuotaContext.Provider>
         );
       }}
     />
-  );
-};
-
-const KasPageConnectedMemoized = React.memo(KasPageConnected);
-
-const KasPage = () => {
-  const [kafka, setKafka] = useState<KafkaRequest>();
-
-  const setKafkaInstance = (kafka: KafkaRequest) => {
-    setKafka(kafka);
-  };
-
-  const setKafkaInstanceMemoized = useMemo(() => setKafkaInstance, []);
-
-  return (
-    <PrincipalsProvider kafkaInstance={kafka}>
-      <KasPageConnectedMemoized setKafkaInstance={setKafkaInstanceMemoized} />
-    </PrincipalsProvider>
   );
 };
 

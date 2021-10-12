@@ -1,20 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Configuration, KafkaRequest, SecurityApi } from '@rhoas/kafka-management-sdk';
-import {
-  Principal,
-  Principals,
-  PrincipalsContext,
-  PrincipalType,
-  useAuth,
-  useConfig,
-} from '@rhoas/app-services-ui-shared';
+import { Principal, PrincipalsContext, PrincipalType, useAuth, useConfig } from '@rhoas/app-services-ui-shared';
 import { PrincipalApi } from '@redhat-cloud-services/rbac-client';
 
 export type PrincipalsProviderProps = {
   kafkaInstance?: KafkaRequest;
 };
 
-export const usePrincipal = (instanceOwner: string | undefined) => {
+export const usePrincipal = () => {
   const config = useConfig();
   const auth = useAuth();
 
@@ -23,32 +16,23 @@ export const usePrincipal = (instanceOwner: string | undefined) => {
 
   useEffect(() => {
     const fetchUserAccounts = async () => {
-      if (
-        config !== undefined &&
-        auth !== undefined &&
-        config.rbac.basePath !== undefined &&
-        instanceOwner !== undefined
-      ) {
+      if (config !== undefined && auth !== undefined && config.rbac.basePath !== undefined) {
         const accessToken = await auth.kas.getToken();
         const principalApi = new PrincipalApi({
           accessToken,
           basePath: config?.rbac.basePath,
         });
 
-        const currentlyLoggedInuser = await auth?.getUsername();
-
         try {
           const userAccounts = await principalApi.listPrincipals(-1).then((response) =>
-            response.data.data
-              .map((p) => {
-                return {
-                  id: p.username,
-                  principalType: PrincipalType.UserAccount,
-                  displayName: `${p.first_name} ${p.last_name}`,
-                  emailAddress: p.email,
-                } as Principal;
-              })
-              .filter((p) => p.id !== currentlyLoggedInuser && p.id !== instanceOwner)
+            response.data.data.map((p) => {
+              return {
+                id: p.username,
+                principalType: PrincipalType.UserAccount,
+                displayName: `${p.first_name} ${p.last_name}`,
+                emailAddress: p.email,
+              } as Principal;
+            })
           );
           setUserAccountPrincipals(userAccounts);
         } catch (e) {
@@ -58,16 +42,11 @@ export const usePrincipal = (instanceOwner: string | undefined) => {
       }
     };
     fetchUserAccounts();
-  }, [auth, config, instanceOwner]);
+  }, [auth, config]);
 
   useEffect(() => {
     const fetchServiceAccounts = async () => {
-      if (
-        config !== undefined &&
-        auth !== undefined &&
-        config.rbac.basePath !== undefined &&
-        instanceOwner !== undefined
-      ) {
+      if (config !== undefined && auth !== undefined && config.rbac.basePath !== undefined) {
         const accessToken = await auth.kas.getToken();
         const securityApi = new SecurityApi({
           accessToken,
@@ -87,7 +66,7 @@ export const usePrincipal = (instanceOwner: string | undefined) => {
       }
     };
     fetchServiceAccounts();
-  }, [auth, config, instanceOwner]);
+  }, [auth, config]);
 
   const value = {
     getAllPrincipals: () => {
@@ -111,7 +90,7 @@ export const usePrincipal = (instanceOwner: string | undefined) => {
   return value;
 };
 
-export const PrincipalsProvider: React.FunctionComponent<PrincipalsProviderProps> = ({ children, kafkaInstance }) => {
-  const value = usePrincipal(kafkaInstance?.owner);
-  return <PrincipalsContext.Provider value={value}>{children}</PrincipalsContext.Provider>;
+export const PrincipalsProvider: React.FunctionComponent<PrincipalsProviderProps> = ({ children }) => {
+  const { getAllPrincipals } = usePrincipal();
+  return <PrincipalsContext.Provider value={{ getAllPrincipals }}>{children}</PrincipalsContext.Provider>;
 };
