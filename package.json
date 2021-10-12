@@ -47,7 +47,7 @@
     "@rhoas/app-services-ui-shared": "0.15.2",
     "@rhoas/kafka-management-sdk": "0.12.3",
     "@rhoas/registry-management-sdk": "0.12.3",
-    "axios": "0.22.0",
+    "axios": "0.23.0",
     "classnames": "2.3.1",
     "date-fns": "2.25.0",
     "express": "4.17.1",
