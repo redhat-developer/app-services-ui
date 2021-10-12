@@ -46,6 +46,10 @@ module.exports = merge(common("production", { mode: "production", publicPath }),
         {
           from: 'static/images/Logo-Red_Hat-OpenShift_Streams_for_Apache_Kafka-A-Standard-RGB.png',
           to: 'Logo-Red_Hat-OpenShift_Streams_for_Apache_Kafka-A-Standard-RGB.png'
+        },
+        {
+          from: 'static/images/Logo-Red_Hat-OpenShift-Application_Services-A-Reverse-RGB.svg',
+          to: 'Logo-Red_Hat-OpenShift-Application_Services-A-Reverse-RGB.svg'
         }
       ]
     })
