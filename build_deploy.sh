@@ -20,6 +20,9 @@ if [[ ! -d ./.git ]]; then
     exit 1
 fi
 
+APP_NAME="application-services"
+DEPLOYMENT_REPOSPITORY="https://github.com/RedHatInsights/rhosak-dashboard-build.git"
+
 CONTAINER_ENGINE=${CONTAINER_ENGINE:-"docker"}
 VERSION="$(git log --pretty=format:'%h' -n 1)"
 IMAGE_REGISTRY=${IMAGE_REGISTRY:-"quay.io"}
@@ -68,5 +71,5 @@ ${CONTAINER_ENGINE} rm ${CID}
 run /opt/tools/scripts/push_to_insights.sh \
     --nachobot-token "${NACHOBOT_TOKEN}" \
     --version "${VERSION}" \
-    --repository "${REPOSPITORY}" \
+    --repository "${DEPLOYMENT_REPOSPITORY}" \
     --app-name "${APP_NAME}"
