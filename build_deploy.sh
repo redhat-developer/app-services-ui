@@ -65,7 +65,7 @@ fi
 
 step "Push the client files"
 CID=$(${CONTAINER_ENGINE} create ${IMAGE})
-${CONTAINER_ENGINE} cp ${CID}:/opt/app-root/src/dist .
+${CONTAINER_ENGINE} cp ${CID}:/opt/app-root/src ./dist
 ${CONTAINER_ENGINE} rm ${CID}
 
 run /opt/tools/scripts/push_to_insights.sh \

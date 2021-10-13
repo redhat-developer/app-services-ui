@@ -19,12 +19,6 @@ RUN rm -rf /node_modules \
 
 FROM quay.io/app-sre/ubi8-nginx-118
 
-RUN mkdir -p /opt/app-root/src
-WORKDIR /opt/app-root/src
-
-COPY --from=builder --chown=root:root /opt/app-root/src/LICENSE ./
-COPY --from=builder --chown=root:root /opt/app-root/src/dist ./dist
-
-COPY --chown=root:root build/nginx.conf /etc/nginx/nginx.conf
+COPY --from=builder --chown=root:root /opt/app-root/src/dist/ .
 
 EXPOSE 8080
