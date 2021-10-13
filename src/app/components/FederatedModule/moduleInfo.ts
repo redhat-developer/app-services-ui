@@ -3,7 +3,11 @@ export type ModuleInfo = {
   basePath: string
 }
 
-export const getModuleInfo = async (baseUrl: string, scope: string, fallbackBasePath?: string): Promise<ModuleInfo | undefined> => {
+export type FetchModuleInfoFunction = {
+  (baseUrl: string, scope: string, fallbackBasePath?: string): Promise<ModuleInfo | undefined>
+}
+
+export const fetchModuleInfo: FetchModuleInfoFunction = async (baseUrl, scope, fallbackBasePath) => {
 
   const fedModsJsonFileName = "fed-mods.json";
 
