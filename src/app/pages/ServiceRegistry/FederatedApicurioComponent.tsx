@@ -2,13 +2,13 @@ import React from 'react';
 import { ConfigType, createApicurioConfig } from '@app/pages/ServiceRegistry/utils';
 import { FederatedModule, usePrincipal } from '@app/components';
 import { useHistory, useParams } from 'react-router-dom';
-import { RegistryRest } from '@rhoas/registry-management-sdk';
+import { Registry } from '@rhoas/registry-management-sdk';
 import { useAuth, useBasename, useConfig } from '@rhoas/app-services-ui-shared';
 import { AppServicesLoading } from '@rhoas/app-services-ui-components';
 
 export type FederatedApicurioComponentProps = {
   module: string;
-  registry: RegistryRest | undefined;
+  registry: Registry | undefined;
   topicName?: string;
   groupId?: string | null | undefined;
   version?: string;

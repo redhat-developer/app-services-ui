@@ -45,7 +45,7 @@
     "@redhat-cloud-services/rbac-client": "1.0.102",
     "@rhoas/app-services-ui-components": "1.1.1",
     "@rhoas/app-services-ui-shared": "0.15.2",
-    "@rhoas/kafka-management-sdk": "0.15.0",
+    "@rhoas/kafka-management-sdk": "0.14.0",
     "@rhoas/registry-management-sdk": "0.15.0",
     "axios": "0.23.0",
     "classnames": "2.3.1",
