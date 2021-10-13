@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { RegistryRest } from '@rhoas/registry-management-sdk';
+import { Registry } from '@rhoas/registry-management-sdk';
 import { FederatedApicurioComponent } from './FederatedApicurioComponent';
 import { FederatedModule } from '@app/components';
 import { AppServicesLoading } from '@rhoas/app-services-ui-components';
@@ -20,7 +20,7 @@ export const ServiceRegistrySchemaMapping: React.FC = () => {
             <ServiceRegistryFederated
               basename={basename}
               topicName={topicName}
-              renderSchema={(registry: RegistryRest) => (
+              renderSchema={(registry: Registry) => (
                 <FederatedApicurioComponent
                   module="./FederatedSchemaMapping"
                   registry={registry}
