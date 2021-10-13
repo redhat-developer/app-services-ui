@@ -29,6 +29,12 @@ IMAGE="${IMAGE_REPOSITORY}:${IMAGE_TAG}"
 RHOAS_QUAY_USER=${RHOAS_QUAY_USER:-}
 RHOAS_QUAY_TOKEN=${RHOAS_QUAY_TOKEN:-}
 
+if [ -z "${NACHOBOT_TOKEN}" ]; then
+    echo "The nachobot token hasn't been provided."
+    echo "Make sure to set the NACHOBOT_TOKEN environment variable."
+    exit 1
+fi
+
 step "Build the image"
 ${CONTAINER_ENGINE} build \
     -t ${IMAGE} \
@@ -36,7 +42,10 @@ ${CONTAINER_ENGINE} build \
 
 if [[ ! -z "${RHOAS_QUAY_USER}" ]] && [[ ! -z "${RHOAS_QUAY_TOKEN}" ]]; then
     step "Push ui image"
-    ${CONTAINER_ENGINE} login --username "${RHOAS_QUAY_USER}" --password "${RHOAS_QUAY_TOKEN}" "${IMAGE_REGISTRY}"
+    ${CONTAINER_ENGINE} login \
+        --username "${RHOAS_QUAY_USER}" \
+        --password "${RHOAS_QUAY_TOKEN}" \
+        "${IMAGE_REGISTRY}"
     
     # update the latest image too
     ${CONTAINER_ENGINE} tag ${IMAGE} ${IMAGE_REPOSITORY}:latest
