@@ -35,22 +35,33 @@ export const filterEnvironmentConfig = (environmentConfig: EnvironmentConfigs): 
 
 export const addFederatedModulesToConfig = (
   environmentConfig: EnvironmentConfig,
-  federatedModulesConfig: FederatedModulesConfig
+  federatedModulesConfig: FederatedModulesConfig,
+  beta: boolean
 ): Config => {
-  if (environmentConfig.type !== 'proxy') {
-    const federatedModules = {} as FederatedModulesConfig;
-    Object.entries(federatedModulesConfig).forEach(([k, v]) => {
-      federatedModules[k] = {
-        basePath: v.fallbackBasePath,
-      };
-    });
-    return {
-      ...environmentConfig.config,
-      federatedModules,
+  const federatedModules = {} as FederatedModulesConfig;
+  Object.entries(federatedModulesConfig).forEach(([k, v]) => {
+    let { basePath } = v;
+    let fallbackBasePath: string | undefined = undefined;
+    if (environmentConfig.type !== 'proxy') {
+      basePath = v.fallbackBasePath;
+    } else {
+      fallbackBasePath = v.fallbackBasePath;
+    }
+    if (!beta) {
+      if (basePath.startsWith('/beta')) {
+        basePath = basePath.substring(4);
+      }
+      if (fallbackBasePath?.startsWith('/beta')) {
+        fallbackBasePath = fallbackBasePath.substring(5);
+      }
+    }
+    federatedModules[k] = {
+      basePath,
+      fallbackBasePath
     };
-  }
+  });
   return {
     ...environmentConfig.config,
-    federatedModules: federatedModulesConfig,
+    federatedModules,
   };
 };
