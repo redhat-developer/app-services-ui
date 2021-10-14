@@ -11,30 +11,8 @@ const basePublicPath = `${BETA ? '/beta' : ''}/apps`
 const proxyPublicPath = `${BETA ? '/beta' : ''}/${crc.bundle}/`
 const publicPath = `${basePublicPath}/${crc.bundle}/`;
 
-// Function to convert the webpack-dev-server v3 proxy config to v4 config
-const buildv4ProxyConfig = () => {
-  const proxyConfig = proxy({
-    useProxy: true,
-    useCloud: false,
-    env: BETA ? 'prod-beta' : 'prod-stable',
-    standalone: false,
-    publicPath: proxyPublicPath,
-    proxyVerbose: true
-  });
-
-  // Create a new object from the proxyConfig
-  const answer = Object.assign({}, proxyConfig);
-  // remove the old before property, it's no longer valid
-  delete answer['before'];
-
-  // create the new onBeforeSetupMiddleware property, mapping the arguments
-  //Note: commenting below line of code due to compile error i.e. TypeError: proxyConfig.before is not a function at Object.answer.onBeforeSetupMiddleware 
-  //answer.onBeforeSetupMiddleware = (devServer) => proxyConfig.before(devServer.app, devServer);
-  return answer;
-}
-
 module.exports = merge(common('development', {
-  publicPath
+  publicPath, beta: BETA
 }), {
 
   mode: "development",
@@ -75,7 +53,14 @@ module.exports = merge(common('development', {
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
       "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
     },
-    ...buildv4ProxyConfig()
+    ...proxy({
+      useProxy: true,
+      useCloud: false,
+      env: BETA ? 'prod-beta' : 'prod-stable',
+      standalone: false,
+      publicPath: proxyPublicPath,
+      proxyVerbose: true
+    })
   },
   plugins: [
     new CopyPlugin({
