@@ -14,11 +14,12 @@ const { federatedModules } = require('./config/config.json');
 const isPatternflyStyles = (stylesheet) => stylesheet.includes('@patternfly/react-styles/css/') || stylesheet.includes('@patternfly/react-core/');
 
 module.exports = (env, argv) => {
+  const beta = argv && argv.beta;
   const isProduction = argv && argv.mode === 'production';
   const publicPath = argv && argv.publicPath;
   const appEntry = path.resolve(__dirname, 'src', 'index.tsx')
 
-  const preloadTags = Object.values(federatedModules).map(v => v.fallbackBasePath).map(p => `<link rel="preload" href="${p}/fed-mods.json" as="fetch" type="application/json" />`).join('\n');
+  const preloadTags = Object.values(federatedModules).map(v => v.fallbackBasePath).map(p => !beta && p.startsWith('/beta') ? p.substring(5) : p).map(p => `<link rel="preload" href="${p}/fed-mods.json" as="fetch" type="application/json" />`).join('\n');
 
   return {
     entry: {
