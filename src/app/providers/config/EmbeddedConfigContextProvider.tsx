@@ -15,7 +15,7 @@ export const EmbeddedConfigProvider: React.FunctionComponent = ({ children }) =>
     if (environmentConfig.fetchConfig) {
       return undefined;
     }
-    const config = addFederatedModulesToConfig(environmentConfig, configs.federatedModules);
+    const config = addFederatedModulesToConfig(environmentConfig, configs.federatedModules, beta);
     console.log('Done loading config', config);
     return config;
   });
