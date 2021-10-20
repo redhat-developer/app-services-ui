@@ -38,7 +38,7 @@ const appRoutes: AppRouteConfig<any>[] = [
     path: '/streams/kafkas/:id',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
     basename: '/streams/kafkas/:id',
-    devPreview: true,
+    devPreview: false,
   },
   {
     // Handle the redirect from application-services/streams to application-services/streams/kafkas
@@ -63,7 +63,7 @@ const appRoutes: AppRouteConfig<any>[] = [
     path: '/streams/kafkas',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
     basename: '/streams/kafkas',
-    devPreview: true,
+    devPreview: false,
   },
   {
     component: ServiceRegistryPage,
@@ -143,7 +143,7 @@ const appRoutes: AppRouteConfig<any>[] = [
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/service-accounts',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
-    devPreview: true,
+    devPreview: false,
   },
   {
     component: RedirectToServiceAccounts,
@@ -151,7 +151,7 @@ const appRoutes: AppRouteConfig<any>[] = [
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/streams/service-accounts',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
-    devPreview: true,
+    devPreview: false,
   },
   {
     component: OverviewPage,
@@ -197,7 +197,7 @@ const appRoutes: AppRouteConfig<any>[] = [
     label: 'Learning Resources | Red Hat OpenShift Application Services',
     path: '/learning-resources',
     title: 'Learning Resources | Red Hat OpenShift Application Services',
-    devPreview: true,
+    devPreview: false,
   },
 ];
 
