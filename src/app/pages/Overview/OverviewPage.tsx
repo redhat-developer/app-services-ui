@@ -41,23 +41,15 @@ export const OverviewPage: React.FunctionComponent = () => {
   const beta = location.pathname.startsWith('/beta');
 
   const onClickKafkainstance = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    if (beta) {
-      event.preventDefault();
-      history.push(`${basename}/streams/kafkas`);
-    }
+    event.preventDefault();
+    history.push(`${basename}/streams/kafkas`);
   }
 
   const getKafkaHref = () => {
-    if (beta) {
-      return history.createHref({
-        pathname: '/streams/kafkas'
-      })
-    }
-    return '/beta/application-services/streams/kafkas'
+    return history.createHref({
+      pathname: '/streams/kafkas'
+    })
   }
-
-
-
 
   const onClickServiceRegistry = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (beta) {
@@ -129,9 +121,6 @@ export const OverviewPage: React.FunctionComponent = () => {
             </CardTitle>
             <CardBody>
               <Stack hasGutter>
-                <StackItem className="pf-u-mb-lg">
-                  <Label color="blue">{t('overview.generalAvailability')}</Label>
-                </StackItem>
                 <StackItem>
                   {t('overview.rhoamMainText')}
                 </StackItem>
@@ -237,9 +226,6 @@ export const OverviewPage: React.FunctionComponent = () => {
             </CardTitle>
             <CardBody>
               <Stack hasGutter>
-                <StackItem className="pf-u-mb-lg">
-                  <Label>{t('overview.developmentPreview')}</Label>
-                </StackItem>
                 <StackItem>
                   {t('overview.rhosakMainText')}
                 </StackItem>
