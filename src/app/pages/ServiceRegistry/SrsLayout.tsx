@@ -7,9 +7,10 @@ import { useMASToken } from '@app/hooks';
 type SrsLayoutProps = {
   render: (registry: Registry) => JSX.Element;
   breadcrumbId?: string;
+  artifactId?: string;
 };
 
-export const SrsLayout: React.FC<SrsLayoutProps> = ({ render, breadcrumbId }) => {
+export const SrsLayout: React.FC<SrsLayoutProps> = ({ render, breadcrumbId, artifactId }) => {
   const { getTokenEndPointUrl } = useMASToken();
   return (
     <FederatedModule
@@ -22,6 +23,7 @@ export const SrsLayout: React.FC<SrsLayoutProps> = ({ render, breadcrumbId }) =>
             render={render}
             breadcrumbId={breadcrumbId}
             tokenEndPointUrl={getTokenEndPointUrl()}
+            artifactId={artifactId}
           />
         );
       }}
