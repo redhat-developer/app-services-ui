@@ -272,7 +272,7 @@ export const OverviewPage: React.FunctionComponent = () => {
               </Stack>
             </CardBody>
             <CardFooter>
-              <Button data-testid="cardRHODS-buttonCTA" variant={ButtonVariant.secondary} component="a" target="_blank" href="https://access.redhat.com/documentation/en-us/red_hat_managed_data_services/1/html-single/red_hat_openshift_database_access_quick_start_guide/index">
+              <Button data-testid="cardRHODS-buttonCTA" variant={ButtonVariant.secondary} component="a" target="_blank" href="https://access.redhat.com/documentation/en-us/red_hat_openshift_database_access/1/html-single/quick_start_guide/index">
                 {t('overview.learnMore')} <ExternalLinkAltIcon className="pf-u-ml-sm" />
               </Button>
             </CardFooter>
