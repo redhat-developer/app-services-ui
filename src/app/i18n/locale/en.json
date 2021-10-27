@@ -32,9 +32,14 @@
     "developmentPreview": "Development preview",
     "generalAvailability": "General availability",
     "beta": "Beta",
+    "alpha": "Alpha",
 
     "getStarted": "Get started",
-    "learnMore": "Learn more"
+    "learnMore": "Learn more",
+
+    "dbaasTitle": "Red Hat OpenShift Database Access",
+    "dbaasMainText": "The OpenShift Database Access service helps application development using database as a service by its discovery, consumption, monitoring and management.",
+    "dbaasSecondaryText": "This service is hosted and managed by Red Hat as an add-on for managed"
   },
 
   "apimgmtoverview": {
