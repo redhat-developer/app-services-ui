@@ -108,7 +108,7 @@
     "regenerator-runtime": "0.13.9",
     "rimraf": "3.0.2",
     "sass": "1.43.4",
-    "sass-loader": "12.2.0",
+    "sass-loader": "12.3.0",
     "style-loader": "3.3.1",
     "svg-url-loader": "7.1.1",
     "terser-webpack-plugin": "5.2.4",
