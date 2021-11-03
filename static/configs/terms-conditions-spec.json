@@ -1,12 +1,10 @@
 {
   "kafka":{
      "EventCode":"register",
-     "SiteCode":"ocm",
-     "StopOnTermsChange": true
+     "SiteCode":"ocm"
   },
   "service-registry":{
      "EventCode":"onlineService",
-     "SiteCode":"ocm",
-     "StopOnTermsChange": true
+     "SiteCode":"ocm"
   }
 }
