@@ -208,6 +208,6 @@
 }
 
 // centers modals when a quick start drawer is open
-.pf-c-drawer.pf-m-expanded .pfext-quick-start-drawer__body .pf-c-backdrop {
-  position: absolute;
+.pfext-quick-start-drawer__body .pf-c-backdrop {
+  --pf-c-backdrop--Position: absolute;
 }
