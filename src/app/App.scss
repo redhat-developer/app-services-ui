@@ -206,3 +206,8 @@
   border-bottom: 1px solid var(--pf-c-select__toggle--before--BorderBottomColor);
   border-left: 1px solid var(--pf-c-select__toggle--before--BorderLeftColor);
 }
+
+// centers modals when a quick start drawer is open
+.pfext-quick-start-drawer__body .pf-c-backdrop {
+  --pf-c-backdrop--Position: absolute;
+}
