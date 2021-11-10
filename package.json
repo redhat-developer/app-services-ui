@@ -36,9 +36,9 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "@patternfly/patternfly": "4.132.2",
-    "@patternfly/react-core": "4.152.4",
-    "@patternfly/react-table": "4.29.58",
+    "@patternfly/patternfly": "4.151.4",
+    "@patternfly/react-core": "4.168.8",
+    "@patternfly/react-table": "4.37.8",
     "@redhat-cloud-services/frontend-components": "3.4.14",
     "@redhat-cloud-services/frontend-components-notifications": "3.2.4",
     "@redhat-cloud-services/frontend-components-utilities": "3.2.5",
@@ -89,7 +89,7 @@
     "enzyme-adapter-react-16": "1.15.6",
     "enzyme-to-json": "3.6.2",
     "eslint": "7.32.0",
-    "eslint-plugin-react": "7.26.1",
+    "eslint-plugin-react": "7.27.0",
     "eslint-plugin-react-hooks": "4.3.0",
     "file-loader": "6.2.0",
     "html-webpack-plugin": "5.5.0",
