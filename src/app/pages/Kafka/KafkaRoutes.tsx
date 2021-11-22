@@ -123,7 +123,7 @@ const KafkaRoutes = (): React.ReactElement => {
     kafkaInstanceLink: history.createHref({
       pathname: `/streams/kafkas/${kafkaDetail.id}`,
     }),
-    showMetrics: <Metrics kafkaId={kafkaDetail.id} />,
+    showMetrics: <Metrics kafkaId={kafkaDetail.id} kafkaAdminServerUrl={adminServerUrl} />,
     onError: (code: number) => {
       setError(code);
     },
