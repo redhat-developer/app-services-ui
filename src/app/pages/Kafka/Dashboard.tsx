@@ -2,8 +2,8 @@ import React from 'react';
 import { KafkaFederatedComponent, UnderlyingProps } from '@app/pages/Kafka/KafkaFederatedComponent';
 import { KasModalLoader } from '@app/components';
 
-export const Topics: React.FunctionComponent<UnderlyingProps> = (props) => (
+export const Dashboard: React.FunctionComponent<UnderlyingProps> = (props) => (
   <KasModalLoader>
-    <KafkaFederatedComponent module="./Topics" {...props} />
+    <KafkaFederatedComponent module="./Dashboard" {...props} />
   </KasModalLoader>
 );

@@ -3,7 +3,18 @@ import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
 import { InstanceDrawer } from '@app/components';
 import { AppRouteConfig, flattenedRoutes, IAppRoute, PageNotFoundRoute, useA11yRouteChange } from '@app/utils/Routing';
 import { useDocumentTitle } from '@app/utils';
-import { AccessDeniedPage, CreateTopic, Metrics, ServiceDownPage, TopicDetails, Topics, UpdateTopic } from '@app/pages';
+import {
+  AccessDeniedPage,
+  CreateTopic,
+  Metrics,
+  ServiceDownPage,
+  TopicDetails,
+  Topics,
+  UpdateTopic,
+  Dashboard,
+  ConsumerGroups,
+  AclPermissions,
+} from '@app/pages';
 import { useKafkaInstance } from '@app/pages/Kafka/kafka-instance';
 import { UnderlyingProps } from '@app/pages/Kafka/KafkaFederatedComponent';
 import { PrincipalsProvider } from '@app/components/PrincipalsProvider/PrincipalsProvider';
@@ -16,7 +27,7 @@ const kafkaRoutes: AppRouteConfig<UnderlyingProps>[] = [
     component: Topics,
     exact: true,
     label: 'Red Hat OpenShift Streams for Apache Kafka',
-    path: '',
+    path: '/topics',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
     devPreview: true,
   },
@@ -41,6 +52,30 @@ const kafkaRoutes: AppRouteConfig<UnderlyingProps>[] = [
     exact: true,
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/topic/update/:topicName',
+    title: 'Red Hat OpenShift Streams for Apache Kafka',
+    devPreview: true,
+  },
+  {
+    component: Dashboard,
+    exact: true,
+    label: 'Red Hat OpenShift Streams for Apache Kafka',
+    path: '/dashboard',
+    title: 'Red Hat OpenShift Streams for Apache Kafka',
+    devPreview: true,
+  },
+  {
+    component: ConsumerGroups,
+    exact: true,
+    label: 'Red Hat OpenShift Streams for Apache Kafka',
+    path: '/consumer-groups',
+    title: 'Red Hat OpenShift Streams for Apache Kafka',
+    devPreview: true,
+  },
+  {
+    component: AclPermissions,
+    exact: true,
+    label: 'Red Hat OpenShift Streams for Apache Kafka',
+    path: '/acls',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
     devPreview: true,
   },
@@ -121,7 +156,7 @@ const KafkaRoutes = (): React.ReactElement => {
       pathname: '/streams/kafkas',
     }),
     kafkaInstanceLink: history.createHref({
-      pathname: `/streams/kafkas/${kafkaDetail.id}`,
+      pathname: `/streams/kafkas/${kafkaDetail.id}/topics`,
     }),
     showMetrics: <Metrics kafkaId={kafkaDetail.id} />,
     onError: (code: number) => {
