@@ -1,10 +1,10 @@
 import { useLocation } from 'react-router-dom';
 import { parse as parseQueryString, stringifyUrl } from 'query-string';
-import { useAsyncTermsReview } from '@app/services/termsReview';
+import { useAsyncTermsReview, ITermsConfig } from '@app/services/termsReview';
 import { getTermsAppURL } from '@app/utils/termsApp';
 
-export const useModalControl = () => {
-    const loadTermsReview = useAsyncTermsReview();
+export const useModalControl = (termsConfig: ITermsConfig) => {
+    const loadTermsReview = useAsyncTermsReview(termsConfig);
     const location = useLocation();
 
     const shouldOpenCreateModal = async () => {
