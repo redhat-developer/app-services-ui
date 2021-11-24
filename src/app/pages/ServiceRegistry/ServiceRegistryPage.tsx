@@ -5,6 +5,7 @@ import { ServiceDownPage } from '@app/pages';
 import { useModalControl, useQuota, useMASToken } from '@app/hooks';
 import { AppServicesLoading } from '@rhoas/app-services-ui-components';
 import { ProductType, QuotaContext } from '@rhoas/app-services-ui-shared';
+import termsConfig from '../../../../static/configs/terms-conditions-spec.json';
 
 export const ServiceRegistryPage: React.FunctionComponent = () => {
   const config = useConfig();
@@ -19,7 +20,7 @@ export const ServiceRegistryPage: React.FunctionComponent = () => {
 export const ServiceRegistryPageConnected: React.FC = () => {
   const config = useConfig();
   const { getQuota } = useQuota(ProductType.srs);
-  const { preCreateInstance, shouldOpenCreateModal } = useModalControl();
+  const { preCreateInstance, shouldOpenCreateModal } = useModalControl(termsConfig['service-registry'].EventCode);
   const { getTokenEndPointUrl } = useMASToken();
 
   // Wait for the config and the registry to load

@@ -3,8 +3,8 @@ import { parse as parseQueryString, stringifyUrl } from 'query-string';
 import { useAsyncTermsReview } from '@app/services/termsReview';
 import { getTermsAppURL } from '@app/utils/termsApp';
 
-export const useModalControl = () => {
-    const loadTermsReview = useAsyncTermsReview();
+export const useModalControl = (eventCode: string) => {
+    const loadTermsReview = useAsyncTermsReview(eventCode);
     const location = useLocation();
 
     const shouldOpenCreateModal = async () => {

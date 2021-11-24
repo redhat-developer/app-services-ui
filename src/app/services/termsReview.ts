@@ -3,14 +3,14 @@ import { Configuration, DefaultApi, TermsReviewResponse } from '@openapi/ams';
 import { useFetch } from '@app/services/fetch';
 import { useEffect, useRef } from "react";
 
-export const useTermsReview = () => {
+export const useTermsReview = (eventCode: string) => {
   const config = useConfig();
   const auth = useAuth();
 
-  return useFetch(fetchTermsReviewFactory(config, auth));
+  return useFetch(fetchTermsReviewFactory(config, auth, eventCode));
 };
 
-export const useAsyncTermsReview = () => {
+export const useAsyncTermsReview = (eventCode: string) => {
   const config = useConfig();
   const auth = useAuth();
   const ref = useRef<TermsReviewResponse | undefined>();
@@ -21,7 +21,7 @@ export const useAsyncTermsReview = () => {
       // return the cached copy
       return ref.current;
     }
-    const answer = await fetchTermsReviewFactory(config, auth).fetch().then(r => r.data);
+    const answer = await fetchTermsReviewFactory(config, auth, eventCode).fetch().then(r => r.data);
     ref.current = answer;
     return answer;
   }
@@ -33,7 +33,7 @@ export const useAsyncTermsReview = () => {
   return load;
 }
 
-const fetchTermsReviewFactory = (config: Config, auth: Auth) => {
+const fetchTermsReviewFactory = (config: Config, auth: Auth, eventCode: string) => {
   return {
     key: 'selfTermsReview',
     fetch: async () => {
@@ -43,7 +43,7 @@ const fetchTermsReviewFactory = (config: Config, auth: Auth) => {
         basePath: config?.ams.apiBasePath || '',
       } as Configuration);
       return await defaultApi.apiAuthorizationsV1SelfTermsReviewPost({
-        event_code: config?.ams.eventCode,
+        event_code: eventCode,
         site_code: config?.ams.siteCode,
       });
     },
