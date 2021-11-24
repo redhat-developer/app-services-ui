@@ -3,14 +3,19 @@ import { Configuration, DefaultApi, TermsReviewResponse } from '@openapi/ams';
 import { useFetch } from '@app/services/fetch';
 import { useEffect, useRef } from "react";
 
-export const useTermsReview = (eventCode: string) => {
+export type ITermsConfig = {
+  eventCode: string;
+  siteCode: string;
+}
+
+export const useTermsReview = (termsConfig: ITermsConfig) => {
   const config = useConfig();
   const auth = useAuth();
 
-  return useFetch(fetchTermsReviewFactory(config, auth, eventCode));
+  return useFetch(fetchTermsReviewFactory(config, auth, termsConfig));
 };
 
-export const useAsyncTermsReview = (eventCode: string) => {
+export const useAsyncTermsReview = (termsConfig: ITermsConfig) => {
   const config = useConfig();
   const auth = useAuth();
   const ref = useRef<TermsReviewResponse | undefined>();
@@ -21,7 +26,7 @@ export const useAsyncTermsReview = (eventCode: string) => {
       // return the cached copy
       return ref.current;
     }
-    const answer = await fetchTermsReviewFactory(config, auth, eventCode).fetch().then(r => r.data);
+    const answer = await fetchTermsReviewFactory(config, auth, termsConfig).fetch().then(r => r.data);
     ref.current = answer;
     return answer;
   }
@@ -33,7 +38,7 @@ export const useAsyncTermsReview = (eventCode: string) => {
   return load;
 }
 
-const fetchTermsReviewFactory = (config: Config, auth: Auth, eventCode: string) => {
+const fetchTermsReviewFactory = (config: Config, auth: Auth, termsConfig: ITermsConfig) => {
   return {
     key: 'selfTermsReview',
     fetch: async () => {
@@ -43,8 +48,8 @@ const fetchTermsReviewFactory = (config: Config, auth: Auth, eventCode: string) 
         basePath: config?.ams.apiBasePath || '',
       } as Configuration);
       return await defaultApi.apiAuthorizationsV1SelfTermsReviewPost({
-        event_code: eventCode,
-        site_code: config?.ams.siteCode,
+        event_code: termsConfig.eventCode,
+        site_code: termsConfig.siteCode,
       });
     },
   }
