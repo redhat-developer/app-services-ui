@@ -3,11 +3,11 @@ import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { LastLocationProvider } from 'react-router-last-location';
 import getBaseName from './utils/getBaseName';
 import { DevelopmentPreview } from '@app/components';
-import { AppRouteConfig, flattenedRoutes, IAppRoute, PageNotFoundRoute, useA11yRouteChange, } from "@app/utils/Routing";
-import { useDocumentTitle } from "@app/utils";
-import { KafkaRoutes } from "@app/pages/Kafka/KafkaRoutes";
+import { AppRouteConfig, flattenedRoutes, IAppRoute, PageNotFoundRoute, useA11yRouteChange } from '@app/utils/Routing';
+import { useDocumentTitle } from '@app/utils';
+import { KafkaMainView } from '@app/pages/Kafka';
 import { BasenameContext } from '@rhoas/app-services-ui-shared';
-import { AppServicesLoading } from "@rhoas/app-services-ui-components";
+import { AppServicesLoading } from '@rhoas/app-services-ui-components';
 
 const QuickStartLoaderFederated = React.lazy(() => import('@app/pages/Resources/QuickStartLoaderFederated'));
 
@@ -21,7 +21,7 @@ const KasPage = React.lazy(() => import('@app/pages/Kas/KasPage'));
 const OverviewPage = React.lazy(() => import('@app/pages/Overview/OverviewPage'));
 const ResourcesPage = React.lazy(() => import('@app/pages/Resources/ResourcesPage'));
 const RulesPage = React.lazy(() => import('@app/pages/ServiceRegistry/RulesPage'));
-const RolesPage = React.lazy(() => import('@app/pages/ServiceRegistry/RolesPage'))
+const RolesPage = React.lazy(() => import('@app/pages/ServiceRegistry/RolesPage'));
 const ServiceAccountsPage = React.lazy(() => import('@app/pages/ServiceAccounts/ServiceAccountsPage'));
 const CosPage = React.lazy(() => import('@app/pages/CosPage/CosPage'));
 const ServiceRegistryPage = React.lazy(() => import('@app/pages/ServiceRegistry/ServiceRegistryPage'));
@@ -33,7 +33,7 @@ const RedirectToResources: React.FunctionComponent = () => <Redirect to="/learni
 
 const appRoutes: AppRouteConfig<any>[] = [
   {
-    component: KafkaRoutes,
+    component: KafkaMainView,
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/streams/kafkas/:id',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
@@ -188,8 +188,6 @@ const appRoutes: AppRouteConfig<any>[] = [
     path: '/streams/resources',
     title: 'QuickStarts for Red Hat OpenShift Application Services',
     devPreview: true,
-
-
   },
   {
     component: ResourcesPage,

@@ -5,3 +5,4 @@ export * from './UpdateTopic';
 export * from './Dashboard';
 export * from './ConsumerGroups';
 export * from './AclPermissions';
+export * from './KafkaMainView';

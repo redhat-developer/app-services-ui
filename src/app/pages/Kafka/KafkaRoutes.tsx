@@ -1,26 +1,10 @@
-import React, { useState } from 'react';
-import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
-import { InstanceDrawer } from '@app/components';
+import React from 'react';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { AppRouteConfig, flattenedRoutes, IAppRoute, PageNotFoundRoute, useA11yRouteChange } from '@app/utils/Routing';
 import { useDocumentTitle } from '@app/utils';
-import {
-  AccessDeniedPage,
-  CreateTopic,
-  Metrics,
-  ServiceDownPage,
-  TopicDetails,
-  Topics,
-  UpdateTopic,
-  Dashboard,
-  ConsumerGroups,
-  AclPermissions,
-} from '@app/pages';
-import { useKafkaInstance } from '@app/pages/Kafka/kafka-instance';
+import { CreateTopic, TopicDetails, Topics, UpdateTopic, Dashboard, ConsumerGroups, AclPermissions } from '@app/pages';
 import { UnderlyingProps } from '@app/pages/Kafka/KafkaFederatedComponent';
-import { PrincipalsProvider } from '@app/components/PrincipalsProvider/PrincipalsProvider';
-import { BasenameContext, useAuth, useConfig } from '@rhoas/app-services-ui-shared';
-import { AppServicesLoading } from '@rhoas/app-services-ui-components';
-import { ServiceRegistrySchemaMapping } from '@app/pages/ServiceRegistry';
+import { BasenameContext } from '@rhoas/app-services-ui-shared';
 
 const kafkaRoutes: AppRouteConfig<UnderlyingProps>[] = [
   {
@@ -52,6 +36,14 @@ const kafkaRoutes: AppRouteConfig<UnderlyingProps>[] = [
     exact: true,
     label: 'Red Hat OpenShift Streams for Apache Kafka',
     path: '/topic/update/:topicName',
+    title: 'Red Hat OpenShift Streams for Apache Kafka',
+    devPreview: true,
+  },
+  {
+    component: Dashboard,
+    exact: true,
+    label: 'Red Hat OpenShift Streams for Apache Kafka',
+    path: '/',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
     devPreview: true,
   },
@@ -119,94 +111,30 @@ const WrappedRoute: React.FunctionComponent<WrappedRouteProps> = ({
   );
 };
 
-const KafkaRoutes = (): React.ReactElement => {
-  const auth = useAuth();
-  const history = useHistory();
-  const config = useConfig();
-  const { adminServerUrl, kafkaDetail } = useKafkaInstance() || {};
+const KafkaRoutes = (props): React.ReactElement => {
   const routeMatch = useRouteMatch();
 
-  const [error, setError] = useState<undefined | number>();
-  const [isInstanceDrawerOpen, setIsInstanceDrawerOpen] = useState<boolean | undefined>();
-  const [activeDrawerTab, setActiveDrawerTab] = useState<string>('');
-
-  const handleInstanceDrawer = (isOpen: boolean, activeTab?: string) => {
-    activeTab && setActiveDrawerTab(activeTab);
-    setIsInstanceDrawerOpen(isOpen);
-  };
-
-  const onCloseInstanceDrawer = () => {
-    setIsInstanceDrawerOpen(false);
-  };
-
-  if (config?.serviceDown) {
-    return <ServiceDownPage />;
-  }
-
-  if (kafkaDetail === undefined || kafkaDetail.id === undefined || adminServerUrl === undefined) {
-    return <AppServicesLoading />;
-  }
-
-  const redirectAfterDeleteInstance = () => {
-    history.push('/streams/kafkas');
-  };
-
-  const props = {
-    kafkaPageLink: history.createHref({
-      pathname: '/streams/kafkas',
-    }),
-    kafkaInstanceLink: history.createHref({
-      pathname: `/streams/kafkas/${kafkaDetail.id}/topics`,
-    }),
-    showMetrics: <Metrics kafkaId={kafkaDetail.id} />,
-    onError: (code: number) => {
-      setError(code);
-    },
-    kafkaName: kafkaDetail.name,
-    apiBasePath: adminServerUrl,
-    getToken: auth?.kafka.getToken,
-    handleInstanceDrawer,
-    showSchemas: <ServiceRegistrySchemaMapping />,
-    kafka: kafkaDetail,
-    redirectAfterDeleteInstance,
-  } as UnderlyingProps;
-
-  if (error === 401) {
-    return <AccessDeniedPage />;
-  }
-
   return (
-    <div className="app-services-ui--u-display-contents" data-ouia-app-id="dataPlane-streams">
-      <PrincipalsProvider kafkaInstance={kafkaDetail}>
-        <InstanceDrawer
-          isExpanded={isInstanceDrawerOpen}
-          onClose={onCloseInstanceDrawer}
-          kafkaDetail={kafkaDetail}
-          activeTab={activeDrawerTab}
-        >
-          <Switch>
-            {flattenedRoutes(kafkaRoutes).map(({ path, exact, component, title, isAsync, ...rest }, idx) => {
-              const routePath = `${routeMatch.path}${path}`;
-              console.log(`Creating route for ${routePath}`);
-              return (
-                <WrappedRoute
-                  path={routePath}
-                  exact={exact}
-                  component={component}
-                  key={idx}
-                  title={title}
-                  isAsync={isAsync}
-                  underlyingProps={props}
-                  url={routeMatch.url}
-                  {...rest}
-                />
-              );
-            })}
-            <PageNotFoundRoute title="404 Page Not Found" />
-          </Switch>
-        </InstanceDrawer>
-      </PrincipalsProvider>
-    </div>
+    <Switch>
+      {flattenedRoutes(kafkaRoutes).map(({ path, exact, component, title, isAsync, ...rest }, idx) => {
+        const routePath = `${routeMatch.path}${path}`;
+        console.log(`Creating route for ${routePath}`);
+        return (
+          <WrappedRoute
+            path={routePath}
+            exact={exact}
+            component={component}
+            key={idx}
+            title={title}
+            isAsync={isAsync}
+            underlyingProps={props}
+            url={routeMatch.url}
+            {...rest}
+          />
+        );
+      })}
+      <PageNotFoundRoute title="404 Page Not Found" />
+    </Switch>
   );
 };
 
