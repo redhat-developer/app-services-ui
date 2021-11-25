@@ -3,7 +3,15 @@ import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
 import { InstanceDrawer } from '@app/components';
 import { AppRouteConfig, flattenedRoutes, IAppRoute, PageNotFoundRoute, useA11yRouteChange } from '@app/utils/Routing';
 import { useDocumentTitle } from '@app/utils';
-import { AccessDeniedPage, CreateTopic, Metrics, ServiceDownPage, TopicDetails, Topics, UpdateTopic } from '@app/pages';
+import {
+  AccessDeniedPage,
+  CreateTopic,
+  ConnectedMetrics,
+  ServiceDownPage,
+  TopicDetails,
+  Topics,
+  UpdateTopic,
+} from '@app/pages';
 import { useKafkaInstance } from '@app/pages/Kafka/kafka-instance';
 import { UnderlyingProps } from '@app/pages/Kafka/KafkaFederatedComponent';
 import { PrincipalsProvider } from '@app/components/PrincipalsProvider/PrincipalsProvider';
@@ -123,7 +131,7 @@ const KafkaRoutes = (): React.ReactElement => {
     kafkaInstanceLink: history.createHref({
       pathname: `/streams/kafkas/${kafkaDetail.id}`,
     }),
-    showMetrics: <Metrics kafkaId={kafkaDetail.id} />,
+    showMetrics: <ConnectedMetrics kafkaId={kafkaDetail.id} kafkaAdminUrl={adminServerUrl} />,
     onError: (code: number) => {
       setError(code);
     },
