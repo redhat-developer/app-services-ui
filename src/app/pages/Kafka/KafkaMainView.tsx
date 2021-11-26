@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { InstanceDrawer, KasModals } from '@app/components';
-import { AccessDeniedPage, Metrics, ServiceDownPage } from '@app/pages';
+import { InstanceDrawer } from '@app/components';
+import { AccessDeniedPage, ConnectedMetrics, ServiceDownPage } from '@app/pages';
 import { useKafkaInstance } from '@app/pages/Kafka/kafka-instance';
 import { UnderlyingProps } from '@app/pages/Kafka/KafkaFederatedComponent';
 import { PrincipalsProvider } from '@app/components/PrincipalsProvider/PrincipalsProvider';
@@ -48,7 +48,7 @@ export const KafkaMainView = (): React.ReactElement => {
     kafkaInstanceLink: history.createHref({
       pathname: `/streams/kafkas/${kafkaDetail.id}/topics`,
     }),
-    showMetrics: <Metrics kafkaId={kafkaDetail.id} />,
+    showMetrics: <ConnectedMetrics kafkaId={kafkaDetail.id} kafkaAdminUrl={adminServerUrl} />,
     onError: (code: number) => {
       setError(code);
     },

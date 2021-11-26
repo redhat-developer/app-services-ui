@@ -6,3 +6,4 @@ export * from './Dashboard';
 export * from './ConsumerGroups';
 export * from './AclPermissions';
 export * from './KafkaMainView';
+export * from './ConnectedMetrics';
