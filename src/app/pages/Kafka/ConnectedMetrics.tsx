@@ -28,7 +28,7 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
     history.push(`${basename}/topic/create`);
   };
 
-  const getDiskSpaceMetrics: MetricsProps['getDiskSpaceMetrics'] = (props) =>
+  const getKafkaInstanceMetrics: MetricsProps['getKafkaInstanceMetrics'] = (props) =>
     fetchKafkaInstanceMetrics({
       ...props,
       kafkaId,
@@ -51,7 +51,7 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
       <Metrics
         onCreateTopic={onCreateTopic}
         getTopicsMetrics={getTopicMetrics}
-        getDiskSpaceMetrics={getDiskSpaceMetrics}
+        getKafkaInstanceMetrics={getKafkaInstanceMetrics}
       />
     </I18nextProvider>
   );
