@@ -63,6 +63,7 @@ const appRoutes: AppRouteConfig<any>[] = [
     path: '/streams/kafkas',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
     basename: '/streams/kafkas',
+    devPreview: false,
   },
   {
     component: ServiceRegistryPage,
