@@ -63,7 +63,6 @@ const appRoutes: AppRouteConfig<any>[] = [
     path: '/streams/kafkas',
     title: 'Red Hat OpenShift Streams for Apache Kafka',
     basename: '/streams/kafkas',
-    devPreview: false,
   },
   {
     component: ServiceRegistryPage,
@@ -72,7 +71,6 @@ const appRoutes: AppRouteConfig<any>[] = [
     path: '/service-registry',
     title: 'Service Registry | Red Hat OpenShift Application Services',
     basename: '/service-registry',
-    devPreview: true,
   },
   {
     component: Artifacts,
@@ -81,7 +79,6 @@ const appRoutes: AppRouteConfig<any>[] = [
     path: '/service-registry/t/:tenantId',
     title: 'Service Registry | Red Hat OpenShift Application Services',
     basename: '/service-registry',
-    devPreview: true,
   },
   {
     component: Artifacts,
@@ -90,7 +87,6 @@ const appRoutes: AppRouteConfig<any>[] = [
     path: '/service-registry/t/:tenantId/artifacts',
     title: 'Service Registry | Red Hat OpenShift Application Services',
     basename: '/service-registry',
-    devPreview: true,
   },
   {
     component: RulesPage,
@@ -99,7 +95,6 @@ const appRoutes: AppRouteConfig<any>[] = [
     path: '/service-registry/t/:tenantId/rules',
     title: 'Service Registry | Red Hat OpenShift Application Services',
     basename: '/service-registry',
-    devPreview: true,
   },
   {
     component: RolesPage,
@@ -108,7 +103,6 @@ const appRoutes: AppRouteConfig<any>[] = [
     path: '/service-registry/t/:tenantId/roles',
     title: 'Service Registry | Red Hat OpenShift Application Services',
     basename: '/service-registry',
-    devPreview: true,
   },
   {
     component: ArtifactRedirect,
@@ -117,7 +111,6 @@ const appRoutes: AppRouteConfig<any>[] = [
     path: '/service-registry/t/:tenantId/artifacts/:groupId/:artifactId',
     title: 'Service Registry | Red Hat OpenShift Application Services',
     basename: '/service-registry',
-    devPreview: true,
   },
   {
     component: ArtifactVersionDetails,
@@ -126,7 +119,6 @@ const appRoutes: AppRouteConfig<any>[] = [
     path: '/service-registry/t/:tenantId/artifacts/:groupId/:artifactId/versions/:version',
     title: 'Service Registry | Red Hat OpenShift Application Services',
     basename: '/service-registry',
-    devPreview: true,
   },
   {
     component: CosPage,
