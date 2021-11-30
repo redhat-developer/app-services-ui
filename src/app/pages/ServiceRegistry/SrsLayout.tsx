@@ -3,7 +3,7 @@ import { FederatedModule, KasModalLoader } from '@app/components';
 import { Registry } from '@rhoas/registry-management-sdk';
 import { AppServicesLoading } from '@rhoas/app-services-ui-components';
 import { useMASToken } from '@app/hooks';
-import {DownloadArtifacts} from './DownloadArtifacts';
+import { DownloadArtifacts } from './DownloadArtifacts';
 
 type SrsLayoutProps = {
   render: (registry: Registry) => JSX.Element;

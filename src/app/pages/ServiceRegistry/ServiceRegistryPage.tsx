@@ -7,7 +7,7 @@ import { AppServicesLoading } from '@rhoas/app-services-ui-components';
 import { ProductType, QuotaContext } from '@rhoas/app-services-ui-shared';
 import { Registry } from '@rhoas/registry-management-sdk';
 import { ITermsConfig } from '@app/services';
-import {DownloadArtifacts} from './DownloadArtifacts';
+import { DownloadArtifacts } from './DownloadArtifacts';
 import termsConfig from '../../../../static/configs/terms-conditions-spec.json';
 
 export const ServiceRegistryPage: React.FunctionComponent = () => {
