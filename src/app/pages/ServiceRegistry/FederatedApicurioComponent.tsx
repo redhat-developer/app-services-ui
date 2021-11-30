@@ -14,6 +14,8 @@ export type FederatedApicurioComponentProps = {
   version?: string;
   registryId?: string;
   basename?: string;
+  fileName?: string;
+  downloadLinkLabel?: string;
 };
 
 type ServiceRegistryParams = {
