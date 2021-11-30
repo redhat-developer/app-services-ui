@@ -1,8 +1,9 @@
 import React from 'react';
-import { FederatedModule } from '@app/components';
+import { FederatedModule, KasModalLoader } from '@app/components';
 import { Registry } from '@rhoas/registry-management-sdk';
 import { AppServicesLoading } from '@rhoas/app-services-ui-components';
 import { useMASToken } from '@app/hooks';
+import {DownloadArtifacts} from './DownloadArtifacts';
 
 type SrsLayoutProps = {
   render: (registry: Registry) => JSX.Element;
@@ -19,12 +20,15 @@ export const SrsLayout: React.FC<SrsLayoutProps> = ({ render, breadcrumbId, arti
       fallback={<AppServicesLoading />}
       render={(ServiceRegistryFederated) => {
         return (
-          <ServiceRegistryFederated
-            render={render}
-            breadcrumbId={breadcrumbId}
-            tokenEndPointUrl={getTokenEndPointUrl()}
-            artifactId={artifactId}
-          />
+          <KasModalLoader>
+            <ServiceRegistryFederated
+              render={render}
+              breadcrumbId={breadcrumbId}
+              tokenEndPointUrl={getTokenEndPointUrl()}
+              artifactId={artifactId}
+              renderDownloadArtifacts={(registry:Registry, downloadLabel?:string)=><DownloadArtifacts registry={registry} downloadLabel={downloadLabel}/>}
+            />
+          </KasModalLoader>
         );
       }}
     />

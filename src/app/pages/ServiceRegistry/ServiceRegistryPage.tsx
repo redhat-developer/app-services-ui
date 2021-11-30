@@ -5,7 +5,9 @@ import { ServiceDownPage } from '@app/pages';
 import { useModalControl, useQuota, useMASToken } from '@app/hooks';
 import { AppServicesLoading } from '@rhoas/app-services-ui-components';
 import { ProductType, QuotaContext } from '@rhoas/app-services-ui-shared';
+import { Registry } from '@rhoas/registry-management-sdk';
 import { ITermsConfig } from '@app/services';
+import {DownloadArtifacts} from './DownloadArtifacts';
 import termsConfig from '../../../../static/configs/terms-conditions-spec.json';
 
 export const ServiceRegistryPage: React.FunctionComponent = () => {
@@ -46,6 +48,7 @@ export const ServiceRegistryPageConnected: React.FC = () => {
                   preCreateInstance={preCreateInstance}
                   shouldOpenCreateModal={shouldOpenCreateModal}
                   tokenEndPointUrl={getTokenEndPointUrl()}
+                  renderDownloadArtifacts={(registry:Registry, downloadLabel?:string)=><DownloadArtifacts registry={registry} downloadLabel={downloadLabel}/>}
                 />
               </KasModalLoader>
             </QuotaContext.Provider>
