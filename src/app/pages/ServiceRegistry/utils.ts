@@ -51,7 +51,7 @@ const createApicurioConfig = (config: Config, apiUrl: string, navPathPrefix: str
     features: {
       readOnly: false,
       breadcrumbs: false,
-      roleManagement: config.srs.apiBasePath == "https://api.stage.openshift.com",
+      roleManagement: true,
       multiTenant: true,
     },
     ui: {
