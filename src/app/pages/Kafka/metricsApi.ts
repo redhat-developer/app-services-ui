@@ -184,8 +184,8 @@ export async function fetchRawTopicMetrics({
         addAggregatePartitionBytes();
         break;
       case 'kafka_server_brokertopicmetrics_messages_in_total': 
-      addAggregatedTotalBytesTo(incomingMessageRate);
-      break;
+        addAggregatedTotalBytesTo(incomingMessageRate);
+        break;
     }
   });
 
