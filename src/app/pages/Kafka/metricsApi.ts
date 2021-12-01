@@ -1,6 +1,7 @@
 import { GetKafkaInstanceMetricsResponse, GetTopicsMetricsResponse } from '@rhoas/app-services-ui-components';
 import { TopicsApi } from '@rhoas/kafka-instance-sdk';
 import { Configuration, ConfigurationParameters, DefaultApi, RangeQuery } from '@rhoas/kafka-management-sdk';
+import { IncomingMessage } from 'http';
 
 type NoUndefinedField<T> = {
   [P in keyof T]-?: NoUndefinedField<NonNullable<T[P]>>;
@@ -76,14 +77,14 @@ export const fetchTopicsMetrics = async (props: FetchTopicsMetricsProps): Promis
     }),
     fetchRawTopicMetrics(props),
   ]);
-  const { topics: metricsTopics, bytesIncoming, bytesOutgoing, bytesPerPartition } = metrics;
+  const { topics: metricsTopics, bytesIncoming, bytesOutgoing, bytesPerPartition, incomingMessageRate } = metrics;
   return {
     kafkaTopics,
     metricsTopics,
     bytesIncoming,
     bytesOutgoing,
     bytesPerPartition,
-    incomingMessageRate: [],
+    incomingMessageRate,
   };
 };
 
@@ -112,6 +113,7 @@ type FetchRawTopicsMetricsReturnValue = {
   bytesOutgoing: TimeSeriesMetrics;
   bytesIncoming: TimeSeriesMetrics;
   bytesPerPartition: PartitionBytesMetric;
+  incomingMessageRate: TimeSeriesMetrics;
 };
 export async function fetchRawTopicMetrics({
   accessToken,
@@ -134,6 +136,7 @@ export async function fetchRawTopicMetrics({
     'kafka_server_brokertopicmetrics_bytes_in_total',
     'kafka_server_brokertopicmetrics_bytes_out_total',
     'kafka_topic:kafka_log_log_size:sum',
+    'kafka_server_brokertopicmetrics_messages_in_total',
   ]);
 
   // Remove all results with no data. Not sure this can really  happen but since
@@ -156,6 +159,7 @@ export async function fetchRawTopicMetrics({
   const bytesIncoming: TimeSeriesMetrics = {};
   const bytesOutgoing: TimeSeriesMetrics = {};
   const bytesPerPartition: PartitionBytesMetric = {};
+  const incomingMessageRate: TimeSeriesMetrics = {};
 
   filteredMetrics.forEach((m) => {
     const { __name__: name, topic } = m.metric;
@@ -180,6 +184,9 @@ export async function fetchRawTopicMetrics({
       case 'kafka_topic:kafka_log_log_size:sum':
         addAggregatePartitionBytes();
         break;
+      case 'kafka_server_brokertopicmetrics_messages_in_total': 
+      addAggregatedTotalBytesTo(incomingMessageRate);
+      break;
     }
   });
 
@@ -188,5 +195,6 @@ export async function fetchRawTopicMetrics({
     bytesOutgoing,
     bytesIncoming,
     bytesPerPartition,
+    incomingMessageRate,
   };
 }
