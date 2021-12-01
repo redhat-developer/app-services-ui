@@ -1,7 +1,6 @@
 import { GetKafkaInstanceMetricsResponse, GetTopicsMetricsResponse } from '@rhoas/app-services-ui-components';
 import { TopicsApi } from '@rhoas/kafka-instance-sdk';
 import { Configuration, ConfigurationParameters, DefaultApi, RangeQuery } from '@rhoas/kafka-management-sdk';
-import { IncomingMessage } from 'http';
 
 type NoUndefinedField<T> = {
   [P in keyof T]-?: NoUndefinedField<NonNullable<T[P]>>;
