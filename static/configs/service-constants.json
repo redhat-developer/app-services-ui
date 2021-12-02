@@ -1,0 +1,26 @@
+{
+  "Version": "1",
+  "UseLegacyDataPlaneSSO": true,
+  "Services": {
+    "Kafka": {
+      "TermsAndConditions": {
+        "EventCode": "register",
+        "SiteCode": "ocm"
+      },
+      "Quota": {
+        "QuotaId": "cluster|rhinfra|rhosak|marketplace",
+        "TrialQuotaId": "cluster|rhinfra|rhosaktrial|marketplace"
+      }
+    },
+    "ServiceRegistry": {
+      "TermsAndConditions": {
+        "EventCode": "onlineService",
+        "SiteCode": "ocm"
+      },
+      "Quota": {
+        "QuotaId": "cluster|rhinfra|rhosr|any",
+        "TrialQuotaId": "cluster|rhinfra|rhosrtrial|any"
+      }
+    }
+  }
+}

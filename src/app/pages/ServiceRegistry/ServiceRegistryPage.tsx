@@ -8,7 +8,7 @@ import { ProductType, QuotaContext } from '@rhoas/app-services-ui-shared';
 import { Registry } from '@rhoas/registry-management-sdk';
 import { ITermsConfig } from '@app/services';
 import { DownloadArtifacts } from './DownloadArtifacts';
-import termsConfig from '../../../../static/configs/terms-conditions-spec.json';
+import constantsConfig from '@configs/service-constants.json';
 
 export const ServiceRegistryPage: React.FunctionComponent = () => {
   const config = useConfig();

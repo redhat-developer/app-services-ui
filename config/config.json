@@ -36,13 +36,7 @@
           "showDrafts": false
         },
         "ams": {
-          "apiBasePath": "https://api.stage.openshift.com",
-          "eventCode": "register",
-          "siteCode": "ocm",
-          "kasQuotaId": "cluster|rhinfra|rhosak|marketplace",
-          "kasTrialQuotaId": "cluster|rhinfra|rhosaktrial|marketplace",
-          "srsQuotaId": "cluster|rhinfra|rhosr|any",
-          "srsTrialQuotaId": "cluster|rhinfra|rhosrtrial|any"
+          "apiBasePath": "https://api.stage.openshift.com"
         },
         "kas": {
           "apiBasePath": "https://api.stage.openshift.com"
@@ -92,13 +86,7 @@
           "showDrafts": true
         },
         "ams": {
-          "apiBasePath": "https://api.stage.openshift.com",
-          "eventCode": "register",
-          "siteCode": "ocm",
-          "kasQuotaId": "cluster|rhinfra|rhosak|marketplace",
-          "kasTrialQuotaId": "cluster|rhinfra|rhosaktrial|marketplace",
-          "srsQuotaId": "cluster|rhinfra|rhosr|any",
-          "srsTrialQuotaId": "cluster|rhinfra|rhosrtrial|any"
+          "apiBasePath": "https://api.stage.openshift.com"
         },
         "kas": {
           "apiBasePath": "https://api.stage.openshift.com"
@@ -148,13 +136,7 @@
           "showDrafts": false
         },
         "ams": {
-          "apiBasePath": "https://api.openshift.com",
-          "eventCode": "register",
-          "siteCode": "ocm",
-          "kasQuotaId": "cluster|rhinfra|rhosak|marketplace",
-          "kasTrialQuotaId": "cluster|rhinfra|rhosaktrial|marketplace",
-          "srsQuotaId": "cluster|rhinfra|rhosr|any",
-          "srsTrialQuotaId": "cluster|rhinfra|rhosrtrial|any"
+          "apiBasePath": "https://api.openshift.com"
         },
         "kas": {
           "apiBasePath": "https://api.openshift.com"
