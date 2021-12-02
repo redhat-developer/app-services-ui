@@ -1,4 +1,9 @@
-import { GetKafkaInstanceMetricsResponse, GetTopicsMetricsResponse } from '@rhoas/app-services-ui-components';
+import {
+  GetKafkaInstanceMetricsResponse,
+  GetTopicsMetricsResponse,
+  PartitionBytesMetric,
+  TimeSeriesMetrics,
+} from '@rhoas/app-services-ui-components';
 import { TopicsApi } from '@rhoas/kafka-instance-sdk';
 import { Configuration, ConfigurationParameters, DefaultApi, RangeQuery } from '@rhoas/kafka-management-sdk';
 
@@ -6,9 +11,6 @@ type NoUndefinedField<T> = {
   [P in keyof T]-?: NoUndefinedField<NonNullable<T[P]>>;
 };
 type SafeRangeQuery = NoUndefinedField<RangeQuery>;
-
-export type TimeSeriesMetrics = { [timestamp: number]: number };
-export type PartitionBytesMetric = { [partition: string]: TimeSeriesMetrics };
 
 export type BasicApiConfigurationParameters = Pick<ConfigurationParameters, 'accessToken' | 'basePath'>;
 
@@ -183,7 +185,7 @@ export async function fetchRawTopicMetrics({
       case 'kafka_topic:kafka_log_log_size:sum':
         addAggregatePartitionBytes();
         break;
-      case 'kafka_server_brokertopicmetrics_messages_in_total': 
+      case 'kafka_server_brokertopicmetrics_messages_in_total':
         addAggregatedTotalBytesTo(incomingMessageRate);
         break;
     }
