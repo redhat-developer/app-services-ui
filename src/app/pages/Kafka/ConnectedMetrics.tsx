@@ -2,7 +2,7 @@ import React, { VoidFunctionComponent } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuth, useBasename, useConfig } from '@rhoas/app-services-ui-shared';
 import { AppServicesLoading, Metrics, MetricsProps, MetricsI18n } from '@rhoas/app-services-ui-components';
-import { fetchKafkaInstanceMetrics, fetchTopicsMetrics } from './metricsApi';
+import { fetchKafkaInstanceMetrics, fetchKafkaKpis, fetchTopicsMetrics } from './metricsApi';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 
 type ConnectedMetricsProps = {
@@ -46,13 +46,16 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
       accessToken: auth?.kas.getToken(),
     });
 
+  const getMetricsKpi: MetricsProps['getMetricsKpi'] = () =>
+    fetchKafkaKpis({ kafkaId, basePath: config.kas.apiBasePath, accessToken: auth?.kas.getToken() });
+
   return (
     <I18nextProvider i18n={i18n}>
       <Metrics
         onCreateTopic={onCreateTopic}
         getTopicsMetrics={getTopicMetrics}
         getKafkaInstanceMetrics={getKafkaInstanceMetrics}
-        getMetricsKpi={() => Promise.reject({})}
+        getMetricsKpi={getMetricsKpi}
       />
     </I18nextProvider>
   );

@@ -1,5 +1,6 @@
 import {
   GetKafkaInstanceMetricsResponse,
+  GetMetricsKpiResponse,
   GetTopicsMetricsResponse,
   PartitionBytesMetric,
   TimeSeriesMetrics,
@@ -13,6 +14,32 @@ type NoUndefinedField<T> = {
 type SafeRangeQuery = NoUndefinedField<RangeQuery>;
 
 export type BasicApiConfigurationParameters = Pick<ConfigurationParameters, 'accessToken' | 'basePath'>;
+
+type FetchKafkaKpiProps = {
+  kafkaId: string;
+} & BasicApiConfigurationParameters;
+export const fetchKafkaKpis = async ({
+  kafkaId,
+  accessToken,
+  basePath,
+}: FetchKafkaKpiProps): Promise<GetMetricsKpiResponse> => {
+  const apisService = new DefaultApi(
+    new Configuration({
+      accessToken,
+      basePath,
+    })
+  );
+
+  const response = await apisService.getMetricsByInstantQuery(kafkaId, ['kafka_topic_partitions']);
+
+  console.log(response);
+
+  return {
+    consumerGroups: undefined as unknown as number,
+    topicPartitions: undefined as unknown as number,
+    topics: undefined as unknown as number,
+  };
+};
 
 type FetchDiskSpaceMetricsProps = {
   kafkaId: string;
