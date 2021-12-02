@@ -4,7 +4,7 @@
      "SiteCode":"ocm"
   },
   "service-registry":{
-     "EventCode":"onlineService",
+     "EventCode":"register",
      "SiteCode":"ocm"
   }
 }
