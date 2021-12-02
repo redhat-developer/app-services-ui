@@ -52,6 +52,7 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
         onCreateTopic={onCreateTopic}
         getTopicsMetrics={getTopicMetrics}
         getKafkaInstanceMetrics={getKafkaInstanceMetrics}
+        getMetricsKpi={() => Promise.reject({})}
       />
     </I18nextProvider>
   );
