@@ -11,8 +11,8 @@ import appServicesi18n from '@app/i18n';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
 import { EmbeddedConfigProvider } from '@app/providers/config/EmbeddedConfigContextProvider';
 import { useAuth } from '@app/hooks';
-import { AppServicesLoading } from '@rhoas/app-services-ui-components';
-import { FeatureFlagProvider } from "@app/providers/featureflags/FeatureFlags";
+import { AppServicesLoading, ModalProvider } from '@rhoas/app-services-ui-components';
+import { FeatureFlagProvider } from '@app/providers/featureflags/FeatureFlags';
 
 const AppWithKeycloak: React.FunctionComponent = () => {
   console.log('starting appwithkeycloak');
@@ -20,16 +20,16 @@ const AppWithKeycloak: React.FunctionComponent = () => {
   const dispatch = useDispatch();
 
   const addAlert = ({
-                      title,
-                      variant,
-                      description,
-                      dataTestId,
-                      autoDismiss,
-                      dismissable,
-                      dismissDelay,
-                      requestId,
-                      sentryId,
-                    }: AlertProps) => {
+    title,
+    variant,
+    description,
+    dataTestId,
+    autoDismiss,
+    dismissable,
+    dismissDelay,
+    requestId,
+    sentryId,
+  }: AlertProps) => {
     dispatch(
       addNotification({
         title,
@@ -53,9 +53,11 @@ const AppWithKeycloak: React.FunctionComponent = () => {
   return (
     <AuthContext.Provider value={auth}>
       <AlertContext.Provider value={alert}>
-        <Router basename={baseName}>
-          <App/>
-        </Router>
+        <ModalProvider>
+          <Router basename={baseName}>
+            <App />
+          </Router>
+        </ModalProvider>
       </AlertContext.Provider>
     </AuthContext.Provider>
   );
@@ -64,9 +66,9 @@ const AppWithKeycloak: React.FunctionComponent = () => {
 const AppWithConfig: React.FunctionComponent = () => {
   const config = useContext(ConfigContext);
   if (config === undefined) {
-    return <AppServicesLoading/>;
+    return <AppServicesLoading />;
   }
-  return <AppWithKeycloak/>;
+  return <AppWithKeycloak />;
 };
 
 // eslint-disable-next-line react/display-name
@@ -75,7 +77,7 @@ const AppEntry: React.FunctionComponent = React.memo(() => (
     <I18nextProvider i18n={appServicesi18n}>
       <FeatureFlagProvider>
         <EmbeddedConfigProvider>
-          <AppWithConfig/>
+          <AppWithConfig />
         </EmbeddedConfigProvider>
       </FeatureFlagProvider>
     </I18nextProvider>
