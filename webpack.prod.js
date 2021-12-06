@@ -55,13 +55,18 @@ module.exports = merge(common("production", { mode: "production", publicPath }),
           from: 'static/images/Logo-Red_Hat-OpenShift_Streams_for_Apache_Kafka-A-Reverse-RGB-310x117.png',
           to: 'Logo-Red_Hat-OpenShift_Streams_for_Apache_Kafka-A-Reverse-RGB-310x117.png'
         },
-        { 
+        {
           from: 'static/images/Logo-Red_Hat-OpenShift-API_Management-A-Standard-RGB.svg',
           to: 'Logo-Red_Hat-OpenShift-API_Management-A-Standard-RGB.svg'
         },
+        // Deprecated - should be removed after 01/04/2022
         {
           from: 'static/configs/terms-conditions-spec.json',
           to: 'terms-conditions-spec.json'
+        },
+        {
+          from: 'static/configs/service-constants.json',
+          to: 'service-constants.json'
         }
       ]
     })
