@@ -1,6 +1,5 @@
 {
   "version": "1",
-  "useLegacyDataPlaneSSO": true,
   "services": {
     "kafka": {
       "ams": {
