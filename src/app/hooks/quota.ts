@@ -31,10 +31,10 @@ export const useQuota = (productId: ProductType) => {
     }, [config?.ams.apiBasePath, auth]);
 
     const getQuotaTypesByProductId = () => {
-        const kasQuotaId = services.kafka.quota.QuotaId
-        const kasTrialQuotaId  =  services.kafka.quota.TrialQuotaId
-        const srsQuotaId = services.serviceRegistry.quota.QuotaId
-        const srsTrialQuotaId  =  services.serviceRegistry.quota.TrialQuotaId
+        const kasQuotaId = services.kafka.ams.instanceQuotaId
+        const kasTrialQuotaId  =  services.kafka.ams.trialQuotaId
+        const srsQuotaId = services.serviceRegistry.ams.instanceQuotaId
+        const srsTrialQuotaId  =  services.serviceRegistry.ams.trialQuotaId
         if (productId === ProductType.kas) {
             return { quotaId: kasQuotaId, trialQuotaId: kasTrialQuotaId, quotaKey: QuotaType.kas, trialQuotaKey: QuotaType.kasTrial };
         } else if (productId === ProductType.srs) {

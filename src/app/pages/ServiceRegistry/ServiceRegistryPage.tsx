@@ -24,8 +24,8 @@ export const ServiceRegistryPageConnected: React.FC = () => {
   const config = useConfig();
   const { getQuota } = useQuota(ProductType.srs);
   const { preCreateInstance, shouldOpenCreateModal } = useModalControl({
-    eventCode: constantsConfig.services.serviceRegistry.termsAndConditions.eventCode,
-    siteCode: constantsConfig.services.serviceRegistry.termsAndConditions.siteCode,
+    eventCode: constantsConfig.services.serviceRegistry.termsAndConditionsEventCode,
+    siteCode: constantsConfig.services.serviceRegistry.termsAndConditionsSiteCode,
   } as ITermsConfig);
   const { getTokenEndPointUrl } = useMASToken();
 

@@ -12,8 +12,8 @@ const KasPage: React.FC = () => {
   const config = useConfig();
   const { getQuota } = useQuota(ProductType?.kas);
   const { preCreateInstance, shouldOpenCreateModal } = useModalControl({
-    eventCode: constantsConfig.services.kafka.termsAndConditions.eventCode,
-    siteCode: constantsConfig.services.kafka.termsAndConditions.siteCode,
+    eventCode: constantsConfig.services.kafka.termsAndConditionsEventCode,
+    siteCode: constantsConfig.services.kafka.termsAndConditionsSiteCode,
   } as ITermsConfig);
   const { getTokenEndPointUrl } = useMASToken();
   const { getAllUserAccounts } = usePrincipal();
