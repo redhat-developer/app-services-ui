@@ -211,7 +211,7 @@ export const OverviewPage: React.FunctionComponent = () => {
           </Card>
 
           {/* Kafka card */}
-          <Card>
+          <Card ouiaId='card-rhosak'>
             <CardHeader>
               <CardHeaderMain>
                 <img
@@ -237,7 +237,7 @@ export const OverviewPage: React.FunctionComponent = () => {
               </Stack>
             </CardBody>
             <CardFooter>
-              <Button data-testid="cardRHOSAK-buttonCreateKafka" variant={ButtonVariant.secondary} component="a" href={getKafkaHref()} onClick={onClickKafkainstance} >{t('overview.rhosakCallToActionButton')}</Button>
+              <Button data-testid="cardRHOSAK-buttonCreateKafka" ouiaId="button-create" variant={ButtonVariant.secondary} component="a" href={getKafkaHref()} onClick={onClickKafkainstance} >{t('overview.rhosakCallToActionButton')}</Button>
             </CardFooter>
           </Card>
 
