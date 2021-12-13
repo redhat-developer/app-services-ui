@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useConfig } from '@rhoas/app-services-ui-shared';
 import { DevelopmentPreview, FederatedModule, KasModalLoader } from '@app/components';
 import { ServiceDownPage } from '@app/pages';
@@ -8,8 +8,7 @@ import { ProductType, QuotaContext } from '@rhoas/app-services-ui-shared';
 import { Registry } from '@rhoas/registry-management-sdk';
 import { ITermsConfig } from '@app/services';
 import { DownloadArtifacts } from './DownloadArtifacts';
-import { ConstantContext, useConstants } from '@app/providers/config/ServiceConstants';
-import { ServiceConstants } from '@app/providers/config/ServiceConstants';
+import { useConstants } from '@app/providers/config/ServiceConstants';
 
 export const ServiceRegistryPage: React.FunctionComponent = () => {
   const config = useConfig();
