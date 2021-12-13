@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { ProductType, QuotaContext, useConfig } from '@rhoas/app-services-ui-shared';
 import { ServiceDownPage } from '@app/pages/ServiceDown/ServiceDownPage';
 import { FederatedModule, usePrincipal } from '@app/components';
 import { useModalControl, useQuota, useMASToken } from '@app/hooks';
 import { AppServicesLoading } from '@rhoas/app-services-ui-components';
 import { ITermsConfig } from '@app/services';
-// TODO hook
-import constantsConfig from '@configs/service-constants.json';
+import { ConstantContext } from '@app/providers/config/ServiceConstantsContextProvider';
+import { ServiceConstants } from '@app/providers/config/ServiceConstants';
+
 
 const KasPage: React.FC = () => {
   const config = useConfig();
+  const constants =  useContext(ConstantContext) as ServiceConstants ;
   const { getQuota } = useQuota(ProductType?.kas);
   const { preCreateInstance, shouldOpenCreateModal } = useModalControl({
-    eventCode: constantsConfig.services.kafka.termsAndConditionsEventCode,
-    siteCode: constantsConfig.services.kafka.termsAndConditionsSiteCode,
+    eventCode: constants.kafka.ams.termsAndConditionsEventCode,
+    siteCode: constants.kafka.ams.termsAndConditionsSiteCode,
   } as ITermsConfig);
   const { getTokenEndPointUrl } = useMASToken();
   const { getAllUserAccounts } = usePrincipal();

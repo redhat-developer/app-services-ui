@@ -11,8 +11,9 @@ import appServicesi18n from '@app/i18n';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
 import { EmbeddedConfigProvider } from '@app/providers/config/EmbeddedConfigContextProvider';
 import { useAuth } from '@app/hooks';
-import { AppServicesLoading, ModalProvider } from '@rhoas/app-services-ui-components';
+import { ConstantContext, ServiceConstantsContextProvider } from '@app/providers/config/ServiceConstantsContextProvider';
 import { FeatureFlagProvider } from '@app/providers/featureflags/FeatureFlags';
+import { AppServicesLoading, ModalProvider } from '@rhoas/app-services-ui-components';
 
 const AppWithKeycloak: React.FunctionComponent = () => {
   console.log('starting appwithkeycloak');
@@ -65,7 +66,8 @@ const AppWithKeycloak: React.FunctionComponent = () => {
 
 const AppWithConfig: React.FunctionComponent = () => {
   const config = useContext(ConfigContext);
-  if (config === undefined) {
+  const constants =  useContext(ConstantContext);
+  if (config === undefined || constants === undefined) {
     return <AppServicesLoading />;
   }
   return <AppWithKeycloak />;
@@ -77,7 +79,9 @@ const AppEntry: React.FunctionComponent = React.memo(() => (
     <I18nextProvider i18n={appServicesi18n}>
       <FeatureFlagProvider>
         <EmbeddedConfigProvider>
-          <AppWithConfig />
+          <ServiceConstantsContextProvider>
+            <AppWithConfig />
+          </ServiceConstantsContextProvider>
         </EmbeddedConfigProvider>
       </FeatureFlagProvider>
     </I18nextProvider>

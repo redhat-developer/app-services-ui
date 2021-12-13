@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useConfig } from '@rhoas/app-services-ui-shared';
 import { DevelopmentPreview, FederatedModule, KasModalLoader } from '@app/components';
 import { ServiceDownPage } from '@app/pages';
@@ -8,7 +8,9 @@ import { ProductType, QuotaContext } from '@rhoas/app-services-ui-shared';
 import { Registry } from '@rhoas/registry-management-sdk';
 import { ITermsConfig } from '@app/services';
 import { DownloadArtifacts } from './DownloadArtifacts';
-import constantsConfig from '@configs/service-constants.json';
+import { ConstantContext } from '@app/providers/config/ServiceConstantsContextProvider';
+import { ServiceConstants } from '@app/providers/config/ServiceConstants';
+
 
 export const ServiceRegistryPage: React.FunctionComponent = () => {
   const config = useConfig();
@@ -22,10 +24,11 @@ export const ServiceRegistryPage: React.FunctionComponent = () => {
 
 export const ServiceRegistryPageConnected: React.FC = () => {
   const config = useConfig();
+  const constants =  useContext(ConstantContext) as ServiceConstants ;
   const { getQuota } = useQuota(ProductType.srs);
   const { preCreateInstance, shouldOpenCreateModal } = useModalControl({
-    eventCode: constantsConfig.services.serviceRegistry.termsAndConditionsEventCode,
-    siteCode: constantsConfig.services.serviceRegistry.termsAndConditionsSiteCode,
+    eventCode: constants.kafka.ams.termsAndConditionsEventCode,
+    siteCode: constants.kafka.ams.termsAndConditionsSiteCode,
   } as ITermsConfig);
   const { getTokenEndPointUrl } = useMASToken();
 
