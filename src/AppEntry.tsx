@@ -11,7 +11,7 @@ import appServicesi18n from '@app/i18n';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
 import { EmbeddedConfigProvider } from '@app/providers/config/EmbeddedConfigContextProvider';
 import { useAuth } from '@app/hooks';
-import { ConstantContext, ServiceConstantsContextProvider } from '@app/providers/config/ServiceConstantsContextProvider';
+import { ConstantContext } from '@app/providers/config/ServiceConstants';
 import { FeatureFlagProvider } from '@app/providers/featureflags/FeatureFlags';
 import { AppServicesLoading, ModalProvider } from '@rhoas/app-services-ui-components';
 

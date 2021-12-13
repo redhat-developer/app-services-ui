@@ -5,7 +5,7 @@ import { FederatedModule, usePrincipal } from '@app/components';
 import { useModalControl, useQuota, useMASToken } from '@app/hooks';
 import { AppServicesLoading } from '@rhoas/app-services-ui-components';
 import { ITermsConfig } from '@app/services';
-import { ConstantContext } from '@app/providers/config/ServiceConstantsContextProvider';
+import { ConstantContext } from '@app/providers/config/ServiceConstants';
 import { ServiceConstants } from '@app/providers/config/ServiceConstants';
 
 

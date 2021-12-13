@@ -1,12 +1,7 @@
 import React from 'react';
-import { ServiceConstants } from './ServiceConstants';
+import { ConstantContext, ServiceConstants } from './ServiceConstants';
 
 declare const __webpack_public_path__: string;
-
-/**
- * The ConfigContext allows access to the Config context
- */
-export declare const ConstantContext: React.Context<ServiceConstants | undefined>;
 
 export const ServiceConstantsContextProvider: React.FunctionComponent = ({ children }) => {
   const [value, setValue] = React.useState<ServiceConstants | undefined>(undefined);

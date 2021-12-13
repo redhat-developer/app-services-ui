@@ -18,5 +18,11 @@ export interface ServiceConstants {
   }
 }
 
+/**
+ * The ConfigContext allows access to the Config context
+ */
+ export declare const ConstantContext: React.Context<ServiceConstants | undefined>;
+
+
 
 
