@@ -11,9 +11,10 @@ import appServicesi18n from '@app/i18n';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
 import { EmbeddedConfigProvider } from '@app/providers/config/EmbeddedConfigContextProvider';
 import { useAuth } from '@app/hooks';
-import { ConstantContext } from '@app/providers/config/ServiceConstants';
+import { ConstantContext, useConstants } from '@app/providers/config/ServiceConstants';
 import { FeatureFlagProvider } from '@app/providers/featureflags/FeatureFlags';
 import { AppServicesLoading, ModalProvider } from '@rhoas/app-services-ui-components';
+import { ServiceConstantsContextProvider } from '@app/providers/config/ServiceConstantsContextProvider';
 
 const AppWithKeycloak: React.FunctionComponent = () => {
   console.log('starting appwithkeycloak');
@@ -66,7 +67,7 @@ const AppWithKeycloak: React.FunctionComponent = () => {
 
 const AppWithConfig: React.FunctionComponent = () => {
   const config = useContext(ConfigContext);
-  const constants =  useContext(ConstantContext);
+  const constants =  useConstants();
   if (config === undefined || constants === undefined) {
     return <AppServicesLoading />;
   }

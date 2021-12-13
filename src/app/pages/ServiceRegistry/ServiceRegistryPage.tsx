@@ -8,7 +8,7 @@ import { ProductType, QuotaContext } from '@rhoas/app-services-ui-shared';
 import { Registry } from '@rhoas/registry-management-sdk';
 import { ITermsConfig } from '@app/services';
 import { DownloadArtifacts } from './DownloadArtifacts';
-import { ConstantContext } from '@app/providers/config/ServiceConstants';
+import { ConstantContext, useConstants } from '@app/providers/config/ServiceConstants';
 import { ServiceConstants } from '@app/providers/config/ServiceConstants';
 
 export const ServiceRegistryPage: React.FunctionComponent = () => {
@@ -23,7 +23,7 @@ export const ServiceRegistryPage: React.FunctionComponent = () => {
 
 export const ServiceRegistryPageConnected: React.FC = () => {
   const config = useConfig();
-  const constants =  useContext(ConstantContext) as ServiceConstants ;
+  const constants =  useConstants();
   const { getQuota } = useQuota(ProductType.srs);
   const { preCreateInstance, shouldOpenCreateModal } = useModalControl({
     eventCode: constants.kafka.ams.termsAndConditionsEventCode,

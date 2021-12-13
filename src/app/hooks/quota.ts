@@ -1,13 +1,12 @@
 import { useEffect, useState, useMemo, useContext } from 'react';
 import { useAuth, useConfig, Quota, QuotaValue, QuotaType, ProductType } from '@rhoas/app-services-ui-shared';
 import { Configuration, DefaultApi } from '@openapi/ams';
-import { ServiceConstants } from '@app/providers/config/ServiceConstants';
-import { ConstantContext } from '@app/providers/config/ServiceConstants';
+import { useConstants } from '@app/providers/config/ServiceConstants';
 
 export const useQuota = (productId: ProductType) => {
     const config = useConfig();
     const auth = useAuth();
-    const constants = useContext(ConstantContext) as ServiceConstants ;
+    const constants =  useConstants();
 
     const [orgId, setOrgId] = useState();
 

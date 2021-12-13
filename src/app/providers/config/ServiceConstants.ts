@@ -1,3 +1,6 @@
+import React from "react";
+import { useContext } from "react";
+
 /**
  * Configuration for AMS
  */
@@ -19,10 +22,18 @@ export interface ServiceConstants {
 }
 
 /**
- * The ConfigContext allows access to the Config context
+ * The ConstantContext allows access to the constants for the application.
  */
- export declare const ConstantContext: React.Context<ServiceConstants | undefined>;
+export const ConstantContext: React.Context<ServiceConstants | undefined> =
+  React.createContext<ServiceConstants | undefined>(undefined);
 
-
-
-
+/**
+ * useConstants is a custom hook that is a shorthand for useContext(ConfigContext)
+ */
+export const useConstants = (): ServiceConstants => {
+  const answer = useContext(ConstantContext);
+  if (answer === undefined) {
+    throw new Error("useConstants must be used inside an ServiceConstantsContextProvider");
+  }
+  return answer;
+}
