@@ -12,7 +12,7 @@ export interface AmsConfig {
 }
 
 export interface ServiceConstants {
-  version: string;
+  version: number;
   kafka: {
     ams: AmsConfig;
   },

@@ -7,7 +7,10 @@ UI will load configuration on build and other clients will load them using the
 
 ### Inside UI
 
+
+import { useConstants } from '@app/providers/config/ServiceConstants';
 const constants = useConstants()
+
 
 ### Dynamic using url
 
