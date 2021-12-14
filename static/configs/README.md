@@ -7,7 +7,7 @@ UI will load configuration on build and other clients will load them using the
 
 ### Inside UI
 
-TODO - add hook
+const constants = useConstants()
 
 ### Dynamic using url
 
