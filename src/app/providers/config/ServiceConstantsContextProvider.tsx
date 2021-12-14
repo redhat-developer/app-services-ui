@@ -12,10 +12,10 @@ export const ServiceConstantsContextProvider: React.FunctionComponent = ({ child
         const response = await fetch(`${__webpack_public_path__}/service-constants.json`);
         try {
           const jsonConfig = await response.json();
-          console.log('Done loading constants');
+          console.debug('Done loading constants');
           setValue(jsonConfig);
         } catch (error) {
-          console.log('Using embedded constants as fallback');
+          console.debug('Using embedded constants as fallback');
           // Use embeeded config as fallback
           setValue(constantsFallback);
         }
