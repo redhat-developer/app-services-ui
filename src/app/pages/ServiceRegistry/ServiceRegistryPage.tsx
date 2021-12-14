@@ -25,8 +25,8 @@ export const ServiceRegistryPageConnected: React.FC = () => {
   const constants =  useConstants();
   const { getQuota } = useQuota(ProductType.srs);
   const { preCreateInstance, shouldOpenCreateModal } = useModalControl({
-    eventCode: constants.kafka.ams.termsAndConditionsEventCode,
-    siteCode: constants.kafka.ams.termsAndConditionsSiteCode,
+    eventCode: constants.serviceRegistry.ams.termsAndConditionsEventCode,
+    siteCode: constants.serviceRegistry.ams.termsAndConditionsSiteCode,
   } as ITermsConfig);
   const { getTokenEndPointUrl } = useMASToken();
 
