@@ -42,8 +42,9 @@ export const initKeycloak = async (
       // Then force a token refresh to check if the refresh token is actually valid
       await rk.updateToken(-1);
       return rk;
-    } catch {
+    } catch (e) {
       clearRefreshToken();
+      console.debug("Triggering MASSSO logout because of error with existing refresh token: " + e);
       await logout(rk);
     }
   }
@@ -130,7 +131,10 @@ export const getAccessToken = async (keycloak: KeycloakInstance, getInsightsAcce
   }
   const insightsToken = await getInsightsAccessToken();
   const insightsJWT = jwtDecode<JwtPayload>(insightsToken);
-  if (insightsJWT['account_id'] !== keycloak.tokenParsed['rh-user-id']) {
+  const accountId = insightsJWT['account_id'];
+  const rhUserId = keycloak.tokenParsed['rh-user-id'];
+  if (accountId !== rhUserId) {
+    console.debug(`Triggering MASSSO logout because sso.redhat.com account_id claim does not match the MASSSO rh-user-id claim. account_id: ${accountId}, rh-user-id ${rhUserId}`);
     await logout(keycloak);
     return '';
   }
@@ -149,9 +153,9 @@ export const getAccessToken = async (keycloak: KeycloakInstance, getInsightsAcce
  * @param client offix client
  *
  */
-export const logout = async (k: Keycloak.KeycloakInstance | undefined) => {
+const logout = async (k: Keycloak.KeycloakInstance | undefined) => {
   if (k) {
-    console.info('Trigger MASSSO logout');
+    console.debug('Performing MASSSO logout');
     await k.logout();
   }
 };
