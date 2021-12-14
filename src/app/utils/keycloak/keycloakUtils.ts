@@ -27,12 +27,14 @@ export const initKeycloak = async (
 ): Promise<KeycloakInstance> => {
   const initOptions = {
     responseMode: 'query',
+    enableLogging: true,
   } as KeycloakInitOptions;
 
   const refreshToken = await retrieveRefreshToken(getInsightsAccessToken);
 
   if (refreshToken) {
     const rk = Keycloak(config);
+
     // Use the refresh token
     try {
       // Perform a keycloak init without a login
