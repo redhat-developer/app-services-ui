@@ -12,7 +12,7 @@ interface GetLinkProps {
 const GetLink: React.FunctionComponent<GetLinkProps> = ({ href, children }) => <Link to={href || ''}>{children}</Link>;
 
 export const AccessDeniedPage: React.FunctionComponent = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['appTemporaryFixMe']);
 
   const accessDeniedDetails = (
     <Trans

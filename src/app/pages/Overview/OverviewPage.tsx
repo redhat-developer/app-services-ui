@@ -20,21 +20,19 @@ import {
   Title,
 } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
-import ApacheKafkaLogo from "/static/images/Logo-Red_Hat-OpenShift_Streams_for_Apache_Kafka-A-Standard-RGB.svg";
-import APIMgmtLogo from "/static/images/Logo-Red_Hat-OpenShift-API_Management-A-Standard-RGB.svg";
-import DataScienceLogo from "static/images/Logo-Red_Hat-OpenShift-Data_Science-A-Standard-RGB.svg";
-import ServiceRegistryLogo from "static/images/Logo-Red_Hat-OpenShift_Service_Registry-A-Standard-RGB.png"
+import ApacheKafkaLogo from '/static/images/Logo-Red_Hat-OpenShift_Streams_for_Apache_Kafka-A-Standard-RGB.svg';
+import APIMgmtLogo from '/static/images/Logo-Red_Hat-OpenShift-API_Management-A-Standard-RGB.svg';
+import DataScienceLogo from 'static/images/Logo-Red_Hat-OpenShift-Data_Science-A-Standard-RGB.svg';
+import ServiceRegistryLogo from 'static/images/Logo-Red_Hat-OpenShift_Service_Registry-A-Standard-RGB.png';
 import DataServicesLogo from 'static/images/Logo-Red_Hat-Data_Services-A-Standard-RGB.png';
-
 
 import { useTranslation } from 'react-i18next';
 
 import { useHistory } from 'react-router-dom';
-import { useBasename } from "@rhoas/app-services-ui-shared";
+import { useBasename } from '@rhoas/app-services-ui-shared';
 
 export const OverviewPage: React.FunctionComponent = () => {
-
-  const { t } = useTranslation();
+  const { t } = useTranslation(['appTemporaryFixMe']);
 
   const history = useHistory();
   const { getBasename } = useBasename() || { getBasename: () => '' };
@@ -45,47 +43,55 @@ export const OverviewPage: React.FunctionComponent = () => {
   const onClickKafkainstance = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     history.push(`${basename}/streams/kafkas`);
-  }
+  };
 
   const getKafkaHref = () => {
     return history.createHref({
-      pathname: '/streams/kafkas'
-    })
-  }
+      pathname: '/streams/kafkas',
+    });
+  };
 
   const onClickServiceRegistry = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (beta) {
       event.preventDefault();
       history.push(`${basename}/service-registry`);
     }
-  }
+  };
 
   const getServiceRegistryHref = () => {
     if (beta) {
       history.createHref({
-        pathname: '/service-registry'
-      })
+        pathname: '/service-registry',
+      });
     }
-    return '/beta/application-services/service-registry'
-  }
+    return '/beta/application-services/service-registry';
+  };
 
   return (
     <>
       {/* Hero banner with graphic */}
-      <PageSection className="app-services-ui--page-section--marketing app-services-ui--banner pf-t-dark pf-u-background-color-dark-100" variant={PageSectionVariants.dark}>
+      <PageSection
+        className="app-services-ui--page-section--marketing app-services-ui--banner pf-t-dark pf-u-background-color-dark-100"
+        variant={PageSectionVariants.dark}
+      >
         <Stack hasGutter>
           <Title headingLevel="h1" size="2xl">
             {t('overview.heroTitle')}
           </Title>
           <Text className="app-services-ui--banner__tagline">{t('overview.heroTagline')}</Text>
-          <Text component={TextVariants.p}>
-            {t('overview.heroDescription')}
-          </Text>
+          <Text component={TextVariants.p}>{t('overview.heroDescription')}</Text>
           <Text component={TextVariants.p} className="pf-u-mt-md">
             {t('overview.heroDescription2')}
           </Text>
           <StackItem>
-            <Button variant={ButtonVariant.primary} isLarge component="a" data-testid="hero-buttonTryKafka" href={getKafkaHref()} onClick={onClickKafkainstance}>
+            <Button
+              variant={ButtonVariant.primary}
+              isLarge
+              component="a"
+              data-testid="hero-buttonTryKafka"
+              href={getKafkaHref()}
+              onClick={onClickKafkainstance}
+            >
               {t('overview.heroCallToActionButton')}
             </Button>
           </StackItem>
@@ -104,16 +110,11 @@ export const OverviewPage: React.FunctionComponent = () => {
       {/* Cards */}
       <PageSection isWidthLimited className="app-services-ui--page-section--marketing">
         <Grid md={6} lg={3} hasGutter>
-
           {/* API Management card */}
           <Card>
             <CardHeader>
               <CardHeaderMain>
-                <img
-                  src={APIMgmtLogo}
-                  alt="Red Hat OpenShift API Management logo"
-                  style={{ height: '50px' }}
-                />
+                <img src={APIMgmtLogo} alt="Red Hat OpenShift API Management logo" style={{ height: '50px' }} />
               </CardHeaderMain>
             </CardHeader>
             <CardTitle>
@@ -123,17 +124,32 @@ export const OverviewPage: React.FunctionComponent = () => {
             </CardTitle>
             <CardBody>
               <Stack hasGutter>
-                <StackItem>
-                  {t('overview.rhoamMainText')}
-                </StackItem>
+                <StackItem>{t('overview.rhoamMainText')}</StackItem>
                 <StackItem className="pf-u-color-200">
-                  {t('overview.rhoamSecondaryText')} <Button data-testid="cardRHOAM-linkOpenShift" isInline variant={ButtonVariant.link} component="a" target="_blank" href="http://openshift.com">OpenShift
-                    <ExternalLinkAltIcon className="pf-u-ml-xs" /></Button>.
+                  {t('overview.rhoamSecondaryText')}{' '}
+                  <Button
+                    data-testid="cardRHOAM-linkOpenShift"
+                    isInline
+                    variant={ButtonVariant.link}
+                    component="a"
+                    target="_blank"
+                    href="http://openshift.com"
+                  >
+                    OpenShift
+                    <ExternalLinkAltIcon className="pf-u-ml-xs" />
+                  </Button>
+                  .
                 </StackItem>
               </Stack>
             </CardBody>
             <CardFooter>
-              <Button variant={ButtonVariant.secondary} data-testid="cardRHOAM-buttonCTA" component="a" target="_blank" href="https://developers.redhat.com/products/rhoam/getting-started">
+              <Button
+                variant={ButtonVariant.secondary}
+                data-testid="cardRHOAM-buttonCTA"
+                component="a"
+                target="_blank"
+                href="https://developers.redhat.com/products/rhoam/getting-started"
+              >
                 {t('overview.getStarted')} <ExternalLinkAltIcon className="pf-u-ml-sm" />
               </Button>
             </CardFooter>
@@ -143,11 +159,7 @@ export const OverviewPage: React.FunctionComponent = () => {
           <Card>
             <CardHeader>
               <CardHeaderMain>
-                <img
-                  src={DataScienceLogo}
-                  alt="Red Hat OpenShift Data Science logo"
-                  style={{ height: '50px' }}
-                />
+                <img src={DataScienceLogo} alt="Red Hat OpenShift Data Science logo" style={{ height: '50px' }} />
               </CardHeaderMain>
             </CardHeader>
             <CardTitle>
@@ -160,17 +172,33 @@ export const OverviewPage: React.FunctionComponent = () => {
                 <StackItem className="pf-u-mb-lg">
                   <Label>{t('overview.beta')}</Label>
                 </StackItem>
-                <StackItem>
-                  {t('overview.rhodsMainText')}
-                </StackItem>
+                <StackItem>{t('overview.rhodsMainText')}</StackItem>
                 <StackItem className="pf-u-color-200">
-                  {t('overview.rhodsSecondaryText')} <Button data-testid="cardRHODS-linkOpenShift" isInline variant={ButtonVariant.link} component="a" target="_blank" href="http://openshift.com"> OpenShift
-                    <ExternalLinkAltIcon className="pf-u-ml-xs" /></Button>.
+                  {t('overview.rhodsSecondaryText')}{' '}
+                  <Button
+                    data-testid="cardRHODS-linkOpenShift"
+                    isInline
+                    variant={ButtonVariant.link}
+                    component="a"
+                    target="_blank"
+                    href="http://openshift.com"
+                  >
+                    {' '}
+                    OpenShift
+                    <ExternalLinkAltIcon className="pf-u-ml-xs" />
+                  </Button>
+                  .
                 </StackItem>
               </Stack>
             </CardBody>
             <CardFooter>
-              <Button data-testid="cardRHODS-buttonCTA" variant={ButtonVariant.secondary} component="a" target="_blank" href="https://www.redhat.com/en/technologies/cloud-computing/openshift/openshift-data-science">
+              <Button
+                data-testid="cardRHODS-buttonCTA"
+                variant={ButtonVariant.secondary}
+                component="a"
+                target="_blank"
+                href="https://www.redhat.com/en/technologies/cloud-computing/openshift/openshift-data-science"
+              >
                 {t('overview.learnMore')} <ExternalLinkAltIcon className="pf-u-ml-sm" />
               </Button>
             </CardFooter>
@@ -197,16 +225,20 @@ export const OverviewPage: React.FunctionComponent = () => {
                 <StackItem className="pf-u-mb-lg">
                   <Label>{t('overview.developmentPreview')}</Label>
                 </StackItem>
-                <StackItem>
-                  {t('overview.rhosrMainText')}
-                </StackItem>
-                <StackItem className="pf-u-color-200">
-                  {t('overview.rhosrSecondaryText')}
-                </StackItem>
+                <StackItem>{t('overview.rhosrMainText')}</StackItem>
+                <StackItem className="pf-u-color-200">{t('overview.rhosrSecondaryText')}</StackItem>
               </Stack>
             </CardBody>
             <CardFooter>
-              <Button data-testid="cardRHOSR-buttonCTA" variant={ButtonVariant.secondary} component="a" href={getServiceRegistryHref()} onClick={onClickServiceRegistry}>{t('overview.rhosrCallToActionButton')}</Button>
+              <Button
+                data-testid="cardRHOSR-buttonCTA"
+                variant={ButtonVariant.secondary}
+                component="a"
+                href={getServiceRegistryHref()}
+                onClick={onClickServiceRegistry}
+              >
+                {t('overview.rhosrCallToActionButton')}
+              </Button>
             </CardFooter>
           </Card>
 
@@ -228,16 +260,20 @@ export const OverviewPage: React.FunctionComponent = () => {
             </CardTitle>
             <CardBody>
               <Stack hasGutter>
-                <StackItem>
-                  {t('overview.rhosakMainText')}
-                </StackItem>
-                <StackItem className="pf-u-color-200">
-                  {t('overview.rhosakSecondaryText')}
-                </StackItem>
+                <StackItem>{t('overview.rhosakMainText')}</StackItem>
+                <StackItem className="pf-u-color-200">{t('overview.rhosakSecondaryText')}</StackItem>
               </Stack>
             </CardBody>
             <CardFooter>
-              <Button data-testid="cardRHOSAK-buttonCreateKafka" variant={ButtonVariant.secondary} component="a" href={getKafkaHref()} onClick={onClickKafkainstance} >{t('overview.rhosakCallToActionButton')}</Button>
+              <Button
+                data-testid="cardRHOSAK-buttonCreateKafka"
+                variant={ButtonVariant.secondary}
+                component="a"
+                href={getKafkaHref()}
+                onClick={onClickKafkainstance}
+              >
+                {t('overview.rhosakCallToActionButton')}
+              </Button>
             </CardFooter>
           </Card>
 
@@ -245,16 +281,12 @@ export const OverviewPage: React.FunctionComponent = () => {
           <Card>
             <CardHeader>
               <CardHeaderMain>
-                <img
-                  src={DataServicesLogo}
-                  alt="Red Hat OpenShift Data Science logo"
-                  style={{ height: '50px' }}
-                />
+                <img src={DataServicesLogo} alt="Red Hat OpenShift Data Science logo" style={{ height: '50px' }} />
               </CardHeaderMain>
             </CardHeader>
             <CardTitle>
               <Title headingLevel="h2" size="xl">
-              {t('overview.dbaasTitle')}
+                {t('overview.dbaasTitle')}
               </Title>
             </CardTitle>
             <CardBody>
@@ -262,17 +294,33 @@ export const OverviewPage: React.FunctionComponent = () => {
                 <StackItem className="pf-u-mb-lg">
                   <Label>{t('overview.alpha')}</Label>
                 </StackItem>
-                <StackItem>
-                {t('overview.dbaasMainText')}
-                </StackItem>
+                <StackItem>{t('overview.dbaasMainText')}</StackItem>
                 <StackItem className="pf-u-color-200">
-                {t('overview.dbaasSecondaryText')} <Button data-testid="cardRHODS-linkOpenShift" isInline variant={ButtonVariant.link} component="a" target="_blank" href="http://openshift.com"> OpenShift
-                  <ExternalLinkAltIcon className="pf-u-ml-xs" /></Button>.
+                  {t('overview.dbaasSecondaryText')}{' '}
+                  <Button
+                    data-testid="cardRHODS-linkOpenShift"
+                    isInline
+                    variant={ButtonVariant.link}
+                    component="a"
+                    target="_blank"
+                    href="http://openshift.com"
+                  >
+                    {' '}
+                    OpenShift
+                    <ExternalLinkAltIcon className="pf-u-ml-xs" />
+                  </Button>
+                  .
                 </StackItem>
               </Stack>
             </CardBody>
             <CardFooter>
-              <Button data-testid="cardRHODS-buttonCTA" variant={ButtonVariant.secondary} component="a" target="_blank" href="https://access.redhat.com/documentation/en-us/red_hat_openshift_database_access/1/html-single/quick_start_guide/index">
+              <Button
+                data-testid="cardRHODS-buttonCTA"
+                variant={ButtonVariant.secondary}
+                component="a"
+                target="_blank"
+                href="https://access.redhat.com/documentation/en-us/red_hat_openshift_database_access/1/html-single/quick_start_guide/index"
+              >
                 {t('overview.learnMore')} <ExternalLinkAltIcon className="pf-u-ml-sm" />
               </Button>
             </CardFooter>
