@@ -67,8 +67,7 @@ const AppWithKeycloak: React.FunctionComponent = () => {
 
 const AppWithConfig: React.FunctionComponent = () => {
   const config = useContext(ConfigContext);
-  const constants =  useContext(ConstantContext);
-  if (config === undefined || constants === undefined) {
+  if (config === undefined) {
     return <AppServicesLoading />;
   }
   return <AppWithKeycloak />;
