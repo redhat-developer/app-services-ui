@@ -27,7 +27,7 @@ import '../../App.scss';
 import { useTranslation } from 'react-i18next';
 
 export const APIManagementPage: React.FunctionComponent = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['appTemporaryFixMe']);
 
   return (
     <>
@@ -121,7 +121,11 @@ export const APIManagementPage: React.FunctionComponent = () => {
         </Grid>
       </PageSection>
 
-      <PageSection variant={PageSectionVariants.light} className="app-services-ui--page-section--marketing" isWidthLimited>
+      <PageSection
+        variant={PageSectionVariants.light}
+        className="app-services-ui--page-section--marketing"
+        isWidthLimited
+      >
         <Title size={TitleSizes.xl} headingLevel="h3" className="pf-u-mb-lg">
           {t('apimgmtoverview.videoSectionTitle')}
         </Title>

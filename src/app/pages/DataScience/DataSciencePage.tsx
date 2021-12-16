@@ -20,7 +20,7 @@ import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import { useTranslation } from 'react-i18next';
 
 export const DataSciencePage: React.FunctionComponent = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['appTemporaryFixMe']);
 
   return (
     <>
@@ -77,16 +77,16 @@ export const DataSciencePage: React.FunctionComponent = () => {
           </GridItem>
           <GridItem md={7}>
             <Card className="app-services-ui--card--video">
-                <div className="app-services-ui--video-wrapper">
-                  <iframe
-                    src="https://www.youtube.com/embed/joK89xYeuUY"
-                    title={t('datascienceoverview.videoSectionTitle')}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe>
-                </div>
-              </Card>
+              <div className="app-services-ui--video-wrapper">
+                <iframe
+                  src="https://www.youtube.com/embed/joK89xYeuUY"
+                  title={t('datascienceoverview.videoSectionTitle')}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            </Card>
           </GridItem>
         </Grid>
       </PageSection>
