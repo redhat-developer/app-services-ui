@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { LastLocationProvider } from 'react-router-last-location';
 import getBaseName from './utils/getBaseName';
-import { DevelopmentPreview } from '@app/components';
+import { DevelopmentPreview } from '@rhoas/app-services-ui-components';
 import { AppRouteConfig, flattenedRoutes, IAppRoute, PageNotFoundRoute, useA11yRouteChange } from '@app/utils/Routing';
 import { useDocumentTitle } from '@app/utils';
 import { KafkaMainView } from '@app/pages/Kafka';
