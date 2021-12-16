@@ -4,14 +4,14 @@ import { useContext } from "react";
 /**
  * Configuration for AMS
  */
-export interface AmsConfig {
+export type AmsConfig = {
   termsAndConditionsEventCode: string;
   termsAndConditionsSiteCode: string;
   instanceQuotaId: string;
   trialQuotaId: string;
 }
 
-export interface ServiceConstants {
+export type ServiceConstants = {
   version: number;
   kafka: {
     ams: AmsConfig;
