@@ -14,7 +14,7 @@ export const KafkaMainView = (): React.ReactElement => {
   const auth = useAuth();
   const history = useHistory();
   const config = useConfig();
-  const { adminServerUrl, kafkaDetail } = useKafkaInstance() || {};
+  const kafka = useKafkaInstance();
 
   const [error, setError] = useState<undefined | number>();
   const [isInstanceDrawerOpen, setIsInstanceDrawerOpen] = useState<boolean | undefined>();
@@ -33,13 +33,19 @@ export const KafkaMainView = (): React.ReactElement => {
     return <ServiceDownPage />;
   }
 
-  if (kafkaDetail === undefined || kafkaDetail.id === undefined || adminServerUrl === undefined) {
+  if (kafka === undefined) {
     return <AppServicesLoading />;
+  }
+
+  if (kafka === false) {
+    throw new Error('404');
   }
 
   const redirectAfterDeleteInstance = () => {
     history.push('/streams/kafkas');
   };
+
+  const { kafkaDetail, adminServerUrl } = kafka;
 
   const props = {
     kafkaPageLink: history.createHref({
