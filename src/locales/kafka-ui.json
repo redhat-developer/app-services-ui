@@ -180,6 +180,12 @@
       "permissions_column_title": "Permission",
       "account_column_title": "Account"
     },
+    "manage_permissions_pre_cancel_dialog": {
+      "aria_label": "Pre cancel manage access dialog",
+      "discard_changes": "Discard changes",
+      "resume_editing": "Resume editing",
+      "modal_description": "Any changes you made to access permissions will be lost."
+    },
     "manage_permissions_dialog": {
       "title": "Manage access",
       "aria_label": "Manage access dialog",
