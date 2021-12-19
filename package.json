@@ -57,7 +57,7 @@
     "redux-logger": "3.0.6"
   },
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "2.4.20",
+    "@openapitools/openapi-generator-cli": "2.4.21",
     "@patternfly/patternfly": "4.164.2",
     "@patternfly/react-core": "4.181.1",
     "@patternfly/react-icons": "4.32.1",
