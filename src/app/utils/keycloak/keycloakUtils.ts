@@ -14,6 +14,7 @@ type StoredToken = {
   rhUserId: string;
 };
 
+
 /**
  * Initiate keycloak instance.
  *
@@ -32,6 +33,10 @@ export const initKeycloak = async (
 
   const refreshToken = await retrieveRefreshToken(getInsightsAccessToken);
 
+  const sleep = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   if (refreshToken) {
     const rk = Keycloak(config);
 
@@ -41,6 +46,8 @@ export const initKeycloak = async (
       await rk.init(initOptions);
       // Set the saved refresh token into Keycloak
       rk.refreshToken = refreshToken;
+      // Hack to ensure that the refresh token is properly set on the object
+      await sleep(100);
       // Then force a token refresh to check if the refresh token is actually valid
       await rk.updateToken(-1);
       return rk;
