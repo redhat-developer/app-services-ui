@@ -1,8 +1,9 @@
-import { KeycloakConfig, KeycloakInstance } from "keycloak-js";
+import Keycloak, { KeycloakConfig, KeycloakInstance } from "keycloak-js";
 import { Auth, Config, useConfig } from "@rhoas/app-services-ui-shared";
 import { getAccessToken, initKeycloak } from "@app/utils";
-import { useEffect, useRef } from "react";
+
 import { useInsights } from "@app/hooks/insights";
+import { useEffect } from "react";
 
 const init = async (config: Config, getInsightsAccessToken: () => Promise<string>) => {
   const keycloakConfig = {
@@ -13,30 +14,43 @@ const init = async (config: Config, getInsightsAccessToken: () => Promise<string
   return await initKeycloak(keycloakConfig, getInsightsAccessToken);
 }
 
+let keycloakInstance;
+
+const insightsChromeAuth = window["insights"].chrome.auth;
+
+const preheatKeycloak = ()=>{
+  const tempConfig = {
+    "masSso":{
+      "authServerUrl": "https://identity.api.stage.openshift.com/auth",
+      "clientId": "strimzi-ui",
+      "realm": "rhoas"
+    }
+  } as Config
+
+  init(tempConfig, insightsChromeAuth.getToken).
+  then(instance=>{keycloakInstance = instance}).catch(e=>{console.error(e)});
+}
+
+preheatKeycloak();
+
 export const useAuth = (): Auth => {
-  const keycloakInstance = useRef<KeycloakInstance>();
+
   const config = useConfig();
   const insights = useInsights();
 
   if (config === undefined || insights.chrome.auth === undefined) {
     throw new Error("useAuth must be used inside a config provider, and insights auth");
   }
-
   const insightsChromeAuth = insights.chrome.auth;
 
+
   const getKeycloakInstance = async () => {
-    const instance = keycloakInstance.current;
-    if (instance === undefined) {
-      const answer = await init(config, insightsChromeAuth.getToken);
-      keycloakInstance.current = answer;
-      return answer;
-    }
-    return instance;
+    return keycloakInstance
   }
 
   useEffect(() => {
     // Start loading keycloak immediately
-    getKeycloakInstance();
+   getKeycloakInstance();
   }, [config, insightsChromeAuth]);
 
   const getMASSSOToken = async () => {
