@@ -46,7 +46,7 @@ export const initKeycloak = async (
       await rk.init(initOptions);
       // Set the saved refresh token into Keycloak
       rk.refreshToken = refreshToken;
-      // Hack to ensure that the refresh token is properly set on the objet
+      // Hack to ensure that the refresh token is properly set on the object
       await sleep(100);
       // Then force a token refresh to check if the refresh token is actually valid
       await rk.updateToken(-1);
