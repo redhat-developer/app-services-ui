@@ -13,6 +13,16 @@
 
         <meta charset="UTF-8">
         <title>Red Hat OpenShift Streams for Apache Kafka</title>
+        <script src="https://cdn.jsdelivr.net/npm/keycloak-js@16.1.0/dist/keycloak.min.js"/>
+        <script>
+             var initOptions = { 
+             responseMode: 'query',
+             enableLogging: true
+            };
+           config = {}//?
+           window.masKeycloak = Keycloak(config);
+           window.masKeycloak.init(initOptions);
+        </script>
         <esi:include src="/beta/apps/chrome/snippets/head.html"/>
         <script>
           // Work out the webpack public path dynamically so we can deploy to prod and beta

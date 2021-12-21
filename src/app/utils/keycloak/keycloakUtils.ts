@@ -26,30 +26,22 @@ export const initKeycloak = async (
   config: KeycloakConfig,
   getInsightsAccessToken: () => Promise<string>
 ): Promise<KeycloakInstance> => {
-  const initOptions = {
-    responseMode: 'query',
-    enableLogging: true,
-  } as KeycloakInitOptions;
 
   const refreshToken = await retrieveRefreshToken(getInsightsAccessToken);
 
-  const sleep = (ms) => {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
   if (refreshToken) {
-    const rk = Keycloak(config);
+    if(!window.masKeycloak){
+      throw "Keycloak not initialized"
+
+    }
 
     // Use the refresh token
     try {
-      // Perform a keycloak init without a login
-      await rk.init(initOptions);
       // Set the saved refresh token into Keycloak
-      rk.refreshToken = refreshToken;
-      // Hack to ensure that the refresh token is properly set on the object
-      await sleep(100);
+      window.masKeycloak.refreshToken = refreshToken;
+    
       // Then force a token refresh to check if the refresh token is actually valid
-      await rk.updateToken(-1);
+      await  window.masKeycloak.updateToken(-1);
       return rk;
     } catch (e) {
       clearRefreshToken();
@@ -58,6 +50,10 @@ export const initKeycloak = async (
     }
   }
   const lk = Keycloak(config);
+  const initOptions = {
+    responseMode: 'query',
+    enableLogging: true,
+  } as KeycloakInitOptions;
   initOptions.onLoad = 'login-required';
   await lk.init(initOptions);
   if (lk.refreshToken) {
