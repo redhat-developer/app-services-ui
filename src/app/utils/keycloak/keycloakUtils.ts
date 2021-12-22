@@ -1,11 +1,8 @@
-import Keycloak, { KeycloakConfig, KeycloakInitOptions, KeycloakInstance } from "keycloak-js";
-import Cookies from "js-cookie";
-import { Base64 } from "js-base64";
-import jwtDecode, { JwtPayload } from "jwt-decode";
-import getUnixTime from "date-fns/getUnixTime";
-
-
-
+import Keycloak, { KeycloakConfig, KeycloakInitOptions, KeycloakInstance } from 'keycloak-js';
+import Cookies from 'js-cookie';
+import { Base64 } from 'js-base64';
+import jwtDecode, { JwtPayload } from 'jwt-decode';
+import getUnixTime from 'date-fns/getUnixTime';
 
 const REFRESH_TOKEN_COOKIE_NAME = 'mrt';
 const MIN_VALIDITY = 50;
@@ -28,42 +25,50 @@ export const initKeycloak = async (
 ): Promise<KeycloakInstance> => {
   const initOptions = {
     responseMode: 'query',
-    enableLogging: true,
+    enableLogging: false,
   } as KeycloakInitOptions;
 
   const refreshToken = await retrieveRefreshToken(getInsightsAccessToken);
 
-  const sleep = (ms) => {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
+  if (refreshToken !== undefined && config.url !== undefined) {
+    // try to get an access token from the token endpoint so that we can pass it to initOptions
+    const url = buildTokenEndPointUrl(config.url, config.realm);
+    const body = new URLSearchParams();
+    body.append('grant_type', 'refresh_token');
+    body.append('refresh_token', refreshToken);
+    body.append('client_id', config.clientId);
 
-  if (refreshToken) {
-    const rk = Keycloak(config);
-
-    // Use the refresh token
-    try {
-      // Perform a keycloak init without a login
-      await rk.init(initOptions);
-      // Set the saved refresh token into Keycloak
-      rk.refreshToken = refreshToken;
-      // Hack to ensure that the refresh token is properly set on the object
-      await sleep(100);
-      // Then force a token refresh to check if the refresh token is actually valid
-      await rk.updateToken(-1);
-      return rk;
-    } catch (e) {
-      clearRefreshToken();
-      console.debug("Triggering MASSSO logout because of error with existing refresh token: " + e);
-      await logout(rk);
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body,
+    });
+    if (response.status === 200) {
+      console.debug('found valid access token');
+      const json = await response.json();
+      const accessToken = json['access_token'];
+      initOptions.token = accessToken;
+      initOptions.refreshToken = refreshToken;
+    } else {
+      console.debug('error getting access token from endpoint');
+      initOptions.onLoad = 'login-required';
+    }
+  } else {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (!urlParams.has('state')) {
+      // only when this isn't a redirect back from MASSSO
+      console.debug('did not find refresh token, will require a full login');
+      initOptions.onLoad = 'login-required';
     }
   }
-  const lk = Keycloak(config);
-  initOptions.onLoad = 'login-required';
-  await lk.init(initOptions);
-  if (lk.refreshToken) {
-    await storeRefreshToken(lk.refreshToken, getInsightsAccessToken);
+  const keycloak = Keycloak(config);
+  await keycloak.init(initOptions);
+  if (keycloak.refreshToken) {
+    await storeRefreshToken(keycloak.refreshToken, getInsightsAccessToken);
   }
-  return lk;
+  return keycloak;
 };
 
 const retrieveRefreshToken = async (getInsightsAccessToken: () => Promise<string>): Promise<string | undefined> => {
@@ -167,4 +172,8 @@ const logout = async (k: Keycloak.KeycloakInstance | undefined) => {
     console.debug('Performing MASSSO logout');
     await k.logout();
   }
+};
+
+export const buildTokenEndPointUrl = (authServerUrl: string, realm: string) => {
+    return `${authServerUrl}/realms/${realm}/protocol/openid-connect/token`;
 };
