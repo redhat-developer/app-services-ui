@@ -6,12 +6,11 @@ import App from '@app/App';
 import logger from 'redux-logger';
 import getBaseName from '@app/utils/getBaseName';
 import { Alert, AlertContext, AlertProps, AuthContext, ConfigContext } from '@rhoas/app-services-ui-shared';
-import { I18nextProvider } from 'react-i18next';
-import appServicesi18n from '@app/i18n';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
 import { EmbeddedConfigProvider } from '@app/providers/config/EmbeddedConfigContextProvider';
 import { useAuth } from '@app/hooks';
 import { ConstantContext } from '@app/providers/config/ServiceConstants';
+import { AppServicesLoading, ModalProvider, I18nProvider } from '@rhoas/app-services-ui-components';
 import { FeatureFlagProvider } from '@app/providers/featureflags/FeatureFlags';
 import { AppServicesLoading, ModalProvider } from '@rhoas/app-services-ui-components';
 import { ServiceConstantsContextProvider } from '@app/providers/config/ServiceConstantsContextProvider';
@@ -76,7 +75,24 @@ const AppWithConfig: React.FunctionComponent = () => {
 // eslint-disable-next-line react/display-name
 const AppEntry: React.FunctionComponent = React.memo(() => (
   <Provider store={init(logger).getStore()}>
-    <I18nextProvider i18n={appServicesi18n}>
+    <I18nProvider
+      lng={'en'}
+      resources={{
+        en: {
+          common: () => import('@rhoas/app-services-ui-components/locales/en/common.json'),
+          'create-kafka-instance': () =>
+            import('@rhoas/app-services-ui-components/locales/en/create-kafka-instance.json'),
+          kafka: () => import('@rhoas/app-services-ui-components/locales/en/kafka.json'),
+          metrics: () => import('@rhoas/app-services-ui-components/locales/en/metrics.json'),
+          // temporary translations until all user facing visuals are ported to the ui components repo
+          appTemporaryFixMe: () => import('./locales/app-services-ui.json'),
+          kafkaTemporaryFixMe: () => import('./locales/kafka-ui.json'),
+          kasTemporaryFixMe: () => import('./locales/kas-ui.json'),
+          srsTemporaryFixMe: () => import('./locales/srs-ui.json'),
+        },
+      }}
+      debug={true}
+    >
       <FeatureFlagProvider>
         <EmbeddedConfigProvider>
           <ServiceConstantsContextProvider>
@@ -84,7 +100,7 @@ const AppEntry: React.FunctionComponent = React.memo(() => (
           </ServiceConstantsContextProvider>
         </EmbeddedConfigProvider>
       </FeatureFlagProvider>
-    </I18nextProvider>
+    </I18nProvider>
   </Provider>
 ));
 

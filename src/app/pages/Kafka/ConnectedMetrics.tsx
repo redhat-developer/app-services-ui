@@ -1,8 +1,7 @@
 import React, { useCallback, VoidFunctionComponent } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuth, useBasename, useConfig } from '@rhoas/app-services-ui-shared';
-import { AppServicesLoading, Metrics, MetricsProps, MetricsI18n } from '@rhoas/app-services-ui-components';
-import { I18nextProvider, useTranslation } from 'react-i18next';
+import { AppServicesLoading, Metrics, MetricsProps } from '@rhoas/app-services-ui-components';
 import { fetchKafkaInstanceMetrics, fetchKafkaTopisFromAdmin, fetchMetricsKpi, fetchTopicMetrics } from './api';
 
 type ConnectedMetricsProps = {
@@ -16,9 +15,6 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
   const config = useConfig();
   const { getBasename } = useBasename() || {};
   const basename = getBasename && getBasename();
-  const { i18n } = useTranslation();
-
-  i18n.addResourceBundle('en', 'translation', MetricsI18n);
 
   const onCreateTopic = () => {
     history.push(`${basename}/topic/create`);
@@ -77,13 +73,11 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
   }
 
   return (
-    <I18nextProvider i18n={i18n}>
-      <Metrics
-        onCreateTopic={onCreateTopic}
-        getTopicsMetrics={getTopicMetrics}
-        getKafkaInstanceMetrics={getKafkaInstanceMetrics}
-        getMetricsKpi={getMetricsKpi}
-      />
-    </I18nextProvider>
+    <Metrics
+      onCreateTopic={onCreateTopic}
+      getTopicsMetrics={getTopicMetrics}
+      getKafkaInstanceMetrics={getKafkaInstanceMetrics}
+      getMetricsKpi={getMetricsKpi}
+    />
   );
 };

@@ -1,13 +1,21 @@
 import React from 'react';
-import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
+import { Redirect, Route, RouteComponentProps, Switch, useHistory } from 'react-router-dom';
 import { LastLocationProvider } from 'react-router-last-location';
+import { ErrorBoundary } from 'react-error-boundary';
 import getBaseName from './utils/getBaseName';
-import { DevelopmentPreview } from '@app/components';
+import {
+  DevelopmentPreview,
+  AppServicesPageNotFound,
+  AppServicesEmptyState,
+  AppServicesEmptyStateVariant,
+} from '@rhoas/app-services-ui-components';
 import { AppRouteConfig, flattenedRoutes, IAppRoute, PageNotFoundRoute, useA11yRouteChange } from '@app/utils/Routing';
 import { useDocumentTitle } from '@app/utils';
 import { KafkaMainView } from '@app/pages/Kafka';
 import { BasenameContext } from '@rhoas/app-services-ui-shared';
 import { AppServicesLoading } from '@rhoas/app-services-ui-components';
+import { useTranslation } from 'react-i18next';
+import { Button } from '@patternfly/react-core';
 
 const QuickStartLoaderFederated = React.lazy(() => import('@app/pages/Resources/QuickStartLoaderFederated'));
 
@@ -200,19 +208,47 @@ const WrappedRoute: React.FunctionComponent<IAppRoute<any>> = ({
   devPreview,
   ...rest
 }) => {
+  const { t } = useTranslation();
+  const history = useHistory();
   useA11yRouteChange(isAsync);
   useDocumentTitle(title);
   const getBasename = () => {
     return basename || '';
   };
+  const onClickButton = () => history.push('/');
 
   function wrapRoute(routeProps: RouteComponentProps) {
     return (
-      <DevelopmentPreview show={devPreview}>
-        <BasenameContext.Provider value={{ getBasename }}>
-          <Component {...rest} {...routeProps} />
-        </BasenameContext.Provider>
-      </DevelopmentPreview>
+      <ErrorBoundary
+        fallbackRender={({ error }) =>
+          error.message === '404' ? (
+            <AppServicesPageNotFound />
+          ) : (
+            <AppServicesEmptyState
+              emptyStateProps={{
+                variant: AppServicesEmptyStateVariant.UnexpectedError,
+              }}
+              emptyStateIconProps={{
+                className: 'icon-color',
+              }}
+              titleProps={{
+                title: t('common:something_went_wrong'),
+              }}
+              emptyStateBodyProps={{
+                body: t('common:unexpected_error'),
+              }}
+            >
+              <Button onClick={onClickButton}>{t('common:return_to_home_page')}</Button>
+            </AppServicesEmptyState>
+          )
+        }
+      >
+        <DevelopmentPreview show={devPreview}>
+          <BasenameContext.Provider value={{ getBasename }}>
+            <Component {...rest} {...routeProps} />
+          </BasenameContext.Provider>
+        </DevelopmentPreview>
+      </ErrorBoundary>
     );
   }
 
