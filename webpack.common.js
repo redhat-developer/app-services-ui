@@ -73,31 +73,31 @@ module.exports = (env, argv) => {
             },
           ],
         },
-        {
-          test: /\.(svg|ttf|eot|woff|woff2)$/,
-          // only process modules with this loader
-          // if they live under a 'fonts' or 'pficon' directory
-          use: {
-            loader: 'file-loader',
-            options: {
-              // Limit at 50k. larger files emited into separate files
-              limit: 5000,
-              name: isProduction ? '[contenthash:8].[ext]' : '[name].[ext]',
-            },
-          },
-        },
-        {
-          test: /\.(jpg|jpeg|png|gif)$/i,
-          use: [
-            {
-              loader: 'url-loader',
-              options: {
-                limit: 5000,
-                name: isProduction ? '[contenthash:8].[ext]' : '[name].[ext]',
-              },
-            },
-          ],
-        },
+        // {
+        //   test: /\.(ttf|eot|woff|woff2)$/,
+        //   // only process modules with this loader
+        //   // if they live under a 'fonts' or 'pficon' directory
+        //   use: {
+        //     loader: 'file-loader',
+        //     options: {
+        //       // Limit at 50k. larger files emited into separate files
+        //       limit: 5000,
+        //       name: isProduction ? '[contenthash:8].[ext]' : '[name].[ext]',
+        //     },
+        //   },
+        // },
+        // {
+        //   test: /\.(svg|jpg|jpeg|png|gif)$/i,
+        //   use: [
+        //     {
+        //       loader: 'url-loader',
+        //       options: {
+        //         limit: 5000,
+        //         name: isProduction ? '[contenthash:8].[ext]' : '[name].[ext]',
+        //       },
+        //     },
+        //   ],
+        // },
       ],
     },
     output: {
