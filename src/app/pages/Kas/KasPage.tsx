@@ -5,14 +5,15 @@ import { FederatedModule, usePrincipal } from '@app/components';
 import { useModalControl, useQuota, useMASToken } from '@app/hooks';
 import { AppServicesLoading } from '@rhoas/app-services-ui-components';
 import { ITermsConfig } from '@app/services';
-import termsConfig from '../../../../static/configs/terms-conditions-spec.json';
+import { useConstants } from '@app/providers/config/ServiceConstants';
 
 const KasPage: React.FC = () => {
   const config = useConfig();
+  const constants =  useConstants();
   const { getQuota } = useQuota(ProductType?.kas);
   const { preCreateInstance, shouldOpenCreateModal } = useModalControl({
-    eventCode: termsConfig.kafka.EventCode,
-    siteCode: termsConfig.kafka.SiteCode,
+    eventCode: constants.kafka.ams.termsAndConditionsEventCode,
+    siteCode: constants.kafka.ams.termsAndConditionsSiteCode,
   } as ITermsConfig);
   const { getTokenEndPointUrl } = useMASToken();
   const { getAllUserAccounts } = usePrincipal();

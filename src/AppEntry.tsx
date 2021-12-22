@@ -9,9 +9,11 @@ import { Alert, AlertContext, AlertProps, AuthContext, ConfigContext } from '@rh
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
 import { EmbeddedConfigProvider } from '@app/providers/config/EmbeddedConfigContextProvider';
 import { useAuth } from '@app/hooks';
+import { ConstantContext } from '@app/providers/config/ServiceConstants';
 import { AppServicesLoading, ModalProvider, I18nProvider } from '@rhoas/app-services-ui-components';
-
 import { FeatureFlagProvider } from '@app/providers/featureflags/FeatureFlags';
+import { AppServicesLoading, ModalProvider } from '@rhoas/app-services-ui-components';
+import { ServiceConstantsContextProvider } from '@app/providers/config/ServiceConstantsContextProvider';
 
 const AppWithKeycloak: React.FunctionComponent = () => {
   console.log('starting appwithkeycloak');
@@ -93,7 +95,9 @@ const AppEntry: React.FunctionComponent = React.memo(() => (
     >
       <FeatureFlagProvider>
         <EmbeddedConfigProvider>
-          <AppWithConfig />
+          <ServiceConstantsContextProvider>
+            <AppWithConfig />
+          </ServiceConstantsContextProvider>
         </EmbeddedConfigProvider>
       </FeatureFlagProvider>
     </I18nProvider>

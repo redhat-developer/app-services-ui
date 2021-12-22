@@ -8,7 +8,7 @@ import { ProductType, QuotaContext } from '@rhoas/app-services-ui-shared';
 import { Registry } from '@rhoas/registry-management-sdk';
 import { ITermsConfig } from '@app/services';
 import { DownloadArtifacts } from './DownloadArtifacts';
-import termsConfig from '../../../../static/configs/terms-conditions-spec.json';
+import { useConstants } from '@app/providers/config/ServiceConstants';
 
 export const ServiceRegistryPage: React.FunctionComponent = () => {
   const config = useConfig();
@@ -22,10 +22,11 @@ export const ServiceRegistryPage: React.FunctionComponent = () => {
 
 export const ServiceRegistryPageConnected: React.FC = () => {
   const config = useConfig();
+  const constants =  useConstants();
   const { getQuota } = useQuota(ProductType.srs);
   const { preCreateInstance, shouldOpenCreateModal } = useModalControl({
-    eventCode: termsConfig['service-registry'].EventCode,
-    siteCode: termsConfig['service-registry'].SiteCode,
+    eventCode: constants.serviceRegistry.ams.termsAndConditionsEventCode,
+    siteCode: constants.serviceRegistry.ams.termsAndConditionsSiteCode,
   } as ITermsConfig);
   const { getTokenEndPointUrl } = useMASToken();
 
