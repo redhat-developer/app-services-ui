@@ -1,10 +1,12 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useAuth, useConfig, Quota, QuotaValue, QuotaType, ProductType } from '@rhoas/app-services-ui-shared';
 import { Configuration, DefaultApi } from '@openapi/ams';
+import { useConstants } from '@app/providers/config/ServiceConstants';
 
 export const useQuota = (productId: ProductType) => {
     const config = useConfig();
     const auth = useAuth();
+    const constants =  useConstants();
 
     const [orgId, setOrgId] = useState();
 
@@ -28,10 +30,10 @@ export const useQuota = (productId: ProductType) => {
     }, [config?.ams.apiBasePath, auth]);
 
     const getQuotaTypesByProductId = () => {
-        const {
-            ams: amsConfig
-        } = config || {};
-        const { kasQuotaId, kasTrialQuotaId, srsQuotaId, srsTrialQuotaId } = amsConfig || {};
+        const kasQuotaId = constants.kafka.ams.instanceQuotaId
+        const kasTrialQuotaId  =  constants.kafka.ams.trialQuotaId
+        const srsQuotaId = constants.serviceRegistry.ams.instanceQuotaId
+        const srsTrialQuotaId  =  constants.serviceRegistry.ams.trialQuotaId
         if (productId === ProductType.kas) {
             return { quotaId: kasQuotaId, trialQuotaId: kasTrialQuotaId, quotaKey: QuotaType.kas, trialQuotaKey: QuotaType.kasTrial };
         } else if (productId === ProductType.srs) {
@@ -97,3 +99,4 @@ export const useQuota = (productId: ProductType) => {
 
     return contextValue;
 }
+

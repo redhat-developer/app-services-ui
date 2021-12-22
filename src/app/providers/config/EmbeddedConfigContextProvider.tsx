@@ -27,7 +27,7 @@ export const EmbeddedConfigProvider: React.FunctionComponent = ({ children }) =>
         const jsonConfig = await response.json();
         const environmentConfig = filterEnvironmentConfig(jsonConfig.config);
         const config = addFederatedModulesToConfig(environmentConfig, jsonConfig.federatedModules, beta);
-        console.log('Done loading config', config);
+        console.debug('Done loading config', config);
         setValue(config);
       }
     })();

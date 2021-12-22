@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@redhat-cloud-services/rbac-client": "1.0.104",
-    "@rhoas/app-services-ui-components": "1.9.1",
+    "@rhoas/app-services-ui-components": "1.9.2",
     "@rhoas/app-services-ui-shared": "0.15.3",
     "@rhoas/kafka-instance-sdk": "0.18.0",
     "@rhoas/kafka-management-sdk": "0.18.0",
@@ -79,7 +79,7 @@
     "axios": "0.24.0",
     "copy-webpack-plugin": "10.2.0",
     "css-loader": "6.5.1",
-    "css-minimizer-webpack-plugin": "3.3.0",
+    "css-minimizer-webpack-plugin": "3.3.1",
     "dotenv-webpack": "7.0.3",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "1.15.6",
