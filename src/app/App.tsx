@@ -2,10 +2,9 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications/';
-import './App.scss';
 import { AppRoutes } from '@app/AppRoutes';
-import { FederatedModuleProvider } from "@app/components";
-import { useInsights } from "@app/hooks";
+import { FederatedModuleProvider } from '@app/components';
+import { useInsights } from '@app/hooks';
 
 export const App: React.FunctionComponent = () => {
   const insights = useInsights();
@@ -45,8 +44,8 @@ export const App: React.FunctionComponent = () => {
 
   return (
     <FederatedModuleProvider>
-      <NotificationsPortal/>
-      <AppRoutes/>
+      <NotificationsPortal />
+      <AppRoutes />
     </FederatedModuleProvider>
   );
 };
