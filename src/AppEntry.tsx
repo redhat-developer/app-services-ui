@@ -1,19 +1,19 @@
-import React, { useContext } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { Provider, useDispatch } from 'react-redux';
-import { init } from '@app/store';
 import App from '@app/App';
-import logger from 'redux-logger';
-import getBaseName from '@app/utils/getBaseName';
-import { Alert, AlertContext, AlertProps, AuthContext, ConfigContext } from '@rhoas/app-services-ui-shared';
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
-import { EmbeddedConfigProvider } from '@app/providers/config/EmbeddedConfigContextProvider';
 import { useAuth } from '@app/hooks';
-import { ConstantContext } from '@app/providers/config/ServiceConstants';
-import { AppServicesLoading, ModalProvider, I18nProvider } from '@rhoas/app-services-ui-components';
-import { FeatureFlagProvider } from '@app/providers/featureflags/FeatureFlags';
-import { AppServicesLoading, ModalProvider } from '@rhoas/app-services-ui-components';
+import { EmbeddedConfigProvider } from '@app/providers/config/EmbeddedConfigContextProvider';
 import { ServiceConstantsContextProvider } from '@app/providers/config/ServiceConstantsContextProvider';
+import { FeatureFlagProvider } from '@app/providers/featureflags/FeatureFlags';
+import { init } from '@app/store';
+import getBaseName from '@app/utils/getBaseName';
+import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
+import { AppServicesLoading, I18nProvider, ModalProvider } from '@rhoas/app-services-ui-components';
+import { Alert, AlertContext, AlertProps, AuthContext, ConfigContext } from '@rhoas/app-services-ui-shared';
+import React, { useContext } from 'react';
+import { Provider, useDispatch } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
+import logger from 'redux-logger';
+
+import '@rhoas/app-services-ui-components/dist/esm/index.css';
 
 const AppWithKeycloak: React.FunctionComponent = () => {
   console.log('starting appwithkeycloak');
