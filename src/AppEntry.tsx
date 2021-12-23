@@ -85,6 +85,8 @@ const AppEntry: React.FunctionComponent = React.memo(() => (
           kafka: () => import('@rhoas/app-services-ui-components/locales/en/kafka.json'),
           metrics: () => import('@rhoas/app-services-ui-components/locales/en/metrics.json'),
           overview: () => import('@rhoas/app-services-ui-components/locales/en/overview.json'),
+          datascienceoverview: () => import('@rhoas/app-services-ui-components/locales/en/datascienceoverview.json'),
+          apimgmtoverview: () => import('@rhoas/app-services-ui-components/locales/en/apimgmtoverview.json'),
           // temporary translations until all user facing visuals are ported to the ui components repo
           appTemporaryFixMe: () => import('./locales/app-services-ui.json'),
           kafkaTemporaryFixMe: () => import('./locales/kafka-ui.json'),
