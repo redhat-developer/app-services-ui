@@ -18,9 +18,6 @@
     "prebuild": "npm run clean",
     "dr:surge": "node dr-surge.js",
     "build": "webpack --config webpack.prod.js && npm run dr:surge",
-    "api:refresh": "./hack/pullapi.sh",
-    "api:generate": "npm run api:generate:ams",
-    "api:generate:ams": "openapi-generator-cli generate -i hack/ams.json -g typescript-axios -o src/openapi/ams --additional-properties=ngVersion=6.1.7,npmName=restClient,supportsES6=true,npmVersion=6.9.0,withInterfaces=true",
     "start": "node server.js",
     "start:dev": "webpack serve --https --hot --color --progress --config webpack.dev.js",
     "test": "jest",
@@ -36,6 +33,7 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
+    "@rhoas/account-management-sdk": "*",
     "@redhat-cloud-services/rbac-client": "1.0.104",
     "@rhoas/app-services-ui-components": "1.11.5",
     "@rhoas/app-services-ui-shared": "0.15.4",
@@ -57,7 +55,6 @@
     "redux-logger": "3.0.6"
   },
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "2.4.21",
     "@patternfly/patternfly": "4.164.2",
     "@patternfly/react-core": "4.181.1",
     "@patternfly/react-icons": "4.32.1",

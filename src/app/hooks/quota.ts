@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useAuth, useConfig, Quota, QuotaValue, QuotaType, ProductType } from '@rhoas/app-services-ui-shared';
-import { Configuration, DefaultApi } from '@openapi/ams';
+import { Configuration, RhoasApi } from '@rhoas/account-management-sdk';
 import { useConstants } from '@app/providers/config/ServiceConstants';
 
 export const useQuota = (productId: ProductType) => {
@@ -14,7 +14,7 @@ export const useQuota = (productId: ProductType) => {
         const getCurrentAccount = async () => {
             if (!orgId) {
                 const accessToken = await auth?.ams.getToken();
-                const ams = new DefaultApi({
+                const ams = new RhoasApi({
                     accessToken,
                     basePath: config?.ams.apiBasePath || '',
                 } as Configuration);
