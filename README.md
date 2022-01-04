@@ -1,10 +1,11 @@
 [![Build Status](https://travis-ci.org/RedHatInsights/insights-frontend-starter-app.svg?branch=master)](https://travis-ci.org/RedHatInsights/insights-frontend-starter-app)
 
-> NOTE: This project is still under active development
-
 # Application Services UI
 
+User interface for Red Hat Managed Services (Kafka, Service Registry etc.) that is available as part of the https://console.redhat.com
+
 Application Services UI is based on the https://github.com/RedHatInsights/insights-frontend-starter-app.git which is React.js starter app for Red Hat Insights products that includes Patternfly 4 and shared cloud.redhat.com services
+
 
 ## Services 
 
@@ -17,7 +18,7 @@ Application Services UI is based on the https://github.com/RedHatInsights/insigh
 
 Project can be run in two modes:
 
-- Using remote federated components from console.redhat.com
+- Using remote federated components from console.redhat.com (only for Red Hat Internal usage)
 - Running federated modules locally (dev)
 
 ## Running project with remote components
