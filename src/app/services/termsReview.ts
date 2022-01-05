@@ -1,5 +1,5 @@
 import { Auth, Config, useAuth, useConfig } from '@rhoas/app-services-ui-shared';
-import { Configuration, DefaultApi, TermsReviewResponse } from '@openapi/ams';
+import { Configuration, AppServicesApi, TermsReviewResponse } from '@rhoas/account-management-sdk';
 import { useFetch } from '@app/services/fetch';
 import { useEffect, useRef } from "react";
 
@@ -43,7 +43,7 @@ const fetchTermsReviewFactory = (config: Config, auth: Auth, termsConfig: ITerms
     key: 'selfTermsReview',
     fetch: async () => {
       const accessToken = await auth?.ams.getToken();
-      const defaultApi = new DefaultApi({
+      const defaultApi = new AppServicesApi({
         accessToken,
         basePath: config?.ams.apiBasePath || '',
       } as Configuration);
