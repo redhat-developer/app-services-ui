@@ -48,7 +48,7 @@ export const useQuota = (productId: ProductType) => {
             const { quotaId, trialQuotaId, quotaKey, trialQuotaKey } = getQuotaTypesByProductId() || {};
 
             const accessToken = await auth?.ams.getToken();
-            const ams = new DefaultApi({
+            const ams = new AppServicesApi({
                 accessToken,
                 basePath: config?.ams.apiBasePath || '',
             } as Configuration);
