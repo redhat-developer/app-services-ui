@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { VoidFunctionComponent } from 'react';
 import { Redirect, Route, RouteComponentProps, Switch, useHistory } from 'react-router-dom';
 import { LastLocationProvider } from 'react-router-last-location';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -255,28 +255,30 @@ const WrappedRoute: React.FunctionComponent<IAppRoute<any>> = ({
   return <Route render={wrapRoute} {...rest} />;
 };
 
-const AppRoutes = (): React.ReactElement => (
-  <>
-    <LastLocationProvider>
-      <React.Suspense fallback={<AppServicesLoading />}>
-        <Switch>
-          {flattenedRoutes(appRoutes).map(({ path, exact, component, title, isAsync, ...rest }, idx) => (
-            <WrappedRoute
-              path={path}
-              exact={exact}
-              component={component}
-              key={idx}
-              title={title}
-              isAsync={isAsync}
-              {...rest}
-            />
-          ))}
-          <PageNotFoundRoute title="404 Page Not Found" />
-        </Switch>
-      </React.Suspense>
-    </LastLocationProvider>
-    <QuickStartLoaderFederated />
-  </>
-);
+const AppRoutes: VoidFunctionComponent = () => {
+  return (
+    <>
+      <LastLocationProvider>
+        <React.Suspense fallback={<AppServicesLoading />}>
+          <Switch>
+            {flattenedRoutes(appRoutes).map(({ path, exact, component, title, isAsync, ...rest }, idx) => (
+              <WrappedRoute
+                path={path}
+                exact={exact}
+                component={component}
+                key={idx}
+                title={title}
+                isAsync={isAsync}
+                {...rest}
+              />
+            ))}
+            <PageNotFoundRoute title="404 Page Not Found" />
+          </Switch>
+        </React.Suspense>
+      </LastLocationProvider>
+      <QuickStartLoaderFederated />
+    </>
+  );
+};
 
 export { AppRoutes, appRoutes };

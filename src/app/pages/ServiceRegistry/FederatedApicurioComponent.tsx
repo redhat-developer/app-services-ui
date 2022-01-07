@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { VoidFunctionComponent } from 'react';
 import { ConfigType, createApicurioConfig } from '@app/pages/ServiceRegistry/utils';
 import { FederatedModule, usePrincipal } from '@app/components';
 import { useHistory, useParams } from 'react-router-dom';
@@ -24,11 +24,20 @@ type ServiceRegistryParams = {
   version: string;
 };
 
-export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProps> = ({
-  module,
-  registry,
-  ...rest
-}) => {
+export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProps> = ({ module, ...rest }) => {
+  return (
+    <FederatedModule
+      scope="apicurio_registry"
+      module={module}
+      fallback={<AppServicesLoading />}
+      render={(component) => <ServiceAccountsPageConnected Component={component} {...rest} />}
+    />
+  );
+};
+
+const ServiceAccountsPageConnected: VoidFunctionComponent<
+  { Component: React.LazyExoticComponent<any> } & Omit<FederatedApicurioComponentProps, 'module'>
+> = ({ Component, registry, ...rest }) => {
   let federateConfig: ConfigType;
   const auth = useAuth();
   const config = useConfig();
@@ -54,26 +63,17 @@ export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProp
       getToken,
       principals
     );
+    return (
+      <Component
+        config={federateConfig}
+        tenantId={registry.id}
+        groupId={groupId}
+        artifactId={artifactId}
+        version={version}
+        history={history}
+        {...rest}
+      />
+    );
   }
-
-  return (
-    <FederatedModule
-      scope="apicurio_registry"
-      module={module}
-      fallback={<AppServicesLoading />}
-      render={(ServiceRegistryFederated) => {
-        return (
-          <ServiceRegistryFederated
-            config={federateConfig}
-            tenantId={registry.id}
-            groupId={groupId}
-            artifactId={artifactId}
-            version={version}
-            history={history}
-            {...rest}
-          />
-        );
-      }}
-    />
-  );
+  return null;
 };

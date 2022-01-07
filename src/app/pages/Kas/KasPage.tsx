@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { VoidFunctionComponent } from 'react';
 import { ProductType, QuotaContext, useConfig } from '@rhoas/app-services-ui-shared';
 import { ServiceDownPage } from '@app/pages/ServiceDown/ServiceDownPage';
 import { FederatedModule, usePrincipal } from '@app/components';
@@ -8,8 +8,19 @@ import { ITermsConfig } from '@app/services';
 import { useConstants } from '@app/providers/config/ServiceConstants';
 
 const KasPage: React.FC = () => {
+  return (
+    <FederatedModule
+      scope="kas"
+      module="./OpenshiftStreams"
+      fallback={<AppServicesLoading />}
+      render={(component) => <KasPageConnected Component={component} />}
+    />
+  );
+};
+
+const KasPageConnected: VoidFunctionComponent<{ Component: React.LazyExoticComponent<any> }> = ({ Component }) => {
   const config = useConfig();
-  const constants =  useConstants();
+  const constants = useConstants();
   const { getQuota } = useQuota(ProductType?.kas);
   const { preCreateInstance, shouldOpenCreateModal } = useModalControl({
     eventCode: constants.kafka.ams.termsAndConditionsEventCode,
@@ -18,28 +29,19 @@ const KasPage: React.FC = () => {
   const { getTokenEndPointUrl } = useMASToken();
   const { getAllUserAccounts } = usePrincipal();
 
-  return (
-    <FederatedModule
-      scope="kas"
-      module="./OpenshiftStreams"
-      fallback={<AppServicesLoading />}
-      render={(OpenshiftStreamsFederated) => {
-        if (config?.serviceDown) {
-          return <ServiceDownPage />;
-        }
+  if (config?.serviceDown) {
+    return <ServiceDownPage />;
+  }
 
-        return (
-          <QuotaContext.Provider value={{ getQuota }}>
-            <OpenshiftStreamsFederated
-              preCreateInstance={preCreateInstance}
-              shouldOpenCreateModal={shouldOpenCreateModal}
-              tokenEndPointUrl={getTokenEndPointUrl()}
-              getAllUserAccounts={getAllUserAccounts}
-            />
-          </QuotaContext.Provider>
-        );
-      }}
-    />
+  return (
+    <QuotaContext.Provider value={{ getQuota }}>
+      <Component
+        preCreateInstance={preCreateInstance}
+        shouldOpenCreateModal={shouldOpenCreateModal}
+        tokenEndPointUrl={getTokenEndPointUrl()}
+        getAllUserAccounts={getAllUserAccounts}
+      />
+    </QuotaContext.Provider>
   );
 };
 
