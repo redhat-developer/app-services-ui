@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { FederatedModule } from '@app/components';
 import { KafkaRequest } from '@rhoas/kafka-management-sdk';
 import { useConfig } from '@rhoas/app-services-ui-shared';
@@ -12,13 +12,24 @@ type InstanceDrawerProps = {
   onClose: () => void;
 };
 
-export const InstanceDrawer: React.FC<InstanceDrawerProps> = ({
-  isExpanded,
-  onClose,
-  kafkaDetail,
-  activeTab,
-  children,
-}) => {
+export const InstanceDrawer: FunctionComponent<InstanceDrawerProps> = ({ children, ...props }) => {
+  return (
+    <FederatedModule
+      scope="kas"
+      module="./InstanceDrawer"
+      fallback={children}
+      render={(component) => (
+        <QuickStartLoaderFederatedConnected Component={component} {...props}>
+          {children}
+        </QuickStartLoaderFederatedConnected>
+      )}
+    />
+  );
+};
+
+const QuickStartLoaderFederatedConnected: FunctionComponent<
+  { Component: React.LazyExoticComponent<any> } & InstanceDrawerProps
+> = ({ Component, isExpanded, onClose, kafkaDetail, activeTab, children }) => {
   const config = useConfig();
   const history = useHistory();
   if (config === undefined) {
@@ -33,24 +44,15 @@ export const InstanceDrawer: React.FC<InstanceDrawerProps> = ({
   };
 
   return (
-    <FederatedModule
-      scope="kas"
-      module="./InstanceDrawer"
-      fallback={children}
-      render={(InstanceDrawerFederated) => {
-        return (
-          <InstanceDrawerFederated
-            tokenEndPointUrl={tokenEndPointUrl}
-            isExpanded={isExpanded}
-            onClose={onClose}
-            instanceDetail={kafkaDetail}
-            activeTab={activeTab}
-            onDeleteInstance={onDeleteInstance}
-          >
-            {children}
-          </InstanceDrawerFederated>
-        );
-      }}
-    />
+    <Component
+      tokenEndPointUrl={tokenEndPointUrl}
+      isExpanded={isExpanded}
+      onClose={onClose}
+      instanceDetail={kafkaDetail}
+      activeTab={activeTab}
+      onDeleteInstance={onDeleteInstance}
+    >
+      {children}
+    </Component>
   );
 };
