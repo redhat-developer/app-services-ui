@@ -113,7 +113,6 @@ const WrappedRoute: React.FunctionComponent<WrappedRouteProps> = ({
 
 const KafkaRoutes = (props): React.ReactElement => {
   const routeMatch = useRouteMatch();
-
   return (
     <Switch>
       {flattenedRoutes(kafkaRoutes).map(({ path, exact, component, title, isAsync, ...rest }, idx) => {

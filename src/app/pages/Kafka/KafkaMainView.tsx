@@ -17,17 +17,6 @@ export const KafkaMainView = (): React.ReactElement => {
   const kafka = useKafkaInstance();
 
   const [error, setError] = useState<undefined | number>();
-  const [isInstanceDrawerOpen, setIsInstanceDrawerOpen] = useState<boolean | undefined>();
-  const [activeDrawerTab, setActiveDrawerTab] = useState<string>('');
-
-  const handleInstanceDrawer = (isOpen: boolean, activeTab?: string) => {
-    activeTab && setActiveDrawerTab(activeTab);
-    setIsInstanceDrawerOpen(isOpen);
-  };
-
-  const onCloseInstanceDrawer = () => {
-    setIsInstanceDrawerOpen(false);
-  };
 
   if (config?.serviceDown) {
     return <ServiceDownPage />;
@@ -61,7 +50,6 @@ export const KafkaMainView = (): React.ReactElement => {
     kafkaName: kafkaDetail.name,
     apiBasePath: adminServerUrl,
     getToken: auth?.kafka.getToken,
-    handleInstanceDrawer,
     showSchemas: <ServiceRegistrySchemaMapping />,
     kafka: kafkaDetail,
     redirectAfterDeleteInstance,
@@ -75,13 +63,17 @@ export const KafkaMainView = (): React.ReactElement => {
     <div className="app-services-ui--u-display-contents" data-ouia-app-id="dataPlane-streams">
       <PrincipalsProvider kafkaInstance={kafkaDetail}>
         <InstanceDrawer
-          isExpanded={isInstanceDrawerOpen}
-          onClose={onCloseInstanceDrawer}
-          kafkaDetail={kafkaDetail}
-          activeTab={activeDrawerTab}
-        >
-          <KafkaRoutes {...props} />
-        </InstanceDrawer>
+          kafkaInstance={kafkaDetail}
+          renderContent={({ handleInstanceDrawer, setInstance }) => (
+            <KafkaRoutes
+              handleInstanceDrawer={(isOpen) => {
+                setInstance(kafkaDetail);
+                handleInstanceDrawer(isOpen);
+              }}
+              {...props}
+            />
+          )}
+        />
       </PrincipalsProvider>
     </div>
   );
