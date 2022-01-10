@@ -60,21 +60,20 @@ export const KafkaMainView = (): React.ReactElement => {
   }
 
   return (
-    <div className="app-services-ui--u-display-contents" data-ouia-app-id="dataPlane-streams">
-      <PrincipalsProvider kafkaInstance={kafkaDetail}>
-        <InstanceDrawer
-          kafkaInstance={kafkaDetail}
-          renderContent={({ handleInstanceDrawer, setInstance }) => (
-            <KafkaRoutes
-              handleInstanceDrawer={(isOpen) => {
-                setInstance(kafkaDetail);
-                handleInstanceDrawer(isOpen);
-              }}
-              {...props}
-            />
-          )}
-        />
-      </PrincipalsProvider>
-    </div>
+    <PrincipalsProvider kafkaInstance={kafkaDetail}>
+      <InstanceDrawer
+        data-ouia-app-id="dataPlane-streams"
+        kafkaInstance={kafkaDetail}
+        renderContent={({ handleInstanceDrawer, setInstance }) => (
+          <KafkaRoutes
+            handleInstanceDrawer={(isOpen) => {
+              setInstance(kafkaDetail);
+              handleInstanceDrawer(isOpen);
+            }}
+            {...props}
+          />
+        )}
+      />
+    </PrincipalsProvider>
   );
 };
