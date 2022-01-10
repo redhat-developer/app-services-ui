@@ -29,6 +29,7 @@ const InstanceDrawerConnected: VoidFunctionComponent<InstanceDrawerProps> = ({
   Component,
   renderContent,
   kafkaInstance,
+  ...props
 }) => {
   const config = useConfig();
   const history = useHistory();
@@ -54,6 +55,7 @@ const InstanceDrawerConnected: VoidFunctionComponent<InstanceDrawerProps> = ({
         return renderContent({ handleInstanceDrawer, setInstance });
       }}
       initialInstance={kafkaInstance}
+      {...props}
     />
   );
 };

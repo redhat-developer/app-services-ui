@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { AppRouteConfig, flattenedRoutes, IAppRoute, PageNotFoundRoute, useA11yRouteChange } from '@app/utils/Routing';
 import { useDocumentTitle } from '@app/utils';
@@ -111,7 +111,7 @@ const WrappedRoute: React.FunctionComponent<WrappedRouteProps> = ({
   );
 };
 
-const KafkaRoutes = (props): React.ReactElement => {
+const KafkaRoutes = memo<UnderlyingProps>((props): React.ReactElement => {
   const routeMatch = useRouteMatch();
   return (
     <Switch>
@@ -135,6 +135,7 @@ const KafkaRoutes = (props): React.ReactElement => {
       <PageNotFoundRoute title="404 Page Not Found" />
     </Switch>
   );
-};
+});
+KafkaRoutes.displayName = 'KafkaRoutes';
 
 export { KafkaRoutes, kafkaRoutes };
