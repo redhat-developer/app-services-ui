@@ -233,7 +233,14 @@
         "pattern_type_prefixed_help": "Refers to the prefix of the name in the API",
         "pattern_type_literal": "Is",
         "pattern_type_literal_help": "Refers to the literal name in the API",
-        "resource_name_typeahead_create_text": "Use"
+        "resource_name_typeahead_create_text": "Use",
+        "shortcut_consume_topic": "Consume from a topic",
+        "shortcut_consume_topic_popover_body": "Provides access to consume from one or more topics depending on topic and consumer group selection criteria",
+        "shortcut_produce_topic": "Produce to a topic",
+        "shortcut_produce_topic_popover_body": "Provides access to produce to one or more topics depending on topic selection criteria",
+        "shortcut_manage_access": "Manage access",
+        "shortcut_manage_access_popover_body": "Provides access to add and remove permissions on this Kafka instance",
+        "add_permission": "Add permission"
       }
     },
     "cells": {
