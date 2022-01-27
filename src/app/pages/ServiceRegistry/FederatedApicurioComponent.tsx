@@ -1,9 +1,9 @@
 import React, { VoidFunctionComponent } from 'react';
 import { ConfigType, createApicurioConfig } from '@app/pages/ServiceRegistry/utils';
-import { FederatedModule, usePrincipal } from '@app/components';
+import { FederatedModule } from '@app/components';
 import { useHistory, useParams } from 'react-router-dom';
 import { Registry } from '@rhoas/registry-management-sdk';
-import { useAuth, useBasename, useConfig } from '@rhoas/app-services-ui-shared';
+import { useAuth, useBasename, useConfig, Principal } from '@rhoas/app-services-ui-shared';
 import { AppServicesLoading } from '@rhoas/app-services-ui-components';
 
 export type FederatedApicurioComponentProps = {
@@ -16,6 +16,7 @@ export type FederatedApicurioComponentProps = {
   basename?: string;
   fileName?: string;
   downloadLinkLabel?: string;
+  principals?: Principal[];
 };
 
 type ServiceRegistryParams = {
@@ -37,23 +38,19 @@ export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProp
 
 const ServiceAccountsPageConnected: VoidFunctionComponent<
   { Component: React.LazyExoticComponent<any> } & Omit<FederatedApicurioComponentProps, 'module'>
-> = ({ Component, registry, ...rest }) => {
+> = ({ Component, registry, principals, ...rest }) => {
   let federateConfig: ConfigType;
   const auth = useAuth();
   const config = useConfig();
   const history = useHistory();
   const basename = useBasename();
   const getToken = auth?.apicurio_registry.getToken;
-  const currentlyLoggedInuser = auth?.getUsername() || '';
 
   const { groupId, artifactId, version } = useParams<ServiceRegistryParams>();
-  const { getAllPrincipals } = usePrincipal();
 
   if (config === undefined || registry === undefined) {
     return <AppServicesLoading />;
   }
-
-  const principals = getAllPrincipals()?.filter((p) => p.id !== currentlyLoggedInuser && p.id !== registry?.owner);
 
   if (getToken && basename) {
     federateConfig = createApicurioConfig(
