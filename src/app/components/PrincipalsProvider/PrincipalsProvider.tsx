@@ -68,7 +68,7 @@ export const usePrincipal = () => {
     fetchServiceAccounts();
   }, [auth, config]);
 
-  const value = {
+  return {
     getAllPrincipals: () => {
       let answer: Principal[] = [];
       if (userAcountPrincipals !== undefined && serviceAccountPrincipals !== undefined) {
@@ -79,15 +79,9 @@ export const usePrincipal = () => {
       }
       return answer;
     },
-    getAllUserAccounts: () => {
-      return userAcountPrincipals;
-    },
-    getAllServiceAccounts: () => {
-      return serviceAccountPrincipals;
-    },
+    getAllUserAccounts: () => userAcountPrincipals,
+    getAllServiceAccounts: () => serviceAccountPrincipals,
   };
-
-  return value;
 };
 
 export const PrincipalsProvider: React.FunctionComponent<PrincipalsProviderProps> = ({ children }) => {
