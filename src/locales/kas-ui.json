@@ -276,6 +276,8 @@
   "can_not_change_owner_title": "Cannot change owner",
   "onwer_transfer_failed_message": "We're unable to change the owner of {{name}} at this time. Try again later.",
   "select_user_account": "Select user account",
+  "expires_in":"Expires in {{time}}.",
+  "will_expire_in":"This instance will expire in {{time}}",
   "kafkaInstance": {
     "availabilty_zones_tooltip_message": "At this time, only multi availability zones are available."
   },
