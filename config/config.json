@@ -33,7 +33,9 @@
   },
   "config": [
     {
-      "hostnames": ["prod.foo.redhat.com"],
+      "hostnames": [
+        "prod.foo.redhat.com"
+      ],
       "fetchConfig": true,
       "type": "proxy",
       "config": {
@@ -63,7 +65,7 @@
           "apiBasePath": "https://api.stage.openshift.com"
         },
         "cos": {
-          "apiBasePath": "https://cos-fleet-manager-cos.rh-fuse-153f1de160110098c1928a6c05e19444-0000.eu-de.containers.appdomain.cloud",
+          "apiBasePath": "https://wxn4aqqc8bqvxcy6unfe.api.stage.openshift.com",
           "configurators": {
             "debezium": {
               "remoteEntry": "/beta/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
@@ -75,7 +77,10 @@
       }
     },
     {
-      "hostnames": ["qaprodauth.cloud.redhat.com", "qaprodauth.console.redhat.com"],
+      "hostnames": [
+        "qaprodauth.cloud.redhat.com",
+        "qaprodauth.console.redhat.com"
+      ],
       "config": {
         "serviceDown": false,
         "guides": {
@@ -103,7 +108,7 @@
           "basePath": "/api/rbac/v1"
         },
         "cos": {
-          "apiBasePath": "https://cos-fleet-manager-cos.rh-fuse-153f1de160110098c1928a6c05e19444-0000.eu-de.containers.appdomain.cloud",
+          "apiBasePath": "https://wxn4aqqc8bqvxcy6unfe.api.stage.openshift.com",
           "configurators": {
             "debezium-mongodb-1.9.0.Alpha1": {
               "remoteEntry": "/beta/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
@@ -125,7 +130,10 @@
       }
     },
     {
-      "hostnames": ["cloud.redhat.com", "console.redhat.com"],
+      "hostnames": [
+        "cloud.redhat.com",
+        "console.redhat.com"
+      ],
       "config": {
         "serviceDown": false,
         "guides": {
