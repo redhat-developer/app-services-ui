@@ -1,27 +1,33 @@
 {
   "federatedModules": {
     "kas": {
-      "basePath": "http://localhost:9000",
+      "basePath": "/mas-local-fm/kas",
+      "proxyTarget": "http://localhost:9000",
       "fallbackBasePath": "/beta/apps/rhosak-control-plane-ui-build"
     },
     "kafka": {
-      "basePath": "http://localhost:8080",
+      "basePath": "/mas-local-fm/kafka",
+      "proxyTarget": "http://localhost:8080",
       "fallbackBasePath": "/beta/apps/rhosak-data-plane-ui-build"
     },
     "guides": {
-      "basePath": "http://localhost:9001",
+      "basePath": "/mas-local-fm/guides",
+      "proxyTarget": "http://localhost:9001",
       "fallbackBasePath": "/beta/apps/rhoas-guides-build"
     },
     "apicurio_registry": {
-      "basePath": "http://localhost:8888",
+      "basePath": "/mas-local-fm/apicurio_registry",
+      "proxyTarget": "http://localhost:8888",
       "fallbackBasePath": "/beta/apps/sr-ui-build"
     },
     "srs": {
-      "basePath": "http://localhost:9005",
+      "basePath": "/mas-local-fm/srs",
+      "proxyTarget": "http://localhost:9005",
       "fallbackBasePath": "/beta/apps/srs-ui-build"
     },
     "cos": {
-      "basePath": "http://localhost:9002",
+      "basePath": "/mas-local-fm/cos",
+      "proxyTarget": "http://localhost:9002",
       "fallbackBasePath": "/beta/apps/cos-ui-build"
     }
   },
