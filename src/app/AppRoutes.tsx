@@ -135,7 +135,7 @@ const appRoutes: AppRouteConfig<any>[] = [
     label: 'COS',
     path: '/connectors',
     title: 'Connectors | Red Hat OpenShift Application Services',
-    basename: `${getBaseName(window.location.pathname)}/cos`,
+    basename: `${getBaseName(window.location.pathname)}/connectors`,
     devPreview: true,
   },
   {
