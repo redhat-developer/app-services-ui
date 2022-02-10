@@ -33,9 +33,7 @@
   },
   "config": [
     {
-      "hostnames": [
-        "prod.foo.redhat.com"
-      ],
+      "hostnames": ["prod.foo.redhat.com"],
       "fetchConfig": true,
       "type": "proxy",
       "config": {
@@ -87,10 +85,7 @@
       }
     },
     {
-      "hostnames": [
-        "qaprodauth.cloud.redhat.com",
-        "qaprodauth.console.redhat.com"
-      ],
+      "hostnames": ["qaprodauth.cloud.redhat.com", "qaprodauth.console.redhat.com"],
       "config": {
         "serviceDown": false,
         "guides": {
@@ -140,10 +135,7 @@
       }
     },
     {
-      "hostnames": [
-        "cloud.redhat.com",
-        "console.redhat.com"
-      ],
+      "hostnames": ["cloud.redhat.com", "console.redhat.com"],
       "config": {
         "serviceDown": false,
         "guides": {
