@@ -65,17 +65,17 @@
         "cos": {
           "apiBasePath": "https://cos-fleet-manager-cos.rh-fuse-153f1de160110098c1928a6c05e19444-0000.eu-de.containers.appdomain.cloud",
           "configurators": {
-            "debezium-mongodb-1.5.0.Final": {
+            "debezium-mongodb-1.9.0.Alpha1": {
               "remoteEntry": "/beta/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
               "scope": "debezium_ui",
               "module": "./config"
             },
-            "debezium-mysql-1.5.0.Final": {
+            "debezium-mysql-1.9.0.Alpha1": {
               "remoteEntry": "/beta/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
               "scope": "debezium_ui",
               "module": "./config"
             },
-            "debezium-postgres-1.5.0.Final": {
+            "debezium-postgres-1.9.0.Alpha1": {
               "remoteEntry": "/beta/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
               "scope": "debezium_ui",
               "module": "./config"
@@ -115,17 +115,17 @@
         "cos": {
           "apiBasePath": "https://cos-fleet-manager-cos.rh-fuse-153f1de160110098c1928a6c05e19444-0000.eu-de.containers.appdomain.cloud",
           "configurators": {
-            "debezium-mongodb-1.5.0.Final": {
+            "debezium-mongodb-1.9.0.Alpha1": {
               "remoteEntry": "/beta/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
               "scope": "debezium_ui",
               "module": "./config"
             },
-            "debezium-mysql-1.5.0.Final": {
+            "debezium-mysql-1.9.0.Alpha1": {
               "remoteEntry": "/beta/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
               "scope": "debezium_ui",
               "module": "./config"
             },
-            "debezium-postgres-1.5.0.Final": {
+            "debezium-postgres-1.9.0.Alpha1": {
               "remoteEntry": "/beta/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
               "scope": "debezium_ui",
               "module": "./config"
@@ -165,17 +165,17 @@
         "cos": {
           "apiBasePath": "https://api.openshift.com",
           "configurators": {
-            "debezium-mongodb-1.5.0.Final": {
+            "debezium-mongodb-1.9.0.Alpha1": {
               "remoteEntry": "/beta/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
               "scope": "debezium_ui",
               "module": "./config"
             },
-            "debezium-mysql-1.5.0.Final": {
+            "debezium-mysql-1.9.0.Alpha1": {
               "remoteEntry": "/beta/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
               "scope": "debezium_ui",
               "module": "./config"
             },
-            "debezium-postgres-1.5.0.Final": {
+            "debezium-postgres-1.9.0.Alpha1": {
               "remoteEntry": "/beta/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
               "scope": "debezium_ui",
               "module": "./config"
