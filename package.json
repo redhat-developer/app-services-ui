@@ -35,7 +35,7 @@
   "dependencies": {
     "@redhat-cloud-services/rbac-client": "1.0.104",
     "@rhoas/account-management-sdk": "0.25.0",
-    "@rhoas/app-services-ui-components": "1.17.0",
+    "@rhoas/app-services-ui-components": "1.18.0",
     "@rhoas/app-services-ui-shared": "0.15.4",
     "@rhoas/kafka-instance-sdk": "0.25.0",
     "@rhoas/kafka-management-sdk": "0.25.0",
