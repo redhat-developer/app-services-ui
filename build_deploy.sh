@@ -20,9 +20,6 @@ if [[ ! -d ./.git ]]; then
     exit 1
 fi
 
-APP_NAME="application-services"
-DEPLOYMENT_REPOSPITORY="https://github.com/RedHatInsights/rhosak-dashboard-build.git"
-
 CONTAINER_ENGINE=${CONTAINER_ENGINE:-"docker"}
 VERSION="$(git log --pretty=format:'%h' -n 1)"
 IMAGE_REGISTRY=${IMAGE_REGISTRY:-"quay.io"}
@@ -46,6 +43,12 @@ function run() {
         $@
 }
 
+if [ -z "${NACHOBOT_TOKEN}" ]; then
+    echo "The nachobot token hasn't been provided."
+    echo "Make sure to set the NACHOBOT_TOKEN environment variable."
+    exit 1
+fi
+
 step "Build the image"
 ${CONTAINER_ENGINE} build \
     -t ${IMAGE} \
@@ -65,7 +68,7 @@ fi
 
 step "Push the client files"
 CID=$(${CONTAINER_ENGINE} create ${IMAGE})
-${CONTAINER_ENGINE} cp ${CID}:/opt/app-root/src/dist .
+${CONTAINER_ENGINE} cp ${CID}:/opt/app-root/src ./dist
 ${CONTAINER_ENGINE} rm ${CID}
 
 run /opt/tools/scripts/push_to_insights.sh \
