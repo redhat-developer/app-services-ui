@@ -20,6 +20,8 @@ if [[ ! -d ./.git ]]; then
     exit 1
 fi
 
+APP_NAME="application-services"
+DEPLOYMENT_REPOSPITORY="https://github.com/RedHatInsights/rhosak-dashboard-build.git"
 CONTAINER_ENGINE=${CONTAINER_ENGINE:-"docker"}
 VERSION="$(git log --pretty=format:'%h' -n 1)"
 IMAGE_REGISTRY=${IMAGE_REGISTRY:-"quay.io"}
