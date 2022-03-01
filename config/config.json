@@ -110,17 +110,7 @@
         "cos": {
           "apiBasePath": "https://wxn4aqqc8bqvxcy6unfe.api.stage.openshift.com",
           "configurators": {
-            "debezium-mongodb-1.9.0.Alpha1": {
-              "remoteEntry": "/beta/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
-              "scope": "debezium_ui",
-              "module": "./config"
-            },
-            "debezium-mysql-1.9.0.Alpha1": {
-              "remoteEntry": "/beta/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
-              "scope": "debezium_ui",
-              "module": "./config"
-            },
-            "debezium-postgres-1.9.0.Alpha1": {
+            "debezium": {
               "remoteEntry": "/beta/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
               "scope": "debezium_ui",
               "module": "./config"
@@ -163,17 +153,7 @@
         "cos": {
           "apiBasePath": "https://api.openshift.com",
           "configurators": {
-            "debezium-mongodb-1.9.0.Alpha1": {
-              "remoteEntry": "/beta/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
-              "scope": "debezium_ui",
-              "module": "./config"
-            },
-            "debezium-mysql-1.9.0.Alpha1": {
-              "remoteEntry": "/beta/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
-              "scope": "debezium_ui",
-              "module": "./config"
-            },
-            "debezium-postgres-1.9.0.Alpha1": {
+            "debezium": {
               "remoteEntry": "/beta/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
               "scope": "debezium_ui",
               "module": "./config"
