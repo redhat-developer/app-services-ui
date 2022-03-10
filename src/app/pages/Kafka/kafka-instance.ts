@@ -7,7 +7,7 @@ export const getAdminServerUrl = (kafkaRequest?: KafkaRequest): string => {
   if (kafkaRequest === undefined) {
     throw new Error('kafkaRequest cannot be undefined');
   }
-  return `https://admin-server-${kafkaRequest?.bootstrap_server_host}`;
+  return `https://admin-server-${kafkaRequest?.bootstrap_server_host}/rest`;
 };
 
 export type KafkaInstance = {
