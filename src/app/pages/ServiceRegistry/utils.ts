@@ -53,6 +53,7 @@ const createApicurioConfig = (config: Config, apiUrl: string, navPathPrefix: str
       breadcrumbs: false,
       roleManagement: true,
       multiTenant: true,
+      settings: true
     },
     ui: {
       navPrefixPath: navPathPrefix,
