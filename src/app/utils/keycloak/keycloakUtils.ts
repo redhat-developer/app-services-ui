@@ -26,6 +26,7 @@ export const initKeycloak = async (
   const initOptions = {
     responseMode: 'query',
     enableLogging: false,
+    checkLoginIframe: false
   } as KeycloakInitOptions;
 
   const refreshToken = await retrieveRefreshToken(getInsightsAccessToken);
@@ -46,28 +47,34 @@ export const initKeycloak = async (
       body,
     });
     if (response.status === 200) {
-      console.debug('found valid access token');
+      console.debug('[KEYCLOAK] found valid access token');
       const json = await response.json();
       const accessToken = json['access_token'];
       initOptions.token = accessToken;
       initOptions.refreshToken = refreshToken;
     } else {
-      console.debug('error getting access token from endpoint');
+      console.debug('[KEYCLOAK] error getting access token from endpoint');
       initOptions.onLoad = 'login-required';
     }
   } else {
     const urlParams = new URLSearchParams(window.location.search);
     if (!urlParams.has('state')) {
       // only when this isn't a redirect back from MASSSO
-      console.debug('did not find refresh token, will require a full login');
+      console.debug('[KEYCLOAK] did not find refresh token, will require a full login');
       initOptions.onLoad = 'login-required';
     }
   }
+  console.debug("[KEYCLOAK] initOptions " + JSON.stringify(initOptions));
   const keycloak = Keycloak(config);
-  await keycloak.init(initOptions);
+  const keycloakSucess = await keycloak.init(initOptions);
+  console.log("[KEYCLOAK] keycloakSuccess " + keycloakSucess);
   if (keycloak.refreshToken) {
+    console.log("[KEYCLOAK] initKeycloak " + keycloak.refreshToken);
     await storeRefreshToken(keycloak.refreshToken, getInsightsAccessToken);
+  } else {
+    console.log("[KEYCLOAK] no refresh token");
   }
+  console.log("[KEYCLOAK] init complete");
   return keycloak;
 };
 
@@ -139,7 +146,12 @@ const storeRefreshToken = async (refreshToken: string, getInsightsAccessToken: (
  *
  */
 export const getAccessToken = async (keycloak: KeycloakInstance, getInsightsAccessToken: () => Promise<string>): Promise<string> => {
+  console.log("keycloak.refreshToken " + keycloak.refreshToken);
+  console.log("keycloak.token " + keycloak.token);
+  console.log("keycloak.tokenParsed " + keycloak.tokenParsed);
   await keycloak.updateToken(MIN_VALIDITY);
+  console.log("keycloak.token " + keycloak.token);
+  console.log("keycloak.tokenParsed " + keycloak.tokenParsed);
   if (!keycloak.token || !keycloak.tokenParsed) {
     throw new Error('No token from keycloak!');
   }
