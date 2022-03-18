@@ -36,7 +36,9 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
       const [kafkaTopics, metrics] = await Promise.all([
         fetchKafkaTopisFromAdmin({
           accessToken: auth?.kafka.getToken(),
-          basePath: kafkaAdminUrl,
+          //replace is the temporary fix for /topics call for Dashboard
+          //remove when we have latest kafka SDK in app-services-ui and kafka-ui
+          basePath: kafkaAdminUrl?.replace('/rest', ''),
         }),
         fetchTopicMetrics({
           ...props,
