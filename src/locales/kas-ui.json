@@ -266,7 +266,7 @@
   "trial_kafka_message": "You can deploy 1 instance at a time. To deploy a new instance, delete your existing one first.",
   "kafka_creation_failed_alert_title": "Kafka instance can't be created",
   "standard_kafka_creation_failed_alert_message": "Your organization reached the limit of kafka instances available for creation.",
-  "trial_kafka_creation_failed_alert_message": "Kafka instances are no longer available. Try again in a few hours.",
+  "trial_kafka_creation_failed_alert_message": "All available Kafka evaluation slots are currently in use. Please try again later",
   "deploy_one_instance_alert_message": "You can deploy 1 instance at a time. To deploy a new instance, delete your existing one first.",
   "trial_quota_kafka_title": "Your instance will expire after 48 hours.",
   "owner_change_sucess_title": "Kafka instance owner changed",
