@@ -60,7 +60,7 @@
     "@patternfly/react-icons": "4.32.1",
     "@patternfly/react-table": "4.50.1",
     "@redhat-cloud-services/frontend-components": "3.8.3",
-    "@redhat-cloud-services/frontend-components-config-utilities": "1.5.16",
+    "@redhat-cloud-services/frontend-components-config-utilities": "1.5.17",
     "@redhat-cloud-services/frontend-components-notifications": "3.2.5",
     "@redhat-cloud-services/frontend-components-utilities": "3.2.12",
     "@testing-library/react": "12.1.2",
