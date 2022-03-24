@@ -7,8 +7,9 @@ import { useContext } from "react";
 export type AmsConfig = {
   termsAndConditionsEventCode: string;
   termsAndConditionsSiteCode: string;
-  instanceQuotaId: string;
-  trialQuotaId: string;
+  quotaProductId: string;
+  trialQuotaProductId: string;
+  resourceName: string;
 }
 
 export type ServiceConstants = {

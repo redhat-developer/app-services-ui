@@ -6,7 +6,7 @@ import { useConstants } from '@app/providers/config/ServiceConstants';
 export const useQuota = (productId: ProductType) => {
     const config = useConfig();
     const auth = useAuth();
-    const constants =  useConstants();
+    const constants = useConstants();
 
     const [orgId, setOrgId] = useState();
 
@@ -30,14 +30,18 @@ export const useQuota = (productId: ProductType) => {
     }, [config?.ams.apiBasePath, auth]);
 
     const getQuotaTypesByProductId = () => {
-        const kasQuotaId = constants.kafka.ams.instanceQuotaId
-        const kasTrialQuotaId  =  constants.kafka.ams.trialQuotaId
-        const srsQuotaId = constants.serviceRegistry.ams.instanceQuotaId
-        const srsTrialQuotaId  =  constants.serviceRegistry.ams.trialQuotaId
+        const kasQuotaProductId = constants.kafka.ams.quotaProductId;
+        const kasTrialQuotaProductId = constants.kafka.ams.trialQuotaProductId;
+        const kasResourceName = constants.kafka.ams.resourceName;
+
+        const srsQuotaProductId = constants.serviceRegistry.ams.quotaProductId;
+        const srsTrialQuotaProductId = constants.serviceRegistry.ams.trialQuotaProductId;
+        const srsResourceName = constants.serviceRegistry.ams.resourceName;
+
         if (productId === ProductType.kas) {
-            return { quotaId: kasQuotaId, trialQuotaId: kasTrialQuotaId, quotaKey: QuotaType.kas, trialQuotaKey: QuotaType.kasTrial };
+            return { productId: kasQuotaProductId, trialQuotaProductId: kasTrialQuotaProductId, resourceName: kasResourceName, quotaKey: QuotaType.kas, trialQuotaKey: QuotaType.kasTrial };
         } else if (productId === ProductType.srs) {
-            return { quotaId: srsQuotaId, trialQuotaId: srsTrialQuotaId, quotaKey: QuotaType.srs, trialQuotaKey: QuotaType.srsTrial };
+            return { quotaId: srsQuotaProductId, trialQuotaId: srsTrialQuotaProductId, resourceName: srsResourceName, quotaKey: QuotaType.srs, trialQuotaKey: QuotaType.srsTrial };
         }
     }
 
@@ -45,24 +49,23 @@ export const useQuota = (productId: ProductType) => {
         let filteredQuota: Quota = { loading: true, isServiceDown: false, data: undefined };
 
         if (orgId) {
-            const { quotaId, trialQuotaId, quotaKey, trialQuotaKey } = getQuotaTypesByProductId() || {};
+            const { productId, trialQuotaProductId, resourceName, quotaKey, trialQuotaKey } = getQuotaTypesByProductId() || {};
 
             const accessToken = await auth?.ams.getToken();
             const ams = new AppServicesApi({
                 accessToken,
                 basePath: config?.ams.apiBasePath || '',
             } as Configuration);
-
             await ams
                 .apiAccountsMgmtV1OrganizationsOrgIdQuotaCostGet(orgId, undefined, true)
                 .then((res) => {
                     const quotaData = new Map<QuotaType, QuotaValue>();
                     const quota = res?.data?.items?.filter(
-                        (q) => q.quota_id.trim() === quotaId
+                        (q) => q.related_resources?.filter((r) => r.resource_name === resourceName && r.product === productId)
                     )[0];
 
                     const trialQuota = res?.data?.items?.filter(
-                        (q) => q.quota_id.trim() === trialQuotaId
+                        (q) => q.related_resources?.filter((r) => r.resource_name === resourceName && r.product === trialQuotaProductId)
                     )[0];
 
                     if (quota && quota.allowed > 0) {
