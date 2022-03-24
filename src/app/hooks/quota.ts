@@ -39,9 +39,9 @@ export const useQuota = (productId: ProductType) => {
         const srsResourceName = constants.serviceRegistry.ams.resourceName;
 
         if (productId === ProductType.kas) {
-            return { productId: kasQuotaProductId, trialQuotaProductId: kasTrialQuotaProductId, resourceName: kasResourceName, quotaKey: QuotaType.kas, trialQuotaKey: QuotaType.kasTrial };
+            return { quotaProductId: kasQuotaProductId, trialQuotaProductId: kasTrialQuotaProductId, resourceName: kasResourceName, quotaKey: QuotaType.kas, trialQuotaKey: QuotaType.kasTrial };
         } else if (productId === ProductType.srs) {
-            return { quotaId: srsQuotaProductId, trialQuotaId: srsTrialQuotaProductId, resourceName: srsResourceName, quotaKey: QuotaType.srs, trialQuotaKey: QuotaType.srsTrial };
+            return { quotaProductId: srsQuotaProductId, trialQuotaProductId: srsTrialQuotaProductId, resourceName: srsResourceName, quotaKey: QuotaType.srs, trialQuotaKey: QuotaType.srsTrial };
         }
     }
 
@@ -49,7 +49,7 @@ export const useQuota = (productId: ProductType) => {
         let filteredQuota: Quota = { loading: true, isServiceDown: false, data: undefined };
 
         if (orgId) {
-            const { productId, trialQuotaProductId, resourceName, quotaKey, trialQuotaKey } = getQuotaTypesByProductId() || {};
+            const { quotaProductId, trialQuotaProductId, resourceName, quotaKey, trialQuotaKey } = getQuotaTypesByProductId() || {};
 
             const accessToken = await auth?.ams.getToken();
             const ams = new AppServicesApi({
@@ -61,7 +61,7 @@ export const useQuota = (productId: ProductType) => {
                 .then((res) => {
                     const quotaData = new Map<QuotaType, QuotaValue>();
                     const quota = res?.data?.items?.filter(
-                        (q) => q.related_resources?.filter((r) => r.resource_name === resourceName && r.product === productId)
+                        (q) => q.related_resources?.filter((r) => r.resource_name === resourceName && r.product === quotaProductId)
                     )[0];
 
                     const trialQuota = res?.data?.items?.filter(
