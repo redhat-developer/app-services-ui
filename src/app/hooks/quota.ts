@@ -61,11 +61,11 @@ export const useQuota = (productId: ProductType) => {
                 .then((res) => {
                     const quotaData = new Map<QuotaType, QuotaValue>();
                     const quota = res?.data?.items?.filter(
-                        (q) => q.related_resources?.filter((r) => r.resource_name === resourceName && r.product === quotaProductId)
+                        (q) => q.related_resources?.filter((r) => r.resource_name === resourceName && r.product === quotaProductId)[0]
                     )[0];
 
                     const trialQuota = res?.data?.items?.filter(
-                        (q) => q.related_resources?.filter((r) => r.resource_name === resourceName && r.product === trialQuotaProductId)
+                        (q) => q.related_resources?.filter((r) => r.resource_name === resourceName && r.product === trialQuotaProductId)[0]
                     )[0];
 
                     if (quota && quota.allowed > 0) {
