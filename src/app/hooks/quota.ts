@@ -56,17 +56,18 @@ export const useQuota = (productId: ProductType) => {
                 accessToken,
                 basePath: config?.ams.apiBasePath || '',
             } as Configuration);
+            
             await ams
                 .apiAccountsMgmtV1OrganizationsOrgIdQuotaCostGet(orgId, undefined, true)
                 .then((res) => {
                     const quotaData = new Map<QuotaType, QuotaValue>();
-                    const quota = res?.data?.items?.filter(
-                        (q) => q.related_resources?.filter((r) => r.resource_name === resourceName && r.product === quotaProductId)[0]
-                    )[0];
+                    const quota = res?.data?.items?.find(
+                        (q) => q.related_resources?.find((r) => r.resource_name === resourceName && r.product === quotaProductId)
+                    );
 
-                    const trialQuota = res?.data?.items?.filter(
-                        (q) => q.related_resources?.filter((r) => r.resource_name === resourceName && r.product === trialQuotaProductId)[0]
-                    )[0];
+                    const trialQuota = res?.data?.items?.find(
+                        (q) => q.related_resources?.find((r) => r.resource_name === resourceName && r.product === trialQuotaProductId)
+                    );
 
                     if (quota && quota.allowed > 0) {
                         const remaining = quota?.allowed - quota?.consumed;
