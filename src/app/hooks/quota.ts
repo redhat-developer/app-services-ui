@@ -46,6 +46,7 @@ export const useQuota = (productId: ProductType) => {
     }
 
     const getQuota = async () => {
+        const quotaData = new Map<QuotaType, QuotaValue>();
         let filteredQuota: Quota = { loading: true, isServiceDown: false, data: undefined };
 
         if (orgId) {
@@ -56,44 +57,43 @@ export const useQuota = (productId: ProductType) => {
                 accessToken,
                 basePath: config?.ams.apiBasePath || '',
             } as Configuration);
-            
-            await ams
-                .apiAccountsMgmtV1OrganizationsOrgIdQuotaCostGet(orgId, undefined, true)
-                .then((res) => {
-                    const quotaData = new Map<QuotaType, QuotaValue>();
-                    const quota = res?.data?.items?.find(
-                        (q) => q.related_resources?.find((r) => r.resource_name === resourceName && r.product === quotaProductId)
-                    );
 
-                    const trialQuota = res?.data?.items?.find(
-                        (q) => q.related_resources?.find((r) => r.resource_name === resourceName && r.product === trialQuotaProductId)
-                    );
+            try {
+                const response = await ams.apiAccountsMgmtV1OrganizationsOrgIdQuotaCostGet(orgId, undefined, true);
 
-                    if (quota && quota.allowed > 0) {
-                        const remaining = quota?.allowed - quota?.consumed;
-                        quotaData?.set(quotaKey, {
-                            allowed: quota?.allowed,
-                            consumed: quota?.consumed,
-                            remaining: remaining < 0 ? 0 : remaining
-                        });
-                    }
+                const quota = response?.data?.items?.find(
+                    (q) => q.related_resources?.find((r) => r.resource_name === resourceName && r.product === quotaProductId)
+                );
+                const trialQuota = response?.data?.items?.find(
+                    (q) => q.related_resources?.find((r) => r.resource_name === resourceName && r.product === trialQuotaProductId)
+                );
 
-                    if (trialQuota) {
-                        quotaData?.set(trialQuotaKey, {
-                            allowed: trialQuota?.allowed,
-                            consumed: trialQuota?.consumed,
-                            remaining: trialQuota?.allowed - trialQuota?.consumed
-                        });
-                    }
+                if (quota && quota.allowed > 0) {
+                    const remaining = quota?.allowed - quota?.consumed;
+                    quotaData?.set(quotaKey, {
+                        allowed: quota?.allowed,
+                        consumed: quota?.consumed,
+                        remaining: remaining < 0 ? 0 : remaining
+                    });
+                }
 
-                    filteredQuota.loading = false;
-                    filteredQuota.data = quotaData;
-                })
-                .catch((error) => {
-                    filteredQuota.loading = false;
-                    filteredQuota.isServiceDown = true;
-                });
+                if (trialQuota) {
+                    quotaData?.set(trialQuotaKey, {
+                        allowed: trialQuota?.allowed,
+                        consumed: trialQuota?.consumed,
+                        remaining: trialQuota?.allowed - trialQuota?.consumed
+                    });
+                }
+
+                filteredQuota.loading = false;
+                filteredQuota.data = quotaData;
+
+            } catch (_error) {
+                filteredQuota.loading = false;
+                filteredQuota.isServiceDown = true;
+            }
         }
+        
         return filteredQuota;
     };
 
