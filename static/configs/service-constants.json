@@ -5,7 +5,10 @@
       "termsAndConditionsEventCode": "register",
       "termsAndConditionsSiteCode": "ocm",
       "instanceQuotaId": "cluster|rhinfra|rhosak|marketplace",
-      "trialQuotaId": "cluster|rhinfra|rhosaktrial|marketplace"
+      "trialQuotaId": "cluster|rhinfra|rhosaktrial|marketplace",
+      "quotaProductId": "RHOSAK",
+      "trialQuotaProductId": "RHOSAKTrial",
+      "resourceName": "rhosak"
     }
   },
   "serviceRegistry": {
@@ -13,7 +16,10 @@
       "termsAndConditionsEventCode": "register",
       "termsAndConditionsSiteCode": "ocm",
       "instanceQuotaId": "cluster|rhinfra|rhosr|any",
-      "trialQuotaId": "cluster|rhinfra|rhosrtrial|any"
+      "trialQuotaId": "cluster|rhinfra|rhosrtrial|any",
+      "quotaProductId": "RHOSR",
+      "trialQuotaProductId": "RHOSRTrial",
+      "resourceName": "rhosr"
     }
   }
 }
