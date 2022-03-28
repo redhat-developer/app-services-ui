@@ -6,7 +6,7 @@ import { useConstants } from '@app/providers/config/ServiceConstants';
 export const useQuota = (productId: ProductType) => {
     const config = useConfig();
     const auth = useAuth();
-    const constants =  useConstants();
+    const constants = useConstants();
 
     const [orgId, setOrgId] = useState();
 
@@ -30,22 +30,27 @@ export const useQuota = (productId: ProductType) => {
     }, [config?.ams.apiBasePath, auth]);
 
     const getQuotaTypesByProductId = () => {
-        const kasQuotaId = constants.kafka.ams.instanceQuotaId
-        const kasTrialQuotaId  =  constants.kafka.ams.trialQuotaId
-        const srsQuotaId = constants.serviceRegistry.ams.instanceQuotaId
-        const srsTrialQuotaId  =  constants.serviceRegistry.ams.trialQuotaId
+        const kasQuotaProductId = constants.kafka.ams.quotaProductId;
+        const kasTrialQuotaProductId = constants.kafka.ams.trialQuotaProductId;
+        const kasResourceName = constants.kafka.ams.resourceName;
+
+        const srsQuotaProductId = constants.serviceRegistry.ams.quotaProductId;
+        const srsTrialQuotaProductId = constants.serviceRegistry.ams.trialQuotaProductId;
+        const srsResourceName = constants.serviceRegistry.ams.resourceName;
+
         if (productId === ProductType.kas) {
-            return { quotaId: kasQuotaId, trialQuotaId: kasTrialQuotaId, quotaKey: QuotaType.kas, trialQuotaKey: QuotaType.kasTrial };
+            return { quotaProductId: kasQuotaProductId, trialQuotaProductId: kasTrialQuotaProductId, resourceName: kasResourceName, quotaKey: QuotaType.kas, trialQuotaKey: QuotaType.kasTrial };
         } else if (productId === ProductType.srs) {
-            return { quotaId: srsQuotaId, trialQuotaId: srsTrialQuotaId, quotaKey: QuotaType.srs, trialQuotaKey: QuotaType.srsTrial };
+            return { quotaProductId: srsQuotaProductId, trialQuotaProductId: srsTrialQuotaProductId, resourceName: srsResourceName, quotaKey: QuotaType.srs, trialQuotaKey: QuotaType.srsTrial };
         }
     }
 
     const getQuota = async () => {
+        const quotaData = new Map<QuotaType, QuotaValue>();
         let filteredQuota: Quota = { loading: true, isServiceDown: false, data: undefined };
 
         if (orgId) {
-            const { quotaId, trialQuotaId, quotaKey, trialQuotaKey } = getQuotaTypesByProductId() || {};
+            const { quotaProductId, trialQuotaProductId, resourceName, quotaKey, trialQuotaKey } = getQuotaTypesByProductId() || {};
 
             const accessToken = await auth?.ams.getToken();
             const ams = new AppServicesApi({
@@ -53,43 +58,42 @@ export const useQuota = (productId: ProductType) => {
                 basePath: config?.ams.apiBasePath || '',
             } as Configuration);
 
-            await ams
-                .apiAccountsMgmtV1OrganizationsOrgIdQuotaCostGet(orgId, undefined, true)
-                .then((res) => {
-                    const quotaData = new Map<QuotaType, QuotaValue>();
-                    const quota = res?.data?.items?.filter(
-                        (q) => q.quota_id.trim() === quotaId
-                    )[0];
+            try {
+                const response = await ams.apiAccountsMgmtV1OrganizationsOrgIdQuotaCostGet(orgId, undefined, true);
 
-                    const trialQuota = res?.data?.items?.filter(
-                        (q) => q.quota_id.trim() === trialQuotaId
-                    )[0];
+                const quota = response?.data?.items?.find(
+                    (q) => q.related_resources?.find((r) => r.resource_name === resourceName && r.product === quotaProductId)
+                );
+                const trialQuota = response?.data?.items?.find(
+                    (q) => q.related_resources?.find((r) => r.resource_name === resourceName && r.product === trialQuotaProductId)
+                );
 
-                    if (quota && quota.allowed > 0) {
-                        const remaining = quota?.allowed - quota?.consumed;
-                        quotaData?.set(quotaKey, {
-                            allowed: quota?.allowed,
-                            consumed: quota?.consumed,
-                            remaining: remaining < 0 ? 0 : remaining
-                        });
-                    }
+                if (quota && quota.allowed > 0) {
+                    const remaining = quota?.allowed - quota?.consumed;
+                    quotaData?.set(quotaKey, {
+                        allowed: quota?.allowed,
+                        consumed: quota?.consumed,
+                        remaining: remaining < 0 ? 0 : remaining
+                    });
+                }
 
-                    if (trialQuota) {
-                        quotaData?.set(trialQuotaKey, {
-                            allowed: trialQuota?.allowed,
-                            consumed: trialQuota?.consumed,
-                            remaining: trialQuota?.allowed - trialQuota?.consumed
-                        });
-                    }
+                if (trialQuota) {
+                    quotaData?.set(trialQuotaKey, {
+                        allowed: trialQuota?.allowed,
+                        consumed: trialQuota?.consumed,
+                        remaining: trialQuota?.allowed - trialQuota?.consumed
+                    });
+                }
 
-                    filteredQuota.loading = false;
-                    filteredQuota.data = quotaData;
-                })
-                .catch((error) => {
-                    filteredQuota.loading = false;
-                    filteredQuota.isServiceDown = true;
-                });
+                filteredQuota.loading = false;
+                filteredQuota.data = quotaData;
+
+            } catch (_error) {
+                filteredQuota.loading = false;
+                filteredQuota.isServiceDown = true;
+            }
         }
+        
         return filteredQuota;
     };
 
