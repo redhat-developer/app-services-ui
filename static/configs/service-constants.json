@@ -4,8 +4,8 @@
     "ams": {
       "termsAndConditionsEventCode": "register",
       "termsAndConditionsSiteCode": "ocm",
-      "instanceQuotaId": "cluster|rhinfra|rhosak|marketplace",
-      "trialQuotaId": "cluster|rhinfra|rhosaktrial|marketplace",
+      "instanceQuotaId": "cluster|rhinfra|rhosak|standard",
+      "trialQuotaId": "cluster|rhinfra|rhosaktrial|standard",
       "quotaProductId": "RHOSAK",
       "trialQuotaProductId": "RHOSAKTrial",
       "resourceName": "rhosak"
