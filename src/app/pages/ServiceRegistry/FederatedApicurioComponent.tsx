@@ -46,7 +46,10 @@ const ServiceAccountsPageConnected: VoidFunctionComponent<
   const basename = useBasename();
   const getToken = auth?.apicurio_registry.getToken;
 
-  const { groupId, artifactId, version } = useParams<ServiceRegistryParams>();
+  let { groupId, artifactId, version } = useParams<ServiceRegistryParams>();
+  groupId = decodeURIComponent(groupId);
+  artifactId = decodeURIComponent(artifactId);
+  version = decodeURIComponent(version);
 
   if (config === undefined || registry === undefined) {
     return <AppServicesLoading />;
