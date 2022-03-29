@@ -3,7 +3,7 @@ import { Configuration, DefaultApi, KafkaRequest } from '@rhoas/kafka-management
 import { useParams } from 'react-router-dom';
 import { useAuth, useConfig } from '@rhoas/app-services-ui-shared';
 
-const DEFAULT_ADMIN_SERVER_URL_TEMPLATE = 'https://admin-server-{}/rest';
+const DEFAULT_ADMIN_SERVER_URL_TEMPLATE = 'https://admin-server-{}/';
 
 /**
  * Join admin server url template with the kafka bootstrap host and return the kafka admin url.
