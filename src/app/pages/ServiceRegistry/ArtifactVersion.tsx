@@ -6,7 +6,7 @@ import { useConfig } from "@rhoas/app-services-ui-shared";
 import { ServiceDownPage } from "@app/pages";
 
 export const ArtifactVersionDetails: React.FunctionComponent = () => {
-  const config = useConfig();  
+  const config = useConfig();
 
   if (config?.serviceDown) {
     return <ServiceDownPage />;
@@ -16,8 +16,9 @@ export const ArtifactVersionDetails: React.FunctionComponent = () => {
 };
 
 const ArtifactVersionDetailsConnected: React.FunctionComponent = () => {
-  const { artifactId }=useParams<{artifactId:string}>();
-  
+  let { artifactId }=useParams<{artifactId:string}>();
+  artifactId = decodeURIComponent(artifactId);
+
   return (
     <SrsLayout breadcrumbId="srs.artifacts_details" artifactId={artifactId} render={registry => (
       <FederatedApicurioComponent registry={registry} module="./FederatedArtifactVersionPage" />
