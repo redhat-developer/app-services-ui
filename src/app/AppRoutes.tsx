@@ -24,6 +24,7 @@ const ArtifactRedirect = React.lazy(() => import('@app/pages/ServiceRegistry/Art
 const Artifacts = React.lazy(() => import('@app/pages/ServiceRegistry/Artifacts'));
 const ArtifactVersionDetails = React.lazy(() => import('@app/pages/ServiceRegistry/ArtifactVersion'));
 const DataSciencePage = React.lazy(() => import('@app/pages/DataScience/DataSciencePage'));
+const KafkaOverviewPage = React.lazy(() => import('@app/pages/KafkaOverview/KafkaOverviewPage'));
 
 const KasPage = React.lazy(() => import('@app/pages/Kas/KasPage'));
 const OverviewPage = React.lazy(() => import('@app/pages/Overview/OverviewPage'));
@@ -48,6 +49,13 @@ const appRoutes: AppRouteConfig<any>[] = [
     title: 'Streams for Apache Kafka | Red Hat OpenShift Application Services',
     basename: '/streams/kafkas/:id',
     devPreview: false,
+  },
+  {
+    component: KafkaOverviewPage,
+    exact: true,
+    label: 'Streams for Apache Kafka',
+    path: '/streams/overview',
+    title: 'Overview | Streams for Apache Kafka | Red Hat OpenShift Application Services',
   },
   {
     // Handle the redirect from application-services/streams to application-services/streams/kafkas
