@@ -262,7 +262,7 @@
     "partitions_with_lag_description": "Partitions with lag shows the number of partitions where the assigned consumer has not caught up with the last message in the partition. The offset lag of a partition reflects the current offset position of a consumer in relation to the end of the partition log. Use this number to identify any delay in the consumption of messages. To reduce consumer lag, you typically add new consumers to a group.",
     "uncosumed_partitions": "Unconsumed partitions",
     "uncosumed_partitions_for_topic": "Unconsumed partitions for this topic",
-    "state": "State",
+    "state_label": "State",
     "partition": "Partition",
     "client_id": "Client ID",
     "member_id": "Member ID",
@@ -288,11 +288,13 @@
     "offset_successfully_reset": "offsets for the consumer group have been successfully reset",
     "delete_consumer_connected_alert_title": "The {{name}} consumer group cannot be deleted at this time",
     "delete_consumer_connected_alert_body": "One or more members are currently connected to a topic. All members of a consumer group that are connected to topic must be disconnected before deleting the consumer group.",
-    "stable_state": "Stable",
-    "empty_state": "Empty",
-    "dead_state": "Dead",
-    "completing_rebalance_state": "CompletingRebalance",
-    "preparing_rebalance_state": "PreparingRebalance",
-    "unknown_state": "Unknown"
+    "state": {
+      "stable": "Stable",
+      "empty": "Empty",
+      "dead": "Dead",
+      "completing_rebalance": "CompletingRebalance",
+      "preparing_rebalance": "PreparingRebalance",
+      "unknown": "Unknown"
+    }
   }
 }
