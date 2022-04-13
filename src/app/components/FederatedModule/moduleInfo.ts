@@ -19,7 +19,7 @@ export const fetchModuleInfo: FetchModuleInfoFunction = async (baseUrl, scope, f
   };
 
   const fetchModuleInfo = async (basePath: string) => {
-    const url = `${basePath}/${fedModsJsonFileName}`;
+    const url = `${basePath}/${fedModsJsonFileName}?ts=${Date.now()}`;
     const response = await fetch(url);
     return await response.json()
       .then(json => json as FedMods)
