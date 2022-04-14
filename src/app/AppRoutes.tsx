@@ -43,20 +43,44 @@ const RedirectToResources: React.FunctionComponent = () => <Redirect to="/learni
 
 const appRoutes: AppRouteConfig<any>[] = [
   {
-    component: KafkaMainView,
-    label: 'Streams for Apache Kafka',
-    path: '/streams/kafkas/:id',
-    title: 'Streams for Apache Kafka | Red Hat OpenShift Application Services',
-    basename: '/streams/kafkas/:id',
-    devPreview: false,
+    component: RedirectToOverview,
+    exact: true,
+    label: 'Overview',
+    path: '/',
+    title: 'Overview | Red Hat OpenShift Application Services',
   },
   {
-    component: KafkaOverviewPage,
+    component: OverviewPage,
     exact: true,
-    label: 'Streams for Apache Kafka',
-    path: '/streams/overview',
-    title: 'Overview | Streams for Apache Kafka | Red Hat OpenShift Application Services',
+    label: 'Overview',
+    path: '/overview',
+    title: 'Overview | Red Hat OpenShift Application Services',
   },
+  {
+    component: APIManagementPage,
+    exact: true,
+    label: 'API Management',
+    path: '/api-management',
+    title: 'API Management | Red Hat OpenShift Application Services',
+  },
+  {
+    component: DataSciencePage,
+    exact: true,
+    label: 'Data Science',
+    path: '/data-science',
+    title: 'Data Science | Red Hat OpenShift Application Services',
+  },
+  {
+    component: ResourcesPage,
+    exact: true,
+    label: 'Learning Resources | Red Hat OpenShift Application Services',
+    path: '/learning-resources',
+    title: 'Learning Resources | Red Hat OpenShift Application Services',
+    devPreview: false,
+  },
+  /**
+   * STREAMS SECTION
+   */
   {
     // Handle the redirect from application-services/streams to application-services/streams/kafkas
     component: RedirectToStreamsKafkas,
@@ -66,12 +90,11 @@ const appRoutes: AppRouteConfig<any>[] = [
     title: 'Streams for Apache Kafka | Red Hat OpenShift Application Services',
   },
   {
-    component: RedirectToStreamsKafkas,
-    // Handle the redirect for the old url application-services/openshift-streams to application-services/streams/kafkas
+    component: KafkaOverviewPage,
     exact: true,
     label: 'Streams for Apache Kafka',
-    path: '/openshift-streams',
-    title: 'Streams for Apache Kafka | Red Hat OpenShift Application Services',
+    path: '/streams/overview',
+    title: 'Overview | Streams for Apache Kafka | Red Hat OpenShift Application Services',
   },
   {
     component: KasPage,
@@ -98,6 +121,38 @@ const appRoutes: AppRouteConfig<any>[] = [
     title: 'Service Registry | Red Hat OpenShift Application Services',
     basename: '/service-registry',
   },
+  {
+    component: RedirectToServiceAccounts,
+    exact: true,
+    label: 'Service Accounts',
+    path: '/streams/service-accounts',
+    title: 'Service Accounts | Red Hat OpenShift Application Services',
+    devPreview: false,
+  },
+  {
+    // Handle the redirect for the old url application-services/streams/resources to application-services/learning-resources
+    component: RedirectToResources,
+    label: 'QuickStarts for Red Hat OpenShift Application Services',
+    path: '/streams/resources',
+    title: 'QuickStarts for Red Hat OpenShift Application Services',
+    devPreview: true,
+  },
+  // this needs to be the last route for the streams section since it's the catch-all one
+  {
+    component: KafkaMainView,
+    label: 'Streams for Apache Kafka',
+    path: '/streams/kafkas/:id',
+    title: 'Streams for Apache Kafka | Red Hat OpenShift Application Services',
+    basename: '/streams/kafkas/:id',
+    devPreview: false,
+  },
+  /**
+   * END OF STREAMS SECTION
+   */
+
+  /**
+   * SERVICE REGISTRY SECTION
+   */
   {
     component: Artifacts,
     exact: true,
@@ -146,6 +201,10 @@ const appRoutes: AppRouteConfig<any>[] = [
     title: 'Service Registry | Red Hat OpenShift Application Services',
     basename: '/service-registry',
   },
+  /**
+   * END OF SERVICE REGISTRY SECTION
+   */
+
   {
     component: CosPage,
     exact: false,
@@ -163,57 +222,15 @@ const appRoutes: AppRouteConfig<any>[] = [
     title: 'Service Accounts | Red Hat OpenShift Application Services',
     devPreview: false,
   },
+
+  // old url handling
   {
-    component: RedirectToServiceAccounts,
+    component: RedirectToStreamsKafkas,
+    // Handle the redirect for the old url application-services/openshift-streams to application-services/streams/kafkas
     exact: true,
-    label: 'Service Accounts',
-    path: '/streams/service-accounts',
-    title: 'Service Accounts | Red Hat OpenShift Application Services',
-    devPreview: false,
-  },
-  {
-    component: OverviewPage,
-    exact: true,
-    label: 'Overview',
-    path: '/overview',
-    title: 'Overview | Red Hat OpenShift Application Services',
-  },
-  {
-    component: RedirectToOverview,
-    exact: true,
-    label: 'Overview',
-    path: '/',
-    title: 'Overview | Red Hat OpenShift Application Services',
-  },
-  {
-    component: APIManagementPage,
-    exact: true,
-    label: 'API Management',
-    path: '/api-management',
-    title: 'API Management | Red Hat OpenShift Application Services',
-  },
-  {
-    component: DataSciencePage,
-    exact: true,
-    label: 'Data Science',
-    path: '/data-science',
-    title: 'Data Science | Red Hat OpenShift Application Services',
-  },
-  {
-    // Handle the redirect for the old url application-services/streams/resources to application-services/learning-resources
-    component: RedirectToResources,
-    label: 'QuickStarts for Red Hat OpenShift Application Services',
-    path: '/streams/resources',
-    title: 'QuickStarts for Red Hat OpenShift Application Services',
-    devPreview: true,
-  },
-  {
-    component: ResourcesPage,
-    exact: true,
-    label: 'Learning Resources | Red Hat OpenShift Application Services',
-    path: '/learning-resources',
-    title: 'Learning Resources | Red Hat OpenShift Application Services',
-    devPreview: false,
+    label: 'Streams for Apache Kafka',
+    path: '/openshift-streams',
+    title: 'Streams for Apache Kafka | Red Hat OpenShift Application Services',
   },
 ];
 
