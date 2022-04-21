@@ -88,9 +88,10 @@ export const useQuota = (productId: ProductType) => {
                 filteredQuota.loading = false;
                 filteredQuota.data = quotaData;
 
-            } catch (_error) {
+            } catch (error) {
                 filteredQuota.loading = false;
                 filteredQuota.isServiceDown = true;
+                console.error(error)
             }
         }
         
