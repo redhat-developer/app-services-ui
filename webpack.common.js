@@ -155,28 +155,28 @@ module.exports = (env, argv) => {
           react: {
             eager: true,
             singleton: true,
-            requiredVersion: dependencies.react,
+            requiredVersion: peerDependencies.react,
           },
           'react-dom': {
             eager: true,
             singleton: true,
-            requiredVersion: dependencies['react-dom'],
+            requiredVersion: peerDependencies['react-dom'],
           },
           'react-i18next': {
             singleton: true,
-            requiredVersion: dependencies['react-i18next'],
+            requiredVersion: peerDependencies['react-i18next'],
           },
           'react-router-dom': {
             singleton: true,
-            requiredVersion: dependencies['react-router-dom'],
+            requiredVersion: peerDependencies['react-router-dom'],
           },
           '@rhoas/app-services-ui-components': {
             singleton: true,
-            requiredVersion: dependencies['@rhoas/app-services-ui-components'],
+            requiredVersion: peerDependencies['@rhoas/app-services-ui-components'],
           },
           '@rhoas/app-services-ui-shared': {
             singleton: true,
-            requiredVersion: dependencies['@rhoas/app-services-ui-shared'],
+            requiredVersion: peerDependencies['@rhoas/app-services-ui-shared'],
           },
           '@scalprum/react-core': { requiredVersion: '*', singleton: true },
           '@patternfly/quickstarts': { requiredVersion: '*', singleton: true },
