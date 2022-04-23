@@ -25,10 +25,10 @@ export async function fetchTopicMetrics({
   );
 
   const response = await apisService.getMetricsByRangeQuery(kafkaId, duration, interval, [
-    'kafka_server_brokertopicmetrics_bytes_in_total',
-    'kafka_server_brokertopicmetrics_bytes_out_total',
+    'kafka_topic:kafka_server_brokertopicmetrics_bytes_in_total:rate5m',
+    'kafka_topic:kafka_server_brokertopicmetrics_bytes_out_total:rate5m',
     'kafka_topic:kafka_log_log_size:sum',
-    'kafka_server_brokertopicmetrics_messages_in_total',
+    'kafka_topic:kafka_server_brokertopicmetrics_messages_in_total:rate5m',
   ]);
 
   // Remove all results with no data. Not sure this can really  happen but since
@@ -67,16 +67,16 @@ export async function fetchTopicMetrics({
     }
 
     switch (name) {
-      case 'kafka_server_brokertopicmetrics_bytes_in_total':
+      case 'kafka_topic:kafka_server_brokertopicmetrics_bytes_in_total:rate5m':
         addAggregatedTotalBytesTo(bytesIncoming);
         break;
-      case 'kafka_server_brokertopicmetrics_bytes_out_total':
+      case 'kafka_topic:kafka_server_brokertopicmetrics_bytes_out_total:rate5m':
         addAggregatedTotalBytesTo(bytesOutgoing);
         break;
       case 'kafka_topic:kafka_log_log_size:sum':
         addAggregatePartitionBytes();
         break;
-      case 'kafka_server_brokertopicmetrics_messages_in_total':
+      case 'kafka_topic:kafka_server_brokertopicmetrics_messages_in_total:rate5m':
         addAggregatedTotalBytesTo(incomingMessageRate);
         break;
     }
