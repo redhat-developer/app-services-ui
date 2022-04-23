@@ -37,12 +37,8 @@ export const KafkaMainView = (): React.ReactElement => {
   const { kafkaDetail, adminServerUrl } = kafka;
 
   const props = {
-    kafkaPageLink: history.createHref({
-      pathname: '/streams/kafkas',
-    }),
-    kafkaInstanceLink: history.createHref({
-      pathname: `/streams/kafkas/${kafkaDetail.id}/topics`,
-    }),
+    kafkaPageLink: '/streams/kafkas',
+    kafkaInstanceLink: `/streams/kafkas/${kafkaDetail.id}/topics`,
     showMetrics: <ConnectedMetrics kafkaId={kafkaDetail.id} kafkaAdminUrl={adminServerUrl} />,
     onError: (code: number) => {
       setError(code);
