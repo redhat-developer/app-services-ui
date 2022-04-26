@@ -5,6 +5,8 @@ import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-
 import { AppRoutes } from '@app/AppRoutes';
 import { FederatedModuleProvider } from '@app/components';
 import { useInsights } from '@app/hooks';
+import { Page } from "@patternfly/react-core";
+import "./App.css";
 
 export const App: React.FunctionComponent = () => {
   const insights = useInsights();
@@ -45,7 +47,9 @@ export const App: React.FunctionComponent = () => {
   return (
     <FederatedModuleProvider>
       <NotificationsPortal />
-      <AppRoutes />
+      <Page>
+        <AppRoutes />
+      </Page>
     </FederatedModuleProvider>
   );
 };
