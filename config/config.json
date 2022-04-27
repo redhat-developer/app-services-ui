@@ -65,7 +65,7 @@
           "apiBasePath": "https://api.stage.openshift.com"
         },
         "cos": {
-          "apiBasePath": "https://wxn4aqqc8bqvxcy6unfe.api.stage.openshift.com",
+          "apiBasePath": "https://wxn4abbc8bqvxcy6unfe.api.openshift.com",
           "configurators": {
             "debezium": {
               "remoteEntry": "/beta/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
@@ -151,7 +151,7 @@
           "basePath": "/api/rbac/v1"
         },
         "cos": {
-          "apiBasePath": "https://api.openshift.com",
+          "apiBasePath": "https://wxn4abbc8bqvxcy6unfe.api.openshift.com",
           "configurators": {
             "debezium": {
               "remoteEntry": "/beta/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
