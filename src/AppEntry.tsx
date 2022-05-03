@@ -95,6 +95,8 @@ const AppEntry: React.FunctionComponent = React.memo(() => (
           kasTemporaryFixMe: () => import('./locales/kas-ui.json'),
           srsTemporaryFixMe: () => import('./locales/srs-ui.json'),
           "manage-kafka-permissions": () => import("@rhoas/app-services-ui-components/locales/en/manage-kafka-permissions.json"),
+          "overview-v2": () => import('@rhoas/app-services-ui-components/locales/en/overview-v2.json'),
+          'kafkaoverview-v2': () => import('@rhoas/app-services-ui-components/locales/en/kafkaoverview-v2.json')
         },
       }}
       debug={true}
