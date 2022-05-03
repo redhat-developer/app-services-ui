@@ -10,10 +10,11 @@ export const ConnectedOverviewPage: React.FunctionComponent = () => {
   const connectorHref = '/connectors';
 
   const currentDate = startOfDay(new Date());
-
   const releaseDate = startOfDay(new Date('May 05 2022'));
 
-  if (currentDate >= releaseDate) {
+  const testRelease = new URLSearchParams((new URL(document.location.toString())).search).get('testRelease')
+
+  if (currentDate >= releaseDate || testRelease !== null) {
     return <OverviewPageV2 toKafkaHref={kafkaHref} toServiceRegistryHref={serviceRegistryHref} toConnectorsHref={connectorHref} />;
   } else {
     return <OverviewPage toKafkaHref={kafkaHref} toServiceRegistryHref={serviceRegistryHref} />;
