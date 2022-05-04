@@ -88,7 +88,7 @@
           "editorsBasePath": ""
         },
         "smart_events": {
-          "apiBasePath": "https://event-bridge-event-bridge-prod.apps.openbridge-dev.fdvn.p1.openshiftapps.com/api/v1"
+          "apiBasePath": "https://event-bridge-event-bridge-prod.apps.openbridge-dev.fdvn.p1.openshiftapps.com"
         }
       }
     },
@@ -137,7 +137,7 @@
           "editorsBasePath": ""
         },
         "smart_events": {
-          "apiBasePath": "https://event-bridge-event-bridge-prod.apps.openbridge-dev.fdvn.p1.openshiftapps.com/api/v1"
+          "apiBasePath": "https://event-bridge-event-bridge-prod.apps.openbridge-dev.fdvn.p1.openshiftapps.com"
         }
       }
     },
