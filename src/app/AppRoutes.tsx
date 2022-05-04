@@ -69,6 +69,10 @@ const CosPage = lazy(() => import("@app/pages/CosPage/CosPage"));
 const ServiceRegistryPage = lazy(
   () => import("@app/pages/ServiceRegistry/ServiceRegistryPage")
 );
+const SmartEventsPage = React.lazy(
+  () => import("@app/pages/SmartEventsPage/SmartEventsPage")
+);
+
 
 const RedirectToOverview: FunctionComponent = () => <Redirect to="/overview" />;
 const RedirectToStreamsKafkas: FunctionComponent = () => (
@@ -262,6 +266,15 @@ const appRoutes: AppRouteConfig<unknown>[] = [
     path: "/service-accounts",
     title: "Service Accounts | Red Hat OpenShift Application Services",
     devPreview: false,
+  },
+  {
+    component: SmartEventsPage,
+    exact: false,
+    label: "Smart Events",
+    path: "/smart-events",
+    title: "Smart Events | Red Hat OpenShift Application Services",
+    basename: `${getBaseName(window.location.pathname)}/smart-events`,
+    devPreview: true,
   },
 
   // old url handling
