@@ -82,6 +82,8 @@ const AppEntry: React.FunctionComponent = React.memo(() => (
           common: () => import('@rhoas/app-services-ui-components/locales/en/common.json'),
           'create-kafka-instance': () =>
             import('@rhoas/app-services-ui-components/locales/en/create-kafka-instance.json'),
+          'create-kafka-instance-with-sizes': () =>
+            import('@rhoas/app-services-ui-components/locales/en/create-kafka-instance-with-sizes.json'),
           kafka: () => import('@rhoas/app-services-ui-components/locales/en/kafka.json'),
           metrics: () => import('@rhoas/app-services-ui-components/locales/en/metrics.json'),
           overview: () => import('@rhoas/app-services-ui-components/locales/en/overview.json'),
