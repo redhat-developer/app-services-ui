@@ -39,7 +39,7 @@ export const KafkaMainView = (): React.ReactElement => {
   const props = {
     kafkaPageLink: '/streams/kafkas',
     kafkaInstanceLink: `/streams/kafkas/${kafkaDetail.id}/topics`,
-    showMetrics: <ConnectedMetrics kafkaId={kafkaDetail.id} kafkaAdminUrl={adminServerUrl} />,
+    showMetrics: <ConnectedMetrics kafkaId={kafkaDetail.id} kafkaAdminUrl={adminServerUrl} instanceType={kafkaDetail.instance_type === "standard" ? "standard" : "trial"} />,
     onError: (code: number) => {
       setError(code);
     },

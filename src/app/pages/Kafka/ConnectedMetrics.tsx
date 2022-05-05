@@ -7,9 +7,10 @@ import { fetchKafkaInstanceMetrics, fetchKafkaTopisFromAdmin, fetchMetricsKpi, f
 type ConnectedMetricsProps = {
   kafkaId: string;
   kafkaAdminUrl: string;
+  instanceType: "standard" | "trial"
 };
 
-export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({ kafkaId, kafkaAdminUrl }) => {
+export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({ kafkaId, kafkaAdminUrl, instanceType }) => {
   const auth = useAuth();
   const history = useHistory();
   const config = useConfig();
@@ -21,13 +22,26 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
   };
 
   const getKafkaInstanceMetrics: MetricsProps['getKafkaInstanceMetrics'] = useCallback(
-    (props) =>
-      fetchKafkaInstanceMetrics({
+    async (props) => {
+      const metrics = await fetchKafkaInstanceMetrics({
         ...props,
         kafkaId,
         basePath: config.kas.apiBasePath,
         accessToken: auth?.kas.getToken(),
-      }),
+      });
+      return {
+        ...metrics,
+        ...(instanceType === "standard" ? {
+          connectionsLimit:3000,
+          connectionRateLimit:100,
+          diskSpaceLimit:1000
+        } : {
+          connectionsLimit:100,
+          connectionRateLimit:50,
+          diskSpaceLimit:10
+        })
+      }
+    },
     [auth?.kas, config.kas.apiBasePath, kafkaId]
   );
 
