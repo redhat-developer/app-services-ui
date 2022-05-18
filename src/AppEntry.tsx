@@ -1,3 +1,4 @@
+import { inspect } from '@xstate/inspect';
 import App from '@app/App';
 import { useAuth } from '@app/hooks';
 import { EmbeddedConfigProvider } from '@app/providers/config/EmbeddedConfigContextProvider';
@@ -14,6 +15,12 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import logger from 'redux-logger';
 
 import '@rhoas/app-services-ui-components/dist/esm/index.css';
+
+if (window.localStorage.getItem('xstate-inspect') !== null) {
+  inspect({
+    iframe: false // open in new window
+  });
+}
 
 const AppWithKeycloak: React.FunctionComponent = () => {
   console.log('starting appwithkeycloak');
