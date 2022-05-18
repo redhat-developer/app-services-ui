@@ -1,6 +1,6 @@
 import React from 'react';
 import { FederatedModule } from '@app/components';
-import { KafkaRequest } from '@rhoas/kafka-management-sdk';
+import { KafkaRequestWithTopicConfig } from '@app/pages/Kafka/kafka-instance';
 
 export type KafkaFederatedComponentProps = UnderlyingProps & {
   module: string;
@@ -17,7 +17,7 @@ export type UnderlyingProps = {
   handleInstanceDrawer?: (isOpen: boolean, activeTab?: string) => void;
   showMetrics?: JSX.Element;
   showSchemas?: JSX.Element;
-  kafka?: KafkaRequest;
+  kafka?: KafkaRequestWithTopicConfig;
   redirectAfterDeleteInstance?: () => void;
 };
 
