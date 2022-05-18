@@ -28,26 +28,13 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
   };
 
   const getKafkaInstanceMetrics: MetricsProps['getKafkaInstanceMetrics'] = useCallback(
-    async (props) => {
-      const metrics = await fetchKafkaInstanceMetrics({
+    (props) =>
+      fetchKafkaInstanceMetrics({
         ...props,
         kafkaId,
         basePath: config.kas.apiBasePath,
         accessToken: auth?.kas.getToken(),
-      });
-      return {
-        ...metrics,
-        ...(instanceType === "standard" ? {
-          connectionsLimit: 3000,
-          connectionRateLimit: 100,
-          diskSpaceLimit: 1000
-        } : {
-          connectionsLimit: 100,
-          connectionRateLimit: 50,
-          diskSpaceLimit: 10
-        })
-      }
-    },
+      }),
     [auth?.kas, config.kas.apiBasePath, kafkaId]
   );
 

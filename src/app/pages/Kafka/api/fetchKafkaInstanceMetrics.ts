@@ -25,6 +25,9 @@ export async function fetchKafkaInstanceMetrics({
     'kubelet_volume_stats_used_bytes',
     'kafka_namespace:kafka_server_socket_server_metrics_connection_creation_rate:sum',
     'kafka_namespace:kafka_server_socket_server_metrics_connection_count:sum',
+    'kafka_instance_max_message_size_limit',
+    'kafka_instance_connection_limit',
+    'kafka_instance_connection_creation_rate_limit',
   ]);
 
   // Remove all results with no data. Not sure this can really  happen but since
@@ -67,6 +70,15 @@ export async function fetchKafkaInstanceMetrics({
       case 'kafka_namespace:kafka_server_socket_server_metrics_connection_count:sum':
         addAggregatedValuesTo(clientConnectionsMetrics);
         break;
+        case 'kafka_instance_max_message_size_limit':
+          diskSpaceLimit = m.values[0].value
+          break;
+      case 'kafka_instance_connection_limit':
+          connectionsLimit = m.values[0].value
+        break;
+      case 'kafka_instance_connection_creation_rate_limit':
+        connectionRateLimit = m.values[0].value
+        break;
     }
   });
 
@@ -74,8 +86,8 @@ export async function fetchKafkaInstanceMetrics({
     usedDiskSpaceMetrics,
     clientConnectionsMetrics,
     connectionAttemptRateMetrics,
+    diskSpaceLimit,
     connectionRateLimit,
     connectionsLimit,
-    diskSpaceLimit,
   };
 }
