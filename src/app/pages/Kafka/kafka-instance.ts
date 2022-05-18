@@ -27,15 +27,13 @@ export type KafkaInstance = {
 };
 
 export type KafkaRequestWithTopicConfig = KafkaRequest & {
-  replication_factor?: number;
-  min_in_sync_replicas?: number;
+  size: SupportedKafkaSize;
 }
 
-export const useKafkaInstance = (): KafkaInstance | false | undefined => {
+export const useKafkaInstance = (id: string): KafkaInstance | false | undefined => {
   const config = useConfig();
   const auth = useAuth();
   const [kafkaRequest, setKafkaRequest] = useState<KafkaRequestWithTopicConfig | false | undefined>();
-  const { id } = useParams<{ id: string }>();
   const getKafkaSize = useGetAvailableSizes();
 
   useEffect(() => {
@@ -43,26 +41,23 @@ export const useKafkaInstance = (): KafkaInstance | false | undefined => {
       if (auth === undefined || config === undefined) {
         return;
       }
-      const accessToken = await auth.kas.getToken();
       const kasService = new DefaultApi({
-        accessToken,
+        accessToken: auth.kas.getToken,
         basePath: config.kas.apiBasePath || '',
       } as Configuration);
       try {
         const kafka = await kasService.getKafkaById(id);
 
         const { cloud_provider, region, instance_type, size_id } = kafka.data;
-
-        if (cloud_provider && region && instance_type && size_id) {
-          const kafkaSize: SupportedKafkaSize | undefined = await getKafkaSize(cloud_provider, region, size_id, instance_type);
-          const { replication_factor, min_in_sync_replicas } = kafkaSize || {};
-          if (replication_factor && min_in_sync_replicas) {
-            kafka.data["replication_factor"] = replication_factor;
-            kafka.data["min_in_sync_replicas"] = min_in_sync_replicas;
-          }
+        if (!cloud_provider || !region || !size_id || !instance_type) {
+          throw new Error(`Kafka instance ${kafka.data.id} missing some required info: ${cloud_provider}, ${region}, ${instance_type}, ${size_id}`)
         }
+        const size = await getKafkaSize(cloud_provider, region, size_id, instance_type);
 
-        setKafkaRequest(kafka.data);
+        setKafkaRequest({
+          ...kafka.data,
+          size
+        });
       } catch (e) {
         setKafkaRequest(false);
       }
@@ -99,11 +94,7 @@ export const useGetAvailableSizes = () => {
     region: string,
     sizeId: string,
     instanceType: string
-  ): Promise<SupportedKafkaSize | undefined> => {
-    if (instanceType === undefined || provider === undefined || region === undefined || sizeId === undefined) {
-      return;
-    }
-
+  ): Promise<SupportedKafkaSize> => {
     try {
       const api = new DefaultApi(
         new Configuration({
@@ -117,16 +108,21 @@ export const useGetAvailableSizes = () => {
         region
       );
 
-      if (sizes?.data?.instance_types) {
+      if (!sizes?.data?.instance_types) {
+        throw new Error(`getInstanceTypesByCloudProviderAndRegion api failed for ${provider} ${region} ${sizeId}, no instance_types returned`)
+      }
         const instanceTypesSizes = sizes?.data?.instance_types.find(
           (i) => i.id === instanceType
         )?.sizes;
-        return instanceTypesSizes?.find((s) => s.id === sizeId);
-      }
+        const size = instanceTypesSizes?.find((s) => s.id === sizeId);
 
-    } catch (e) {
-      console.log("getInstanceTypesByCloudProviderAndRegion api failed");
-      return;
+        if (!size) {
+          throw new Error(`getInstanceTypesByCloudProviderAndRegion api failed for ${provider} ${region} ${sizeId}, can't find a size matching ${sizeId}`)
+        }
+
+        return size;
+    } catch (e: unknown) {
+      throw new Error(`getInstanceTypesByCloudProviderAndRegion api failed for ${provider} ${region} ${sizeId}: ${e}`)
     }
   }, [getToken, basePath]);
 };
