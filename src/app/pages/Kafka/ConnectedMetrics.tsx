@@ -1,4 +1,4 @@
-import React, { useCallback, VoidFunctionComponent } from 'react';
+import React, { useCallback, useState, VoidFunctionComponent } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuth, useBasename, useConfig } from '@rhoas/app-services-ui-shared';
 import { AppServicesLoading, Metrics, MetricsProps } from '@rhoas/app-services-ui-components';
@@ -17,6 +17,12 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
   const { getBasename } = useBasename() || {};
   const basename = getBasename && getBasename();
 
+  const [isAlertClosed, setIsAlertClosed] = useState<boolean>(false);
+
+  const onAlertClose = () => {
+    setIsAlertClosed(!isAlertClosed);
+  }
+
   const onCreateTopic = () => {
     history.push(`${basename}/topic/create`);
   };
@@ -32,13 +38,13 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
       return {
         ...metrics,
         ...(instanceType === "standard" ? {
-          connectionsLimit:3000,
-          connectionRateLimit:100,
-          diskSpaceLimit:1000
+          connectionsLimit: 3000,
+          connectionRateLimit: 100,
+          diskSpaceLimit: 1000
         } : {
-          connectionsLimit:100,
-          connectionRateLimit:50,
-          diskSpaceLimit:10
+          connectionsLimit: 100,
+          connectionRateLimit: 50,
+          diskSpaceLimit: 10
         })
       }
     },
@@ -94,6 +100,7 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
       getTopicsMetrics={getTopicMetrics}
       getKafkaInstanceMetrics={getKafkaInstanceMetrics}
       getMetricsKpi={getMetricsKpi}
-    />
+      isClosed={isAlertClosed}
+      onClickClose={onAlertClose} />
   );
 };

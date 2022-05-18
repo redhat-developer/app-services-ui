@@ -20,12 +20,14 @@ export async function fetchMetricsKpi({
 
   let topics = 0,
     topicPartitions = 0,
-    consumerGroups = 0;
+    consumerGroups = 0,
+    topicPartitionsLimit = 0;
 
   const response = await apisService.getMetricsByInstantQuery(kafkaId, [
     'kafka_topic:kafka_topic_partitions:sum', // (Number of topic partitions)
     'kafka_topic:kafka_topic_partitions:count', // (Number of topics)
     'consumergroup:kafka_consumergroup_members:count', // (number of consumer groups - note that this metric will appear after a consumer group is created. There should be handled by the UI in a way that the metric isn't visible if no consumer groups are created)
+    'kafka_instance_partition_limit',
   ]);
 
   const safeMetrics: NoUndefinedField<InstantQuery[]> = (response.data.items || []) as NoUndefinedField<InstantQuery[]>;
@@ -43,11 +45,15 @@ export async function fetchMetricsKpi({
       case 'consumergroup:kafka_consumergroup_members:count':
         consumerGroups = value;
         break;
+      case 'kafka_instance_partition_limit':
+        topicPartitionsLimit = value;
+        break;
     }
   });
   return {
     consumerGroups,
     topicPartitions,
     topics,
+    topicPartitionsLimit,
   };
 }
