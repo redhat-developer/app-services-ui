@@ -96,9 +96,12 @@ const AppEntry: React.FunctionComponent = React.memo(() => (
           kafkaTemporaryFixMe: () => import('./locales/kafka-ui.json'),
           kasTemporaryFixMe: () => import('./locales/kas-ui.json'),
           srsTemporaryFixMe: () => import('./locales/srs-ui.json'),
-          "manage-kafka-permissions": () => import("@rhoas/app-services-ui-components/locales/en/manage-kafka-permissions.json"),
-          "overview-v2": () => import('@rhoas/app-services-ui-components/locales/en/overview-v2.json'),
-          'kafkaoverview-v2': () => import('@rhoas/app-services-ui-components/locales/en/kafkaoverview-v2.json')
+          'manage-kafka-permissions': () =>
+            import('@rhoas/app-services-ui-components/locales/en/manage-kafka-permissions.json'),
+          'overview-v2': () => import('@rhoas/app-services-ui-components/locales/en/overview-v2.json'),
+          'kafkaoverview-v2': () => import('@rhoas/app-services-ui-components/locales/en/kafkaoverview-v2.json'),
+          'create-kafka-instance-with-sizes': () =>
+            import('@rhoas/app-services-ui-components/locales/en/create-kafka-instance-with-sizes.json'),
         },
       }}
       debug={true}
