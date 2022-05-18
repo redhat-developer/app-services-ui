@@ -70,14 +70,14 @@ export async function fetchKafkaInstanceMetrics({
       case 'kafka_namespace:kafka_server_socket_server_metrics_connection_count:sum':
         addAggregatedValuesTo(clientConnectionsMetrics);
         break;
-        case 'kafka_instance_max_message_size_limit':
-          diskSpaceLimit = m.values[0].value
-          break;
+      case 'kafka_instance_max_message_size_limit':
+        diskSpaceLimit = m.values[0].value;
+        break;
       case 'kafka_instance_connection_limit':
-          connectionsLimit = m.values[0].value
+        connectionsLimit = m.values[0].value;
         break;
       case 'kafka_instance_connection_creation_rate_limit':
-        connectionRateLimit = m.values[0].value
+        connectionRateLimit = m.values[0].value;
         break;
     }
   });

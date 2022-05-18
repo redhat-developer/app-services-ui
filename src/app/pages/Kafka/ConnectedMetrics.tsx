@@ -7,10 +7,9 @@ import { fetchKafkaInstanceMetrics, fetchKafkaTopisFromAdmin, fetchMetricsKpi, f
 type ConnectedMetricsProps = {
   kafkaId: string;
   kafkaAdminUrl: string;
-  instanceType: "standard" | "trial"
 };
 
-export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({ kafkaId, kafkaAdminUrl, instanceType }) => {
+export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({ kafkaId, kafkaAdminUrl }) => {
   const auth = useAuth();
   const history = useHistory();
   const config = useConfig();
