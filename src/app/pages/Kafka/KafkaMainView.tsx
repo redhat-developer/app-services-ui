@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { InstanceDrawer } from '@app/components';
 import { AccessDeniedPage, ConnectedMetrics, ServiceDownPage } from '@app/pages';
 import { useKafkaInstance } from '@app/pages/Kafka/kafka-instance';
@@ -14,7 +14,8 @@ export const KafkaMainView = (): React.ReactElement => {
   const auth = useAuth();
   const history = useHistory();
   const config = useConfig();
-  const kafka = useKafkaInstance();
+  const { id } = useParams<{ id: string }>();
+  const kafka = useKafkaInstance(id);
 
   const [error, setError] = useState<undefined | number>();
 
