@@ -43,7 +43,7 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
         accessToken: auth?.kas.getToken(),
       });
 
-      const { total_max_connections, max_connection_attempts_per_sec } = size || 0;
+      const { total_max_connections, max_connection_attempts_per_sec } = size || {};
 
       return {
         ...kafkaResponse,
