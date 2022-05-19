@@ -43,13 +43,13 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
         accessToken: auth?.kas.getToken(),
       });
 
-      const { total_max_connections, max_connection_attempts_per_sec } = size || {};
+      const { total_max_connections, max_connection_attempts_per_sec } = size || 0;
 
       return {
         ...kafkaResponse,
         diskSpaceLimit: kafkaStorageSize * 1024 * 1024 * 1024,
-        connectionsLimit: total_max_connections!,
-        connectionRateLimit: max_connection_attempts_per_sec!,
+        connectionsLimit: total_max_connections || 0,
+        connectionRateLimit: max_connection_attempts_per_sec || 0,
       };
     },
     [auth?.kas, config.kas.apiBasePath, kafkaId, size]
@@ -91,7 +91,7 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
       accessToken: auth?.kas.getToken(),
     });
 
-    return { ...kpiResponse, topicPartitionsLimit: size?.max_partitions! };
+    return { ...kpiResponse, topicPartitionsLimit: size?.max_partitions || 0 };
   }, [auth?.kas, config.kas.apiBasePath, kafkaId, size]);
 
   if (config === undefined) {
