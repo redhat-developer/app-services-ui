@@ -36,6 +36,7 @@ export const KafkaMainView = (): React.ReactElement => {
   };
 
   const { kafkaDetail, adminServerUrl } = kafka;
+  const { total_max_connections, max_partitions, max_connection_attempts_per_sec } = kafkaDetail?.size || {};
 
   const props = {
     kafkaPageLink: '/streams/kafkas',
@@ -44,7 +45,9 @@ export const KafkaMainView = (): React.ReactElement => {
       <ConnectedMetrics
         kafkaId={kafkaDetail.id}
         kafkaAdminUrl={adminServerUrl}
-        size={kafkaDetail?.size}
+        totalMaxConnections={total_max_connections}
+        maxConnections={max_connection_attempts_per_sec}
+        maxPartitions={max_partitions}
         kafkaStorageSize={parseInt(kafkaDetail.kafka_storage_size?.replace('Gi', ''))}
       />
     ),

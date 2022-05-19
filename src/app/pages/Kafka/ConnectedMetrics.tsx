@@ -3,19 +3,22 @@ import { useHistory } from 'react-router-dom';
 import { useAuth, useBasename, useConfig } from '@rhoas/app-services-ui-shared';
 import { AppServicesLoading, Metrics, MetricsProps } from '@rhoas/app-services-ui-components';
 import { fetchKafkaInstanceMetrics, fetchKafkaTopisFromAdmin, fetchMetricsKpi, fetchTopicMetrics } from './api';
-import { SupportedKafkaSize } from '@rhoas/kafka-management-sdk';
 
 type ConnectedMetricsProps = {
   kafkaId: string;
   kafkaAdminUrl: string;
-  size: SupportedKafkaSize;
+  totalMaxConnections: number;
+  maxConnections: number;
+  maxPartitions: number;
   kafkaStorageSize: number;
 };
 
 export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
   kafkaId,
   kafkaAdminUrl,
-  size,
+  totalMaxConnections,
+  maxConnections,
+  maxPartitions,
   kafkaStorageSize = 0,
 }) => {
   const auth = useAuth();
@@ -23,6 +26,7 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
   const config = useConfig();
   const { getBasename } = useBasename() || {};
   const basename = getBasename && getBasename();
+  const bytes = 1024 * 1024 * 1024;
 
   const [isAlertClosed, setIsAlertClosed] = useState<boolean>(false);
 
@@ -43,16 +47,14 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
         accessToken: auth?.kas.getToken(),
       });
 
-      const { total_max_connections, max_connection_attempts_per_sec } = size || {};
-
       return {
         ...kafkaResponse,
-        diskSpaceLimit: kafkaStorageSize * 1024 * 1024 * 1024,
-        connectionsLimit: total_max_connections || 0,
-        connectionRateLimit: max_connection_attempts_per_sec || 0,
+        diskSpaceLimit: kafkaStorageSize * bytes,
+        connectionsLimit: totalMaxConnections,
+        connectionRateLimit: maxConnections,
       };
     },
-    [auth?.kas, config.kas.apiBasePath, kafkaId, size]
+    [auth?.kas, config.kas.apiBasePath, kafkaId, totalMaxConnections, maxConnections]
   );
 
   const getTopicMetrics: MetricsProps['getTopicsMetrics'] = useCallback(
@@ -60,9 +62,7 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
       const [kafkaTopics, metrics] = await Promise.all([
         fetchKafkaTopisFromAdmin({
           accessToken: auth?.kafka.getToken(),
-          //replace is the temporary fix for /topics call for Dashboard
-          //remove when we have latest kafka SDK in app-services-ui and kafka-ui
-          basePath: kafkaAdminUrl?.replace('/rest', ''),
+          basePath: kafkaAdminUrl,
         }),
         fetchTopicMetrics({
           ...props,
@@ -91,8 +91,8 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
       accessToken: auth?.kas.getToken(),
     });
 
-    return { ...kpiResponse, topicPartitionsLimit: size?.max_partitions || 0 };
-  }, [auth?.kas, config.kas.apiBasePath, kafkaId, size]);
+    return { ...kpiResponse, topicPartitionsLimit: maxPartitions };
+  }, [auth?.kas, config.kas.apiBasePath, kafkaId, maxPartitions]);
 
   if (config === undefined) {
     return <AppServicesLoading />;
