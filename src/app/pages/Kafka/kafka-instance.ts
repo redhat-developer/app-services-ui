@@ -1,6 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Configuration, DefaultApi, KafkaRequest, SupportedKafkaSize } from '@rhoas/kafka-management-sdk';
-import { useParams } from 'react-router-dom';
 import { useAuth, useConfig } from '@rhoas/app-services-ui-shared';
 
 const DEFAULT_ADMIN_SERVER_URL_TEMPLATE = 'https://admin-server-{}';

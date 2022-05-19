@@ -45,9 +45,6 @@ export async function fetchMetricsKpi({
       case 'consumergroup:kafka_consumergroup_members:count':
         consumerGroups = value;
         break;
-      case 'kafka_instance_partition_limit':
-        topicPartitionsLimit = value;
-        break;
     }
   });
   return {
