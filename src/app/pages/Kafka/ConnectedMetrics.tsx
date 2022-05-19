@@ -48,8 +48,8 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
       return {
         ...kafkaResponse,
         diskSpaceLimit: kafkaStorageSize * 1024 * 1024 * 1024,
-        connectionsLimit: total_max_connections as number,
-        connectionRateLimit: max_connection_attempts_per_sec as number,
+        connectionsLimit: total_max_connections!,
+        connectionRateLimit: max_connection_attempts_per_sec!,
       };
     },
     [auth?.kas, config.kas.apiBasePath, kafkaId, size]
@@ -91,7 +91,7 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
       accessToken: auth?.kas.getToken(),
     });
 
-    return { ...kpiResponse, topicPartitionsLimit: size?.max_partitions as number };
+    return { ...kpiResponse, topicPartitionsLimit: size?.max_partitions! };
   }, [auth?.kas, config.kas.apiBasePath, kafkaId, size]);
 
   if (config === undefined) {
