@@ -1,10 +1,11 @@
-import React, { memo } from 'react';
+import React, { ComponentType, memo, useCallback, VoidFunctionComponent } from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { AppRouteConfig, flattenedRoutes, IAppRoute, PageNotFoundRoute, useA11yRouteChange } from '@app/utils/Routing';
 import { useDocumentTitle } from '@app/utils';
 import { CreateTopic, TopicDetails, Topics, UpdateTopic, Dashboard, ConsumerGroups, AclPermissions } from '@app/pages';
 import { UnderlyingProps } from '@app/pages/Kafka/KafkaFederatedComponent';
 import { BasenameContext } from '@rhoas/app-services-ui-shared';
+import { FederatedModule, useKafkaInstanceDrawer } from '@app/components';
 
 const kafkaRoutes: AppRouteConfig<UnderlyingProps>[] = [
   {
@@ -72,10 +73,12 @@ const kafkaRoutes: AppRouteConfig<UnderlyingProps>[] = [
     devPreview: true,
   },
 ];
+const flatRoutes = flattenedRoutes(kafkaRoutes);
 
 type WrappedRouteProps = IAppRoute<UnderlyingProps> & {
   underlyingProps: UnderlyingProps;
   url: string;
+  InstanceDrawer: ComponentType;
 };
 
 /**
@@ -84,6 +87,7 @@ type WrappedRouteProps = IAppRoute<UnderlyingProps> & {
  */
 const WrappedRoute: React.FunctionComponent<WrappedRouteProps> = ({
   component: Component,
+  InstanceDrawer,
   isAsync = false,
   title,
   underlyingProps,
@@ -111,31 +115,58 @@ const WrappedRoute: React.FunctionComponent<WrappedRouteProps> = ({
   );
 };
 
-const KafkaRoutes = memo<UnderlyingProps>((props): React.ReactElement => {
+const KafkaRoutes: VoidFunctionComponent<UnderlyingProps & { InstanceDrawer: ComponentType<any> }> = ({
+  InstanceDrawer,
+  ...props
+}): React.ReactElement => {
   const routeMatch = useRouteMatch();
-  return (
-    <Switch>
-      {flattenedRoutes(kafkaRoutes).map(({ path, exact, component, title, isAsync, ...rest }, idx) => {
-        const routePath = `${routeMatch.path}${path}`;
-        console.log(`Creating route for ${routePath}`);
-        return (
-          <WrappedRoute
-            path={routePath}
-            exact={exact}
-            component={component}
-            key={idx}
-            title={title}
-            isAsync={isAsync}
-            underlyingProps={props}
-            url={routeMatch.url}
-            {...rest}
-          />
-        );
-      })}
-      <PageNotFoundRoute title="404 Page Not Found" />
-    </Switch>
+  const { kafka } = props;
+
+  const drawerProps = useKafkaInstanceDrawer();
+  const handleInstanceDrawer: (isOpen: boolean, activeTab?: string) => void = useCallback(
+    (isOpen, activeTab) => {
+      if (isOpen) {
+        drawerProps.openDrawer(activeTab);
+      } else {
+        drawerProps.closeDrawer();
+      }
+    },
+    [drawerProps]
   );
-});
-KafkaRoutes.displayName = 'KafkaRoutes';
+
+  return (
+    <InstanceDrawer
+      data-ouia-app-id="dataPlane-streams"
+      drawerInstance={kafka}
+      setDrawerInstance={() => false} // can't change the instance from the data plane
+      {...drawerProps}
+    >
+      <Switch>
+        {flatRoutes.map(({ path, exact, component, title, isAsync, ...rest }, idx) => {
+          const routePath = `${routeMatch.path}${path}`;
+          console.log(`Creating route for ${routePath}`);
+          return (
+            <WrappedRoute
+              path={routePath}
+              exact={exact}
+              component={component}
+              key={idx}
+              title={title}
+              isAsync={isAsync}
+              underlyingProps={{
+                ...props,
+                handleInstanceDrawer,
+              }}
+              url={routeMatch.url}
+              InstanceDrawer={InstanceDrawer}
+              {...rest}
+            />
+          );
+        })}
+        <PageNotFoundRoute title="404 Page Not Found" />
+      </Switch>
+    </InstanceDrawer>
+  );
+};
 
 export { KafkaRoutes, kafkaRoutes };
