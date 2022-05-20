@@ -27,10 +27,13 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
   const { getBasename } = useBasename() || {};
   const basename = getBasename && getBasename();
 
-  const [isAlertClosed, setIsAlertClosed] = useState<boolean>(false);
+  const storageKey = `metrics-alert-${kafkaId}`;
+
+  const [isAlertClosed, setIsAlertClosed] = useState<boolean>(localStorage.getItem(storageKey) !== null);
 
   const onAlertClose = () => {
-    setIsAlertClosed(!isAlertClosed);
+    setIsAlertClosed(true);
+    localStorage.setItem(storageKey, 'true');
   };
 
   const onCreateTopic = () => {
