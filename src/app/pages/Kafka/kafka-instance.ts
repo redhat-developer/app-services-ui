@@ -21,58 +21,67 @@ export const getAdminServerUrl = (adminServerUrlTemplate: string, kafkaRequest?:
 };
 
 export type KafkaInstance = {
-  kafkaDetail: Required<KafkaRequest>;
+  kafkaDetail: Required<KafkaRequestWithSize>;
   adminServerUrl: string;
 };
 
-export type KafkaRequestWithTopicConfig = KafkaRequest & {
+export type KafkaRequestWithSize = KafkaRequest & {
   size: SupportedKafkaSize;
-}
+};
 
-export const useKafkaInstance = (id: string): KafkaInstance | false | undefined => {
-  const config = useConfig();
-  const auth = useAuth();
-  const [kafkaRequest, setKafkaRequest] = useState<KafkaRequestWithTopicConfig | false | undefined>();
+export const useKafkaInstance = (id: string | undefined): KafkaInstance | false | undefined => {
+  const {
+    kas: { apiBasePath },
+    kafka,
+  } = useConfig();
+  const {
+    kas: { getToken },
+  } = useAuth();
+  const [kafkaRequest, setKafkaRequest] = useState<KafkaRequestWithSize | false | undefined>();
   const getKafkaSize = useGetAvailableSizes();
 
-  useEffect(() => {
-    const getAdminApiUrl = async () => {
-      if (auth === undefined || config === undefined) {
-        return;
-      }
+  const fetchKafka = useCallback(
+    async (id: string) => {
+      setKafkaRequest(undefined);
       const kasService = new DefaultApi({
-        accessToken: auth.kas.getToken,
-        basePath: config.kas.apiBasePath || '',
+        accessToken: getToken,
+        basePath: apiBasePath,
       } as Configuration);
       try {
         const kafka = await kasService.getKafkaById(id);
 
         const { cloud_provider, region, instance_type, size_id } = kafka.data;
         if (!cloud_provider || !region || !size_id || !instance_type) {
-          throw new Error(`Kafka instance ${kafka.data.id} missing some required info: ${cloud_provider}, ${region}, ${instance_type}, ${size_id}`)
+          throw new Error(
+            `Kafka instance ${kafka.data.id} missing some required info: ${cloud_provider}, ${region}, ${instance_type}, ${size_id}`
+          );
         }
         const size = await getKafkaSize(cloud_provider, region, size_id, instance_type);
 
         setKafkaRequest({
           ...kafka.data,
-          size
+          size,
         });
       } catch (e) {
         setKafkaRequest(false);
       }
-    };
+    },
+    [apiBasePath, getKafkaSize, getToken]
+  );
 
-    getAdminApiUrl();
-  }, [auth, config, id]);
+  useEffect(() => {
+    if (id) {
+      fetchKafka(id);
+    } else {
+      setKafkaRequest(undefined);
+    }
+  }, [id]);
 
   return kafkaRequest
     ? {
-      kafkaDetail: kafkaRequest as Required<KafkaRequestWithTopicConfig>,
-      adminServerUrl: getAdminServerUrl(
-        config.kafka?.adminServerUrlTemplate || DEFAULT_ADMIN_SERVER_URL_TEMPLATE,
-        kafkaRequest
-      ),
-    }
+        kafkaDetail: kafkaRequest as Required<KafkaRequestWithSize>,
+        adminServerUrl: getAdminServerUrl(kafka?.adminServerUrlTemplate || DEFAULT_ADMIN_SERVER_URL_TEMPLATE, kafkaRequest),
+      }
     : kafkaRequest;
 };
 
@@ -83,45 +92,46 @@ export const useKafkaInstance = (id: string): KafkaInstance | false | undefined 
  */
 
 export const useGetAvailableSizes = () => {
-  const { kas: { getToken } } = useAuth();
+  const {
+    kas: { getToken },
+  } = useAuth();
   const {
     kas: { apiBasePath: basePath },
   } = useConfig();
 
-  return useCallback(async (
-    provider: string,
-    region: string,
-    sizeId: string,
-    instanceType: string
-  ): Promise<SupportedKafkaSize> => {
-    try {
-      const api = new DefaultApi(
-        new Configuration({
-          accessToken: getToken(),
-          basePath,
-        })
-      );
+  return useCallback(
+    async (provider: string, region: string, sizeId: string, instanceType: string): Promise<SupportedKafkaSize> => {
+      try {
+        const api = new DefaultApi(
+          new Configuration({
+            accessToken: getToken(),
+            basePath,
+          })
+        );
 
-      const sizes = await api.getInstanceTypesByCloudProviderAndRegion(
-        provider,
-        region
-      );
+        const sizes = await api.getInstanceTypesByCloudProviderAndRegion(provider, region);
 
-      if (!sizes?.data?.instance_types) {
-        throw new Error(`getInstanceTypesByCloudProviderAndRegion api failed for ${provider} ${region} ${sizeId}, no instance_types returned`)
-      }
-        const instanceTypesSizes = sizes?.data?.instance_types.find(
-          (i) => i.id === instanceType
-        )?.sizes;
+        if (!sizes?.data?.instance_types) {
+          throw new Error(
+            `getInstanceTypesByCloudProviderAndRegion api failed for ${provider} ${region} ${sizeId}, no instance_types returned`
+          );
+        }
+        const instanceTypesSizes = sizes?.data?.instance_types.find((i) => i.id === instanceType)?.sizes;
         const size = instanceTypesSizes?.find((s) => s.id === sizeId);
 
         if (!size) {
-          throw new Error(`getInstanceTypesByCloudProviderAndRegion api failed for ${provider} ${region} ${sizeId}, can't find a size matching ${sizeId}`)
+          throw new Error(
+            `getInstanceTypesByCloudProviderAndRegion api failed for ${provider} ${region} ${sizeId}, can't find a size matching ${sizeId}`
+          );
         }
 
         return size;
-    } catch (e: unknown) {
-      throw new Error(`getInstanceTypesByCloudProviderAndRegion api failed for ${provider} ${region} ${sizeId}: ${e}`)
-    }
-  }, [getToken, basePath]);
+      } catch (e: unknown) {
+        throw new Error(
+          `getInstanceTypesByCloudProviderAndRegion api failed for ${provider} ${region} ${sizeId}: ${e}`
+        );
+      }
+    },
+    [getToken, basePath]
+  );
 };
