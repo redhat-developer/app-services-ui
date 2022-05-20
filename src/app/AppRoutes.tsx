@@ -1,4 +1,4 @@
-import React, { VoidFunctionComponent } from 'react';
+import React, { useCallback, VoidFunctionComponent } from 'react';
 import { Redirect, Route, RouteComponentProps, Switch, useHistory } from 'react-router-dom';
 import { LastLocationProvider } from 'react-router-last-location';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -246,12 +246,12 @@ const WrappedRoute: React.FunctionComponent<IAppRoute<any>> = ({
   const history = useHistory();
   useA11yRouteChange(isAsync);
   useDocumentTitle(title);
-  const getBasename = () => {
+  const getBasename = useCallback(() => {
     return basename || '';
-  };
-  const onClickButton = () => history.push('/');
+  }, [basename]);
+  const onClickButton = useCallback(() => history.push('/'), [history]);
 
-  function wrapRoute(routeProps: RouteComponentProps) {
+  const wrapRoute = useCallback((routeProps: RouteComponentProps) => {
     return (
       <ErrorBoundary
         fallbackRender={({ error }) =>
@@ -284,7 +284,7 @@ const WrappedRoute: React.FunctionComponent<IAppRoute<any>> = ({
         </DevelopmentPreview>
       </ErrorBoundary>
     );
-  }
+  }, [Component, devPreview, getBasename, onClickButton, rest, t]);
 
   return <Route render={wrapRoute} {...rest} />;
 };

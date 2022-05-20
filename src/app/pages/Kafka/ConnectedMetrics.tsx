@@ -1,4 +1,4 @@
-import React, { useCallback, VoidFunctionComponent } from 'react';
+import React, { useCallback, useState, VoidFunctionComponent } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuth, useBasename, useConfig } from '@rhoas/app-services-ui-shared';
 import { AppServicesLoading, Metrics, MetricsProps } from '@rhoas/app-services-ui-components';
@@ -7,15 +7,34 @@ import { fetchKafkaInstanceMetrics, fetchKafkaTopisFromAdmin, fetchMetricsKpi, f
 type ConnectedMetricsProps = {
   kafkaId: string;
   kafkaAdminUrl: string;
-  instanceType: "standard" | "trial"
+  totalMaxConnections: number;
+  maxConnections: number;
+  maxPartitions: number;
+  kafkaStorageBytes: number;
 };
 
-export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({ kafkaId, kafkaAdminUrl, instanceType }) => {
+export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
+  kafkaId,
+  kafkaAdminUrl,
+  totalMaxConnections,
+  maxConnections,
+  maxPartitions,
+  kafkaStorageBytes,
+}) => {
   const auth = useAuth();
   const history = useHistory();
   const config = useConfig();
   const { getBasename } = useBasename() || {};
   const basename = getBasename && getBasename();
+
+  const storageKey = `metrics-alert-${kafkaId}`;
+
+  const [isAlertClosed, setIsAlertClosed] = useState<boolean>(localStorage.getItem(storageKey) !== null);
+
+  const onAlertClose = () => {
+    setIsAlertClosed(true);
+    localStorage.setItem(storageKey, 'true');
+  };
 
   const onCreateTopic = () => {
     history.push(`${basename}/topic/create`);
@@ -23,26 +42,21 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
 
   const getKafkaInstanceMetrics: MetricsProps['getKafkaInstanceMetrics'] = useCallback(
     async (props) => {
-      const metrics = await fetchKafkaInstanceMetrics({
+      const kafkaResponse = await fetchKafkaInstanceMetrics({
         ...props,
         kafkaId,
         basePath: config.kas.apiBasePath,
         accessToken: auth?.kas.getToken(),
       });
+
       return {
-        ...metrics,
-        ...(instanceType === "standard" ? {
-          connectionsLimit:3000,
-          connectionRateLimit:100,
-          diskSpaceLimit:1000
-        } : {
-          connectionsLimit:100,
-          connectionRateLimit:50,
-          diskSpaceLimit:10
-        })
-      }
+        ...kafkaResponse,
+        diskSpaceLimit: kafkaStorageBytes / 1073741824,
+        connectionsLimit: totalMaxConnections,
+        connectionRateLimit: maxConnections,
+      };
     },
-    [auth?.kas, config.kas.apiBasePath, kafkaId]
+    [auth?.kas, config.kas.apiBasePath, kafkaId, totalMaxConnections, maxConnections]
   );
 
   const getTopicMetrics: MetricsProps['getTopicsMetrics'] = useCallback(
@@ -50,9 +64,7 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
       const [kafkaTopics, metrics] = await Promise.all([
         fetchKafkaTopisFromAdmin({
           accessToken: auth?.kafka.getToken(),
-          //replace is the temporary fix for /topics call for Dashboard
-          //remove when we have latest kafka SDK in app-services-ui and kafka-ui
-          basePath: kafkaAdminUrl?.replace('/rest', ''),
+          basePath: kafkaAdminUrl,
         }),
         fetchTopicMetrics({
           ...props,
@@ -74,15 +86,15 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
     [auth?.kafka, auth?.kas, config.kas.apiBasePath, kafkaAdminUrl, kafkaId]
   );
 
-  const getMetricsKpi: MetricsProps['getMetricsKpi'] = useCallback(
-    () =>
-      fetchMetricsKpi({
-        kafkaId,
-        basePath: config.kas.apiBasePath,
-        accessToken: auth?.kas.getToken(),
-      }),
-    [auth?.kas, config.kas.apiBasePath, kafkaId]
-  );
+  const getMetricsKpi: MetricsProps['getMetricsKpi'] = useCallback(async () => {
+    const kpiResponse = await fetchMetricsKpi({
+      kafkaId,
+      basePath: config.kas.apiBasePath,
+      accessToken: auth?.kas.getToken(),
+    });
+
+    return { ...kpiResponse, topicPartitionsLimit: maxPartitions };
+  }, [auth?.kas, config.kas.apiBasePath, kafkaId, maxPartitions]);
 
   if (config === undefined) {
     return <AppServicesLoading />;
@@ -94,6 +106,8 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
       getTopicsMetrics={getTopicMetrics}
       getKafkaInstanceMetrics={getKafkaInstanceMetrics}
       getMetricsKpi={getMetricsKpi}
+      isClosed={isAlertClosed}
+      onClickClose={onAlertClose}
     />
   );
 };
