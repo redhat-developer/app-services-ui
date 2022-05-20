@@ -1,23 +1,19 @@
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState, VoidFunctionComponent } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { InstanceDrawer } from '@app/components';
 import { AccessDeniedPage, ConnectedMetrics, ServiceDownPage } from '@app/pages';
-import { useKafkaInstance } from '@app/pages/Kafka/kafka-instance';
+import { KafkaInstance, useKafkaInstance } from '@app/pages/Kafka/kafka-instance';
 import { UnderlyingProps } from '@app/pages/Kafka/KafkaFederatedComponent';
 import { PrincipalsProvider } from '@app/components/PrincipalsProvider/PrincipalsProvider';
 import { useAuth, useConfig } from '@rhoas/app-services-ui-shared';
 import { AppServicesLoading } from '@rhoas/app-services-ui-components';
 import { ServiceRegistrySchemaMapping } from '@app/pages/ServiceRegistry';
 import { KafkaRoutes } from './KafkaRoutes';
+import { FederatedModule } from '@app/components';
 
-export const KafkaMainView = (): React.ReactElement => {
-  const auth = useAuth();
-  const history = useHistory();
+export const KafkaMainView: VoidFunctionComponent = () => {
   const config = useConfig();
-  const { id } = useParams<{ id: string }>();
-  const kafka = useKafkaInstance(id);
-
-  const [error, setError] = useState<undefined | number>();
+  const { id: kafkaInstanceId } = useParams<{ id: string }>();
+  const kafka = useKafkaInstance(kafkaInstanceId);
 
   if (config?.serviceDown) {
     return <ServiceDownPage />;
@@ -31,46 +27,72 @@ export const KafkaMainView = (): React.ReactElement => {
     throw new Error('404');
   }
 
-  const redirectAfterDeleteInstance = () => {
+  return <KafkaMainViewConnected kafka={kafka} />;
+};
+
+export const KafkaMainViewConnected: VoidFunctionComponent<{ kafka: KafkaInstance }> = ({ kafka }) => {
+  return (
+    <PrincipalsProvider kafkaInstance={kafka.kafkaDetail}>
+      <ConnectedKafkaRoutes kafka={kafka} />
+    </PrincipalsProvider>
+  );
+};
+
+const ConnectedKafkaRoutes: VoidFunctionComponent<{
+  kafka: KafkaInstance;
+}> = ({ kafka: { kafkaDetail, adminServerUrl } }) => {
+  const {
+    kafka: { getToken },
+  } = useAuth();
+  const history = useHistory();
+  const [error, setError] = useState<undefined | number>();
+
+  const onError = useCallback((code: number) => {
+    setError(code);
+  }, []);
+
+  const redirectAfterDeleteInstance = useCallback(() => {
     history.push('/streams/kafkas');
-  };
+  }, [history]);
 
-  const { kafkaDetail, adminServerUrl } = kafka;
+  const showMetrics = useMemo(
+    () => (
+      <ConnectedMetrics
+        kafkaId={kafkaDetail.id}
+        kafkaAdminUrl={adminServerUrl}
+        instanceType={kafkaDetail.instance_type === 'standard' ? 'standard' : 'trial'}
+      />
+    ),
+    [adminServerUrl, kafkaDetail.id, kafkaDetail.instance_type]
+  );
+  const showSchemas = useMemo(() => <ServiceRegistrySchemaMapping />, []);
 
-  const props = {
-    kafkaPageLink: '/streams/kafkas',
-    kafkaInstanceLink: `/streams/kafkas/${kafkaDetail.id}/topics`,
-    showMetrics: <ConnectedMetrics kafkaId={kafkaDetail.id} kafkaAdminUrl={adminServerUrl} instanceType={kafkaDetail.instance_type === "standard" ? "standard" : "trial"} />,
-    onError: (code: number) => {
-      setError(code);
-    },
-    kafkaName: kafkaDetail.name,
-    apiBasePath: adminServerUrl,
-    getToken: auth?.kafka.getToken,
-    showSchemas: <ServiceRegistrySchemaMapping />,
-    kafka: kafkaDetail,
-    redirectAfterDeleteInstance,
-  } as UnderlyingProps;
+  const props = useMemo<Partial<UnderlyingProps>>(
+    () => ({
+      kafkaPageLink: '/streams/kafkas',
+      kafkaInstanceLink: `/streams/kafkas/${kafkaDetail.id}/topics`,
+      showMetrics,
+      onError,
+      kafkaName: kafkaDetail.name,
+      apiBasePath: adminServerUrl,
+      getToken: getToken,
+      showSchemas,
+      kafka: kafkaDetail,
+      redirectAfterDeleteInstance,
+    }),
+    [adminServerUrl, getToken, kafkaDetail, onError, redirectAfterDeleteInstance, showMetrics, showSchemas]
+  );
 
   if (error === 401) {
     return <AccessDeniedPage />;
   }
 
   return (
-    <PrincipalsProvider kafkaInstance={kafkaDetail}>
-      <InstanceDrawer
-        data-ouia-app-id="dataPlane-streams"
-        kafkaInstance={kafkaDetail}
-        renderContent={({ handleInstanceDrawer, setInstance }) => (
-          <KafkaRoutes
-            handleInstanceDrawer={(isOpen) => {
-              setInstance(kafkaDetail);
-              handleInstanceDrawer(isOpen);
-            }}
-            {...props}
-          />
-        )}
-      />
-    </PrincipalsProvider>
+    <FederatedModule
+      scope="kas"
+      module="./InstanceDrawer"
+      fallback={null}
+      render={(InstanceDrawer) => <KafkaRoutes {...props} InstanceDrawer={InstanceDrawer} />}
+    />
   );
 };

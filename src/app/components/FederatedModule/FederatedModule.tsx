@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-undef */
-import React, { ComponentType, memo, ReactNode, useEffect, useRef, useState } from 'react';
+import React, { ComponentType, memo, ReactNode, useEffect, useRef, useState, VoidFunctionComponent } from 'react';
 import { AssetsContext } from '@rhoas/app-services-ui-shared';
 import { ModuleInfo } from '@app/components/FederatedModule/moduleInfo';
 import { useFederatedModule } from '@app/components';
@@ -99,7 +99,8 @@ export type FederatedModuleProps = {
   fallback?: React.ReactNode;
 };
 
-export const FederatedModule = memo<FederatedModuleProps>(({ scope, module, render, fallback }) => {
+export const FederatedModule: VoidFunctionComponent<FederatedModuleProps> = ({ scope, module, render, fallback }) => {
+  console.log("Dynamic federated module", scope, module)
   const isMounted = useIsMounted();
 
   const { getModuleInfo, modules } = useFederatedModule();
@@ -122,8 +123,7 @@ export const FederatedModule = memo<FederatedModuleProps>(({ scope, module, rend
     return <>{fallback}</>;
   }
   return null;
-});
-FederatedModule.displayName = 'FederatedModule';
+};
 
 type DynamicFederatedModuleProps = FederatedModuleProps & {
   moduleInfo: ModuleInfo;

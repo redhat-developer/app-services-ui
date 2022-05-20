@@ -1,61 +1,38 @@
-import React, { ReactElement, VoidFunctionComponent } from 'react';
-import { FederatedModule } from '@app/components';
-import { useConfig } from '@rhoas/app-services-ui-shared';
-import { AppServicesLoading } from '@rhoas/app-services-ui-components';
+import { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { KafkaRequest } from '@rhoas/kafka-management-sdk';
+import { useMASToken } from '@app/hooks';
 
-type InstanceDrawerProps = {
-  kafkaInstance: KafkaRequest;
-  Component: React.LazyExoticComponent<any>;
-  renderContent: (props: {
-    handleInstanceDrawer: (isOpen: boolean, activeTab?: string) => void;
-    setInstance: (instance: KafkaRequest) => void;
-  }) => ReactElement;
-};
-
-export const InstanceDrawer: VoidFunctionComponent<Omit<InstanceDrawerProps, 'Component'>> = (props) => {
-  return (
-    <FederatedModule
-      scope="kas"
-      module="./InstanceDrawer"
-      fallback={null}
-      render={(component) => <InstanceDrawerConnected Component={component} {...props} />}
-    />
-  );
-};
-
-const InstanceDrawerConnected: VoidFunctionComponent<InstanceDrawerProps> = ({
-  Component,
-  renderContent,
-  kafkaInstance,
-  ...props
-}) => {
-  const config = useConfig();
+export function useKafkaInstanceDrawer() {
   const history = useHistory();
-  if (config === undefined) {
-    return <AppServicesLoading />;
-  }
 
-  const { authServerUrl, realm } = config?.masSso || {};
-  const tokenEndPointUrl = `${authServerUrl}/realms/${realm}/protocol/openid-connect/token`;
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [drawerActiveTab, setDrawerActiveTab] = useState<string | undefined>(undefined);
+
+  const openDrawer = useCallback((tab: string | undefined) => {
+    if (tab) {
+      setDrawerActiveTab(tab);
+    }
+    setIsDrawerOpen(true);
+  }, []);
+
+  const closeDrawer = useCallback(() => {
+    setDrawerActiveTab(undefined);
+    setIsDrawerOpen(false);
+  }, []);
+
+  const { getTokenEndPointUrl } = useMASToken();
 
   const onDeleteInstance = () => {
     history.push('/streams/kafkas');
   };
 
-  return (
-    <Component
-      tokenEndPointUrl={tokenEndPointUrl}
-      onDeleteInstance={onDeleteInstance}
-      renderContent={({ closeDrawer, openDrawer, setInstance }) => {
-        const handleInstanceDrawer = (isOpen: boolean, activeTab?: string) => {
-          isOpen ? openDrawer() : closeDrawer();
-        };
-        return renderContent({ handleInstanceDrawer, setInstance });
-      }}
-      initialInstance={kafkaInstance}
-      {...props}
-    />
-  );
-};
+  return {
+    isDrawerOpen,
+    drawerActiveTab,
+    setDrawerActiveTab,
+    openDrawer,
+    closeDrawer,
+    tokenEndPointUrl: getTokenEndPointUrl(),
+    onDeleteInstance,
+  };
+}
