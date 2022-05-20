@@ -10,7 +10,7 @@ type ConnectedMetricsProps = {
   totalMaxConnections: number;
   maxConnections: number;
   maxPartitions: number;
-  kafkaStorageSize: number;
+  kafkaStorageBytes: number;
 };
 
 export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
@@ -19,14 +19,13 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
   totalMaxConnections,
   maxConnections,
   maxPartitions,
-  kafkaStorageSize = 0,
+  kafkaStorageBytes,
 }) => {
   const auth = useAuth();
   const history = useHistory();
   const config = useConfig();
   const { getBasename } = useBasename() || {};
   const basename = getBasename && getBasename();
-  const bytes = 1024 * 1024 * 1024;
 
   const [isAlertClosed, setIsAlertClosed] = useState<boolean>(false);
 
@@ -49,7 +48,7 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
 
       return {
         ...kafkaResponse,
-        diskSpaceLimit: kafkaStorageSize * bytes,
+        diskSpaceLimit: kafkaStorageBytes / 1073741824,
         connectionsLimit: totalMaxConnections,
         connectionRateLimit: maxConnections,
       };
