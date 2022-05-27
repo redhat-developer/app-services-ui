@@ -6,7 +6,7 @@ import { ServiceConstantsContextProvider } from '@app/providers/config/ServiceCo
 import { FeatureFlagProvider } from '@app/providers/featureflags/FeatureFlags';
 import { init } from '@app/store';
 import getBaseName from '@app/utils/getBaseName';
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
+import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
 import { AppServicesLoading, I18nProvider, ModalProvider } from '@rhoas/app-services-ui-components';
 import { Alert, AlertContext, AlertProps, AuthContext, ConfigContext } from '@rhoas/app-services-ui-shared';
 import React, { useContext } from 'react';
@@ -79,7 +79,6 @@ const AppWithConfig: React.FunctionComponent = () => {
   return <AppWithKeycloak />;
 };
 
-// eslint-disable-next-line react/display-name
 const AppEntry: React.FunctionComponent = React.memo(() => (
   <Provider store={init(logger).getStore()}>
     <I18nProvider

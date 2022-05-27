@@ -1,14 +1,21 @@
-import React, { useCallback, useMemo, useState, VoidFunctionComponent } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import { AccessDeniedPage, ConnectedMetrics, ServiceDownPage } from '@app/pages';
-import { KafkaInstance, useKafkaInstance } from '@app/pages/Kafka/kafka-instance';
-import { UnderlyingProps } from '@app/pages/Kafka/KafkaFederatedComponent';
-import { PrincipalsProvider } from '@app/components/PrincipalsProvider/PrincipalsProvider';
-import { useAuth, useConfig } from '@rhoas/app-services-ui-shared';
-import { AppServicesLoading } from '@rhoas/app-services-ui-components';
-import { ServiceRegistrySchemaMapping } from '@app/pages/ServiceRegistry';
-import { KafkaRoutes } from './KafkaRoutes';
-import { FederatedModule } from '@app/components';
+import { useCallback, useMemo, useState, VoidFunctionComponent } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import {
+  AccessDeniedPage,
+  ConnectedMetrics,
+  ServiceDownPage,
+} from "@app/pages";
+import {
+  KafkaInstance,
+  useKafkaInstance,
+} from "@app/pages/Kafka/kafka-instance";
+import { UnderlyingProps } from "@app/pages/Kafka/KafkaFederatedComponent";
+import { PrincipalsProvider } from "@app/components/PrincipalsProvider/PrincipalsProvider";
+import { useAuth, useConfig } from "@rhoas/app-services-ui-shared";
+import { AppServicesLoading } from "@rhoas/app-services-ui-components";
+import { ServiceRegistrySchemaMapping } from "@app/pages/ServiceRegistry";
+import { KafkaRoutes } from "./KafkaRoutes";
+import { FederatedModule } from "@app/components";
 
 export const KafkaMainView: VoidFunctionComponent = () => {
   const config = useConfig();
@@ -24,13 +31,15 @@ export const KafkaMainView: VoidFunctionComponent = () => {
   }
 
   if (kafka === false) {
-    throw new Error('404');
+    throw new Error("404");
   }
 
   return <KafkaMainViewConnected kafka={kafka} />;
 };
 
-export const KafkaMainViewConnected: VoidFunctionComponent<{ kafka: KafkaInstance }> = ({ kafka }) => {
+export const KafkaMainViewConnected: VoidFunctionComponent<{
+  kafka: KafkaInstance;
+}> = ({ kafka }) => {
   return (
     <PrincipalsProvider kafkaInstance={kafka.kafkaDetail}>
       <ConnectedKafkaRoutes kafka={kafka} />
@@ -52,7 +61,7 @@ const ConnectedKafkaRoutes: VoidFunctionComponent<{
   }, []);
 
   const redirectAfterDeleteInstance = useCallback(() => {
-    history.push('/streams/kafkas');
+    history.push("/streams/kafkas");
   }, [history]);
 
   const showMetrics = useMemo(
@@ -63,7 +72,10 @@ const ConnectedKafkaRoutes: VoidFunctionComponent<{
         totalMaxConnections={kafkaDetail.size.total_max_connections || 0}
         maxConnections={kafkaDetail.size.max_connection_attempts_per_sec || 0}
         maxPartitions={kafkaDetail.size.max_partitions || 0}
-        kafkaStorageBytes={parseInt(kafkaDetail.kafka_storage_size.replace('Gi', '')) * 1073741824}
+        kafkaStorageBytes={
+          parseInt(kafkaDetail.kafka_storage_size.replace("Gi", "")) *
+          1073741824
+        }
       />
     ),
     [adminServerUrl, kafkaDetail]
@@ -72,7 +84,7 @@ const ConnectedKafkaRoutes: VoidFunctionComponent<{
 
   const props = useMemo<Partial<UnderlyingProps>>(
     () => ({
-      kafkaPageLink: '/streams/kafkas',
+      kafkaPageLink: "/streams/kafkas",
       kafkaInstanceLink: `/streams/kafkas/${kafkaDetail.id}/topics`,
       showMetrics,
       onError,
@@ -83,7 +95,15 @@ const ConnectedKafkaRoutes: VoidFunctionComponent<{
       kafka: kafkaDetail,
       redirectAfterDeleteInstance,
     }),
-    [adminServerUrl, getToken, kafkaDetail, onError, redirectAfterDeleteInstance, showMetrics, showSchemas]
+    [
+      adminServerUrl,
+      getToken,
+      kafkaDetail,
+      onError,
+      redirectAfterDeleteInstance,
+      showMetrics,
+      showSchemas,
+    ]
   );
 
   if (error === 401) {
@@ -95,7 +115,9 @@ const ConnectedKafkaRoutes: VoidFunctionComponent<{
       scope="kas"
       module="./InstanceDrawer"
       fallback={null}
-      render={(InstanceDrawer) => <KafkaRoutes {...props} InstanceDrawer={InstanceDrawer} />}
+      render={(InstanceDrawer) => (
+        <KafkaRoutes {...props} InstanceDrawer={InstanceDrawer} />
+      )}
     />
   );
 };

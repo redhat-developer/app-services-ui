@@ -46,7 +46,7 @@ export async function fetchKafkaInstanceMetrics({
   const connectionAttemptRateMetrics: TimeSeriesMetrics = {};
   const clientConnectionsMetrics: TimeSeriesMetrics = {};
 
-  let connectionRateLimit = 0,
+  const connectionRateLimit = 0,
     connectionsLimit = 0,
     diskSpaceLimit = 0;
 

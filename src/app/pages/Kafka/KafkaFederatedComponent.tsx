@@ -1,6 +1,6 @@
-import React, { ComponentType } from 'react';
-import { FederatedModule } from '@app/components';
-import { KafkaRequestWithSize } from '@app/pages/Kafka/kafka-instance';
+import { FederatedModule } from "@app/components";
+import { KafkaRequestWithSize } from "@app/pages/Kafka/kafka-instance";
+import { FunctionComponent } from "react";
 
 export type KafkaFederatedComponentProps = UnderlyingProps & {
   module: string;
@@ -18,11 +18,13 @@ export type UnderlyingProps = {
   showSchemas?: JSX.Element;
   kafka?: Required<KafkaRequestWithSize>;
   redirectAfterDeleteInstance?: () => void;
-  handleInstanceDrawer?: (isOpen: boolean, activeTab?: string) => void
+  handleInstanceDrawer?: (isOpen: boolean, activeTab?: string) => void;
 };
 
 // Provides properties for component path and it's underlying properties
-export const KafkaFederatedComponent: React.FunctionComponent<KafkaFederatedComponentProps> = ({ module, ...rest }) => {
+export const KafkaFederatedComponent: FunctionComponent<
+  KafkaFederatedComponentProps
+> = ({ module, ...rest }) => {
   return (
     <FederatedModule
       data-ouia-app-id="dataPlane-streams"

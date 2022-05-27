@@ -1,8 +1,17 @@
-import React, { useCallback, useState, VoidFunctionComponent } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useAuth, useBasename, useConfig } from '@rhoas/app-services-ui-shared';
-import { AppServicesLoading, Metrics, MetricsProps } from '@rhoas/app-services-ui-components';
-import { fetchKafkaInstanceMetrics, fetchKafkaTopisFromAdmin, fetchMetricsKpi, fetchTopicMetrics } from './api';
+import { useCallback, useState, VoidFunctionComponent } from "react";
+import { useHistory } from "react-router-dom";
+import { useAuth, useBasename, useConfig } from "@rhoas/app-services-ui-shared";
+import {
+  AppServicesLoading,
+  Metrics,
+  MetricsProps,
+} from "@rhoas/app-services-ui-components";
+import {
+  fetchKafkaInstanceMetrics,
+  fetchKafkaTopisFromAdmin,
+  fetchMetricsKpi,
+  fetchTopicMetrics,
+} from "./api";
 
 type ConnectedMetricsProps = {
   kafkaId: string;
@@ -29,37 +38,46 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
 
   const storageKey = `metrics-alert-${kafkaId}`;
 
-  const [isAlertClosed, setIsAlertClosed] = useState<boolean>(localStorage.getItem(storageKey) !== null);
+  const [isAlertClosed, setIsAlertClosed] = useState<boolean>(
+    localStorage.getItem(storageKey) !== null
+  );
 
   const onAlertClose = () => {
     setIsAlertClosed(true);
-    localStorage.setItem(storageKey, 'true');
+    localStorage.setItem(storageKey, "true");
   };
 
   const onCreateTopic = () => {
     history.push(`${basename}/topic/create`);
   };
 
-  const getKafkaInstanceMetrics: MetricsProps['getKafkaInstanceMetrics'] = useCallback(
-    async (props) => {
-      const kafkaResponse = await fetchKafkaInstanceMetrics({
-        ...props,
+  const getKafkaInstanceMetrics: MetricsProps["getKafkaInstanceMetrics"] =
+    useCallback(
+      async (props) => {
+        const kafkaResponse = await fetchKafkaInstanceMetrics({
+          ...props,
+          kafkaId,
+          basePath: config.kas.apiBasePath,
+          accessToken: auth?.kas.getToken(),
+        });
+
+        return {
+          ...kafkaResponse,
+          diskSpaceLimit: kafkaStorageBytes / 1073741824,
+          connectionsLimit: totalMaxConnections,
+          connectionRateLimit: maxConnections,
+        };
+      },
+      [
+        auth?.kas,
+        config.kas.apiBasePath,
         kafkaId,
-        basePath: config.kas.apiBasePath,
-        accessToken: auth?.kas.getToken(),
-      });
+        totalMaxConnections,
+        maxConnections,
+      ]
+    );
 
-      return {
-        ...kafkaResponse,
-        diskSpaceLimit: kafkaStorageBytes / 1073741824,
-        connectionsLimit: totalMaxConnections,
-        connectionRateLimit: maxConnections,
-      };
-    },
-    [auth?.kas, config.kas.apiBasePath, kafkaId, totalMaxConnections, maxConnections]
-  );
-
-  const getTopicMetrics: MetricsProps['getTopicsMetrics'] = useCallback(
+  const getTopicMetrics: MetricsProps["getTopicsMetrics"] = useCallback(
     async (props) => {
       const [kafkaTopics, metrics] = await Promise.all([
         fetchKafkaTopisFromAdmin({
@@ -73,7 +91,13 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
           accessToken: auth?.kas.getToken(),
         }),
       ]);
-      const { metricsTopics, bytesIncoming, bytesOutgoing, bytesPerPartition, incomingMessageRate } = metrics;
+      const {
+        metricsTopics,
+        bytesIncoming,
+        bytesOutgoing,
+        bytesPerPartition,
+        incomingMessageRate,
+      } = metrics;
       return {
         kafkaTopics,
         metricsTopics,
@@ -86,7 +110,7 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
     [auth?.kafka, auth?.kas, config.kas.apiBasePath, kafkaAdminUrl, kafkaId]
   );
 
-  const getMetricsKpi: MetricsProps['getMetricsKpi'] = useCallback(async () => {
+  const getMetricsKpi: MetricsProps["getMetricsKpi"] = useCallback(async () => {
     const kpiResponse = await fetchMetricsKpi({
       kafkaId,
       basePath: config.kas.apiBasePath,

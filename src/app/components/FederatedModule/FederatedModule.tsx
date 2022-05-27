@@ -1,10 +1,15 @@
-/* eslint-disable camelcase */
-/* eslint-disable no-undef */
-import React, { ComponentType, memo, ReactNode, useEffect, useRef, useState, VoidFunctionComponent } from 'react';
-import { AssetsContext } from '@rhoas/app-services-ui-shared';
-import { ModuleInfo } from '@app/components/FederatedModule/moduleInfo';
-import { useFederatedModule } from '@app/components';
-import { AppServicesLoading } from '@rhoas/app-services-ui-components';
+import React, {
+  ComponentType,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+  VoidFunctionComponent,
+} from "react";
+import { AssetsContext } from "@rhoas/app-services-ui-shared";
+import { ModuleInfo } from "@app/components/FederatedModule/moduleInfo";
+import { useFederatedModule } from "@app/components";
+import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 
 const useIsMounted = () => {
   const isMounted = useRef(false);
@@ -17,6 +22,8 @@ const useIsMounted = () => {
   return isMounted;
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 declare function __webpack_init_sharing__(shareScope: string);
 
 declare const __webpack_share_scopes__: {
@@ -28,11 +35,11 @@ type Container = {
   get: (module: string) => Promise<{ (): { default: ComponentType<any> } }>;
 };
 
-function loadComponent(scope, module) {
+function loadComponent(scope: string, module: string) {
   return async () => {
     // Initializes the share scope. This fills it with known provided modules from this build and all remotes
-    await __webpack_init_sharing__('default');
-    const container = window[scope] as unknown as Container; // or get the container somewhere else
+    await __webpack_init_sharing__("default");
+    const container = (window as any)[scope] as unknown as Container; // or get the container somewhere else
     // Initialize the container, it may provide shared modules
     await container.init(__webpack_share_scopes__.default);
     const factory = await container.get(module);
@@ -48,17 +55,17 @@ const useDynamicScript = (url: string) => {
   const [failed, setFailed] = React.useState(false);
 
   React.useEffect(() => {
-    let element;
+    let element: HTMLScriptElement;
     if (isMounted.current) {
       if (!url) {
         setFailed(true);
         return;
       }
 
-      element = document.createElement('script');
+      element = document.createElement("script");
 
       element.src = url;
-      element.type = 'text/javascript';
+      element.type = "text/javascript";
       element.async = true;
 
       setReady(false);
@@ -84,7 +91,7 @@ const useDynamicScript = (url: string) => {
         document.head.removeChild(element);
       }
     };
-  }, [url]);
+  }, [isMounted, url]);
 
   return {
     ready,
@@ -95,12 +102,19 @@ const useDynamicScript = (url: string) => {
 export type FederatedModuleProps = {
   scope: string;
   module: string;
-  render: (component: React.LazyExoticComponent<React.ComponentType<any>>) => ReactNode;
+  render: (
+    component: React.LazyExoticComponent<React.ComponentType<any>>
+  ) => ReactNode;
   fallback?: React.ReactNode;
 };
 
-export const FederatedModule: VoidFunctionComponent<FederatedModuleProps> = ({ scope, module, render, fallback }) => {
-  console.log("Dynamic federated module", scope, module)
+export const FederatedModule: VoidFunctionComponent<FederatedModuleProps> = ({
+  scope,
+  module,
+  render,
+  fallback,
+}) => {
+  console.log("Dynamic federated module", scope, module);
   const isMounted = useIsMounted();
 
   const { getModuleInfo, modules } = useFederatedModule();
@@ -108,7 +122,11 @@ export const FederatedModule: VoidFunctionComponent<FederatedModuleProps> = ({ s
 
   useEffect(() => {
     const fetchModuleInfo = async () => {
-      const moduleInfo = await getModuleInfo(modules[scope].basePath, scope, modules[scope].fallbackBasePath);
+      const moduleInfo = await getModuleInfo(
+        modules[scope].basePath,
+        scope,
+        modules[scope].fallbackBasePath
+      );
       if (isMounted.current) {
         setModuleInfo(moduleInfo);
       }
@@ -117,7 +135,14 @@ export const FederatedModule: VoidFunctionComponent<FederatedModuleProps> = ({ s
   }, [scope, modules, getModuleInfo, isMounted]);
 
   if (moduleInfo !== undefined) {
-    return <DynamicFederatedModule scope={scope} module={module} render={render} moduleInfo={moduleInfo} />;
+    return (
+      <DynamicFederatedModule
+        scope={scope}
+        module={module}
+        render={render}
+        moduleInfo={moduleInfo}
+      />
+    );
   }
   if (fallback !== undefined) {
     return <>{fallback}</>;
@@ -129,13 +154,9 @@ type DynamicFederatedModuleProps = FederatedModuleProps & {
   moduleInfo: ModuleInfo;
 };
 
-const DynamicFederatedModule: React.FunctionComponent<DynamicFederatedModuleProps> = ({
-  moduleInfo,
-  fallback,
-  scope,
-  render,
-  module,
-}) => {
+const DynamicFederatedModule: React.FunctionComponent<
+  DynamicFederatedModuleProps
+> = ({ moduleInfo, fallback, scope, render, module }) => {
   const { ready, failed } = useDynamicScript(moduleInfo.entryPoint);
 
   if (ready && !failed) {
@@ -147,7 +168,9 @@ const DynamicFederatedModule: React.FunctionComponent<DynamicFederatedModuleProp
 
     return (
       <AssetsContext.Provider value={{ getPath }}>
-        <React.Suspense fallback={<AppServicesLoading />}>{render(Component)}</React.Suspense>
+        <React.Suspense fallback={<AppServicesLoading />}>
+          {render(Component)}
+        </React.Suspense>
       </AssetsContext.Provider>
     );
   }

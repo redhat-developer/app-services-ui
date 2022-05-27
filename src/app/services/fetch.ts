@@ -1,5 +1,4 @@
-import { Reducer, useEffect, useReducer, useRef } from 'react';
-import { AxiosResponse } from 'axios';
+import { Reducer, useEffect, useReducer, useRef } from "react";
 
 export type Response<T> = {
   status: Status;
@@ -15,12 +14,12 @@ export enum Status {
 }
 
 export type ServiceProps<T> = {
-  fetch: () => Promise<AxiosResponse<T>>;
+  fetch: () => Promise<T>;
   key: string;
 };
 
-export const useFetch = <T extends any>({ key, fetch }: ServiceProps<T>): Response<T> => {
-  const cache = useRef({});
+export const useFetch = <T>({ key, fetch }: ServiceProps<T>): Response<T> => {
+  const cache = useRef<{ [key: string]: T }>({});
 
   type Action<T> = {
     type: Status;
@@ -34,18 +33,21 @@ export const useFetch = <T extends any>({ key, fetch }: ServiceProps<T>): Respon
     data: undefined,
   } as Response<T>;
 
-  const [state, dispatch] = useReducer<Reducer<Response<T>, Action<T>>>((states, action: Action<T>) => {
-    switch (action.type) {
-      case Status.FETCHING:
-        return { ...initialState, status: Status.FETCHING };
-      case Status.FETCHED:
-        return { ...initialState, status: Status.FETCHED, data: action.payload };
-      case Status.FETCH_ERROR:
-        return { ...initialState, status: Status.FETCH_ERROR, error: action.error };
-      default:
-        return state;
-    }
-  }, initialState);
+  const [state, dispatch] = useReducer<Reducer<Response<T>, Action<T>>>(
+    (state, action: Action<T>) => {
+      switch (action.type) {
+        case Status.FETCHING:
+          return { ...state, status: Status.FETCHING };
+        case Status.FETCHED:
+          return { ...state, status: Status.FETCHED, data: action.payload };
+        case Status.FETCH_ERROR:
+          return { ...state, status: Status.FETCH_ERROR, error: action.error };
+        default:
+          return state;
+      }
+    },
+    initialState
+  );
 
   useEffect(() => {
     let cancelRequest = false;
@@ -58,12 +60,24 @@ export const useFetch = <T extends any>({ key, fetch }: ServiceProps<T>): Respon
       } else {
         try {
           const response = await fetch();
-          cache.current[key] = response.data;
+          cache.current[key] = response;
           if (cancelRequest) return;
-          dispatch({ type: Status.FETCHED, payload: response.data });
+          dispatch({ type: Status.FETCHED, payload: response });
         } catch (error) {
           if (cancelRequest) return;
-          dispatch({ type: Status.FETCH_ERROR, payload: error.message });
+          if (error instanceof Error) {
+            dispatch({ type: Status.FETCH_ERROR, error });
+          } else if (typeof error === "string") {
+            dispatch({
+              type: Status.FETCH_ERROR,
+              error: new Error(error),
+            });
+          } else {
+            dispatch({
+              type: Status.FETCH_ERROR,
+              error: new Error("unknown error"),
+            });
+          }
         }
       }
     };
@@ -73,7 +87,7 @@ export const useFetch = <T extends any>({ key, fetch }: ServiceProps<T>): Respon
     return function cleanup() {
       cancelRequest = true;
     };
-  }, []);
+  }, [fetch, key]);
 
   return state;
 };

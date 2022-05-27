@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications/';
+import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
 import { AppRoutes } from '@app/AppRoutes';
 import { FederatedModuleProvider } from '@app/components';
 import { useInsights } from '@app/hooks';
@@ -12,7 +12,7 @@ export const App: React.FunctionComponent = () => {
   const insights = useInsights();
   const history = useHistory();
 
-  const getAppId = () => {
+  const getAppId = useCallback(() => {
     const defaultAppId = 'overview';
 
     const parts = history.location.pathname.split('/');
@@ -28,7 +28,7 @@ export const App: React.FunctionComponent = () => {
     } else {
       return defaultAppId;
     }
-  };
+  }, [history]);
 
   useEffect(() => {
     insights.chrome.init();
