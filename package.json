@@ -63,7 +63,7 @@
     "@redhat-cloud-services/frontend-components-notifications": "3.2.5",
     "@redhat-cloud-services/frontend-components-utilities": "3.2.12",
     "@testing-library/react": "12.1.2",
-    "@types/jest": "27.4.1",
+    "@types/jest": "27.5.1",
     "@types/js-cookie": "3.0.1",
     "@types/node": "16.11.15",
     "@types/react-router-dom": "5.3.2",
