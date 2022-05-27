@@ -6,6 +6,8 @@ let registry: ReducerRegistry;
 
 export function init(...middleware: any) {
   if (!registry) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     registry = new ReducerRegistry({}, [promiseMiddleware, ...middleware]);
 
     //If you want to register all of your reducers, this is good place.
