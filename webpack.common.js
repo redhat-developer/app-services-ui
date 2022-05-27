@@ -1,15 +1,16 @@
 const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+const federatedPlugin = require("@redhat-cloud-services/frontend-components-config-utilities/federated-modules");
 const Dotenv = require("dotenv-webpack");
 const BG_IMAGES_DIRNAME = "bgimages";
 const {
   dependencies,
   peerDependencies,
   federatedModuleName,
+  crc,
 } = require("./package.json");
 const webpack = require("webpack");
-const { crc } = require("./package.json");
+
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ChunkMapper = require("@redhat-cloud-services/frontend-components-config-utilities/chunk-mapper");
 
@@ -22,17 +23,7 @@ const isPatternflyStyles = (stylesheet) =>
 module.exports = (env, argv) => {
   const beta = argv && argv.beta;
   const isProduction = argv && argv.mode === "production";
-  const publicPath = argv && argv.publicPath;
   const appEntry = path.resolve(__dirname, "src", "index.tsx");
-
-  const preloadTags = Object.values(federatedModules)
-    .map((v) => v.fallbackBasePath)
-    .map((p) => (!beta && p.startsWith("/beta") ? p.substring(5) : p))
-    .map(
-      (p) =>
-        `<link rel="preload" href="${p}/fed-mods.json" as="fetch" type="application/json" />`
-    )
-    .join("\n");
 
   return {
     entry: {
@@ -111,29 +102,8 @@ module.exports = (env, argv) => {
     output: {
       filename: "[name].bundle.js",
       path: path.resolve(__dirname, "dist"),
-      publicPath: "auto",
     },
     plugins: [
-      new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, "src", "index.html"),
-        templateParameters: {
-          appName: crc.bundle,
-          preloadTags,
-        },
-        inject: false,
-        minify: isProduction
-          ? {
-              collapseWhitespace: true,
-              keepClosingSlash: true,
-              removeComments: true,
-              removeRedundantAttributes: true,
-              removeScriptTypeAttributes: true,
-              removeStyleLinkTypeAttributes: true,
-              useShortDoctype: true,
-              minifyJS: true,
-            }
-          : false,
-      }),
       new MiniCssExtractPlugin({
         filename: "[name].[contenthash:8].css",
         chunkFilename: "[contenthash:8].css",
@@ -150,48 +120,55 @@ module.exports = (env, argv) => {
         systemvars: true,
         silent: true,
       }),
-      new webpack.container.ModuleFederationPlugin({
-        name: federatedModuleName,
-        filename: `${federatedModuleName}.[hash].js`,
-        library: { type: "var", name: federatedModuleName },
+      federatedPlugin({
+        root: __dirname,
+        moduleName: federatedModuleName,
         exposes: {
           "./RootApp": path.resolve(__dirname, "./src/AppEntry.tsx"),
         },
-        shared: {
-          ...dependencies,
-          ...peerDependencies,
-          react: {
-            eager: true,
-            singleton: true,
-            requiredVersion: peerDependencies.react,
+        exclude: ["react-router-dom"],
+        shared: [
+          {
+            ...dependencies,
+            ...peerDependencies,
+            react: {
+              eager: true,
+              singleton: true,
+              requiredVersion: peerDependencies.react,
+            },
+            "react-dom": {
+              eager: true,
+              singleton: true,
+              requiredVersion: peerDependencies["react-dom"],
+            },
+            "react-i18next": {
+              singleton: true,
+              requiredVersion: peerDependencies["react-i18next"],
+            },
+            "react-router-dom": {
+              singleton: true,
+              requiredVersion: peerDependencies["react-router-dom"],
+            },
+            "@rhoas/app-services-ui-components": {
+              singleton: true,
+              requiredVersion:
+                peerDependencies["@rhoas/app-services-ui-components"],
+            },
+            "@rhoas/app-services-ui-shared": {
+              singleton: true,
+              requiredVersion:
+                peerDependencies["@rhoas/app-services-ui-shared"],
+            },
+            "@scalprum/react-core": { requiredVersion: "*", singleton: true },
+            "@patternfly/quickstarts": {
+              requiredVersion: "*",
+              singleton: true,
+            },
           },
-          "react-dom": {
-            eager: true,
-            singleton: true,
-            requiredVersion: peerDependencies["react-dom"],
-          },
-          "react-i18next": {
-            singleton: true,
-            requiredVersion: peerDependencies["react-i18next"],
-          },
-          "react-router-dom": {
-            singleton: true,
-            requiredVersion: peerDependencies["react-router-dom"],
-          },
-          "@rhoas/app-services-ui-components": {
-            singleton: true,
-            requiredVersion:
-              peerDependencies["@rhoas/app-services-ui-components"],
-          },
-          "@rhoas/app-services-ui-shared": {
-            singleton: true,
-            requiredVersion: peerDependencies["@rhoas/app-services-ui-shared"],
-          },
-          "@scalprum/react-core": { requiredVersion: "*", singleton: true },
-          "@patternfly/quickstarts": { requiredVersion: "*", singleton: true },
-        },
+        ],
       }),
-      new ChunkMapper({ prefix: publicPath, modules: [federatedModuleName] }),
+      new ChunkMapper({ modules: [federatedModuleName] }),
+      new webpack.ProgressPlugin(),
     ],
     resolve: {
       extensions: [".js", ".ts", ".tsx", ".jsx"],

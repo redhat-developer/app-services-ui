@@ -1,3 +1,5 @@
+const path = require("path");
+const fs = require("fs");
 const { merge } = require("webpack-merge");
 const common = require("./webpack.common.js");
 const CopyPlugin = require("copy-webpack-plugin");
@@ -11,8 +13,9 @@ const BETA = true;
 const config = require("./config/config.json");
 
 const basePublicPath = `${BETA ? "/beta" : ""}/apps`;
-const proxyPublicPath = `${BETA ? "/beta" : ""}/${crc.bundle}/`;
 const publicPath = `${basePublicPath}/${crc.bundle}/`;
+
+const distDir = path.resolve(__dirname, "./dist/");
 
 module.exports = merge(
   common("development", {
@@ -20,33 +23,21 @@ module.exports = merge(
     beta: BETA,
   }),
   {
+    output: {
+      publicPath,
+    },
     mode: "development",
     devtool: "eval-source-map",
     devServer: {
-      static: {
-        publicPath,
-        directory: "./dist",
-      },
       host: HOST,
       port: PORT,
       compress: true,
-      historyApiFallback: {
-        index: `${publicPath}index.html`,
+      static: {
+        // publicPath,
+        directory: distDir,
       },
-      hot: true,
+      hot: false,
       https: PROTOCOL === "https",
-      client: {
-        overlay: true,
-        webSocketURL: "ws://localhost:7003/ws",
-      },
-      webSocketServer: {
-        type: "ws",
-        options: {
-          host: "localhost",
-          port: 7003,
-          path: "/ws",
-        },
-      },
       open: {
         target: [
           `https://prod.foo.redhat.com:1337${BETA ? "/beta" : ""}/${
@@ -57,6 +48,7 @@ module.exports = merge(
       allowedHosts: "all",
       devMiddleware: {
         publicPath,
+        writeToDisk: true,
       },
       headers: {
         "Access-Control-Allow-Origin": "*",
@@ -66,12 +58,11 @@ module.exports = merge(
           "X-Requested-With, content-type, Authorization",
       },
       ...proxy({
-        useProxy: true,
-        useCloud: false,
+        port: PORT,
         env: BETA ? "prod-beta" : "prod-stable",
-        standalone: false,
-        publicPath: proxyPublicPath,
+        useProxy: true,
         proxyVerbose: true,
+        publicPath,
         customProxy: Object.values(config.federatedModules)
           .filter((c) => c.proxyTarget && c.fallbackBasePath)
           .map((config) => ({
@@ -83,6 +74,16 @@ module.exports = merge(
             ws: true,
             pathRewrite: { [`^${config.basePath}`]: "" },
           })),
+        onBeforeSetupMiddleware: ({ chromePath }) => {
+          const template = fs.readFileSync(`${chromePath}/index.html`, {
+            encoding: "utf-8",
+          });
+          if (!fs.existsSync(distDir)) {
+            fs.mkdirSync(distDir);
+          }
+
+          fs.writeFileSync(`${distDir}/index.html`, template);
+        },
       }),
     },
     plugins: [
