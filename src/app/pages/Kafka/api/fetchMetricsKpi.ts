@@ -14,7 +14,9 @@ export async function fetchMetricsKpi({
   accessToken,
   basePath,
   kafkaId,
-}: FetchMetricsKpiProps): Promise<Omit<GetMetricsKpiResponse, "kafkaTopics">> {
+}: FetchMetricsKpiProps): Promise<
+  Omit<GetMetricsKpiResponse, "kafkaTopics" | "topicPartitionsLimit">
+> {
   const apisService = new DefaultApi(
     new Configuration({
       accessToken,
@@ -24,8 +26,7 @@ export async function fetchMetricsKpi({
 
   let topics = 0,
     topicPartitions = 0,
-    consumerGroups = 0,
-    topicPartitionsLimit = 0;
+    consumerGroups = 0;
 
   const response = await apisService.getMetricsByInstantQuery(kafkaId, [
     "kafka_topic:kafka_topic_partitions:sum", // (Number of topic partitions)
@@ -55,6 +56,5 @@ export async function fetchMetricsKpi({
     consumerGroups,
     topicPartitions,
     topics,
-    topicPartitionsLimit,
   };
 }

@@ -1,7 +1,7 @@
 import { KeycloakConfig, KeycloakInstance } from "keycloak-js";
 import { Auth, Config, useConfig } from "@rhoas/app-services-ui-shared";
 import { getAccessToken, initKeycloak } from "@app/utils";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useInsights } from "@app/hooks/insights";
 
 const init = async (
@@ -29,7 +29,7 @@ export const useAuth = (): Auth => {
 
   const insightsChromeAuth = insights.chrome.auth;
 
-  const getKeycloakInstance = async () => {
+  const getKeycloakInstance = useCallback(async () => {
     const instance = keycloakInstance.current;
     if (instance === undefined) {
       const answer = await init(config, insightsChromeAuth.getToken);
@@ -37,12 +37,12 @@ export const useAuth = (): Auth => {
       return answer;
     }
     return instance;
-  };
+  }, [config, insightsChromeAuth]);
 
   useEffect(() => {
     // Start loading keycloak immediately
     getKeycloakInstance();
-  }, [config, insightsChromeAuth]);
+  }, [config, getKeycloakInstance, insightsChromeAuth]);
 
   const getMASSSOToken = async () => {
     const keycloakInstance = await getKeycloakInstance();

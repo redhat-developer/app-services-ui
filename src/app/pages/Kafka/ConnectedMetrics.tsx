@@ -69,9 +69,10 @@ export const ConnectedMetrics: VoidFunctionComponent<ConnectedMetricsProps> = ({
         };
       },
       [
-        auth?.kas,
-        config.kas.apiBasePath,
+        auth,
+        config,
         kafkaId,
+        kafkaStorageBytes,
         totalMaxConnections,
         maxConnections,
       ]

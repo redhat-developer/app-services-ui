@@ -95,7 +95,7 @@ export const useKafkaInstance = (
     } else {
       setKafkaRequest(undefined);
     }
-  }, [id]);
+  }, [fetchKafka, id]);
 
   return kafkaRequest
     ? {
