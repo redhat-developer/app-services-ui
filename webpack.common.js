@@ -1,30 +1,38 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const Dotenv = require('dotenv-webpack');
-const BG_IMAGES_DIRNAME = 'bgimages';
-const { dependencies, peerDependencies, federatedModuleName } = require('./package.json');
-const webpack = require('webpack');
-const { crc } = require('./package.json');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ChunkMapper = require('@redhat-cloud-services/frontend-components-config-utilities/chunk-mapper');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
+const BG_IMAGES_DIRNAME = "bgimages";
+const {
+  dependencies,
+  peerDependencies,
+  federatedModuleName,
+} = require("./package.json");
+const webpack = require("webpack");
+const { crc } = require("./package.json");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ChunkMapper = require("@redhat-cloud-services/frontend-components-config-utilities/chunk-mapper");
 
-const { federatedModules } = require('./config/config.json');
+const { federatedModules } = require("./config/config.json");
 
 const isPatternflyStyles = (stylesheet) =>
-  stylesheet.includes('@patternfly/react-styles/css/') || stylesheet.includes('@patternfly/react-core/');
+  stylesheet.includes("@patternfly/react-styles/css/") ||
+  stylesheet.includes("@patternfly/react-core/");
 
 module.exports = (env, argv) => {
   const beta = argv && argv.beta;
-  const isProduction = argv && argv.mode === 'production';
+  const isProduction = argv && argv.mode === "production";
   const publicPath = argv && argv.publicPath;
-  const appEntry = path.resolve(__dirname, 'src', 'index.tsx');
+  const appEntry = path.resolve(__dirname, "src", "index.tsx");
 
   const preloadTags = Object.values(federatedModules)
     .map((v) => v.fallbackBasePath)
-    .map((p) => (!beta && p.startsWith('/beta') ? p.substring(5) : p))
-    .map((p) => `<link rel="preload" href="${p}/fed-mods.json" as="fetch" type="application/json" />`)
-    .join('\n');
+    .map((p) => (!beta && p.startsWith("/beta") ? p.substring(5) : p))
+    .map(
+      (p) =>
+        `<link rel="preload" href="${p}/fed-mods.json" as="fetch" type="application/json" />`
+    )
+    .join("\n");
 
   return {
     entry: {
@@ -36,7 +44,7 @@ module.exports = (env, argv) => {
           test: new RegExp(appEntry),
           loader: path.resolve(
             __dirname,
-            './node_modules/@redhat-cloud-services/frontend-components-config-utilities/chrome-render-loader.js'
+            "./node_modules/@redhat-cloud-services/frontend-components-config-utilities/chrome-render-loader.js"
           ),
           options: {
             appName: crc.bundle,
@@ -45,27 +53,27 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.s[ac]ss$/,
-          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+          use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
           include: (stylesheet) => !isPatternflyStyles(stylesheet),
           sideEffects: true,
         },
         {
           test: /\.css$/,
-          use: [MiniCssExtractPlugin.loader, 'css-loader'],
+          use: [MiniCssExtractPlugin.loader, "css-loader"],
           include: (stylesheet) => !isPatternflyStyles(stylesheet),
           sideEffects: true,
         },
         {
           test: /\.css$/,
           include: isPatternflyStyles,
-          use: ['null-loader'],
+          use: ["null-loader"],
           sideEffects: true,
         },
         {
           test: /\.(tsx|ts|jsx)?$/,
           use: [
             {
-              loader: 'ts-loader',
+              loader: "ts-loader",
               options: {
                 transpileOnly: false,
                 experimentalWatchApi: true,
@@ -101,13 +109,13 @@ module.exports = (env, argv) => {
       ],
     },
     output: {
-      filename: '[name].bundle.js',
-      path: path.resolve(__dirname, 'dist'),
-      publicPath: 'auto',
+      filename: "[name].bundle.js",
+      path: path.resolve(__dirname, "dist"),
+      publicPath: "auto",
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, 'src', 'index.html'),
+        template: path.resolve(__dirname, "src", "index.html"),
         templateParameters: {
           appName: crc.bundle,
           preloadTags,
@@ -127,12 +135,12 @@ module.exports = (env, argv) => {
           : false,
       }),
       new MiniCssExtractPlugin({
-        filename: '[name].[contenthash:8].css',
-        chunkFilename: '[contenthash:8].css',
+        filename: "[name].[contenthash:8].css",
+        chunkFilename: "[contenthash:8].css",
         insert: (linkTag) => {
-          const preloadLinkTag = document.createElement('link');
-          preloadLinkTag.rel = 'preload';
-          preloadLinkTag.as = 'style';
+          const preloadLinkTag = document.createElement("link");
+          preloadLinkTag.rel = "preload";
+          preloadLinkTag.as = "style";
           preloadLinkTag.href = linkTag.href;
           document.head.appendChild(preloadLinkTag);
           document.head.appendChild(linkTag);
@@ -145,9 +153,9 @@ module.exports = (env, argv) => {
       new webpack.container.ModuleFederationPlugin({
         name: federatedModuleName,
         filename: `${federatedModuleName}.[hash].js`,
-        library: { type: 'var', name: federatedModuleName },
+        library: { type: "var", name: federatedModuleName },
         exposes: {
-          './RootApp': path.resolve(__dirname, './src/AppEntry.tsx'),
+          "./RootApp": path.resolve(__dirname, "./src/AppEntry.tsx"),
         },
         shared: {
           ...dependencies,
@@ -157,42 +165,44 @@ module.exports = (env, argv) => {
             singleton: true,
             requiredVersion: peerDependencies.react,
           },
-          'react-dom': {
+          "react-dom": {
             eager: true,
             singleton: true,
-            requiredVersion: peerDependencies['react-dom'],
+            requiredVersion: peerDependencies["react-dom"],
           },
-          'react-i18next': {
+          "react-i18next": {
             singleton: true,
-            requiredVersion: peerDependencies['react-i18next'],
+            requiredVersion: peerDependencies["react-i18next"],
           },
-          'react-router-dom': {
+          "react-router-dom": {
             singleton: true,
-            requiredVersion: peerDependencies['react-router-dom'],
+            requiredVersion: peerDependencies["react-router-dom"],
           },
-          '@rhoas/app-services-ui-components': {
+          "@rhoas/app-services-ui-components": {
             singleton: true,
-            requiredVersion: peerDependencies['@rhoas/app-services-ui-components'],
+            requiredVersion:
+              peerDependencies["@rhoas/app-services-ui-components"],
           },
-          '@rhoas/app-services-ui-shared': {
+          "@rhoas/app-services-ui-shared": {
             singleton: true,
-            requiredVersion: peerDependencies['@rhoas/app-services-ui-shared'],
+            requiredVersion: peerDependencies["@rhoas/app-services-ui-shared"],
           },
-          '@scalprum/react-core': { requiredVersion: '*', singleton: true },
-          '@patternfly/quickstarts': { requiredVersion: '*', singleton: true },
+          "@scalprum/react-core": { requiredVersion: "*", singleton: true },
+          "@patternfly/quickstarts": { requiredVersion: "*", singleton: true },
         },
       }),
       new ChunkMapper({ prefix: publicPath, modules: [federatedModuleName] }),
     ],
     resolve: {
-      extensions: ['.js', '.ts', '.tsx', '.jsx'],
+      extensions: [".js", ".ts", ".tsx", ".jsx"],
       plugins: [
         new TsconfigPathsPlugin({
-          configFile: path.resolve(__dirname, './tsconfig.json'),
+          configFile: path.resolve(__dirname, "./tsconfig.json"),
         }),
       ],
       symlinks: false,
       cacheWithContext: false,
+      fallback: { url: false },
     },
   };
 };

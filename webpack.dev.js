@@ -1,30 +1,31 @@
-const { merge } = require('webpack-merge');
-const common = require('./webpack.common.js');
-const CopyPlugin = require('copy-webpack-plugin');
-const { port, crc } = require('./package.json');
-const proxy = require('@redhat-cloud-services/frontend-components-config-utilities/proxy');
-const HOST = process.env.HOST || 'localhost';
+const { merge } = require("webpack-merge");
+const common = require("./webpack.common.js");
+const CopyPlugin = require("copy-webpack-plugin");
+const { port, crc } = require("./package.json");
+const proxy = require("@redhat-cloud-services/frontend-components-config-utilities/proxy");
+const HOST = process.env.HOST || "localhost";
 const PORT = process.env.PORT || port;
+const PROTOCOL = process.env.PROTOCOL || "https";
 const BETA = true;
 
-const config = require('./config/config.json');
+const config = require("./config/config.json");
 
-const basePublicPath = `${BETA ? '/beta' : ''}/apps`;
-const proxyPublicPath = `${BETA ? '/beta' : ''}/${crc.bundle}/`;
+const basePublicPath = `${BETA ? "/beta" : ""}/apps`;
+const proxyPublicPath = `${BETA ? "/beta" : ""}/${crc.bundle}/`;
 const publicPath = `${basePublicPath}/${crc.bundle}/`;
 
 module.exports = merge(
-  common('development', {
+  common("development", {
     publicPath,
     beta: BETA,
   }),
   {
-    mode: 'development',
-    devtool: 'eval-source-map',
+    mode: "development",
+    devtool: "eval-source-map",
     devServer: {
       static: {
         publicPath,
-        directory: './dist',
+        directory: "./dist",
       },
       host: HOST,
       port: PORT,
@@ -33,53 +34,62 @@ module.exports = merge(
         index: `${publicPath}index.html`,
       },
       hot: true,
+      https: PROTOCOL === "https",
       client: {
         overlay: true,
-        webSocketURL: 'ws://localhost:7003/ws',
+        webSocketURL: "ws://localhost:7003/ws",
       },
       webSocketServer: {
-        type: 'ws',
+        type: "ws",
         options: {
-          host: 'localhost',
+          host: "localhost",
           port: 7003,
-          path: '/ws',
+          path: "/ws",
         },
       },
       open: {
-        target: [`https://prod.foo.redhat.com:1337${BETA ? '/beta' : ''}/${crc.bundle}/`],
+        target: [
+          `https://prod.foo.redhat.com:1337${BETA ? "/beta" : ""}/${
+            crc.bundle
+          }/`,
+        ],
       },
-      allowedHosts: 'all',
+      allowedHosts: "all",
       devMiddleware: {
         publicPath,
       },
       headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-        'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods":
+          "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+        "Access-Control-Allow-Headers":
+          "X-Requested-With, content-type, Authorization",
       },
       ...proxy({
         useProxy: true,
         useCloud: false,
-        env: BETA ? 'prod-beta' : 'prod-stable',
+        env: BETA ? "prod-beta" : "prod-stable",
         standalone: false,
         publicPath: proxyPublicPath,
         proxyVerbose: true,
-        customProxy: Object.values(config.federatedModules).map((config) => ({
-          context: (path) => path.includes(config.basePath),
-          target: config.proxyTarget,
-          secure: false,
-          changeOrigin: true,
-          autoRewrite: true,
-          ws: true,
-          pathRewrite: { [`^${config.basePath}`]: '' },
-        })),
+        customProxy: Object.values(config.federatedModules)
+          .filter((c) => c.proxyTarget && c.fallbackBasePath)
+          .map((config) => ({
+            context: (path) => path.includes(config.basePath),
+            target: config.proxyTarget,
+            secure: false,
+            changeOrigin: true,
+            autoRewrite: true,
+            ws: true,
+            pathRewrite: { [`^${config.basePath}`]: "" },
+          })),
       }),
     },
     plugins: [
       new CopyPlugin({
         patterns: [
           {
-            from: 'config/config.json',
+            from: "config/config.json",
             to: `config.json`,
           },
         ],
