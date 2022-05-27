@@ -1,42 +1,45 @@
 <!DOCTYPE html>
 <html lang="en-US">
-    <head>
-        <link rel="preconnect" href="https://access.redhat.com" />
-        <link rel="preconnect" href="https://static.redhat.com" />
-        <link rel="preconnect" href="https://pendo-static-5300167311360000.storage.googleapis.com" />
-        <link rel="preconnect" href="https://assets.adobedtm.com" />
-        <link rel="preconnect" href="https://s1795.t.eloqua.com" />
-        <link rel="preconnect" href="https://redhat.tt.omtrdc.net" />
-        <link rel="preconnect" href="https://ws22.hotjar.com" />
+  <head>
+    <link rel="preconnect" href="https://access.redhat.com" />
+    <link rel="preconnect" href="https://static.redhat.com" />
+    <link
+      rel="preconnect"
+      href="https://pendo-static-5300167311360000.storage.googleapis.com"
+    />
+    <link rel="preconnect" href="https://assets.adobedtm.com" />
+    <link rel="preconnect" href="https://s1795.t.eloqua.com" />
+    <link rel="preconnect" href="https://redhat.tt.omtrdc.net" />
+    <link rel="preconnect" href="https://ws22.hotjar.com" />
 
-        <%= preloadTags %>
+    <%= preloadTags %>
 
-        <meta charset="UTF-8">
-        <title>Red Hat OpenShift Streams for Apache Kafka</title>
-        <esi:include src="/beta/apps/chrome/snippets/head.html"/>
-        <script>
-          // Work out the webpack public path dynamically so we can deploy to prod and beta
-          const p = window.location.pathname.split("/");
-          // Identify if we are in the beta
-          let b = false;
-          if (p.length > 0 && p[1] === "beta") {
-            b = true;
-          }
-          // Work out the publicpath itself, using the injected appName
-          __webpack_public_path__ = `${(b ? '/beta' : "")}/apps/<%= appName %>`;
-          // Set it into the magic webpack variable
-          // Load the scripts dynamically by writing them into the bottom of the <head>, prepending the publicPath
-          const h = document.querySelector("head");
-          // The scripts that need loading by webpack are injected here
-          [<%= htmlWebpackPlugin.files.js.map(file => `'${file}'`).join(",") %>].forEach(s => {
-            const n = document.createElement("script");
-            n.src = `${__webpack_public_path__}/${s}`;
-            n.defer = true;
-            h.appendChild(n);
-          });
-        </script>
-    </head>
-    <body>
-      <esi:include src="/beta/apps/chrome/snippets/body.html"/>
-    </body>
+    <meta charset="UTF-8" />
+    <title>Red Hat OpenShift Streams for Apache Kafka</title>
+    <esi:include src="/beta/apps/chrome/snippets/head.html" />
+    <script>
+      // Work out the webpack public path dynamically so we can deploy to prod and beta
+      const p = window.location.pathname.split("/");
+      // Identify if we are in the beta
+      let b = false;
+      if (p.length > 0 && p[1] === "beta") {
+        b = true;
+      }
+      // Work out the publicpath itself, using the injected appName
+      __webpack_public_path__ = `${(b ? '/beta' : "")}/apps/<%= appName %>`;
+      // Set it into the magic webpack variable
+      // Load the scripts dynamically by writing them into the bottom of the <head>, prepending the publicPath
+      const h = document.querySelector("head");
+      // The scripts that need loading by webpack are injected here
+      [<%= htmlWebpackPlugin.files.js.map(file => `'${file}'`).join(",") %>].forEach(s => {
+        const n = document.createElement("script");
+        n.src = `${__webpack_public_path__}/${s}`;
+        n.defer = true;
+        h.appendChild(n);
+      });
+    </script>
+  </head>
+  <body>
+    <esi:include src="/beta/apps/chrome/snippets/body.html" />
+  </body>
 </html>

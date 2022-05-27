@@ -9,17 +9,17 @@ export type AmsConfig = {
   quotaProductId: string;
   trialQuotaProductId: string;
   resourceName: string;
-}
+};
 
 export type ServiceConstants = {
   version: number;
   kafka: {
     ams: AmsConfig;
-  },
+  };
   serviceRegistry: {
     ams: AmsConfig;
-  }
-}
+  };
+};
 
 /**
  * The ConstantContext allows access to the constants for the application.
@@ -33,7 +33,9 @@ export const ConstantContext: Context<ServiceConstants | undefined> =
 export const useConstants = (): ServiceConstants => {
   const answer = useContext(ConstantContext);
   if (answer === undefined) {
-    throw new Error("useConstants must be used inside an ServiceConstantsContextProvider");
+    throw new Error(
+      "useConstants must be used inside an ServiceConstantsContextProvider"
+    );
   }
   return answer;
-}
+};

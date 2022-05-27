@@ -4,7 +4,7 @@ export type InsightsType = {
     identifyApp: (appId: string) => Promise<void>;
     getApp: () => string;
     getBundle: () => string;
-    getEnvironment: () => 'ci' | 'qa' | 'prod' | 'stage';
+    getEnvironment: () => "ci" | "qa" | "prod" | "stage";
     on: (type: string, callback: (event: any) => void) => () => void;
     auth?: {
       getToken(): Promise<string>;

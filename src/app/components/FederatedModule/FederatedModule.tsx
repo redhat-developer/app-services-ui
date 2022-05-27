@@ -26,14 +26,6 @@ const useIsMounted = () => {
   return isMounted;
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-declare function __webpack_init_sharing__(shareScope: string);
-
-declare const __webpack_share_scopes__: {
-  default: unknown;
-};
-
 type Container = {
   init: (shareScopes: unknown) => Promise<void>;
   get: (module: string) => Promise<{ (): { default: ComponentType<unknown> } }>;

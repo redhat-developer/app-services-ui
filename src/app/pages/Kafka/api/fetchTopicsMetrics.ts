@@ -1,6 +1,10 @@
-import { GetTopicsMetricsResponse, PartitionBytesMetric, TimeSeriesMetrics } from '@rhoas/app-services-ui-components';
-import { Configuration, DefaultApi } from '@rhoas/kafka-management-sdk';
-import { BasicApiConfigurationParameters, SafeRangeQuery } from './types';
+import {
+  GetTopicsMetricsResponse,
+  PartitionBytesMetric,
+  TimeSeriesMetrics,
+} from "@rhoas/app-services-ui-components";
+import { Configuration, DefaultApi } from "@rhoas/kafka-management-sdk";
+import { BasicApiConfigurationParameters, SafeRangeQuery } from "./types";
 
 export type FetchTopicsMetricsProps = {
   kafkaId: string;
@@ -16,7 +20,9 @@ export async function fetchTopicMetrics({
   duration,
   interval,
   selectedTopic,
-}: FetchTopicsMetricsProps): Promise<Omit<GetTopicsMetricsResponse, 'kafkaTopics'>> {
+}: FetchTopicsMetricsProps): Promise<
+  Omit<GetTopicsMetricsResponse, "kafkaTopics">
+> {
   const apisService = new DefaultApi(
     new Configuration({
       accessToken,
@@ -24,12 +30,17 @@ export async function fetchTopicMetrics({
     })
   );
 
-  const response = await apisService.getMetricsByRangeQuery(kafkaId, duration, interval, [
-    'kafka_topic:kafka_server_brokertopicmetrics_bytes_in_total:rate5m',
-    'kafka_topic:kafka_server_brokertopicmetrics_bytes_out_total:rate5m',
-    'kafka_topic:kafka_log_log_size:sum',
-    'kafka_topic:kafka_server_brokertopicmetrics_messages_in_total:rate5m',
-  ]);
+  const response = await apisService.getMetricsByRangeQuery(
+    kafkaId,
+    duration,
+    interval,
+    [
+      "kafka_topic:kafka_server_brokertopicmetrics_bytes_in_total:rate5m",
+      "kafka_topic:kafka_server_brokertopicmetrics_bytes_out_total:rate5m",
+      "kafka_topic:kafka_log_log_size:sum",
+      "kafka_topic:kafka_server_brokertopicmetrics_messages_in_total:rate5m",
+    ]
+  );
 
   // Remove all results with no data. Not sure this can really  happen but since
   // the types allow for undefined we need to do a bit of defensive programming.
@@ -57,26 +68,32 @@ export async function fetchTopicMetrics({
     const { __name__: name, topic } = m.metric;
 
     function addAggregatedTotalBytesTo(metric: TimeSeriesMetrics) {
-      m.values.forEach(({ value, timestamp }) => (metric[timestamp] = value + (metric[timestamp] || 0)));
+      m.values.forEach(
+        ({ value, timestamp }) =>
+          (metric[timestamp] = value + (metric[timestamp] || 0))
+      );
     }
 
     function addAggregatePartitionBytes() {
       const partition = bytesPerPartition[topic] || {};
-      m.values.forEach(({ value, timestamp }) => (partition[timestamp] = value + (partition[timestamp] || 0)));
+      m.values.forEach(
+        ({ value, timestamp }) =>
+          (partition[timestamp] = value + (partition[timestamp] || 0))
+      );
       bytesPerPartition[topic] = partition;
     }
 
     switch (name) {
-      case 'kafka_topic:kafka_server_brokertopicmetrics_bytes_in_total:rate5m':
+      case "kafka_topic:kafka_server_brokertopicmetrics_bytes_in_total:rate5m":
         addAggregatedTotalBytesTo(bytesIncoming);
         break;
-      case 'kafka_topic:kafka_server_brokertopicmetrics_bytes_out_total:rate5m':
+      case "kafka_topic:kafka_server_brokertopicmetrics_bytes_out_total:rate5m":
         addAggregatedTotalBytesTo(bytesOutgoing);
         break;
-      case 'kafka_topic:kafka_log_log_size:sum':
+      case "kafka_topic:kafka_log_log_size:sum":
         addAggregatePartitionBytes();
         break;
-      case 'kafka_topic:kafka_server_brokertopicmetrics_messages_in_total:rate5m':
+      case "kafka_topic:kafka_server_brokertopicmetrics_messages_in_total:rate5m":
         addAggregatedTotalBytesTo(incomingMessageRate);
         break;
     }

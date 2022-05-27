@@ -8,8 +8,6 @@ import {
 } from "@app/providers/config/utils";
 import { useFeatureFlags } from "@app/providers/featureflags/FeatureFlags";
 
-declare const __webpack_public_path__: string;
-
 export const EmbeddedConfigProvider: FunctionComponent = ({ children }) => {
   const { beta } = useFeatureFlags();
 
