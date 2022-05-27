@@ -1,1 +1,1 @@
-export * from './CosPage';
+export * from "./CosPage";

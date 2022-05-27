@@ -1,14 +1,19 @@
-import { OverviewPageV2 } from '@rhoas/app-services-ui-components';
-import React from 'react';
+import { OverviewPageV2 } from "@rhoas/app-services-ui-components";
+import { FunctionComponent } from "react";
 
-export const ConnectedOverviewPage: React.FunctionComponent = () => {
+export const ConnectedOverviewPage: FunctionComponent = () => {
+  const kafkaHref = "/streams/kafkas";
+  const serviceRegistryHref = "/service-registry";
 
-  const kafkaHref = '/streams/kafkas';
-  const serviceRegistryHref = '/service-registry';
+  const connectorHref = "/connectors";
 
-  const connectorHref = '/connectors';
-
-  return <OverviewPageV2 toKafkaHref={kafkaHref} toServiceRegistryHref={serviceRegistryHref} toConnectorsHref={connectorHref} />;
+  return (
+    <OverviewPageV2
+      toKafkaHref={kafkaHref}
+      toServiceRegistryHref={serviceRegistryHref}
+      toConnectorsHref={connectorHref}
+    />
+  );
 };
 
 export default ConnectedOverviewPage;

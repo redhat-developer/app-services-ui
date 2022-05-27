@@ -1,75 +1,94 @@
-import React, { ComponentType, memo, useCallback, VoidFunctionComponent } from 'react';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import { AppRouteConfig, flattenedRoutes, IAppRoute, PageNotFoundRoute } from '@app/utils/Routing';
-import { useDocumentTitle } from '@app/utils';
-import { CreateTopic, TopicDetails, Topics, UpdateTopic, Dashboard, ConsumerGroups, AclPermissions } from '@app/pages';
-import { UnderlyingProps } from '@app/pages/Kafka/KafkaFederatedComponent';
-import { BasenameContext } from '@rhoas/app-services-ui-shared';
-import { FederatedModule, useKafkaInstanceDrawer } from '@app/components';
+import {
+  ComponentType,
+  FunctionComponent,
+  ReactElement,
+  useCallback,
+  VoidFunctionComponent,
+} from "react";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
+import {
+  AppRouteConfig,
+  flattenedRoutes,
+  IAppRoute,
+  PageNotFoundRoute,
+} from "@app/utils/Routing";
+import { useDocumentTitle } from "@app/utils";
+import {
+  CreateTopic,
+  TopicDetails,
+  Topics,
+  UpdateTopic,
+  Dashboard,
+  ConsumerGroups,
+  AclPermissions,
+} from "@app/pages";
+import { UnderlyingProps } from "@app/pages/Kafka/KafkaFederatedComponent";
+import { BasenameContext } from "@rhoas/app-services-ui-shared";
+import { useKafkaInstanceDrawer } from "@app/components";
 
 const kafkaRoutes: AppRouteConfig<UnderlyingProps>[] = [
   {
     component: Topics,
     exact: true,
-    label: 'Red Hat OpenShift Streams for Apache Kafka',
-    path: '/topics',
-    title: 'Red Hat OpenShift Streams for Apache Kafka',
+    label: "Red Hat OpenShift Streams for Apache Kafka",
+    path: "/topics",
+    title: "Red Hat OpenShift Streams for Apache Kafka",
     devPreview: true,
   },
   {
     component: TopicDetails,
     exact: true,
-    label: 'Red Hat OpenShift Streams for Apache Kafka',
-    path: '/topics/:topicName',
-    title: 'Red Hat OpenShift Streams for Apache Kafka',
+    label: "Red Hat OpenShift Streams for Apache Kafka",
+    path: "/topics/:topicName",
+    title: "Red Hat OpenShift Streams for Apache Kafka",
     devPreview: true,
   },
   {
     component: CreateTopic,
     exact: true,
-    label: 'Red Hat OpenShift Streams for Apache Kafka',
-    path: '/topic/create',
-    title: 'Red Hat OpenShift Streams for Apache Kafka',
+    label: "Red Hat OpenShift Streams for Apache Kafka",
+    path: "/topic/create",
+    title: "Red Hat OpenShift Streams for Apache Kafka",
     devPreview: true,
   },
   {
     component: UpdateTopic,
     exact: true,
-    label: 'Red Hat OpenShift Streams for Apache Kafka',
-    path: '/topic/update/:topicName',
-    title: 'Red Hat OpenShift Streams for Apache Kafka',
+    label: "Red Hat OpenShift Streams for Apache Kafka",
+    path: "/topic/update/:topicName",
+    title: "Red Hat OpenShift Streams for Apache Kafka",
     devPreview: true,
   },
   {
     component: Dashboard,
     exact: true,
-    label: 'Red Hat OpenShift Streams for Apache Kafka',
-    path: '/',
-    title: 'Red Hat OpenShift Streams for Apache Kafka',
+    label: "Red Hat OpenShift Streams for Apache Kafka",
+    path: "/",
+    title: "Red Hat OpenShift Streams for Apache Kafka",
     devPreview: true,
   },
   {
     component: Dashboard,
     exact: true,
-    label: 'Red Hat OpenShift Streams for Apache Kafka',
-    path: '/dashboard',
-    title: 'Red Hat OpenShift Streams for Apache Kafka',
+    label: "Red Hat OpenShift Streams for Apache Kafka",
+    path: "/dashboard",
+    title: "Red Hat OpenShift Streams for Apache Kafka",
     devPreview: true,
   },
   {
     component: ConsumerGroups,
     exact: true,
-    label: 'Red Hat OpenShift Streams for Apache Kafka',
-    path: '/consumer-groups',
-    title: 'Red Hat OpenShift Streams for Apache Kafka',
+    label: "Red Hat OpenShift Streams for Apache Kafka",
+    path: "/consumer-groups",
+    title: "Red Hat OpenShift Streams for Apache Kafka",
     devPreview: true,
   },
   {
     component: AclPermissions,
     exact: true,
-    label: 'Red Hat OpenShift Streams for Apache Kafka',
-    path: '/acls',
-    title: 'Red Hat OpenShift Streams for Apache Kafka',
+    label: "Red Hat OpenShift Streams for Apache Kafka",
+    path: "/acls",
+    title: "Red Hat OpenShift Streams for Apache Kafka",
     devPreview: true,
   },
 ];
@@ -85,7 +104,7 @@ type WrappedRouteProps = IAppRoute<UnderlyingProps> & {
  * The wrapped route allows us to apply the basename, document title and accessible route change for all components
  * without having to add these to each component. They must happen inside the route.
  */
-const WrappedRoute: React.FunctionComponent<WrappedRouteProps> = ({
+const WrappedRoute: FunctionComponent<WrappedRouteProps> = ({
   component: Component,
   InstanceDrawer,
   isAsync = false,
@@ -114,24 +133,24 @@ const WrappedRoute: React.FunctionComponent<WrappedRouteProps> = ({
   );
 };
 
-const KafkaRoutes: VoidFunctionComponent<UnderlyingProps & { InstanceDrawer: ComponentType<any> }> = ({
-  InstanceDrawer,
-  ...props
-}): React.ReactElement => {
+const KafkaRoutes: VoidFunctionComponent<
+  UnderlyingProps & { InstanceDrawer: ComponentType<any> }
+> = ({ InstanceDrawer, ...props }): ReactElement => {
   const routeMatch = useRouteMatch();
   const { kafka } = props;
 
   const drawerProps = useKafkaInstanceDrawer();
-  const handleInstanceDrawer: (isOpen: boolean, activeTab?: string) => void = useCallback(
-    (isOpen, activeTab) => {
-      if (isOpen) {
-        drawerProps.openDrawer(activeTab);
-      } else {
-        drawerProps.closeDrawer();
-      }
-    },
-    [drawerProps]
-  );
+  const handleInstanceDrawer: (isOpen: boolean, activeTab?: string) => void =
+    useCallback(
+      (isOpen, activeTab) => {
+        if (isOpen) {
+          drawerProps.openDrawer(activeTab);
+        } else {
+          drawerProps.closeDrawer();
+        }
+      },
+      [drawerProps]
+    );
 
   return (
     <InstanceDrawer
@@ -141,27 +160,29 @@ const KafkaRoutes: VoidFunctionComponent<UnderlyingProps & { InstanceDrawer: Com
       {...drawerProps}
     >
       <Switch>
-        {flatRoutes.map(({ path, exact, component, title, isAsync, ...rest }, idx) => {
-          const routePath = `${routeMatch.path}${path}`;
-          console.log(`Creating route for ${routePath}`);
-          return (
-            <WrappedRoute
-              path={routePath}
-              exact={exact}
-              component={component}
-              key={idx}
-              title={title}
-              isAsync={isAsync}
-              underlyingProps={{
-                ...props,
-                handleInstanceDrawer,
-              }}
-              url={routeMatch.url}
-              InstanceDrawer={InstanceDrawer}
-              {...rest}
-            />
-          );
-        })}
+        {flatRoutes.map(
+          ({ path, exact, component, title, isAsync, ...rest }, idx) => {
+            const routePath = `${routeMatch.path}${path}`;
+            console.log(`Creating route for ${routePath}`);
+            return (
+              <WrappedRoute
+                path={routePath}
+                exact={exact}
+                component={component}
+                key={idx}
+                title={title}
+                isAsync={isAsync}
+                underlyingProps={{
+                  ...props,
+                  handleInstanceDrawer,
+                }}
+                url={routeMatch.url}
+                InstanceDrawer={InstanceDrawer}
+                {...rest}
+              />
+            );
+          }
+        )}
         <PageNotFoundRoute title="404 Page Not Found" />
       </Switch>
     </InstanceDrawer>

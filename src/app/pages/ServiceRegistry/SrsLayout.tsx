@@ -1,9 +1,9 @@
-import React, { VoidFunctionComponent } from 'react';
-import { FederatedModule, KasModalLoader } from '@app/components';
-import { Registry } from '@rhoas/registry-management-sdk';
-import { AppServicesLoading } from '@rhoas/app-services-ui-components';
-import { useMASToken } from '@app/hooks';
-import { DownloadArtifacts } from './DownloadArtifacts';
+import { FC, LazyExoticComponent, VoidFunctionComponent } from "react";
+import { FederatedModule, KasModalLoader } from "@app/components";
+import { Registry } from "@rhoas/registry-management-sdk";
+import { AppServicesLoading } from "@rhoas/app-services-ui-components";
+import { useMASToken } from "@app/hooks";
+import { DownloadArtifacts } from "./DownloadArtifacts";
 
 type SrsLayoutProps = {
   render: (registry: Registry) => JSX.Element;
@@ -11,23 +11,22 @@ type SrsLayoutProps = {
   artifactId?: string;
 };
 
-export const SrsLayout: React.FC<SrsLayoutProps> = (props) => {
+export const SrsLayout: FC<SrsLayoutProps> = (props) => {
   return (
     <FederatedModule
       scope="srs"
       module="./ApicurioRegistry"
       fallback={<AppServicesLoading />}
-      render={(component) => <SrsLayoutConnected Component={component} {...props} />}
+      render={(component) => (
+        <SrsLayoutConnected Component={component} {...props} />
+      )}
     />
   );
 };
 
-const SrsLayoutConnected: VoidFunctionComponent<{ Component: React.LazyExoticComponent<any> } & SrsLayoutProps> = ({
-  Component,
-  render,
-  breadcrumbId,
-  artifactId,
-}) => {
+const SrsLayoutConnected: VoidFunctionComponent<
+  { Component: LazyExoticComponent<any> } & SrsLayoutProps
+> = ({ Component, render, breadcrumbId, artifactId }) => {
   const { getTokenEndPointUrl } = useMASToken();
 
   return (
@@ -37,8 +36,14 @@ const SrsLayoutConnected: VoidFunctionComponent<{ Component: React.LazyExoticCom
         breadcrumbId={breadcrumbId}
         tokenEndPointUrl={getTokenEndPointUrl()}
         artifactId={artifactId}
-        renderDownloadArtifacts={(registry: Registry, downloadLabel?: string) => (
-          <DownloadArtifacts registry={registry} downloadLabel={downloadLabel} />
+        renderDownloadArtifacts={(
+          registry: Registry,
+          downloadLabel?: string
+        ) => (
+          <DownloadArtifacts
+            registry={registry}
+            downloadLabel={downloadLabel}
+          />
         )}
       />
     </KasModalLoader>

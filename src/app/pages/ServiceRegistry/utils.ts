@@ -1,6 +1,5 @@
-import { Principal } from '@rhoas/app-services-ui-shared';
+import { Principal } from "@rhoas/app-services-ui-shared";
 import { Config } from "@rhoas/app-services-ui-shared";
-
 
 export interface FeaturesConfig {
   readOnly?: boolean;
@@ -28,7 +27,7 @@ export interface KeycloakJsAuthConfig extends AuthConfig {
 }
 
 // Used when `type=none`
-export interface NoneAuthConfig extends AuthConfig { }
+export type NoneAuthConfig = AuthConfig;
 
 export interface ConfigType {
   artifacts: ArtifactsConfig;
@@ -38,14 +37,19 @@ export interface ConfigType {
   principals?: Principal[] | undefined;
 }
 
-const createApicurioConfig = (config: Config, apiUrl: string, navPathPrefix: string,
-  getToken: () => Promise<string> | undefined, principals?: Principal[] | undefined) => {
+const createApicurioConfig = (
+  _config: Config,
+  apiUrl: string,
+  navPathPrefix: string,
+  getToken: () => Promise<string> | undefined,
+  principals?: Principal[] | undefined
+) => {
   const apicurioConfig: ConfigType = {
     artifacts: {
       url: `${apiUrl}/apis/registry`,
     },
     auth: {
-      type: 'gettoken',
+      type: "gettoken",
       getToken,
     },
     features: {
@@ -53,12 +57,12 @@ const createApicurioConfig = (config: Config, apiUrl: string, navPathPrefix: str
       breadcrumbs: false,
       roleManagement: true,
       multiTenant: true,
-      settings: true
+      settings: true,
     },
     ui: {
       navPrefixPath: navPathPrefix,
     },
-    principals
+    principals,
   } as ConfigType;
 
   return apicurioConfig;

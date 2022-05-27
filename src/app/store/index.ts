@@ -1,10 +1,10 @@
-import ReducerRegistry from '@redhat-cloud-services/frontend-components-utilities/ReducerRegistry/ReducerRegistry';
-import promiseMiddleware from 'redux-promise-middleware';
-import { notificationsReducer } from '@redhat-cloud-services/frontend-components-notifications/redux';
+import ReducerRegistry from "@redhat-cloud-services/frontend-components-utilities/ReducerRegistry/ReducerRegistry";
+import promiseMiddleware from "redux-promise-middleware";
+import { notificationsReducer } from "@redhat-cloud-services/frontend-components-notifications/redux";
 
-let registry;
+let registry: ReducerRegistry;
 
-export function init(...middleware) {
+export function init(...middleware: any) {
   if (!registry) {
     registry = new ReducerRegistry({}, [promiseMiddleware, ...middleware]);
 
@@ -16,12 +16,4 @@ export function init(...middleware) {
   }
 
   return registry;
-}
-
-export function getStore() {
-  return registry.getStore();
-}
-
-export function register(...args) {
-  return registry.register(...args);
 }

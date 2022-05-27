@@ -1,1 +1,1 @@
-export * from './DataSciencePage';
+export * from "./DataSciencePage";

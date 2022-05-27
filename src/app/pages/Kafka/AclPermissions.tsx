@@ -1,6 +1,9 @@
-import React from 'react';
-import { KafkaFederatedComponent, UnderlyingProps } from '@app/pages/Kafka/KafkaFederatedComponent';
+import {
+  KafkaFederatedComponent,
+  UnderlyingProps,
+} from "@app/pages/Kafka/KafkaFederatedComponent";
+import { FunctionComponent } from "react";
 
-export const AclPermissions: React.FunctionComponent<UnderlyingProps> = (props) => (
-     <KafkaFederatedComponent module="./AclPermissions" {...props} />
+export const AclPermissions: FunctionComponent<UnderlyingProps> = (props) => (
+  <KafkaFederatedComponent module="./AclPermissions" {...props} />
 );

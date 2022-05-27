@@ -1,10 +1,18 @@
-import React, { VoidFunctionComponent } from 'react';
-import { ConfigType, createApicurioConfig } from '@app/pages/ServiceRegistry/utils';
-import { FederatedModule } from '@app/components';
-import { useHistory, useParams } from 'react-router-dom';
-import { Registry } from '@rhoas/registry-management-sdk';
-import { useAuth, useBasename, useConfig, Principal } from '@rhoas/app-services-ui-shared';
-import { AppServicesLoading } from '@rhoas/app-services-ui-components';
+import { FC, LazyExoticComponent, VoidFunctionComponent } from "react";
+import {
+  ConfigType,
+  createApicurioConfig,
+} from "@app/pages/ServiceRegistry/utils";
+import { FederatedModule } from "@app/components";
+import { useHistory, useParams } from "react-router-dom";
+import { Registry } from "@rhoas/registry-management-sdk";
+import {
+  useAuth,
+  useBasename,
+  useConfig,
+  Principal,
+} from "@rhoas/app-services-ui-shared";
+import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 
 export type FederatedApicurioComponentProps = {
   module: string;
@@ -25,19 +33,26 @@ type ServiceRegistryParams = {
   version: string;
 };
 
-export const FederatedApicurioComponent: React.FC<FederatedApicurioComponentProps> = ({ module, ...rest }) => {
+export const FederatedApicurioComponent: FC<
+  FederatedApicurioComponentProps
+> = ({ module, ...rest }) => {
   return (
     <FederatedModule
       scope="apicurio_registry"
       module={module}
       fallback={<AppServicesLoading />}
-      render={(component) => <ServiceAccountsPageConnected Component={component} {...rest} />}
+      render={(component) => (
+        <ServiceAccountsPageConnected Component={component} {...rest} />
+      )}
     />
   );
 };
 
 const ServiceAccountsPageConnected: VoidFunctionComponent<
-  { Component: React.LazyExoticComponent<any> } & Omit<FederatedApicurioComponentProps, 'module'>
+  { Component: LazyExoticComponent<any> } & Omit<
+    FederatedApicurioComponentProps,
+    "module"
+  >
 > = ({ Component, registry, principals, ...rest }) => {
   let federateConfig: ConfigType;
   const auth = useAuth();

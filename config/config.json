@@ -29,6 +29,16 @@
       "basePath": "/mas-local-fm/cos",
       "proxyTarget": "http://localhost:9002",
       "fallbackBasePath": "/beta/apps/cos-ui-build"
+    },
+    "ads": {
+      "basePath": "/mas-local-fm/ads",
+      "proxyTarget": "",
+      "fallbackBasePath": ""
+    },
+    "smart_events": {
+      "basePath": "/mas-local-fm/smart_events",
+      "proxyTarget": "",
+      "fallbackBasePath": ""
     }
   },
   "config": [
@@ -73,6 +83,12 @@
               "module": "./config"
             }
           }
+        },
+        "ads": {
+          "editorsBasePath": ""
+        },
+        "smart_events": {
+          "apiBasePath": "https://api.stage.openshift.com"
         }
       }
     },
@@ -116,6 +132,12 @@
               "module": "./config"
             }
           }
+        },
+        "ads": {
+          "editorsBasePath": ""
+        },
+        "smart_events": {
+          "apiBasePath": "https://api.stage.openshift.com"
         }
       }
     },
@@ -159,6 +181,12 @@
               "module": "./config"
             }
           }
+        },
+        "ads": {
+          "editorsBasePath": ""
+        },
+        "smart_events": {
+          "apiBasePath": "https://api.openshift.com"
         }
       }
     }

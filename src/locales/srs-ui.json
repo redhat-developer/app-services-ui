@@ -79,7 +79,7 @@
   },
   "srs": {
     "service_registry": "Service Registry",
-    "expires_in":"Expires in <time>{{time}}</time>",
+    "expires_in": "Expires in <time>{{time}}</time>",
     "service_registry_breadcrumb": "Service Registry",
     "view_connection_information": "Connection",
     "delete_registry": "Delete",
