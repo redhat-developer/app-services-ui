@@ -22,9 +22,6 @@ module.exports = merge(
   {
     mode: "production",
     devtool: "source-map",
-    output: {
-      publicPath,
-    },
     optimization: {
       minimizer: [
         new TerserJSPlugin({}),

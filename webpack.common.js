@@ -14,15 +14,12 @@ const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ChunkMapper = require("@redhat-cloud-services/frontend-components-config-utilities/chunk-mapper");
 
-const { federatedModules } = require("./config/config.json");
-
 const isPatternflyStyles = (stylesheet) =>
   stylesheet.includes("@patternfly/react-styles/css/") ||
   stylesheet.includes("@patternfly/react-core/");
 
 module.exports = (env, argv) => {
-  const beta = argv && argv.beta;
-  const isProduction = argv && argv.mode === "production";
+  const publicPath = argv && argv.publicPath;
   const appEntry = path.resolve(__dirname, "src", "index.tsx");
 
   return {
@@ -102,6 +99,7 @@ module.exports = (env, argv) => {
     output: {
       filename: "[name].bundle.js",
       path: path.resolve(__dirname, "dist"),
+      publicPath,
     },
     plugins: [
       new MiniCssExtractPlugin({
