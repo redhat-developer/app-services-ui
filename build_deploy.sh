@@ -20,6 +20,8 @@ if [[ ! -d ./.git ]]; then
     exit 1
 fi
 
+APP_NAME="application-services"
+DEPLOYMENT_REPOSPITORY="https://github.com/RedHatInsights/rhosak-dashboard-build.git"
 CONTAINER_ENGINE=${CONTAINER_ENGINE:-"docker"}
 VERSION="$(git log --pretty=format:'%h' -n 1)"
 IMAGE_REGISTRY=${IMAGE_REGISTRY:-"quay.io"}
@@ -29,6 +31,26 @@ IMAGE="${IMAGE_REPOSITORY}:${IMAGE_TAG}"
 RHOAS_QUAY_USER=${RHOAS_QUAY_USER:-}
 RHOAS_QUAY_TOKEN=${RHOAS_QUAY_TOKEN:-}
 
+TOOLS_IMAGE=${TOOLS_IMAGE:-"quay.io/app-sre/mk-ci-tools:latest"}
+TOOLS_HOME=$(mktemp -d)
+
+function run() {
+    ${CONTAINER_ENGINE} run \
+        -u ${UID} \
+        -v ${TOOLS_HOME}:/thome:z \
+        -e HOME=/thome \
+        -v ${PWD}:/workspace:z \
+        -w /workspace \
+        ${TOOLS_IMAGE} \
+        $@
+}
+
+if [ -z "${NACHOBOT_TOKEN}" ]; then
+    echo "The nachobot token hasn't been provided."
+    echo "Make sure to set the NACHOBOT_TOKEN environment variable."
+    exit 1
+fi
+
 step "Build the image"
 ${CONTAINER_ENGINE} build \
     -t ${IMAGE} \
@@ -37,10 +59,10 @@ ${CONTAINER_ENGINE} build \
 if [[ ! -z "${RHOAS_QUAY_USER}" ]] && [[ ! -z "${RHOAS_QUAY_TOKEN}" ]]; then
     step "Push ui image"
     ${CONTAINER_ENGINE} login --username "${RHOAS_QUAY_USER}" --password "${RHOAS_QUAY_TOKEN}" "${IMAGE_REGISTRY}"
-    
+
     # update the latest image too
     ${CONTAINER_ENGINE} tag ${IMAGE} ${IMAGE_REPOSITORY}:latest
-    
+
     # push both tags
     ${CONTAINER_ENGINE} push ${IMAGE}
     ${CONTAINER_ENGINE} push ${IMAGE_REPOSITORY}:latest
@@ -48,12 +70,11 @@ fi
 
 step "Push the client files"
 CID=$(${CONTAINER_ENGINE} create ${IMAGE})
-${CONTAINER_ENGINE} cp ${CID}:/opt/app-root/src/dist .
+${CONTAINER_ENGINE} cp ${CID}:/opt/app-root/src ./dist
 ${CONTAINER_ENGINE} rm ${CID}
 
-./hack/push_to_insights.sh \
+run /opt/tools/scripts/push_to_insights.sh \
     --nachobot-token "${NACHOBOT_TOKEN}" \
     --version "${VERSION}" \
-    --branch qa-beta \
-    --author-name Bot \
-    --author-email ms-devexp@redhat.com
+    --repository "${DEPLOYMENT_REPOSPITORY}" \
+    --app-name "${APP_NAME}"
