@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, RouteComponentProps } from 'react-router-dom';
 import { accessibleRouteChangeHandler, useDocumentTitle } from '@app/utils';
-import { useLastLocation } from 'react-router-last-location';
 
 const NotFoundPage = React.lazy(() => import('@app/pages/NotFound/NotFoundPage'));
 
@@ -28,21 +27,6 @@ export interface IAppRouteGroup<T> {
 
 export type AppRouteConfig<T> = IAppRoute<T> | IAppRouteGroup<T>;
 
-
-// a custom hook for sending focus to the primary content container
-// after a view has loaded so that subsequent press of tab key
-// sends focus directly to relevant content
-export const useA11yRouteChange = (isAsync: boolean) => {
-  const lastNavigation = useLastLocation();
-  React.useEffect(() => {
-    if (!isAsync && lastNavigation !== null) {
-      routeFocusTimer = accessibleRouteChangeHandler();
-    }
-    return () => {
-      window.clearTimeout(routeFocusTimer);
-    };
-  }, [isAsync, lastNavigation]);
-};
 
 export const PageNotFoundRoute: React.FunctionComponent<{ title: string }> = ({ title }: { title: string }) => {
   useDocumentTitle(title);

@@ -1,4 +1,2 @@
-import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-
-configure({ adapter: new Adapter() });
+import { configure } from "@testing-library/react";
+import "@testing-library/jest-dom/extend-expect";
