@@ -1,6 +1,6 @@
 import React, { ComponentType, memo, useCallback, VoidFunctionComponent } from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import { AppRouteConfig, flattenedRoutes, IAppRoute, PageNotFoundRoute, useA11yRouteChange } from '@app/utils/Routing';
+import { AppRouteConfig, flattenedRoutes, IAppRoute, PageNotFoundRoute } from '@app/utils/Routing';
 import { useDocumentTitle } from '@app/utils';
 import { CreateTopic, TopicDetails, Topics, UpdateTopic, Dashboard, ConsumerGroups, AclPermissions } from '@app/pages';
 import { UnderlyingProps } from '@app/pages/Kafka/KafkaFederatedComponent';
@@ -94,7 +94,6 @@ const WrappedRoute: React.FunctionComponent<WrappedRouteProps> = ({
   url,
   ...rest
 }) => {
-  useA11yRouteChange(isAsync);
   useDocumentTitle(title);
 
   const getBasename = () => {
