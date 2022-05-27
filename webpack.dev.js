@@ -23,9 +23,6 @@ module.exports = merge(
     beta: BETA,
   }),
   {
-    output: {
-      publicPath,
-    },
     mode: "development",
     devtool: "eval-source-map",
     devServer: {
