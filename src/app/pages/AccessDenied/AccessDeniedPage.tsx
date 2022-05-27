@@ -1,18 +1,22 @@
-import React from 'react';
+import {
+  Main,
+  NotAuthorized,
+} from "@redhat-cloud-services/frontend-components";
 
-import { Main, NotAuthorized } from '@redhat-cloud-services/frontend-components';
-
-import { useTranslation, Trans } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { useTranslation, Trans } from "react-i18next";
+import { Link } from "react-router-dom";
+import { FunctionComponent } from "react";
 
 interface GetLinkProps {
   href?: string;
 }
 
-const GetLink: React.FunctionComponent<GetLinkProps> = ({ href, children }) => <Link to={href || ''}>{children}</Link>;
+const GetLink: FunctionComponent<GetLinkProps> = ({ href, children }) => (
+  <Link to={href || ""}>{children}</Link>
+);
 
-export const AccessDeniedPage: React.FunctionComponent = () => {
-  const { t } = useTranslation(['appTemporaryFixMe']);
+export const AccessDeniedPage: FunctionComponent = () => {
+  const { t } = useTranslation(["appTemporaryFixMe"]);
 
   const accessDeniedDetails = (
     <Trans
@@ -25,9 +29,9 @@ export const AccessDeniedPage: React.FunctionComponent = () => {
   return (
     <Main>
       <NotAuthorized
-        title={t('accessdenied.accessDeniedTitle')}
+        title={t("accessdenied.accessDeniedTitle")}
         description={accessDeniedDetails}
-        prevPageButtonText={t('accessdenied.accessDeniedButtonText')}
+        prevPageButtonText={t("accessdenied.accessDeniedButtonText")}
         showReturnButton={true}
       />
     </Main>

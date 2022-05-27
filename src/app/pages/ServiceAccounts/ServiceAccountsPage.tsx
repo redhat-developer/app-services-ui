@@ -1,8 +1,8 @@
-import React, { VoidFunctionComponent } from 'react';
-import { FederatedModule } from '@app/components';
-import { useConfig } from '@rhoas/app-services-ui-shared';
-import { ServiceDownPage } from '@app/pages/ServiceDown/ServiceDownPage';
-import { AppServicesLoading } from '@rhoas/app-services-ui-components';
+import { LazyExoticComponent, VoidFunctionComponent } from "react";
+import { FederatedModule } from "@app/components";
+import { useConfig } from "@rhoas/app-services-ui-shared";
+import { ServiceDownPage } from "@app/pages/ServiceDown/ServiceDownPage";
+import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 
 export const ServiceAccountsPage: VoidFunctionComponent = () => {
   return (
@@ -10,14 +10,16 @@ export const ServiceAccountsPage: VoidFunctionComponent = () => {
       scope="kas"
       module="./ServiceAccounts"
       fallback={<AppServicesLoading />}
-      render={(component) => <ServiceAccountsPageConnected Component={component} />}
+      render={(component) => (
+        <ServiceAccountsPageConnected Component={component} />
+      )}
     />
   );
 };
 
-const ServiceAccountsPageConnected: VoidFunctionComponent<{ Component: React.LazyExoticComponent<any> }> = ({
-  Component,
-}) => {
+const ServiceAccountsPageConnected: VoidFunctionComponent<{
+  Component: LazyExoticComponent<any>;
+}> = ({ Component }) => {
   const config = useConfig();
   if (config?.serviceDown) {
     return <ServiceDownPage />;

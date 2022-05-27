@@ -1,5 +1,7 @@
-import React, {
+import {
   ComponentType,
+  FunctionComponent,
+  ReactElement,
   useCallback,
   VoidFunctionComponent,
 } from "react";
@@ -102,7 +104,7 @@ type WrappedRouteProps = IAppRoute<UnderlyingProps> & {
  * The wrapped route allows us to apply the basename, document title and accessible route change for all components
  * without having to add these to each component. They must happen inside the route.
  */
-const WrappedRoute: React.FunctionComponent<WrappedRouteProps> = ({
+const WrappedRoute: FunctionComponent<WrappedRouteProps> = ({
   component: Component,
   InstanceDrawer,
   isAsync = false,
@@ -133,7 +135,7 @@ const WrappedRoute: React.FunctionComponent<WrappedRouteProps> = ({
 
 const KafkaRoutes: VoidFunctionComponent<
   UnderlyingProps & { InstanceDrawer: ComponentType<any> }
-> = ({ InstanceDrawer, ...props }): React.ReactElement => {
+> = ({ InstanceDrawer, ...props }): ReactElement => {
   const routeMatch = useRouteMatch();
   const { kafka } = props;
 

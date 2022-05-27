@@ -1,15 +1,13 @@
-import React from "react";
+import { ComponentType, FunctionComponent, lazy } from "react";
 import { Route, RouteComponentProps } from "react-router-dom";
 import { useDocumentTitle } from "@app/utils";
 
-const NotFoundPage = React.lazy(
-  () => import("@app/pages/NotFound/NotFoundPage")
-);
+const NotFoundPage = lazy(() => import("@app/pages/NotFound/NotFoundPage"));
 
 export interface IAppRoute<T> {
   label?: string; // Excluding the label will exclude the route from the nav sidebar in AppLayout
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  component: React.ComponentType<RouteComponentProps> | React.ComponentType<T>;
+  component: ComponentType<RouteComponentProps> | ComponentType<T>;
   /* eslint-enable @typescript-eslint/no-explicit-any */
   exact?: boolean;
   path: string;
@@ -27,7 +25,7 @@ export interface IAppRouteGroup<T> {
 
 export type AppRouteConfig<T> = IAppRoute<T> | IAppRouteGroup<T>;
 
-export const PageNotFoundRoute: React.FunctionComponent<{ title: string }> = ({
+export const PageNotFoundRoute: FunctionComponent<{ title: string }> = ({
   title,
 }: {
   title: string;

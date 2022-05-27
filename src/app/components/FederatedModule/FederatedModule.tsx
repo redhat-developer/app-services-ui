@@ -1,10 +1,14 @@
-import React, {
+import {
   ComponentType,
+  FunctionComponent,
+  lazy,
+  LazyExoticComponent,
   ReactNode,
   useEffect,
   useRef,
   useState,
   VoidFunctionComponent,
+  Suspense,
 } from "react";
 import { AssetsContext } from "@rhoas/app-services-ui-shared";
 import { ModuleInfo } from "@app/components/FederatedModule/moduleInfo";
@@ -32,7 +36,7 @@ declare const __webpack_share_scopes__: {
 
 type Container = {
   init: (shareScopes: unknown) => Promise<void>;
-  get: (module: string) => Promise<{ (): { default: ComponentType<any> } }>;
+  get: (module: string) => Promise<{ (): { default: ComponentType<unknown> } }>;
 };
 
 function loadComponent(scope: string, module: string) {
@@ -51,10 +55,10 @@ function loadComponent(scope: string, module: string) {
 
 const useDynamicScript = (url: string) => {
   const isMounted = useIsMounted();
-  const [ready, setReady] = React.useState(false);
-  const [failed, setFailed] = React.useState(false);
+  const [ready, setReady] = useState(false);
+  const [failed, setFailed] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     let element: HTMLScriptElement;
     if (isMounted.current) {
       if (!url) {
@@ -102,10 +106,8 @@ const useDynamicScript = (url: string) => {
 export type FederatedModuleProps = {
   scope: string;
   module: string;
-  render: (
-    component: React.LazyExoticComponent<React.ComponentType<any>>
-  ) => ReactNode;
-  fallback?: React.ReactNode;
+  render: (component: LazyExoticComponent<ComponentType<any>>) => ReactNode;
+  fallback?: ReactNode;
 };
 
 export const FederatedModule: VoidFunctionComponent<FederatedModuleProps> = ({
@@ -154,13 +156,13 @@ type DynamicFederatedModuleProps = FederatedModuleProps & {
   moduleInfo: ModuleInfo;
 };
 
-const DynamicFederatedModule: React.FunctionComponent<
+const DynamicFederatedModule: FunctionComponent<
   DynamicFederatedModuleProps
 > = ({ moduleInfo, fallback, scope, render, module }) => {
   const { ready, failed } = useDynamicScript(moduleInfo.entryPoint);
 
   if (ready && !failed) {
-    const Component = React.lazy(loadComponent(scope, module));
+    const Component = lazy(loadComponent(scope, module));
 
     const getPath = () => {
       return moduleInfo.basePath;
@@ -168,9 +170,9 @@ const DynamicFederatedModule: React.FunctionComponent<
 
     return (
       <AssetsContext.Provider value={{ getPath }}>
-        <React.Suspense fallback={<AppServicesLoading />}>
+        <Suspense fallback={<AppServicesLoading />}>
           {render(Component)}
-        </React.Suspense>
+        </Suspense>
       </AssetsContext.Provider>
     );
   }

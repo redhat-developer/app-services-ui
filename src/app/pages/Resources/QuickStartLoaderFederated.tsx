@@ -1,5 +1,5 @@
 import { FederatedModule } from "@app/components/FederatedModule/FederatedModule";
-import React, { useState, VoidFunctionComponent } from "react";
+import { LazyExoticComponent, useState, VoidFunctionComponent } from "react";
 import { useConfig } from "@rhoas/app-services-ui-shared";
 import useChrome from "@redhat-cloud-services/frontend-components/useChrome/useChrome";
 import { AppServicesLoading } from "@rhoas/app-services-ui-components";
@@ -19,7 +19,7 @@ export const QuickStartLoaderFederated: VoidFunctionComponent = () => {
 };
 
 const QuickStartLoaderFederatedConnected: VoidFunctionComponent<{
-  Component: React.LazyExoticComponent<any>;
+  Component: LazyExoticComponent<any>;
 }> = ({ Component }) => {
   const [loaded, setLoaded] = useState(false);
   const chrome = useChrome();

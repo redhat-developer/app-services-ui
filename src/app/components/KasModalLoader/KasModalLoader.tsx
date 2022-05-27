@@ -1,7 +1,7 @@
-import React from 'react';
-import { FederatedModule } from '@app/components';
+import { FC } from "react";
+import { FederatedModule } from "@app/components";
 
-export const KasModalLoader: React.FC = ({ children }) => {
+export const KasModalLoader: FC = ({ children }) => {
   return (
     <FederatedModule
       scope="kas"

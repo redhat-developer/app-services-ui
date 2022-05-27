@@ -1,13 +1,16 @@
-import React from 'react';
-import { Registry } from '@rhoas/registry-management-sdk';
-import { FederatedApicurioComponent } from './FederatedApicurioComponent';
+import { Registry } from "@rhoas/registry-management-sdk";
+import { FederatedApicurioComponent } from "./FederatedApicurioComponent";
+import { FC } from "react";
 
 type DownloadArtifactsProps = {
   registry: Registry;
   downloadLabel?: string;
 };
 
-export const DownloadArtifacts: React.FC<DownloadArtifactsProps> = ({ registry, downloadLabel }) => {
+export const DownloadArtifacts: FC<DownloadArtifactsProps> = ({
+  registry,
+  downloadLabel,
+}) => {
   return (
     <FederatedApicurioComponent
       module="./FederatedDownloadArtifacts"

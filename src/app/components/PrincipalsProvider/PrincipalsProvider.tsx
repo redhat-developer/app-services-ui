@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import {
   Configuration,
   KafkaRequest,
@@ -124,9 +124,9 @@ export const usePrincipal = () => {
   };
 };
 
-export const PrincipalsProvider: React.FunctionComponent<
-  PrincipalsProviderProps
-> = ({ children }) => {
+export const PrincipalsProvider: FunctionComponent<PrincipalsProviderProps> = ({
+  children,
+}) => {
   const value = usePrincipal();
   return (
     <PrincipalsContext.Provider value={value}>

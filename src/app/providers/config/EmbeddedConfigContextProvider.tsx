@@ -1,4 +1,4 @@
-import React from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { Config, ConfigContext } from "@rhoas/app-services-ui-shared";
 import configs from "../../../../config/config.json";
 import {
@@ -10,12 +10,10 @@ import { useFeatureFlags } from "@app/providers/featureflags/FeatureFlags";
 
 declare const __webpack_public_path__: string;
 
-export const EmbeddedConfigProvider: React.FunctionComponent = ({
-  children,
-}) => {
+export const EmbeddedConfigProvider: FunctionComponent = ({ children }) => {
   const { beta } = useFeatureFlags();
 
-  const [value, setValue] = React.useState<Config | undefined>(() => {
+  const [value, setValue] = useState<Config | undefined>(() => {
     const configFromJson: EnvironmentConfigsWithoutFederatedModules =
       configs.config;
     const environmentConfig = filterEnvironmentConfig(configFromJson);
@@ -31,7 +29,7 @@ export const EmbeddedConfigProvider: React.FunctionComponent = ({
     return config;
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => {
       if (value === undefined) {
         const response = await fetch(`${__webpack_public_path__}config.json`);

@@ -1,12 +1,12 @@
-import React, { useContext } from "react";
+import { createContext, FunctionComponent, useContext } from "react";
 
 export type FeatureFlags = {
   beta: boolean;
 };
 
-export const FeatureFlagsContext = React.createContext<
-  FeatureFlags | undefined
->(undefined);
+export const FeatureFlagsContext = createContext<FeatureFlags | undefined>(
+  undefined
+);
 
 export const useFeatureFlags = (): FeatureFlags => {
   const answer = useContext(FeatureFlagsContext);
@@ -18,7 +18,7 @@ export const useFeatureFlags = (): FeatureFlags => {
   return answer;
 };
 
-export const FeatureFlagProvider: React.FunctionComponent = ({ children }) => {
+export const FeatureFlagProvider: FunctionComponent = ({ children }) => {
   const value = {
     beta: window.location.pathname.startsWith("/beta"),
   } as FeatureFlags;

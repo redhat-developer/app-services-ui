@@ -1,11 +1,11 @@
-import React from "react";
+import { FunctionComponent } from "react";
 import { useParams } from "react-router-dom";
 import { FederatedApicurioComponent } from "@app/pages/ServiceRegistry/FederatedApicurioComponent";
 import { SrsLayout } from "@app/pages/ServiceRegistry/SrsLayout";
 import { useConfig } from "@rhoas/app-services-ui-shared";
 import { ServiceDownPage } from "@app/pages";
 
-export const ArtifactVersionDetails: React.FunctionComponent = () => {
+export const ArtifactVersionDetails: FunctionComponent = () => {
   const config = useConfig();
 
   if (config?.serviceDown) {
@@ -15,14 +15,21 @@ export const ArtifactVersionDetails: React.FunctionComponent = () => {
   return <ArtifactVersionDetailsConnected />;
 };
 
-const ArtifactVersionDetailsConnected: React.FunctionComponent = () => {
-  let { artifactId }=useParams<{artifactId:string}>();
+const ArtifactVersionDetailsConnected: FunctionComponent = () => {
+  let { artifactId } = useParams<{ artifactId: string }>();
   artifactId = decodeURIComponent(artifactId);
 
   return (
-    <SrsLayout breadcrumbId="srs.artifacts_details" artifactId={artifactId} render={registry => (
-      <FederatedApicurioComponent registry={registry} module="./FederatedArtifactVersionPage" />
-    )}/>
+    <SrsLayout
+      breadcrumbId="srs.artifacts_details"
+      artifactId={artifactId}
+      render={(registry) => (
+        <FederatedApicurioComponent
+          registry={registry}
+          module="./FederatedArtifactVersionPage"
+        />
+      )}
+    />
   );
 };
 

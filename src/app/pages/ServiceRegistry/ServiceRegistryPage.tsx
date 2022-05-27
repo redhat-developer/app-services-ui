@@ -1,16 +1,19 @@
-import React from 'react';
-import { useConfig } from '@rhoas/app-services-ui-shared';
-import { FederatedModule, KasModalLoader } from '@app/components';
-import { ServiceDownPage } from '@app/pages';
-import { useModalControl, useQuota, useMASToken } from '@app/hooks';
-import { AppServicesLoading, DevelopmentPreview } from '@rhoas/app-services-ui-components';
-import { ProductType, QuotaContext } from '@rhoas/app-services-ui-shared';
-import { Registry } from '@rhoas/registry-management-sdk';
-import { ITermsConfig } from '@app/services';
-import { DownloadArtifacts } from './DownloadArtifacts';
-import { useConstants } from '@app/providers/config/ServiceConstants';
+import { useConfig } from "@rhoas/app-services-ui-shared";
+import { FederatedModule, KasModalLoader } from "@app/components";
+import { ServiceDownPage } from "@app/pages";
+import { useModalControl, useQuota, useMASToken } from "@app/hooks";
+import {
+  AppServicesLoading,
+  DevelopmentPreview,
+} from "@rhoas/app-services-ui-components";
+import { ProductType, QuotaContext } from "@rhoas/app-services-ui-shared";
+import { Registry } from "@rhoas/registry-management-sdk";
+import { ITermsConfig } from "@app/services";
+import { DownloadArtifacts } from "./DownloadArtifacts";
+import { useConstants } from "@app/providers/config/ServiceConstants";
+import { FC, FunctionComponent } from "react";
 
-export const ServiceRegistryPage: React.FunctionComponent = () => {
+export const ServiceRegistryPage: FunctionComponent = () => {
   const config = useConfig();
 
   if (config?.serviceDown) {
@@ -20,9 +23,9 @@ export const ServiceRegistryPage: React.FunctionComponent = () => {
   return <ServiceRegistryPageConnected />;
 };
 
-export const ServiceRegistryPageConnected: React.FC = () => {
+export const ServiceRegistryPageConnected: FC = () => {
   const config = useConfig();
-  const constants =  useConstants();
+  const constants = useConstants();
   const { getQuota } = useQuota(ProductType.srs);
   const { preCreateInstance, shouldOpenCreateModal } = useModalControl({
     eventCode: constants.serviceRegistry.ams.termsAndConditionsEventCode,
@@ -49,8 +52,14 @@ export const ServiceRegistryPageConnected: React.FC = () => {
                   preCreateInstance={preCreateInstance}
                   shouldOpenCreateModal={shouldOpenCreateModal}
                   tokenEndPointUrl={getTokenEndPointUrl()}
-                  renderDownloadArtifacts={(registry: Registry, downloadLabel?: string) => (
-                    <DownloadArtifacts registry={registry} downloadLabel={downloadLabel} />
+                  renderDownloadArtifacts={(
+                    registry: Registry,
+                    downloadLabel?: string
+                  ) => (
+                    <DownloadArtifacts
+                      registry={registry}
+                      downloadLabel={downloadLabel}
+                    />
                   )}
                 />
               </KasModalLoader>

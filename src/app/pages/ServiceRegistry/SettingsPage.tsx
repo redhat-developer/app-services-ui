@@ -1,10 +1,10 @@
-import React from "react";
+import { FunctionComponent } from "react";
 import { FederatedApicurioComponent } from "@app/pages/ServiceRegistry/FederatedApicurioComponent";
 import { SrsLayout } from "@app/pages/ServiceRegistry/SrsLayout";
 import { useConfig } from "@rhoas/app-services-ui-shared";
 import { ServiceDownPage } from "@app/pages";
 
-export const SettingsPage: React.FunctionComponent = () => {
+export const SettingsPage: FunctionComponent = () => {
   const config = useConfig();
 
   if (config?.serviceDown) {
@@ -14,11 +14,17 @@ export const SettingsPage: React.FunctionComponent = () => {
   return <SettingsPageConnected />;
 };
 
-const SettingsPageConnected: React.FunctionComponent = () => {
+const SettingsPageConnected: FunctionComponent = () => {
   return (
-    <SrsLayout breadcrumbId="srs.settings" render={registry => (
-      <FederatedApicurioComponent registry={registry} module="./FederatedSettingsPage"/>
-    )}/>
+    <SrsLayout
+      breadcrumbId="srs.settings"
+      render={(registry) => (
+        <FederatedApicurioComponent
+          registry={registry}
+          module="./FederatedSettingsPage"
+        />
+      )}
+    />
   );
 };
 

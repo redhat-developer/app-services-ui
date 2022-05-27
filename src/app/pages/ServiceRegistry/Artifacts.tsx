@@ -1,10 +1,10 @@
-import { FederatedApicurioComponent } from '@app/pages/ServiceRegistry/FederatedApicurioComponent';
-import React from 'react';
-import { SrsLayout } from '@app/pages/ServiceRegistry/SrsLayout';
-import { useConfig } from '@rhoas/app-services-ui-shared';
-import { ServiceDownPage } from '@app/pages';
+import { FederatedApicurioComponent } from "@app/pages/ServiceRegistry/FederatedApicurioComponent";
+import { SrsLayout } from "@app/pages/ServiceRegistry/SrsLayout";
+import { useConfig } from "@rhoas/app-services-ui-shared";
+import { ServiceDownPage } from "@app/pages";
+import { FunctionComponent } from "react";
 
-export const Artifacts: React.FunctionComponent = () => {
+export const Artifacts: FunctionComponent = () => {
   const config = useConfig();
 
   if (config?.serviceDown) {
@@ -14,11 +14,16 @@ export const Artifacts: React.FunctionComponent = () => {
   return <ArtifactsConnected />;
 };
 
-const ArtifactsConnected: React.FunctionComponent = () => {
+const ArtifactsConnected: FunctionComponent = () => {
   return (
     <SrsLayout
       breadcrumbId="srs.artifacts"
-      render={(registry) => <FederatedApicurioComponent module="./FederatedArtifactsPage" registry={registry} />}
+      render={(registry) => (
+        <FederatedApicurioComponent
+          module="./FederatedArtifactsPage"
+          registry={registry}
+        />
+      )}
     />
   );
 };

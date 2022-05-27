@@ -1,27 +1,27 @@
-import React, { useCallback, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
-import { AppRoutes } from '@app/AppRoutes';
-import { FederatedModuleProvider } from '@app/components';
-import { useInsights } from '@app/hooks';
+import { FunctionComponent, useCallback, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { connect } from "react-redux";
+import { NotificationsPortal } from "@redhat-cloud-services/frontend-components-notifications";
+import { AppRoutes } from "@app/AppRoutes";
+import { FederatedModuleProvider } from "@app/components";
+import { useInsights } from "@app/hooks";
 import { Page } from "@patternfly/react-core";
 import "./App.css";
 
-export const App: React.FunctionComponent = () => {
+export const App: FunctionComponent = () => {
   const insights = useInsights();
   const history = useHistory();
 
   const getAppId = useCallback(() => {
-    const defaultAppId = 'overview';
+    const defaultAppId = "overview";
 
-    const parts = history.location.pathname.split('/');
+    const parts = history.location.pathname.split("/");
     if (parts.length > 1) {
-      if (parts[1] === '') {
+      if (parts[1] === "") {
         return defaultAppId;
       } else {
-        if (parts[1] === 'openshift-streams') {
-          return 'streams';
+        if (parts[1] === "openshift-streams") {
+          return "streams";
         }
         return parts[1];
       }
@@ -35,9 +35,11 @@ export const App: React.FunctionComponent = () => {
     const appId = getAppId();
     insights.chrome.identifyApp(appId);
 
-    const unregister = insights.chrome.on('APP_NAVIGATION', (event) => {
-      const streamUrls = ['kafkas', 'service-accounts', 'resources'];
-      history.push(`/${streamUrls.includes(event.navId) ? 'streams/' : ''}${event.navId}`);
+    const unregister = insights.chrome.on("APP_NAVIGATION", (event) => {
+      const streamUrls = ["kafkas", "service-accounts", "resources"];
+      history.push(
+        `/${streamUrls.includes(event.navId) ? "streams/" : ""}${event.navId}`
+      );
     });
     return () => {
       unregister();
