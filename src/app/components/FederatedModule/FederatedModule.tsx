@@ -1,10 +1,19 @@
-/* eslint-disable camelcase */
-/* eslint-disable no-undef */
-import React, { ComponentType, memo, ReactNode, useEffect, useRef, useState, VoidFunctionComponent } from 'react';
-import { AssetsContext } from '@rhoas/app-services-ui-shared';
-import { ModuleInfo } from '@app/components/FederatedModule/moduleInfo';
-import { useFederatedModule } from '@app/components';
-import { AppServicesLoading } from '@rhoas/app-services-ui-components';
+import {
+  ComponentType,
+  FunctionComponent,
+  lazy,
+  LazyExoticComponent,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+  VoidFunctionComponent,
+  Suspense,
+} from "react";
+import { AssetsContext } from "@rhoas/app-services-ui-shared";
+import { ModuleInfo } from "@app/components/FederatedModule/moduleInfo";
+import { useFederatedModule } from "@app/components";
+import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 
 const useIsMounted = () => {
   const isMounted = useRef(false);
@@ -17,22 +26,16 @@ const useIsMounted = () => {
   return isMounted;
 };
 
-declare function __webpack_init_sharing__(shareScope: string);
-
-declare const __webpack_share_scopes__: {
-  default: unknown;
-};
-
 type Container = {
   init: (shareScopes: unknown) => Promise<void>;
-  get: (module: string) => Promise<{ (): { default: ComponentType<any> } }>;
+  get: (module: string) => Promise<{ (): { default: ComponentType<unknown> } }>;
 };
 
-function loadComponent(scope, module) {
+function loadComponent(scope: string, module: string) {
   return async () => {
     // Initializes the share scope. This fills it with known provided modules from this build and all remotes
-    await __webpack_init_sharing__('default');
-    const container = window[scope] as unknown as Container; // or get the container somewhere else
+    await __webpack_init_sharing__("default");
+    const container = (window as any)[scope] as unknown as Container; // or get the container somewhere else
     // Initialize the container, it may provide shared modules
     await container.init(__webpack_share_scopes__.default);
     const factory = await container.get(module);
@@ -44,21 +47,21 @@ function loadComponent(scope, module) {
 
 const useDynamicScript = (url: string) => {
   const isMounted = useIsMounted();
-  const [ready, setReady] = React.useState(false);
-  const [failed, setFailed] = React.useState(false);
+  const [ready, setReady] = useState(false);
+  const [failed, setFailed] = useState(false);
 
-  React.useEffect(() => {
-    let element;
+  useEffect(() => {
+    let element: HTMLScriptElement;
     if (isMounted.current) {
       if (!url) {
         setFailed(true);
         return;
       }
 
-      element = document.createElement('script');
+      element = document.createElement("script");
 
       element.src = url;
-      element.type = 'text/javascript';
+      element.type = "text/javascript";
       element.async = true;
 
       setReady(false);
@@ -84,7 +87,7 @@ const useDynamicScript = (url: string) => {
         document.head.removeChild(element);
       }
     };
-  }, [url]);
+  }, [isMounted, url]);
 
   return {
     ready,
@@ -95,12 +98,17 @@ const useDynamicScript = (url: string) => {
 export type FederatedModuleProps = {
   scope: string;
   module: string;
-  render: (component: React.LazyExoticComponent<React.ComponentType<any>>) => ReactNode;
-  fallback?: React.ReactNode;
+  render: (component: LazyExoticComponent<ComponentType<any>>) => ReactNode;
+  fallback?: ReactNode;
 };
 
-export const FederatedModule: VoidFunctionComponent<FederatedModuleProps> = ({ scope, module, render, fallback }) => {
-  console.log("Dynamic federated module", scope, module)
+export const FederatedModule: VoidFunctionComponent<FederatedModuleProps> = ({
+  scope,
+  module,
+  render,
+  fallback,
+}) => {
+  console.log("Dynamic federated module", scope, module);
   const isMounted = useIsMounted();
 
   const { getModuleInfo, modules } = useFederatedModule();
@@ -108,7 +116,11 @@ export const FederatedModule: VoidFunctionComponent<FederatedModuleProps> = ({ s
 
   useEffect(() => {
     const fetchModuleInfo = async () => {
-      const moduleInfo = await getModuleInfo(modules[scope].basePath, scope, modules[scope].fallbackBasePath);
+      const moduleInfo = await getModuleInfo(
+        modules[scope].basePath,
+        scope,
+        modules[scope].fallbackBasePath
+      );
       if (isMounted.current) {
         setModuleInfo(moduleInfo);
       }
@@ -117,7 +129,14 @@ export const FederatedModule: VoidFunctionComponent<FederatedModuleProps> = ({ s
   }, [scope, modules, getModuleInfo, isMounted]);
 
   if (moduleInfo !== undefined) {
-    return <DynamicFederatedModule scope={scope} module={module} render={render} moduleInfo={moduleInfo} />;
+    return (
+      <DynamicFederatedModule
+        scope={scope}
+        module={module}
+        render={render}
+        moduleInfo={moduleInfo}
+      />
+    );
   }
   if (fallback !== undefined) {
     return <>{fallback}</>;
@@ -129,17 +148,13 @@ type DynamicFederatedModuleProps = FederatedModuleProps & {
   moduleInfo: ModuleInfo;
 };
 
-const DynamicFederatedModule: React.FunctionComponent<DynamicFederatedModuleProps> = ({
-  moduleInfo,
-  fallback,
-  scope,
-  render,
-  module,
-}) => {
+const DynamicFederatedModule: FunctionComponent<
+  DynamicFederatedModuleProps
+> = ({ moduleInfo, fallback, scope, render, module }) => {
   const { ready, failed } = useDynamicScript(moduleInfo.entryPoint);
 
   if (ready && !failed) {
-    const Component = React.lazy(loadComponent(scope, module));
+    const Component = lazy(loadComponent(scope, module));
 
     const getPath = () => {
       return moduleInfo.basePath;
@@ -147,7 +162,9 @@ const DynamicFederatedModule: React.FunctionComponent<DynamicFederatedModuleProp
 
     return (
       <AssetsContext.Provider value={{ getPath }}>
-        <React.Suspense fallback={<AppServicesLoading />}>{render(Component)}</React.Suspense>
+        <Suspense fallback={<AppServicesLoading />}>
+          {render(Component)}
+        </Suspense>
       </AssetsContext.Provider>
     );
   }

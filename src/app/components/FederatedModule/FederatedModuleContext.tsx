@@ -1,31 +1,43 @@
-import React, { useRef } from "react";
-import { FederatedModuleConfig, useConfig } from "@rhoas/app-services-ui-shared";
+import { createContext, FunctionComponent, useContext, useRef } from "react";
+import {
+  FederatedModuleConfig,
+  useConfig,
+} from "@rhoas/app-services-ui-shared";
 import { AppServicesLoading } from "@rhoas/app-services-ui-components";
-import { fetchModuleInfo, FetchModuleInfoFunction, ModuleInfo } from "@app/components/FederatedModule/moduleInfo";
+import {
+  fetchModuleInfo,
+  FetchModuleInfoFunction,
+  ModuleInfo,
+} from "@app/components/FederatedModule/moduleInfo";
 
 export type FederatedModuleContextProps = {
   modules: {
-    [module: string]: FederatedModuleConfig
+    [module: string]: FederatedModuleConfig;
   };
   getModuleInfo: FetchModuleInfoFunction;
-}
+};
 
-export const FederatedModuleContext = React.createContext<FederatedModuleContextProps | undefined>(undefined);
+export const FederatedModuleContext = createContext<
+  FederatedModuleContextProps | undefined
+>(undefined);
 
-export const FederatedModuleProvider: React.FunctionComponent = ({ children }) => {
-
+export const FederatedModuleProvider: FunctionComponent = ({ children }) => {
   type ModuleInfoCache = {
-    [key:string]: ModuleInfo
-  }
+    [key: string]: ModuleInfo;
+  };
 
-  const moduleInfoCache = useRef<ModuleInfoCache>({} as ModuleInfoCache );
+  const moduleInfoCache = useRef<ModuleInfoCache>({} as ModuleInfoCache);
   const config = useConfig();
 
   if (config === undefined) {
-    return <AppServicesLoading/>;
+    return <AppServicesLoading />;
   }
 
-  const getModuleInfo: FetchModuleInfoFunction = async ( baseUrl,scope, fallbackBasePath) => {
+  const getModuleInfo: FetchModuleInfoFunction = async (
+    baseUrl,
+    scope,
+    fallbackBasePath
+  ) => {
     if (moduleInfoCache.current[scope] !== undefined) {
       return moduleInfoCache.current[scope];
     }
@@ -34,22 +46,24 @@ export const FederatedModuleProvider: React.FunctionComponent = ({ children }) =
       moduleInfoCache.current[scope] = answer;
     }
     return answer;
-  }
+  };
 
   return (
-    <FederatedModuleContext.Provider value={{
-      modules: config.federatedModules,
-      getModuleInfo
-    }}>
+    <FederatedModuleContext.Provider
+      value={{
+        modules: config.federatedModules,
+        getModuleInfo,
+      }}
+    >
       {children}
     </FederatedModuleContext.Provider>
   );
-}
+};
 
 export const useFederatedModule = (): FederatedModuleContextProps => {
-  const answer = React.useContext(FederatedModuleContext);
+  const answer = useContext(FederatedModuleContext);
   if (answer === undefined) {
-    throw new Error('must be used inside FederatedModuleContext provider');
+    throw new Error("must be used inside FederatedModuleContext provider");
   }
   return answer;
-}
+};

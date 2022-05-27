@@ -1,1 +1,1 @@
-export * from './KasPage';
+export * from "./KasPage";

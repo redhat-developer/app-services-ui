@@ -1,10 +1,10 @@
 import { FederatedApicurioComponent } from "@app/pages/ServiceRegistry/FederatedApicurioComponent";
-import React from "react";
 import { SrsLayout } from "@app/pages/ServiceRegistry/SrsLayout";
 import { useConfig } from "@rhoas/app-services-ui-shared";
 import { ServiceDownPage } from "@app/pages";
+import { FunctionComponent } from "react";
 
-export const ArtifactRedirect: React.FunctionComponent = () => {
+export const ArtifactRedirect: FunctionComponent = () => {
   const config = useConfig();
 
   if (config?.serviceDown) {
@@ -14,11 +14,16 @@ export const ArtifactRedirect: React.FunctionComponent = () => {
   return <ArtifactRedirectConnected />;
 };
 
-const ArtifactRedirectConnected: React.FunctionComponent = () => {
+const ArtifactRedirectConnected: FunctionComponent = () => {
   return (
-    <SrsLayout render={registry => (
-      <FederatedApicurioComponent registry={registry} module="./FederatedArtifactRedirectPage" />
-    )} />
+    <SrsLayout
+      render={(registry) => (
+        <FederatedApicurioComponent
+          registry={registry}
+          module="./FederatedArtifactRedirectPage"
+        />
+      )}
+    />
   );
 };
 

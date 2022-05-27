@@ -293,7 +293,7 @@
     "copy_clipboard_successfully": "Successfully copied to clipboard!",
     "name": "Description",
     "owner": "Owner",
-    "expires_in":"Expires in <time>{{time}}</time>",
+    "expires_in": "Expires in <time>{{time}}</time>",
     "reset_credentials": "Reset credentials",
     "cancel": "Cancel",
     "submitting_request": "Submitting request",

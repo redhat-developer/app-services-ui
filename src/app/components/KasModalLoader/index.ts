@@ -1,1 +1,1 @@
-export * from './KasModalLoader';
+export * from "./KasModalLoader";

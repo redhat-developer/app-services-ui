@@ -1,1 +1,1 @@
-export * from './AccessDeniedPage';
+export * from "./AccessDeniedPage";

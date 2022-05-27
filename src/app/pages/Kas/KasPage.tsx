@@ -1,31 +1,39 @@
-import React, { useState, VoidFunctionComponent } from 'react';
-import { ProductType, QuotaContext, useConfig } from '@rhoas/app-services-ui-shared';
-import { ServiceDownPage } from '@app/pages/ServiceDown/ServiceDownPage';
-import { FederatedModule, usePrincipal, useKafkaInstanceDrawer } from '@app/components';
-import { useModalControl, useQuota } from '@app/hooks';
-import { AppServicesLoading } from '@rhoas/app-services-ui-components';
-import { ITermsConfig } from '@app/services';
-import { useConstants } from '@app/providers/config/ServiceConstants';
-import { useKafkaInstance } from '@app/pages/Kafka/kafka-instance';
+import { LazyExoticComponent, useState, VoidFunctionComponent } from "react";
+import {
+  ProductType,
+  QuotaContext,
+  useConfig,
+} from "@rhoas/app-services-ui-shared";
+import { ServiceDownPage } from "@app/pages/ServiceDown/ServiceDownPage";
+import {
+  FederatedModule,
+  usePrincipal,
+  useKafkaInstanceDrawer,
+} from "@app/components";
+import { useModalControl, useQuota } from "@app/hooks";
+import { AppServicesLoading } from "@rhoas/app-services-ui-components";
+import { ITermsConfig } from "@app/services";
+import { useConstants } from "@app/providers/config/ServiceConstants";
+import { useKafkaInstance } from "@app/pages/Kafka/kafka-instance";
 
-const KasPage: React.FC = () => {
+const KasPage: VoidFunctionComponent = () => {
   const { getQuota } = useQuota(ProductType?.kas);
-
 
   return (
     <QuotaContext.Provider value={{ getQuota }}>
-
-        <FederatedModule
-          scope="kas"
-          module="./OpenshiftStreams"
-          fallback={<AppServicesLoading />}
-          render={(component) => <KasPageConnected Component={component} />}
-        />
+      <FederatedModule
+        scope="kas"
+        module="./OpenshiftStreams"
+        fallback={<AppServicesLoading />}
+        render={(component) => <KasPageConnected Component={component} />}
+      />
     </QuotaContext.Provider>
   );
 };
 
-const KasPageConnected: VoidFunctionComponent<{ Component: React.LazyExoticComponent<any> }> = ({ Component }) => {
+const KasPageConnected: VoidFunctionComponent<{
+  Component: LazyExoticComponent<any>;
+}> = ({ Component }) => {
   const config = useConfig();
   const constants = useConstants();
   const { preCreateInstance, shouldOpenCreateModal } = useModalControl({
@@ -34,9 +42,13 @@ const KasPageConnected: VoidFunctionComponent<{ Component: React.LazyExoticCompo
   } as ITermsConfig);
   const { getAllUserAccounts } = usePrincipal();
 
-  const [drawerInstanceId, setDrawerInstanceId] = useState<string | undefined>(undefined);
+  const [drawerInstanceId, setDrawerInstanceId] = useState<string | undefined>(
+    undefined
+  );
   const drawerInstance = useKafkaInstance(drawerInstanceId);
-  const drawerInstanceDetails = drawerInstance ? drawerInstance.kafkaDetail : undefined;
+  const drawerInstanceDetails = drawerInstance
+    ? drawerInstance.kafkaDetail
+    : undefined;
 
   const drawerProps = useKafkaInstanceDrawer();
 

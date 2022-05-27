@@ -1,2 +1,2 @@
-export * from './FederatedModule';
-export * from './FederatedModuleContext'
+export * from "./FederatedModule";
+export * from "./FederatedModuleContext";

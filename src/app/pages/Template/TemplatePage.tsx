@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
-import { ConfigContext } from '@rhoas/app-services-ui-shared';
-import { ServiceDownPage } from '@app/pages';
-import { FederatedModule } from '@app/components';
-import { DevelopmentPreview } from '@rhoas/app-services-ui-components';
+import { FunctionComponent, useContext } from "react";
+import { ConfigContext } from "@rhoas/app-services-ui-shared";
+import { ServiceDownPage } from "@app/pages";
+import { FederatedModule } from "@app/components";
+import { DevelopmentPreview } from "@rhoas/app-services-ui-components";
 
-export const MicroFrontendNamePage: React.FunctionComponent = () => {
+export const MicroFrontendNamePage: FunctionComponent = () => {
   const config = useContext(ConfigContext);
 
   if (config?.serviceDown) {
@@ -14,7 +14,7 @@ export const MicroFrontendNamePage: React.FunctionComponent = () => {
   return <MicroFrontendNamePageConnected />;
 };
 
-export const MicroFrontendNamePageConnected: React.FunctionComponent = () => {
+export const MicroFrontendNamePageConnected: FunctionComponent = () => {
   return (
     <DevelopmentPreview>
       <FederatedModule

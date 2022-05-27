@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { FederatedApicurioComponent } from '@app/pages/ServiceRegistry/FederatedApicurioComponent';
-import { SrsLayout } from '@app/pages/ServiceRegistry/SrsLayout';
-import { useConfig, useAuth } from '@rhoas/app-services-ui-shared';
-import { ServiceDownPage } from '@app/pages';
-import { usePrincipal } from '@app/components';
-import { AppServicesLoading } from '@rhoas/app-services-ui-components';
+import { useState, useEffect, FunctionComponent } from "react";
+import { FederatedApicurioComponent } from "@app/pages/ServiceRegistry/FederatedApicurioComponent";
+import { SrsLayout } from "@app/pages/ServiceRegistry/SrsLayout";
+import { useConfig, useAuth } from "@rhoas/app-services-ui-shared";
+import { ServiceDownPage } from "@app/pages";
+import { usePrincipal } from "@app/components";
+import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 
-export const RolesPage: React.FunctionComponent = () => {
+export const RolesPage: FunctionComponent = () => {
   const config = useConfig();
 
   if (config?.serviceDown) {
@@ -16,7 +16,7 @@ export const RolesPage: React.FunctionComponent = () => {
   return <RolesPageConnected />;
 };
 
-const RolesPageConnected: React.FunctionComponent = () => {
+const RolesPageConnected: FunctionComponent = () => {
   const [currentlyLoggedInuser, setCurrentlyLoggedInuser] = useState<string>();
   const auth = useAuth();
   const { getAllPrincipals } = usePrincipal();
@@ -39,7 +39,13 @@ const RolesPageConnected: React.FunctionComponent = () => {
           (p) => p.id !== currentlyLoggedInuser && p.id !== registry?.owner
         );
 
-        return <FederatedApicurioComponent registry={registry} module="./FederatedRolesPage" principals={principals} />;
+        return (
+          <FederatedApicurioComponent
+            registry={registry}
+            module="./FederatedRolesPage"
+            principals={principals}
+          />
+        );
       }}
     />
   );

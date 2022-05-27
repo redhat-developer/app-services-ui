@@ -1,10 +1,10 @@
 import { FederatedApicurioComponent } from "@app/pages/ServiceRegistry/FederatedApicurioComponent";
-import React from "react";
 import { SrsLayout } from "@app/pages/ServiceRegistry/SrsLayout";
 import { useConfig } from "@rhoas/app-services-ui-shared";
 import { ServiceDownPage } from "@app/pages";
+import { FunctionComponent } from "react";
 
-export const RulesPage: React.FunctionComponent = () => {
+export const RulesPage: FunctionComponent = () => {
   const config = useConfig();
 
   if (config?.serviceDown) {
@@ -14,11 +14,17 @@ export const RulesPage: React.FunctionComponent = () => {
   return <RulesPageConnected />;
 };
 
-const RulesPageConnected: React.FunctionComponent = () => {
+const RulesPageConnected: FunctionComponent = () => {
   return (
-    <SrsLayout breadcrumbId="srs.global_rules" render={registry => (
-      <FederatedApicurioComponent registry={registry} module="./FederatedRulesPage"/>
-    )}/>
+    <SrsLayout
+      breadcrumbId="srs.global_rules"
+      render={(registry) => (
+        <FederatedApicurioComponent
+          registry={registry}
+          module="./FederatedRulesPage"
+        />
+      )}
+    />
   );
 };
 

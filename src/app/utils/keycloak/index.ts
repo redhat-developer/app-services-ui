@@ -1,1 +1,1 @@
-export * from './keycloakUtils';
+export * from "./keycloakUtils";

@@ -1,7 +1,6 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import AppEntry from './AppEntry';
+import ReactDOM from "react-dom";
+import AppEntry from "./AppEntry";
 
-const root = document.getElementById('root');
+const root = document.getElementById("root");
 
 ReactDOM.render(<AppEntry />, root);
