@@ -8,7 +8,7 @@ FROM quay.io/app-sre/ubi8-nodejs-12:latest as builder
 COPY --chown=default:root / .
 
 # install all deps, and build client/server
-RUN npm ci
+RUN npm ci \
   && npm run build
 
 # ---------------------------------------------------------------------------- #
