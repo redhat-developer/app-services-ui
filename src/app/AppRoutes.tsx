@@ -1,6 +1,5 @@
 import React, { useCallback, VoidFunctionComponent } from 'react';
 import { Redirect, Route, RouteComponentProps, Switch, useHistory } from 'react-router-dom';
-import { LastLocationProvider } from 'react-router-last-location';
 import { ErrorBoundary } from 'react-error-boundary';
 import getBaseName from './utils/getBaseName';
 import {
@@ -9,7 +8,7 @@ import {
   AppServicesEmptyState,
   AppServicesEmptyStateVariant,
 } from '@rhoas/app-services-ui-components';
-import { AppRouteConfig, flattenedRoutes, IAppRoute, PageNotFoundRoute, useA11yRouteChange } from '@app/utils/Routing';
+import { AppRouteConfig, flattenedRoutes, IAppRoute, PageNotFoundRoute } from '@app/utils/Routing';
 import { useDocumentTitle } from '@app/utils';
 import { KafkaMainView } from '@app/pages/Kafka';
 import { BasenameContext } from '@rhoas/app-services-ui-shared';
@@ -244,7 +243,6 @@ const WrappedRoute: React.FunctionComponent<IAppRoute<any>> = ({
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
-  useA11yRouteChange(isAsync);
   useDocumentTitle(title);
   const getBasename = useCallback(() => {
     return basename || '';
@@ -292,7 +290,6 @@ const WrappedRoute: React.FunctionComponent<IAppRoute<any>> = ({
 const AppRoutes: VoidFunctionComponent = () => {
   return (
     <>
-      <LastLocationProvider>
         <React.Suspense fallback={<AppServicesLoading />}>
           <Switch>
             {flattenedRoutes(appRoutes).map(({ path, exact, component, title, isAsync, ...rest }, idx) => (
@@ -309,7 +306,6 @@ const AppRoutes: VoidFunctionComponent = () => {
             <PageNotFoundRoute title="404 Page Not Found" />
           </Switch>
         </React.Suspense>
-      </LastLocationProvider>
       <QuickStartLoaderFederated />
     </>
   );
