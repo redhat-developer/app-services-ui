@@ -82,7 +82,7 @@
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-cypress": "2.12.1",
     "eslint-plugin-i18next": "5.2.1",
-    "eslint-plugin-jest": "26.2.2",
+    "eslint-plugin-jest": "26.3.0",
     "eslint-plugin-react": "7.30.0",
     "eslint-plugin-react-hooks": "4.5.0",
     "file-loader": "6.2.0",
