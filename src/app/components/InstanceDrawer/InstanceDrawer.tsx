@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useAuth } from "@rhoas/app-services-ui-shared";
+import { useAuth } from "@app/providers/auth";
 
 export function useKafkaInstanceDrawer() {
   const history = useHistory();

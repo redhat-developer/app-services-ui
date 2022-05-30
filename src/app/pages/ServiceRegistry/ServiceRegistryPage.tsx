@@ -10,12 +10,12 @@ import {
   ProductType,
   QuotaContext,
   useConfig,
-  useAuth,
 } from "@rhoas/app-services-ui-shared";
 import { Registry } from "@rhoas/registry-management-sdk";
 import { ITermsConfig } from "@app/services";
 import { DownloadArtifacts } from "./DownloadArtifacts";
 import { useConstants } from "@app/providers/config/ServiceConstants";
+import { useAuth } from "@app/providers/auth";
 
 export const ServiceRegistryPage: FunctionComponent = () => {
   const config = useConfig();

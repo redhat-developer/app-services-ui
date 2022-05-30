@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from "react";
 import { KeycloakConfig, KeycloakInstance } from "keycloak-js";
 import { Auth, Config, useConfig } from "@rhoas/app-services-ui-shared";
 import { getAccessToken, initKeycloak } from "@app/utils";
-import { useInsights, useSSOProviders } from "@app/hooks";
-import { SsoProviderAllOf } from "@rhoas/kafka-management-sdk";
+import { useCallback, useEffect, useRef } from "react";
+import { useInsights } from "@app/hooks/insights";
 
 const init = async (
   config: Config,
@@ -18,13 +17,9 @@ const init = async (
 };
 
 export const useAuth = (): Auth => {
-  //states
-  const [ssoProviders, setSSOProviders] = useState<SsoProviderAllOf>();
-
   const keycloakInstance = useRef<KeycloakInstance>();
   const config = useConfig();
   const insights = useInsights();
-  const getSSOProviders = useSSOProviders();
 
   if (config === undefined || insights.chrome.auth === undefined) {
     throw new Error(
@@ -45,24 +40,11 @@ export const useAuth = (): Auth => {
   }, [config, insightsChromeAuth]);
 
   useEffect(() => {
-    (async () => {
-      const response = await getSSOProviders();
-      setSSOProviders(response);
-    })();
-  }, [getSSOProviders]);
-
-  useEffect(() => {
     // Start loading keycloak immediately
     getKeycloakInstance();
   }, [config, getKeycloakInstance, insightsChromeAuth]);
 
-  const getToken = insightsChromeAuth.getToken;
-
   const getMASSSOToken = async () => {
-    //return sso token if provider name is not mas_sso
-    if (ssoProviders && ssoProviders?.name !== "mas_sso") {
-      return getToken();
-    }
     const keycloakInstance = await getKeycloakInstance();
     return getAccessToken(keycloakInstance, insightsChromeAuth.getToken);
   };
@@ -76,6 +58,8 @@ export const useAuth = (): Auth => {
     const user = await insightsChromeAuth.getUser();
     return user.identity.user.is_org_admin;
   };
+
+  const getToken = insightsChromeAuth.getToken;
 
   return {
     getUsername,
@@ -98,6 +82,5 @@ export const useAuth = (): Auth => {
     smart_events: {
       getToken,
     },
-    tokenEndPointUrl: ssoProviders?.token_url,
   };
 };
