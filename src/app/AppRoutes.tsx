@@ -69,10 +69,9 @@ const CosPage = lazy(() => import("@app/pages/CosPage/CosPage"));
 const ServiceRegistryPage = lazy(
   () => import("@app/pages/ServiceRegistry/ServiceRegistryPage")
 );
-const SmartEventsPage = React.lazy(
+const SmartEventsPage = lazy(
   () => import("@app/pages/SmartEventsPage/SmartEventsPage")
 );
-
 
 const RedirectToOverview: FunctionComponent = () => <Redirect to="/overview" />;
 const RedirectToStreamsKafkas: FunctionComponent = () => (
