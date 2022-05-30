@@ -1,17 +1,21 @@
-import { useConfig } from "@rhoas/app-services-ui-shared";
+import { FC, FunctionComponent } from "react";
 import { FederatedModule, KasModalLoader } from "@app/components";
 import { ServiceDownPage } from "@app/pages";
-import { useModalControl, useQuota, useMASToken } from "@app/hooks";
+import { useModalControl, useQuota } from "@app/hooks";
 import {
   AppServicesLoading,
   DevelopmentPreview,
 } from "@rhoas/app-services-ui-components";
-import { ProductType, QuotaContext } from "@rhoas/app-services-ui-shared";
+import {
+  ProductType,
+  QuotaContext,
+  useConfig,
+  useAuth,
+} from "@rhoas/app-services-ui-shared";
 import { Registry } from "@rhoas/registry-management-sdk";
 import { ITermsConfig } from "@app/services";
 import { DownloadArtifacts } from "./DownloadArtifacts";
 import { useConstants } from "@app/providers/config/ServiceConstants";
-import { FC, FunctionComponent } from "react";
 
 export const ServiceRegistryPage: FunctionComponent = () => {
   const config = useConfig();
@@ -25,13 +29,14 @@ export const ServiceRegistryPage: FunctionComponent = () => {
 
 export const ServiceRegistryPageConnected: FC = () => {
   const config = useConfig();
+  const auth = useAuth();
+
   const constants = useConstants();
   const { getQuota } = useQuota(ProductType.srs);
   const { preCreateInstance, shouldOpenCreateModal } = useModalControl({
     eventCode: constants.serviceRegistry.ams.termsAndConditionsEventCode,
     siteCode: constants.serviceRegistry.ams.termsAndConditionsSiteCode,
   } as ITermsConfig);
-  const { getTokenEndPointUrl } = useMASToken();
 
   // Wait for the config and the registry to load
   if (config === undefined) {
@@ -51,7 +56,7 @@ export const ServiceRegistryPageConnected: FC = () => {
                 <ServiceRegistryFederated
                   preCreateInstance={preCreateInstance}
                   shouldOpenCreateModal={shouldOpenCreateModal}
-                  tokenEndPointUrl={getTokenEndPointUrl()}
+                  tokenEndPointUrl={auth?.tokenEndPointUrl}
                   renderDownloadArtifacts={(
                     registry: Registry,
                     downloadLabel?: string

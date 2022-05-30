@@ -3,3 +3,4 @@ export * from "./modal";
 export * from "./insights";
 export * from "./keycloak";
 export * from "./useMASToken";
+export * from "./useSSOProviders";

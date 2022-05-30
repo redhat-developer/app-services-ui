@@ -2,8 +2,8 @@ import { FC, LazyExoticComponent, VoidFunctionComponent } from "react";
 import { FederatedModule, KasModalLoader } from "@app/components";
 import { Registry } from "@rhoas/registry-management-sdk";
 import { AppServicesLoading } from "@rhoas/app-services-ui-components";
-import { useMASToken } from "@app/hooks";
 import { DownloadArtifacts } from "./DownloadArtifacts";
+import { useAuth } from "@rhoas/app-services-ui-shared";
 
 type SrsLayoutProps = {
   render: (registry: Registry) => JSX.Element;
@@ -27,14 +27,14 @@ export const SrsLayout: FC<SrsLayoutProps> = (props) => {
 const SrsLayoutConnected: VoidFunctionComponent<
   { Component: LazyExoticComponent<any> } & SrsLayoutProps
 > = ({ Component, render, breadcrumbId, artifactId }) => {
-  const { getTokenEndPointUrl } = useMASToken();
+  const auth = useAuth();
 
   return (
     <KasModalLoader>
       <Component
         render={render}
         breadcrumbId={breadcrumbId}
-        tokenEndPointUrl={getTokenEndPointUrl()}
+        tokenEndPointUrl={auth?.tokenEndPointUrl}
         artifactId={artifactId}
         renderDownloadArtifacts={(
           registry: Registry,
