@@ -23,6 +23,7 @@ module.exports = merge(
     mode: "production",
     devtool: "source-map",
     optimization: {
+      sideEffects: true,
       minimizer: [
         new TerserJSPlugin({}),
         new CssMinimizerPlugin({

@@ -130,13 +130,9 @@ module.exports = (env, argv) => {
             ...dependencies,
             ...peerDependencies,
             react: {
-              eager: true,
-              singleton: true,
               requiredVersion: peerDependencies.react,
             },
             "react-dom": {
-              eager: true,
-              singleton: true,
               requiredVersion: peerDependencies["react-dom"],
             },
             "react-i18next": {
