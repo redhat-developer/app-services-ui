@@ -1,4 +1,4 @@
-import WrenchIcon from "@patternfly/react-icons/dist/js/icons/wrench-icon";
+import { WrenchIcon } from "@patternfly/react-icons";
 import {
   PageSection,
   Title,
