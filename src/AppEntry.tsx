@@ -41,6 +41,9 @@ if (window.localStorage.getItem("xstate-inspect") !== null) {
 
 const AppWithKeycloak: FunctionComponent = () => {
   const [ssoProviders, setSSOProviders] = useState<SsoProviderAllOf>();
+  const [isFetchingSSOProviders, setIsFetchingSSOProviders] =
+    useState<boolean>();
+
   console.log("starting appwithkeycloak");
   let auth = useAuth();
   const dispatch = useDispatch();
@@ -48,21 +51,22 @@ const AppWithKeycloak: FunctionComponent = () => {
 
   useEffect(() => {
     (async () => {
+      setIsFetchingSSOProviders(true);
       const response = await getSSOProviders();
+      setIsFetchingSSOProviders(false);
       setSSOProviders(response);
     })();
   }, [getSSOProviders]);
 
-  const shouldUseMasSSO = (): boolean | undefined => {
-    if (!ssoProviders) return undefined;
+  const shouldUseMasSSO = (): boolean => {
     return ssoProviders?.name === "mas_sso";
   };
 
   /**
-   * This is temporarory check.
+   * This is temporary check.
    * It will be removed when we will have mas_sso to sso migration fully deployed
    */
-  if (shouldUseMasSSO() === false) {
+  if (isFetchingSSOProviders === false && !shouldUseMasSSO()) {
     const {
       kas: { getToken },
     } = auth;
