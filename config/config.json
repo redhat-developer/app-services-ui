@@ -37,8 +37,8 @@
     },
     "smart_events": {
       "basePath": "/mas-local-fm/smart_events",
-      "proxyTarget": "",
-      "fallbackBasePath": ""
+      "proxyTarget": "http://localhost:9006",
+      "fallbackBasePath": "/beta/apps/se-ui-build"
     }
   },
   "config": [
@@ -88,7 +88,7 @@
           "editorsBasePath": ""
         },
         "smart_events": {
-          "apiBasePath": "https://api.stage.openshift.com"
+          "apiBasePath": "https://lcstem2z9g006s6.api.stage.openshift.com"
         }
       }
     },
@@ -137,7 +137,7 @@
           "editorsBasePath": ""
         },
         "smart_events": {
-          "apiBasePath": "https://api.stage.openshift.com"
+          "apiBasePath": "https://lcstem2z9g006s6.api.stage.openshift.com"
         }
       }
     },
@@ -186,7 +186,7 @@
           "editorsBasePath": ""
         },
         "smart_events": {
-          "apiBasePath": "https://api.openshift.com"
+          "apiBasePath": ""
         }
       }
     }
