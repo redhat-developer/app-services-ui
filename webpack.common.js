@@ -40,12 +40,6 @@ module.exports = (env, argv) => {
           },
         },
         {
-          test: /\.s[ac]ss$/,
-          use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
-          include: (stylesheet) => !isPatternflyStyles(stylesheet),
-          sideEffects: true,
-        },
-        {
           test: /\.css$/,
           use: [MiniCssExtractPlugin.loader, "css-loader"],
           include: (stylesheet) => !isPatternflyStyles(stylesheet),
