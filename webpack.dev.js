@@ -47,6 +47,8 @@ module.exports = merge(
         publicPath,
         writeToDisk: true,
       },
+      client: false,
+      webSocketServer: false,
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods":
