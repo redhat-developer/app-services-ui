@@ -53,8 +53,8 @@ const AppWithKeycloak: FunctionComponent = () => {
     (async () => {
       setIsFetchingSSOProviders(true);
       const response = await getSSOProviders();
-      setIsFetchingSSOProviders(false);
       setSSOProviders(response);
+      setIsFetchingSSOProviders(false);
     })();
   }, [getSSOProviders]);
 
