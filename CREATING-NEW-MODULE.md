@@ -55,12 +55,10 @@ const webpack = require('webpack');
         shared: {
           ...dependencies,
           react: {
-            eager: true,
             singleton: true,
             requiredVersion: dependencies["react"],
           },
           "react-dom": {
-            eager: true,
             singleton: true,
             requiredVersion: dependencies["react-dom"],
           },
