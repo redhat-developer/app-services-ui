@@ -124,9 +124,11 @@ module.exports = (env, argv) => {
             ...dependencies,
             ...peerDependencies,
             react: {
+              singleton: true,
               requiredVersion: peerDependencies.react,
             },
             "react-dom": {
+              singleton: true,
               requiredVersion: peerDependencies["react-dom"],
             },
             "react-i18next": {
