@@ -57,7 +57,7 @@
     "@patternfly/react-icons": "4.53.16",
     "@patternfly/react-table": "4.71.16",
     "@redhat-cloud-services/frontend-components": "3.9.3",
-    "@redhat-cloud-services/frontend-components-config-utilities": "1.5.20",
+    "@redhat-cloud-services/frontend-components-config-utilities": "1.5.21",
     "@redhat-cloud-services/frontend-components-notifications": "3.2.7",
     "@redhat-cloud-services/frontend-components-utilities": "3.2.16",
     "@testing-library/jest-dom": "5.16.4",
