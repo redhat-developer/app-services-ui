@@ -1,6 +1,16 @@
+import {
+  FunctionComponent,
+  memo,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { Provider, useDispatch } from "react-redux";
+import { BrowserRouter as Router } from "react-router-dom";
+import logger from "redux-logger";
 import { inspect } from "@xstate/inspect";
 import App from "@app/App";
-import { useAuth } from "@app/hooks";
+import { useAuth, useSSOProviders } from "@app/hooks";
 import { EmbeddedConfigProvider } from "@app/providers/config/EmbeddedConfigContextProvider";
 import { ServiceConstantsContextProvider } from "@app/providers/config/ServiceConstantsContextProvider";
 import { FeatureFlagProvider } from "@app/providers/featureflags/FeatureFlags";
@@ -16,15 +26,12 @@ import {
   Alert,
   AlertContext,
   AlertProps,
-  AuthContext,
+  AuthContext as SharedAuthContext,
   ConfigContext,
 } from "@rhoas/app-services-ui-shared";
-import { FunctionComponent, memo, useContext } from "react";
-import { Provider, useDispatch } from "react-redux";
-import { BrowserRouter as Router } from "react-router-dom";
-import logger from "redux-logger";
-
+import { SsoProviderAllOf } from "@rhoas/kafka-management-sdk";
 import "@rhoas/app-services-ui-components/dist/esm/index.css";
+import { AuthContext } from "@app/providers/auth";
 
 if (window.localStorage.getItem("xstate-inspect") !== null) {
   inspect({
@@ -33,9 +40,42 @@ if (window.localStorage.getItem("xstate-inspect") !== null) {
 }
 
 const AppWithKeycloak: FunctionComponent = () => {
+  const [ssoProviders, setSSOProviders] = useState<SsoProviderAllOf>();
+  const [isFetchingSSOProviders, setIsFetchingSSOProviders] =
+    useState<boolean>();
+
   console.log("starting appwithkeycloak");
-  const auth = useAuth();
+  let auth = useAuth();
   const dispatch = useDispatch();
+  const getSSOProviders = useSSOProviders();
+
+  useEffect(() => {
+    (async () => {
+      setIsFetchingSSOProviders(true);
+      const response = await getSSOProviders();
+      setSSOProviders(response);
+      setIsFetchingSSOProviders(false);
+    })();
+  }, [getSSOProviders]);
+
+  const shouldUseMasSSO = (): boolean => {
+    return ssoProviders?.name === "mas_sso";
+  };
+
+  /**
+   * This is temporary check.
+   * It will be removed when we will have mas_sso to sso migration fully deployed
+   */
+  if (isFetchingSSOProviders === false && !shouldUseMasSSO()) {
+    const {
+      kas: { getToken },
+    } = auth;
+    auth = {
+      ...auth,
+      kafka: { getToken },
+      apicurio_registry: { getToken },
+    };
+  }
 
   const addAlert = ({
     title,
@@ -68,16 +108,28 @@ const AppWithKeycloak: FunctionComponent = () => {
   };
 
   const baseName = getBaseName(window.location.pathname);
+  const { kas, kafka, getUsername, isOrgAdmin } = auth;
+
   return (
-    <AuthContext.Provider value={auth}>
-      <AlertContext.Provider value={alert}>
-        <ModalProvider>
-          <Router basename={baseName}>
-            <App />
-          </Router>
-        </ModalProvider>
-      </AlertContext.Provider>
-    </AuthContext.Provider>
+    <SharedAuthContext.Provider value={auth}>
+      <AuthContext.Provider
+        value={{
+          getToken: kas.getToken,
+          getMASSSOToken: kafka.getToken,
+          getUsername,
+          isOrgAdmin,
+          tokenEndPointUrl: ssoProviders?.token_url,
+        }}
+      >
+        <AlertContext.Provider value={alert}>
+          <ModalProvider>
+            <Router basename={baseName}>
+              <App />
+            </Router>
+          </ModalProvider>
+        </AlertContext.Provider>
+      </AuthContext.Provider>
+    </SharedAuthContext.Provider>
   );
 };
 

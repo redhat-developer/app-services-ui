@@ -1,9 +1,10 @@
 import { useCallback, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useMASToken } from "@app/hooks";
+import { useAuth } from "@app/providers/auth";
 
 export function useKafkaInstanceDrawer() {
   const history = useHistory();
+  const auth = useAuth();
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [drawerActiveTab, setDrawerActiveTab] = useState<string | undefined>(
@@ -22,8 +23,6 @@ export function useKafkaInstanceDrawer() {
     setIsDrawerOpen(false);
   }, []);
 
-  const { getTokenEndPointUrl } = useMASToken();
-
   const onDeleteInstance = () => {
     history.push("/streams/kafkas");
   };
@@ -34,7 +33,7 @@ export function useKafkaInstanceDrawer() {
     setDrawerActiveTab,
     openDrawer,
     closeDrawer,
-    tokenEndPointUrl: getTokenEndPointUrl(),
+    tokenEndPointUrl: auth?.tokenEndPointUrl,
     onDeleteInstance,
   };
 }
