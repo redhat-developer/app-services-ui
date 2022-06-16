@@ -32,8 +32,8 @@
     },
     "ads": {
       "basePath": "/mas-local-fm/ads",
-      "proxyTarget": "",
-      "fallbackBasePath": ""
+      "proxyTarget": "http://localhost:9009",
+      "fallbackBasePath": "/beta/apps/ads-ui-build"
     },
     "smart_events": {
       "basePath": "/mas-local-fm/smart_events",
@@ -73,6 +73,9 @@
         },
         "srs": {
           "apiBasePath": "https://api.stage.openshift.com"
+        },
+        "ads": {
+          "editorsBasePath": "/beta/apps/ads-editors-build"
         },
         "cos": {
           "apiBasePath": "https://wxn4aqqc8bqvxcy6unfe.api.stage.openshift.com",
@@ -119,6 +122,9 @@
         },
         "srs": {
           "apiBasePath": "https://api.stage.openshift.com"
+        },
+        "ads": {
+          "editorsBasePath": "/beta/apps/ads-editors-build"
         },
         "rbac": {
           "basePath": "/api/rbac/v1"
@@ -168,6 +174,9 @@
         },
         "srs": {
           "apiBasePath": "https://api.openshift.com"
+        },
+        "ads": {
+          "editorsBasePath": "/beta/apps/ads-editors-build"
         },
         "rbac": {
           "basePath": "/api/rbac/v1"
