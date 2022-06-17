@@ -47,6 +47,13 @@ const Artifacts = lazy(() => import("@app/pages/ServiceRegistry/Artifacts"));
 const ArtifactVersionDetails = lazy(
   () => import("@app/pages/ServiceRegistry/ArtifactVersion")
 );
+const ApiDesignerHomePage = lazy(
+  () => import("@app/pages/APIDesigner/ApiDesignerHomePage")
+);
+const ApiDesignerEditorPage = lazy(
+  () => import("@app/pages/APIDesigner/ApiDesignerEditorPage")
+);
+
 const DataSciencePage = lazy(
   () => import("@app/pages/DataScience/DataSciencePage")
 );
@@ -247,6 +254,29 @@ const appRoutes: AppRouteConfig<unknown>[] = [
   },
   /**
    * END OF SERVICE REGISTRY SECTION
+   */
+
+  /**
+   * API DESIGNER SECTION
+   */
+  {
+    component: ApiDesignerHomePage,
+    exact: true,
+    label: "API Designer",
+    path: "/api-designer",
+    title: "API Designer | Red Hat OpenShift Application Services",
+    basename: "/api-designer",
+  },
+  {
+    component: ApiDesignerEditorPage,
+    exact: true,
+    label: "Service Registry",
+    path: "/api-designer/designs/:designId/editor",
+    title: "API Designer | Red Hat OpenShift Application Services",
+    basename: "/api-designer",
+  },
+  /**
+   * END OF API DESIGNER SECTION
    */
 
   {

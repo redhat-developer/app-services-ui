@@ -12,6 +12,7 @@ Application Services UI is based on the https://github.com/RedHatInsights/insigh
 - Managed Kafka UI (https://github.com/bf2fc6cc711aee1a0c2a/kas-ui)
 - Kafka instance UI (https://github.com/bf2fc6cc711aee1a0c2a/kafka-ui)
 - Service Registry UI (https://github.com/bf2fc6cc711aee1a0c2a/srs-ui)
+- API Designer UI (https://github.com/bf2fc6cc711aee1a0c2a/ads-ui)
 - Guides (https://github.com/redhat-developer/app-services-guides)
 
 ## Running Project
