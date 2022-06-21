@@ -139,9 +139,6 @@
             }
           }
         },
-        "ads": {
-          "editorsBasePath": ""
-        },
         "smart_events": {
           "apiBasePath": "https://lcstem2z9g006s6.api.stage.openshift.com"
         }
@@ -190,9 +187,6 @@
               "module": "./config"
             }
           }
-        },
-        "ads": {
-          "editorsBasePath": ""
         },
         "smart_events": {
           "apiBasePath": ""
