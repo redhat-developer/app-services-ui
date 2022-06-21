@@ -75,7 +75,7 @@
           "apiBasePath": "https://api.stage.openshift.com"
         },
         "ads": {
-          "editorsBasePath": "/beta/apps/ads-editors-build"
+          "editorsBasePath": "http://localhost:9011"
         },
         "cos": {
           "apiBasePath": "https://wxn4aqqc8bqvxcy6unfe.api.stage.openshift.com",
@@ -86,9 +86,6 @@
               "module": "./config"
             }
           }
-        },
-        "ads": {
-          "editorsBasePath": ""
         },
         "smart_events": {
           "apiBasePath": "https://lcstem2z9g006s6.api.stage.openshift.com"
@@ -124,7 +121,7 @@
           "apiBasePath": "https://api.stage.openshift.com"
         },
         "ads": {
-          "editorsBasePath": "/beta/apps/ads-editors-build"
+          "editorsBasePath": "https://qaprodauth.console.redhat.com/beta/apps/ads-editors-build/index.html"
         },
         "rbac": {
           "basePath": "/api/rbac/v1"
@@ -173,7 +170,7 @@
           "apiBasePath": "https://api.openshift.com"
         },
         "ads": {
-          "editorsBasePath": "/beta/apps/ads-editors-build"
+          "editorsBasePath": "https://console.redhat.com/beta/apps/ads-editors-build/index.html"
         },
         "rbac": {
           "basePath": "/api/rbac/v1"
