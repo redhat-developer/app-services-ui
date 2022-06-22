@@ -14,13 +14,11 @@ import { useAuth, useConfig } from "@rhoas/app-services-ui-shared";
  * @returns The admin server full URL included the protocol and base path
  */
 
-export const getAdminServerUrl = (
-  kafkaRequest?: KafkaRequest
-): string => {
+export const getAdminServerUrl = (kafkaRequest?: KafkaRequest): string => {
   if (!kafkaRequest || !kafkaRequest.admin_api_server_url) {
     throw new Error("kafkaRequest admin server cannot be undefined");
   }
-  return kafkaRequest.admin_api_server_url
+  return kafkaRequest.admin_api_server_url;
 };
 
 export type KafkaInstance = {
@@ -91,9 +89,7 @@ export const useKafkaInstance = (
   return kafkaRequest
     ? {
         kafkaDetail: kafkaRequest as Required<KafkaRequestWithSize>,
-        adminServerUrl: getAdminServerUrl(
-          kafkaRequest
-        ),
+        adminServerUrl: getAdminServerUrl(kafkaRequest),
       }
     : kafkaRequest;
 };
