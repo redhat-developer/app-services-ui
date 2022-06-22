@@ -37,7 +37,6 @@ export const useKafkaInstance = (
 ): KafkaInstance | false | undefined => {
   const {
     kas: { apiBasePath },
-    kafka,
   } = useConfig();
   const {
     kas: { getToken },
