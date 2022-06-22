@@ -7,28 +7,18 @@ import {
 } from "@rhoas/kafka-management-sdk";
 import { useAuth, useConfig } from "@rhoas/app-services-ui-shared";
 
-const DEFAULT_ADMIN_SERVER_URL_TEMPLATE = "https://admin-server-{}";
-
 /**
  * Join admin server url template with the kafka bootstrap host and return the kafka admin url.
  *
- * @param adminServerUrlTemplate The template that will be used to generate the full admin url from the kafka bootstrap_server_host.
- *                               The template must have a '{}' placeholder that will be substitute with the bootstrap_server_host.
  * @param kafkaRequest KafkaRequest
  * @returns The admin server full URL included the protocol and base path
  */
 
-export const getAdminServerUrl = (
-  adminServerUrlTemplate: string,
-  kafkaRequest?: KafkaRequest
-): string => {
-  if (kafkaRequest === undefined) {
-    throw new Error("kafkaRequest cannot be undefined");
+export const getAdminServerUrl = (kafkaRequest?: KafkaRequest): string => {
+  if (!kafkaRequest || !kafkaRequest.admin_api_server_url) {
+    throw new Error("kafkaRequest admin server cannot be undefined");
   }
-  return adminServerUrlTemplate.replace(
-    "{}",
-    kafkaRequest.bootstrap_server_host || ""
-  );
+  return kafkaRequest.admin_api_server_url;
 };
 
 export type KafkaInstance = {
@@ -45,7 +35,6 @@ export const useKafkaInstance = (
 ): KafkaInstance | false | undefined => {
   const {
     kas: { apiBasePath },
-    kafka,
   } = useConfig();
   const {
     kas: { getToken },
@@ -100,10 +89,7 @@ export const useKafkaInstance = (
   return kafkaRequest
     ? {
         kafkaDetail: kafkaRequest as Required<KafkaRequestWithSize>,
-        adminServerUrl: getAdminServerUrl(
-          kafka?.adminServerUrlTemplate || DEFAULT_ADMIN_SERVER_URL_TEMPLATE,
-          kafkaRequest
-        ),
+        adminServerUrl: getAdminServerUrl(kafkaRequest),
       }
     : kafkaRequest;
 };
