@@ -46,14 +46,12 @@ After that we can run any of the federated UI component in `./modules` folder an
 
 ## Running UI against custom backend
 
-Developers running UI locally can use multiple environments to point as backends that UI should use for authentication. To point UI to different services please modify [config.json configuration](https://github.com/redhat-developer/app-services-ui/blob/main/config/config.json) file on your local machine:
-
-
+Developers running app-services-ui on their local machines can point it to custom backends and authentication providers. To point UI to different backend we need to modify [config.json configuration](https://github.com/redhat-developer/app-services-ui/blob/main/config/config.json) file on your local machine.
 
 For example for configuring UI to run against Kas-installer we can change  
-kas.apiBasePath value to our custom cluser
+1kas.apiBasePath1 value to kafka url returned by kas-installer.
 
-Please note if you running service thru [kas-installer](https://github.com/bf2fc6cc711aee1a0c2a/kas-installer) you might need to add different cors orgins settings in individual backends. 
+For more information please refer to [kas-installer](https://github.com/bf2fc6cc711aee1a0c2a/kas-installer)
 
 ## Contributing Guide
 
