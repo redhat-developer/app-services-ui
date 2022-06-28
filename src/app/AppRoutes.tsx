@@ -266,6 +266,7 @@ const appRoutes: AppRouteConfig<unknown>[] = [
     path: "/api-designer",
     title: "API Designer | Red Hat OpenShift Application Services",
     basename: "/api-designer",
+    devPreview: true,
   },
   {
     component: ApiDesignerEditorPage,
@@ -274,6 +275,7 @@ const appRoutes: AppRouteConfig<unknown>[] = [
     path: "/api-designer/designs/:designId/editor",
     title: "API Designer | Red Hat OpenShift Application Services",
     basename: "/api-designer",
+    devPreview: true,
   },
   /**
    * END OF API DESIGNER SECTION
