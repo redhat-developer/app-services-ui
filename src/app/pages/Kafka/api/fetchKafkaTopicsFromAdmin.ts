@@ -1,4 +1,4 @@
-import { TopicsApi } from "@rhoas/kafka-instance-sdk";
+import { TopicsApi, Topic } from "@rhoas/kafka-instance-sdk";
 import { Configuration } from "@rhoas/kafka-management-sdk";
 import { BasicApiConfigurationParameters } from "./types";
 
@@ -21,5 +21,5 @@ export async function fetchKafkaTopisFromAdmin({
     undefined,
     undefined
   );
-  return (response.data.items || []).map((t) => t.name as string);
+  return (response.data.items || []).map((t: Topic) => t.name as string);
 }
