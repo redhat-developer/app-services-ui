@@ -73,8 +73,7 @@ const ConnectedKafkaRoutes: VoidFunctionComponent<{
         maxConnections={kafkaDetail.size.max_connection_attempts_per_sec || 0}
         maxPartitions={kafkaDetail.size.max_partitions || 0}
         kafkaStorageBytes={
-          parseInt(kafkaDetail.max_data_retention_size?.bytes || 0) *
-          1073741824
+          parseInt(kafkaDetail.max_data_retention_size?.bytes || 0)
         }
       />
     ),
