@@ -72,9 +72,7 @@ const ConnectedKafkaRoutes: VoidFunctionComponent<{
         totalMaxConnections={kafkaDetail.size.total_max_connections || 0}
         maxConnections={kafkaDetail.size.max_connection_attempts_per_sec || 0}
         maxPartitions={kafkaDetail.size.max_partitions || 0}
-        kafkaStorageBytes={
-          kafkaDetail.max_data_retention_size?.bytes || 0
-        }
+        kafkaStorageBytes={kafkaDetail.max_data_retention_size?.bytes || 0}
       />
     ),
     [adminServerUrl, kafkaDetail]

@@ -21,5 +21,5 @@ export async function fetchKafkaTopisFromAdmin({
     undefined,
     undefined
   );
-  return (response.data.items || []).map((t: Topic ) => t.name as string);
+  return (response.data.items || []).map((t: Topic) => t.name as string);
 }
