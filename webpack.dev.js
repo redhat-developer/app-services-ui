@@ -9,6 +9,7 @@ const HOST = process.env.HOST || "localhost";
 const PORT = process.env.PORT || port;
 const PROTOCOL = process.env.PROTOCOL || "https";
 const BETA = true;
+const PROXY_USE_AGENT = process.env.PROXY_USE_AGENT === 'false' ? false : true;
 
 const config = require("./config/config.json");
 
@@ -34,7 +35,14 @@ module.exports = merge(
         directory: distDir,
       },
       hot: false,
-      https: PROTOCOL === "https",
+      server: {
+          type: PROTOCOL,
+          options: {
+              ca: process.env.TLS_CA,
+              key: process.env.TLS_KEY,
+              cert: process.env.TLS_CERT,
+          }
+      },
       open: {
         target: [
           `https://prod.foo.redhat.com:1337${BETA ? "/beta" : ""}/${
@@ -60,6 +68,7 @@ module.exports = merge(
         port: PORT,
         env: BETA ? "prod-beta" : "prod-stable",
         useProxy: true,
+        useAgent: PROXY_USE_AGENT,
         proxyVerbose: true,
         publicPath,
         customProxy: Object.values(config.federatedModules)
