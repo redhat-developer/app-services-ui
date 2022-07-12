@@ -10,8 +10,8 @@ import {
   useAuth,
   useBasename,
   useConfig,
-  Principal,
-} from "@rhoas/app-services-ui-shared";
+  Principal, useAlert
+} from '@rhoas/app-services-ui-shared';
 import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 
 export type FederatedApicurioComponentProps = {
@@ -60,6 +60,7 @@ const ServiceAccountsPageConnected: VoidFunctionComponent<
   const history = useHistory();
   const basename = useBasename();
   const getToken = auth?.apicurio_registry.getToken;
+  const alert = useAlert();
 
   let { groupId, artifactId, version } = useParams<ServiceRegistryParams>();
   groupId = decodeURIComponent(groupId);
@@ -73,6 +74,7 @@ const ServiceAccountsPageConnected: VoidFunctionComponent<
   if (getToken && basename) {
     federateConfig = createApicurioConfig(
       config,
+      alert,
       registry.registryUrl as string,
       `${basename.getBasename()}/t/${registry?.id}`,
       getToken,
