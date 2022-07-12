@@ -7,11 +7,12 @@ import { FederatedModule } from "@app/components";
 import { useHistory, useParams } from "react-router-dom";
 import { Registry } from "@rhoas/registry-management-sdk";
 import {
+  useAlert,
   useAuth,
   useBasename,
   useConfig,
-  Principal, useAlert
-} from '@rhoas/app-services-ui-shared';
+  Principal,
+} from "@rhoas/app-services-ui-shared";
 import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 
 export type FederatedApicurioComponentProps = {
@@ -55,12 +56,12 @@ const ServiceAccountsPageConnected: VoidFunctionComponent<
   >
 > = ({ Component, registry, principals, ...rest }) => {
   let federateConfig: ConfigType;
+  const alert = useAlert();
   const auth = useAuth();
   const config = useConfig();
   const history = useHistory();
   const basename = useBasename();
   const getToken = auth?.apicurio_registry.getToken;
-  const alert = useAlert();
 
   let { groupId, artifactId, version } = useParams<ServiceRegistryParams>();
   groupId = decodeURIComponent(groupId);

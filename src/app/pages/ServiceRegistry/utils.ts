@@ -62,7 +62,7 @@ const createApicurioConfig = (
       roleManagement: true,
       multiTenant: true,
       settings: true,
-      alerts: alert
+      alerts: alert,
     },
     ui: {
       navPrefixPath: navPathPrefix,
