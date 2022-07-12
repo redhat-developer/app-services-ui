@@ -1,4 +1,4 @@
-import { Alert, Principal } from '@rhoas/app-services-ui-shared';
+import { Alert, Principal } from "@rhoas/app-services-ui-shared";
 import { Config } from "@rhoas/app-services-ui-shared";
 
 export interface FeaturesConfig {
