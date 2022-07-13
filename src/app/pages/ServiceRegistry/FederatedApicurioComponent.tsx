@@ -7,6 +7,7 @@ import { FederatedModule } from "@app/components";
 import { useHistory, useParams } from "react-router-dom";
 import { Registry } from "@rhoas/registry-management-sdk";
 import {
+  useAlert,
   useAuth,
   useBasename,
   useConfig,
@@ -55,6 +56,7 @@ const ServiceAccountsPageConnected: VoidFunctionComponent<
   >
 > = ({ Component, registry, principals, ...rest }) => {
   let federateConfig: ConfigType;
+  const alert = useAlert();
   const auth = useAuth();
   const config = useConfig();
   const history = useHistory();
@@ -73,6 +75,7 @@ const ServiceAccountsPageConnected: VoidFunctionComponent<
   if (getToken && basename) {
     federateConfig = createApicurioConfig(
       config,
+      alert,
       registry.registryUrl as string,
       `${basename.getBasename()}/t/${registry?.id}`,
       getToken,

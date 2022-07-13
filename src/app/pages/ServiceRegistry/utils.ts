@@ -1,10 +1,13 @@
-import { Principal } from "@rhoas/app-services-ui-shared";
+import { Alert, Principal } from "@rhoas/app-services-ui-shared";
 import { Config } from "@rhoas/app-services-ui-shared";
 
 export interface FeaturesConfig {
   readOnly?: boolean;
   breadcrumbs?: boolean;
   multiTenant?: boolean;
+  roleManagement?: boolean;
+  settings?: boolean;
+  alerts?: Alert;
 }
 
 export interface ArtifactsConfig {
@@ -39,6 +42,7 @@ export interface ConfigType {
 
 const createApicurioConfig = (
   _config: Config,
+  alert: Alert,
   apiUrl: string,
   navPathPrefix: string,
   getToken: () => Promise<string> | undefined,
@@ -58,6 +62,7 @@ const createApicurioConfig = (
       roleManagement: true,
       multiTenant: true,
       settings: true,
+      alerts: alert,
     },
     ui: {
       navPrefixPath: navPathPrefix,
