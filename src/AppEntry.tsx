@@ -1,3 +1,5 @@
+import * as Sentry from "@sentry/react";
+import { BrowserTracing } from "@sentry/tracing";
 import {
   FunctionComponent,
   memo,
@@ -38,6 +40,26 @@ if (window.localStorage.getItem("xstate-inspect") !== null) {
     iframe: false, // open in new window
   });
 }
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  integrations: [
+    new BrowserTracing({
+      tracingOrigins: ["api.stage.openshift.com", "api.openshift.com"],
+    }),
+  ],
+  beforeSend(event) {
+    // Check if it is an exception, and if so, show the report dialog
+    if (event.exception && event.message !== "404") {
+      Sentry.showReportDialog({ eventId: event.event_id });
+    }
+    return event;
+  },
+  release: process.env.npm_package_version,
+  // We recommend adjusting this value in production, or using tracesSampler
+  // for finer control
+  tracesSampleRate: 1.0,
+});
 
 const AppWithKeycloak: FunctionComponent = () => {
   const [ssoProviders, setSSOProviders] = useState<SsoProviderAllOf>();

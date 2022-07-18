@@ -16,7 +16,14 @@ const init = async (
   return await initKeycloak(keycloakConfig, getInsightsAccessToken);
 };
 
-export const useAuth = (): Auth => {
+export const useAuth = (): Auth & {
+  getUserInfo: () => Promise<{
+    username: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+  }>;
+} => {
   const keycloakInstance = useRef<KeycloakInstance>();
   const config = useConfig();
   const insights = useInsights();
@@ -44,25 +51,42 @@ export const useAuth = (): Auth => {
     getKeycloakInstance();
   }, [config, getKeycloakInstance, insightsChromeAuth]);
 
-  const getMASSSOToken = async () => {
+  const getMASSSOToken = useCallback(async () => {
     const keycloakInstance = await getKeycloakInstance();
     return getAccessToken(keycloakInstance, insightsChromeAuth.getToken);
-  };
+  }, [getKeycloakInstance, insightsChromeAuth.getToken]);
 
-  const getUsername = async () => {
+  const getUsername = useCallback(async () => {
     const user = await insightsChromeAuth.getUser();
     return user.identity.user.username;
-  };
+  }, [insightsChromeAuth]);
 
-  const isOrgAdmin = async () => {
+  const getUserInfo = useCallback(async () => {
+    const user = await insightsChromeAuth.getUser();
+    const {
+      username,
+      email,
+      first_name: firstName,
+      last_name: lastName,
+    } = user.identity.user;
+    return {
+      username,
+      email,
+      firstName,
+      lastName,
+    };
+  }, [insightsChromeAuth]);
+
+  const isOrgAdmin = useCallback(async () => {
     const user = await insightsChromeAuth.getUser();
     return user.identity.user.is_org_admin;
-  };
+  }, [insightsChromeAuth]);
 
   const getToken = insightsChromeAuth.getToken;
 
   return {
     getUsername,
+    getUserInfo,
     isOrgAdmin,
     kafka: {
       getToken: getMASSSOToken,
