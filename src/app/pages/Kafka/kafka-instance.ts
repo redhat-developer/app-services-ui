@@ -15,10 +15,15 @@ import { useAuth, useConfig } from "@rhoas/app-services-ui-shared";
  */
 
 export const getAdminServerUrl = (kafkaRequest?: KafkaRequest): string => {
-  if (!kafkaRequest || !kafkaRequest.admin_api_server_url) {
-    throw new Error("kafkaRequest admin server cannot be undefined");
+  if (!kafkaRequest) {
+    throw new Error("kafkaRequest cannot be undefined");
   }
-  return kafkaRequest.admin_api_server_url;
+  /**
+   * admin_api_server_url will be available when kafka instance will be ready
+   */
+  return kafkaRequest.admin_api_server_url
+    ? kafkaRequest.admin_api_server_url
+    : "";
 };
 
 export type KafkaInstance = {
