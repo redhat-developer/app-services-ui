@@ -4,6 +4,8 @@ import {
   useCallback,
   VoidFunctionComponent,
   Suspense,
+  useEffect,
+  useState,
 } from "react";
 import {
   Redirect,
@@ -12,7 +14,7 @@ import {
   Switch,
   useHistory,
 } from "react-router-dom";
-import { ErrorBoundary } from "react-error-boundary";
+import * as Sentry from "@sentry/react";
 import getBaseName from "./utils/getBaseName";
 import {
   DevelopmentPreview,
@@ -32,6 +34,8 @@ import { BasenameContext } from "@rhoas/app-services-ui-shared";
 import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 import { useTranslation } from "react-i18next";
 import { Button } from "@patternfly/react-core";
+import { useAuth } from "@app/hooks";
+import { AsyncReturnType } from "type-fest";
 
 const QuickStartLoaderFederated = lazy(
   () => import("@app/pages/Resources/QuickStartLoaderFederated")
@@ -328,6 +332,14 @@ const WrappedRoute: FunctionComponent<IAppRoute<unknown>> = ({
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
+  const { getUserInfo } = useAuth();
+  const [userInfo, setUserInfo] =
+    useState<AsyncReturnType<typeof getUserInfo>>();
+
+  useEffect(() => {
+    getUserInfo().then(setUserInfo);
+  }, [getUserInfo]);
+
   useDocumentTitle(title);
   const getBasename = useCallback(() => {
     return basename || "";
@@ -337,8 +349,16 @@ const WrappedRoute: FunctionComponent<IAppRoute<unknown>> = ({
   const wrapRoute = useCallback(
     (routeProps: RouteComponentProps) => {
       return (
-        <ErrorBoundary
-          fallbackRender={({ error }) =>
+        <Sentry.ErrorBoundary
+          dialogOptions={{
+            user: userInfo
+              ? {
+                  name: `${userInfo.firstName} ${userInfo.lastName}`,
+                  email: userInfo.email,
+                }
+              : undefined,
+          }}
+          fallback={({ error }) =>
             error.message === "404" ? (
               <AppServicesPageNotFound />
             ) : (
@@ -368,10 +388,10 @@ const WrappedRoute: FunctionComponent<IAppRoute<unknown>> = ({
               <Component {...rest} {...routeProps} />
             </BasenameContext.Provider>
           </DevelopmentPreview>
-        </ErrorBoundary>
+        </Sentry.ErrorBoundary>
       );
     },
-    [Component, devPreview, getBasename, onClickButton, rest, t]
+    [Component, devPreview, getBasename, onClickButton, rest, t, userInfo]
   );
 
   return <Route render={wrapRoute} {...rest} />;
