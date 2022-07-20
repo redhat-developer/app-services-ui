@@ -19,6 +19,7 @@ import {
   AppServicesPageNotFound,
   AppServicesEmptyState,
   AppServicesEmptyStateVariant,
+  AppServicesLoading,
 } from "@rhoas/app-services-ui-components";
 import {
   AppRouteConfig,
@@ -29,7 +30,6 @@ import {
 import { useDocumentTitle } from "@app/utils";
 import { KafkaMainView } from "@app/pages/Kafka";
 import { BasenameContext } from "@rhoas/app-services-ui-shared";
-import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 import { useTranslation } from "react-i18next";
 import { Button } from "@patternfly/react-core";
 

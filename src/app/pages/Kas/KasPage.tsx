@@ -10,13 +10,19 @@ import {
   usePrincipal,
   useKafkaInstanceDrawer,
 } from "@app/components";
-import { useModalControl, useQuota } from "@app/hooks";
+import { useQuota, withTermsAndConditions, ServiceType } from "@app/hooks";
 import { AppServicesLoading } from "@rhoas/app-services-ui-components";
-import { ITermsConfig } from "@app/services";
-import { useConstants } from "@app/providers/config/ServiceConstants";
 import { useKafkaInstance } from "@app/pages/Kafka/kafka-instance";
 
-const KasPage: VoidFunctionComponent = () => {
+type KasPageProps = {
+  preCreateInstance: (open: boolean) => Promise<boolean>;
+  shouldOpenCreateModal: () => Promise<boolean>;
+};
+
+const KasPage: VoidFunctionComponent<any> = ({
+  preCreateInstance,
+  shouldOpenCreateModal,
+}) => {
   const { getQuota } = useQuota(ProductType?.kas);
 
   return (
@@ -25,21 +31,28 @@ const KasPage: VoidFunctionComponent = () => {
         scope="kas"
         module="./OpenshiftStreams"
         fallback={<AppServicesLoading />}
-        render={(component) => <KasPageConnected Component={component} />}
+        render={(component) => (
+          <KasPageConnected
+            Component={component}
+            shouldOpenCreateModal={shouldOpenCreateModal}
+            preCreateInstance={preCreateInstance}
+          />
+        )}
       />
     </QuotaContext.Provider>
   );
 };
 
-const KasPageConnected: VoidFunctionComponent<{
+type KasPageConnectedzProps = KasPageProps & {
   Component: LazyExoticComponent<any>;
-}> = ({ Component }) => {
+};
+
+const KasPageConnected: VoidFunctionComponent<KasPageConnectedzProps> = ({
+  Component,
+  preCreateInstance,
+  shouldOpenCreateModal,
+}) => {
   const config = useConfig();
-  const constants = useConstants();
-  const { preCreateInstance, shouldOpenCreateModal } = useModalControl({
-    eventCode: constants.kafka.ams.termsAndConditionsEventCode,
-    siteCode: constants.kafka.ams.termsAndConditionsSiteCode,
-  } as ITermsConfig);
   const { getAllUserAccounts } = usePrincipal();
 
   const [drawerInstanceId, setDrawerInstanceId] = useState<string | undefined>(
@@ -68,4 +81,4 @@ const KasPageConnected: VoidFunctionComponent<{
   );
 };
 
-export default KasPage;
+export default withTermsAndConditions(KasPage, ServiceType.KAFKA);
