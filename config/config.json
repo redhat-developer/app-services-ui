@@ -61,9 +61,9 @@
         },
         "kafka": {},
         "masSso": {
-          "authServerUrl": "https://identity.api.stage.openshift.com/auth",
-          "clientId": "strimzi-ui",
-          "realm": "rhoas"
+          "authServerUrl": "DECOMMISSIONED",
+          "clientId": "N/A",
+          "realm": "N/A"
         },
         "apicurio_registry": {
           "apiBasePath": ""
@@ -110,9 +110,9 @@
         },
         "kafka": {},
         "masSso": {
-          "authServerUrl": "https://identity.api.stage.openshift.com/auth",
-          "clientId": "strimzi-ui",
-          "realm": "rhoas"
+          "authServerUrl": "DECOMMISSIONED",
+          "clientId": "N/A",
+          "realm": "N/A"
         },
         "apicurio_registry": {
           "apiBasePath": ""
@@ -159,9 +159,9 @@
         },
         "kafka": {},
         "masSso": {
-          "authServerUrl": "https://identity.api.openshift.com/auth",
-          "clientId": "strimzi-ui",
-          "realm": "rhoas"
+          "authServerUrl": "DECOMMISSIONED",
+          "clientId": "N/A",
+          "realm": "N/A"
         },
         "apicurio_registry": {
           "apiBasePath": ""

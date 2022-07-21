@@ -108,14 +108,13 @@ const AppWithKeycloak: FunctionComponent = () => {
   };
 
   const baseName = getBaseName(window.location.pathname);
-  const { kas, kafka, getUsername, isOrgAdmin } = auth;
+  const { kas, getUsername, isOrgAdmin } = auth;
 
   return (
     <SharedAuthContext.Provider value={auth}>
       <AuthContext.Provider
         value={{
           getToken: kas.getToken,
-          getMASSSOToken: kafka.getToken,
           getUsername,
           isOrgAdmin,
           tokenEndPointUrl: ssoProviders?.token_url,
