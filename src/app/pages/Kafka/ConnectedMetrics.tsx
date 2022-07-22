@@ -15,7 +15,7 @@ import {
 
 type ConnectedMetricsProps = {
   kafkaId: string;
-  kafkaAdminUrl: string;
+  kafkaAdminUrl: string | undefined;
   totalMaxConnections: number;
   maxConnections: number;
   maxPartitions: number;
