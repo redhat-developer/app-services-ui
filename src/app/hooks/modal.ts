@@ -19,7 +19,7 @@ export const useModalControl = (termsConfig: ITermsConfig) => {
     return false;
   };
 
-  const preCreateInstance = async (open: boolean) => {
+  const preCreateInstance = async (shouldOpenCreateModal: boolean) => {
     const termsReview = await loadTermsReview();
     if (termsReview.terms_available || termsReview.terms_required) {
       if (termsReview.redirect_url === undefined) {
@@ -34,10 +34,10 @@ export const useModalControl = (termsConfig: ITermsConfig) => {
         redirectURL,
         window.location.href
       );
-      window.location.href = url;
-      return false;
+
+      return { shouldOpenCreateModal: false, url };
     }
-    return open;
+    return { shouldOpenCreateModal, url: undefined };
   };
 
   return { shouldOpenCreateModal, preCreateInstance };
