@@ -17,10 +17,6 @@ export type Auth = {
    */
   getToken: () => Promise<string> | undefined;
   /**
-   * Get the token for accessing the data plane api
-   */
-  getMASSSOToken: () => Promise<string> | undefined;
-  /**
    * Get the token end point url
    */
   tokenEndPointUrl?: string;
