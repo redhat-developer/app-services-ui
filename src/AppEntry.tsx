@@ -153,10 +153,6 @@ const AppEntry: FunctionComponent = memo(() => (
             import(
               "@rhoas/app-services-ui-components/locales/en/create-kafka-instance.json"
             ),
-          "create-kafka-instance-with-sizes": () =>
-            import(
-              "@rhoas/app-services-ui-components/locales/en/create-kafka-instance-with-sizes.json"
-            ),
           kafka: () =>
             import("@rhoas/app-services-ui-components/locales/en/kafka.json"),
           metrics: () =>
