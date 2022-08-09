@@ -60,11 +60,6 @@
           "apiBasePath": "https://api.stage.openshift.com"
         },
         "kafka": {},
-        "masSso": {
-          "authServerUrl": "https://identity.api.stage.openshift.com/auth",
-          "clientId": "strimzi-ui",
-          "realm": "rhoas"
-        },
         "apicurio_registry": {
           "apiBasePath": ""
         },
@@ -109,11 +104,6 @@
           "apiBasePath": "https://api.stage.openshift.com"
         },
         "kafka": {},
-        "masSso": {
-          "authServerUrl": "https://identity.api.stage.openshift.com/auth",
-          "clientId": "strimzi-ui",
-          "realm": "rhoas"
-        },
         "apicurio_registry": {
           "apiBasePath": ""
         },
@@ -158,11 +148,6 @@
           "apiBasePath": "https://api.openshift.com"
         },
         "kafka": {},
-        "masSso": {
-          "authServerUrl": "https://identity.api.openshift.com/auth",
-          "clientId": "strimzi-ui",
-          "realm": "rhoas"
-        },
         "apicurio_registry": {
           "apiBasePath": ""
         },
