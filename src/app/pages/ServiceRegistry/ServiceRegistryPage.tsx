@@ -95,6 +95,9 @@ export const ServiceRegistryPageConnected: VoidFunctionComponent<{
       <TermsAndConditionModal
         isModalOpen={isOpenModal}
         serviceName={t("srsTemporaryFixMe:srs.service_registry")}
+        ouiaIdModal="modal-SrvRegTerms"
+        ouiaIdButtonViewTerms="button-view-terms"
+        ouiaIdButtonCancel="button-cancel"
         onClickViewTermsConditions={onClickViewTermsConditions}
         onCancel={onClsoeModal}
       />
