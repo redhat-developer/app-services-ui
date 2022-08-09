@@ -96,6 +96,9 @@ const KasPageConnected: VoidFunctionComponent<{
       <TermsAndConditionModal
         isModalOpen={isOpenModal}
         serviceName={t("common:kafka")}
+        ouiaIdModal="modal-KafkaTerms"
+        ouiaIdButtonViewTerms="button-view-terms"
+        ouiaIdButtonCancel="button-cancel"
         onClickViewTermsConditions={onClickViewTermsConditions}
         onCancel={onClsoeModal}
       />
