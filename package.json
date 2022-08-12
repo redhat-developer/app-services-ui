@@ -104,7 +104,7 @@
     "redux-promise-middleware": "6.1.2",
     "regenerator-runtime": "0.13.9",
     "rimraf": "3.0.2",
-    "terser-webpack-plugin": "5.3.3",
+    "terser-webpack-plugin": "5.3.4",
     "ts-jest": "28.0.7",
     "ts-loader": "9.3.1",
     "tsconfig-paths-webpack-plugin": "4.0.0",
