@@ -118,7 +118,6 @@ module.exports = (env, argv) => {
         exposes: {
           "./RootApp": path.resolve(__dirname, "./src/AppEntry.tsx"),
         },
-        exclude: ["react-router-dom"],
         shared: [
           {
             ...dependencies,
