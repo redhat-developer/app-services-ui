@@ -169,6 +169,10 @@ const AppEntry: FunctionComponent = memo(() => (
             import(
               "@rhoas/app-services-ui-components/locales/en/kafkaoverview-v2.json"
             ),
+          "connection-tab-p1": () =>
+            import(
+              "@rhoas/app-services-ui-components/locales/en/connection-tab-p1.json"
+            ),
         },
       }}
       debug={true}
