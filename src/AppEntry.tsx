@@ -173,6 +173,10 @@ const AppEntry: FunctionComponent = memo(() => (
             import(
               "@rhoas/app-services-ui-components/locales/en/connection-tab-p1.json"
             ),
+          "service-registry": () =>
+            import(
+              "@rhoas/app-services-ui-components/locales/en/service-registry.json"
+            ),
         },
       }}
       debug={true}

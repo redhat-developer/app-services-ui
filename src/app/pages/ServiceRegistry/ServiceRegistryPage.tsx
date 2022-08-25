@@ -48,7 +48,7 @@ export const ServiceRegistryPageConnected: VoidFunctionComponent<{
 }> = ({ Component }) => {
   const config = useConfig();
   const auth = useAuth();
-  const { t } = useTranslation();
+  const { t } = useTranslation(["service-registry"]);
 
   const constants = useConstants();
   const { preCreateInstance, shouldOpenCreateModal } = useModalControl({
@@ -94,7 +94,7 @@ export const ServiceRegistryPageConnected: VoidFunctionComponent<{
     <>
       <TermsAndConditionModal
         isModalOpen={isOpenModal}
-        serviceName={t("srsTemporaryFixMe:srs.service_registry")}
+        serviceName={t("service_registry")}
         ouiaIdModal="modal-SrvRegTerms"
         ouiaIdButtonViewTerms="button-view-terms"
         ouiaIdButtonCancel="button-cancel"
