@@ -1,8 +1,8 @@
 import { FunctionComponent } from "react";
-import { KafkaPageV2 } from "@rhoas/app-services-ui-components";
+import { KafkaPageV3 } from "@rhoas/app-services-ui-components";
 
 export const KafkaOverViewPage: FunctionComponent = () => {
-  return <KafkaPageV2 />;
+  return <KafkaPageV3 />;
 };
 
 export default KafkaOverViewPage;
