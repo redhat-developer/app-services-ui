@@ -3,3 +3,4 @@ export * from "./fetchKafkaTopicsFromAdmin";
 export * from "./fetchMetricsKpi";
 export * from "./fetchTopicsMetrics";
 export * from "./types";
+export * from "./fetchSettings";
