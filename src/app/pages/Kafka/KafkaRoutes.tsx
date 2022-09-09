@@ -21,6 +21,7 @@ import {
   Dashboard,
   ConsumerGroups,
   AclPermissions,
+  Settings,
 } from "@app/pages";
 import { UnderlyingProps } from "@app/pages/Kafka/KafkaFederatedComponent";
 import { BasenameContext } from "@rhoas/app-services-ui-shared";
@@ -88,6 +89,14 @@ const kafkaRoutes: AppRouteConfig<UnderlyingProps>[] = [
     exact: true,
     label: "Red Hat OpenShift Streams for Apache Kafka",
     path: "/acls",
+    title: "Red Hat OpenShift Streams for Apache Kafka",
+    devPreview: true,
+  },
+  {
+    component: Settings,
+    exact: true,
+    label: "Red Hat OpenShift Streams for Apache Kafka",
+    path: "/settings",
     title: "Red Hat OpenShift Streams for Apache Kafka",
     devPreview: true,
   },

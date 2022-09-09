@@ -7,3 +7,5 @@ export * from "./ConsumerGroups";
 export * from "./AclPermissions";
 export * from "./KafkaMainView";
 export * from "./ConnectedMetrics";
+export * from "./Settings";
+export * from "./SettingsTab";
