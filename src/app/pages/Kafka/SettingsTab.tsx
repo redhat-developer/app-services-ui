@@ -6,16 +6,15 @@ import {
   SettingsStatus,
 } from "@rhoas/app-services-ui-components";
 import { fetchSettings } from "./api";
-import { KafkaUpdateRequest } from "@rhoas/kafka-management-sdk";
 
 type SettingsTabProps = {
   kafkaId: string;
-  updateKafka: KafkaUpdateRequest;
+  owner: string;
 };
 
 export const SettingsTab: VoidFunctionComponent<SettingsTabProps> = ({
   kafkaId,
-  updateKafka,
+  owner,
 }) => {
   const auth = useAuth();
   const config = useConfig();
@@ -40,7 +39,8 @@ export const SettingsTab: VoidFunctionComponent<SettingsTabProps> = ({
             kafkaId,
             basePath: config.kas.apiBasePath,
             accessToken: auth?.kas.getToken(),
-            updateKafka,
+            owner,
+            settings: true,
           }).then(() => {
             setConnectionStatus("On");
             setConnectionState(true);
@@ -67,7 +67,8 @@ export const SettingsTab: VoidFunctionComponent<SettingsTabProps> = ({
           kafkaId,
           basePath: config.kas.apiBasePath,
           accessToken: auth?.kas.getToken(),
-          updateKafka,
+          owner,
+          settings: false,
         }).then(() => {
           setConnectionStatus("Off");
           setConnectionState(false);

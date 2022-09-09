@@ -1,21 +1,15 @@
-import {
-  Configuration,
-  DefaultApi,
-  KafkaUpdateRequest,
-} from "@rhoas/kafka-management-sdk";
+import { Configuration, DefaultApi } from "@rhoas/kafka-management-sdk";
 import { BasicApiConfigurationParameters } from "./types";
 
 type fetchSettingsProp = {
   kafkaId: string;
-  updateKafka: KafkaUpdateRequest;
-  // owner: string | null;
-  // settings: boolean | null;
+  owner: string;
+  settings: boolean;
 } & BasicApiConfigurationParameters;
 export async function fetchSettings({
   kafkaId,
-  // owner,
-  // settings
-  updateKafka,
+  owner,
+  settings,
   accessToken,
   basePath,
 }: fetchSettingsProp) {
@@ -25,7 +19,10 @@ export async function fetchSettings({
       basePath,
     })
   );
-  const response = await apisService.updateKafkaById(kafkaId, updateKafka);
+  const response = await apisService.updateKafkaById(kafkaId, {
+    owner: owner,
+    reauthentication_enabled: settings,
+  });
 
-  return response.status;
+  return response.data.reauthentication_enabled;
 }
