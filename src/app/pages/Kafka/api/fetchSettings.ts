@@ -12,7 +12,7 @@ export async function fetchSettings({
   settings,
   accessToken,
   basePath,
-}: fetchSettingsProp) {
+}: fetchSettingsProp): Promise<boolean> {
   const apisService = new DefaultApi(
     new Configuration({
       accessToken,

@@ -1,95 +1,39 @@
-import { useState, VoidFunctionComponent } from "react";
+import { VoidFunctionComponent, useCallback } from "react";
 import { useAuth, useConfig } from "@rhoas/app-services-ui-shared";
-import {
-  AlertStatus,
-  Settings,
-  SettingsStatus,
-} from "@rhoas/app-services-ui-components";
+import { Settings } from "@rhoas/app-services-ui-components";
 import { fetchSettings } from "./api";
 
 type SettingsTabProps = {
   kafkaId: string;
   owner: string;
+  reauthenticationEnabled: boolean;
 };
 
 export const SettingsTab: VoidFunctionComponent<SettingsTabProps> = ({
   kafkaId,
   owner,
+  reauthenticationEnabled,
 }) => {
   const auth = useAuth();
   const config = useConfig();
 
-  const [connectionStatus, setConnectionStatus] =
-    useState<SettingsStatus>("On");
-
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-  const [alertStatus, setAlertStatus] = useState<AlertStatus>();
-
-  const [connectionState, setConnectionState] = useState<boolean>(false);
-
-  const onSwitchClick = () => {
-    if (connectionStatus === "On") {
-      setIsModalOpen(true);
-    } else {
-      setConnectionStatus("TurningOn");
-      async () => {
-        try {
-          await fetchSettings({
-            kafkaId,
-            basePath: config.kas.apiBasePath,
-            accessToken: auth?.kas.getToken(),
-            owner,
-            settings: true,
-          }).then(() => {
-            setConnectionStatus("On");
-            setConnectionState(true);
-            setAlertStatus("success");
-          });
-        } catch (err) {
-          setConnectionStatus("Off");
-          setAlertStatus("danger");
-        }
-      };
-    }
-  };
-
-  const onClickClose = () => {
-    setIsModalOpen(false);
-  };
-
-  const onClickTurnOff = () => {
-    setIsModalOpen(false);
-    setConnectionStatus("TurningOff");
-    async () => {
-      try {
-        await fetchSettings({
-          kafkaId,
-          basePath: config.kas.apiBasePath,
-          accessToken: auth?.kas.getToken(),
-          owner,
-          settings: false,
-        }).then(() => {
-          setConnectionStatus("Off");
-          setConnectionState(false);
-          setAlertStatus("success");
-        });
-      } catch (err) {
-        setConnectionStatus("On");
-        setAlertStatus("danger");
-      }
-    };
-  };
+  const onSubmitReAuthentication = useCallback(
+    (reauthenticationEnabled: boolean) => {
+      return fetchSettings({
+        kafkaId,
+        basePath: config.kas.apiBasePath,
+        accessToken: auth?.kas.getToken(),
+        owner,
+        settings: reauthenticationEnabled,
+      });
+    },
+    [config.kas.apiBasePath, auth?.kas, owner, kafkaId]
+  );
 
   return (
     <Settings
-      connectionStatus={connectionStatus}
-      onSwitchClick={onSwitchClick}
-      isModalOpen={isModalOpen}
-      onClickTurnOff={onClickTurnOff}
-      alertStatus={alertStatus}
-      connectionState={connectionState}
-      onClickClose={onClickClose}
+      onSubmitReAuthentication={onSubmitReAuthentication}
+      reauthenticationEnabled={reauthenticationEnabled}
     />
   );
 };

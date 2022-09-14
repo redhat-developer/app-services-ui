@@ -21,8 +21,8 @@ import {
   Dashboard,
   ConsumerGroups,
   AclPermissions,
-  Settings,
 } from "@app/pages";
+import { Settings } from "@app/pages/Kafka/Settings";
 import { UnderlyingProps } from "@app/pages/Kafka/KafkaFederatedComponent";
 import { BasenameContext } from "@rhoas/app-services-ui-shared";
 import { useKafkaInstanceDrawer } from "@app/components";

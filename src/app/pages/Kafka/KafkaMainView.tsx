@@ -81,8 +81,14 @@ const ConnectedKafkaRoutes: VoidFunctionComponent<{
   const showSchemas = useMemo(() => <ServiceRegistrySchemaMapping />, []);
 
   const showSettings = useMemo(
-    () => <SettingsTab kafkaId={kafkaDetail.id} owner={kafkaDetail.owner} />,
-    [kafkaDetail.id, kafkaDetail.owner]
+    () => (
+      <SettingsTab
+        kafkaId={kafkaDetail.id}
+        owner={kafkaDetail.owner}
+        reauthenticationEnabled={kafkaDetail.reauthentication_enabled}
+      />
+    ),
+    [kafkaDetail.id, kafkaDetail.owner, kafkaDetail.reauthentication_enabled]
   );
 
   const props = useMemo<Partial<UnderlyingProps>>(
