@@ -16,6 +16,7 @@ import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 import { ServiceRegistrySchemaMapping } from "@app/pages/ServiceRegistry";
 import { KafkaRoutes } from "./KafkaRoutes";
 import { FederatedModule } from "@app/components";
+import { SettingsTab } from "./SettingsTab";
 
 export const KafkaMainView: VoidFunctionComponent = () => {
   const config = useConfig();
@@ -79,6 +80,17 @@ const ConnectedKafkaRoutes: VoidFunctionComponent<{
   );
   const showSchemas = useMemo(() => <ServiceRegistrySchemaMapping />, []);
 
+  const showSettings = useMemo(
+    () => (
+      <SettingsTab
+        kafkaId={kafkaDetail.id}
+        owner={kafkaDetail.owner}
+        reauthenticationEnabled={kafkaDetail.reauthentication_enabled}
+      />
+    ),
+    [kafkaDetail.id, kafkaDetail.owner, kafkaDetail.reauthentication_enabled]
+  );
+
   const props = useMemo<Partial<UnderlyingProps>>(
     () => ({
       kafkaPageLink: "/streams/kafkas",
@@ -91,6 +103,7 @@ const ConnectedKafkaRoutes: VoidFunctionComponent<{
       showSchemas,
       kafka: kafkaDetail,
       redirectAfterDeleteInstance,
+      showSettings,
     }),
     [
       adminServerUrl,
@@ -100,6 +113,7 @@ const ConnectedKafkaRoutes: VoidFunctionComponent<{
       redirectAfterDeleteInstance,
       showMetrics,
       showSchemas,
+      showSettings,
     ]
   );
 

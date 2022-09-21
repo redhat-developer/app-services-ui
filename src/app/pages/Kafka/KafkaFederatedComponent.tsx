@@ -19,6 +19,7 @@ export type UnderlyingProps = {
   kafka?: Required<KafkaRequestWithSize>;
   redirectAfterDeleteInstance?: () => void;
   handleInstanceDrawer?: (isOpen: boolean, activeTab?: string) => void;
+  showSettings?: JSX.Element;
 };
 
 // Provides properties for component path and it's underlying properties

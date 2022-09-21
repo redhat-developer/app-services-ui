@@ -1,8 +1,18 @@
-import { DataSciencePage } from "@rhoas/app-services-ui-components";
+import {
+  ClustersResponse,
+  DataSciencePage,
+} from "@rhoas/app-services-ui-components";
 import { FunctionComponent } from "react";
 
+const noClustersResponse: ClustersResponse = {
+  clusters: [],
+  installableClusters: [],
+};
+
 export const DataScienceOverViewPage: FunctionComponent = () => {
-  return <DataSciencePage />;
+  return (
+    <DataSciencePage loadClusters={() => Promise.resolve(noClustersResponse)} />
+  );
 };
 
 export default DataScienceOverViewPage;
