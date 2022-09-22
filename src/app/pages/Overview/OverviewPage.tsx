@@ -1,4 +1,4 @@
-import { OverviewPageV2 } from "@rhoas/app-services-ui-components";
+import { OverviewPageV4 } from "@rhoas/app-services-ui-components";
 import { FunctionComponent } from "react";
 
 export const ConnectedOverviewPage: FunctionComponent = () => {
@@ -7,11 +7,14 @@ export const ConnectedOverviewPage: FunctionComponent = () => {
 
   const connectorHref = "/connectors";
 
+  const APIDesignHref = "/api-designer";
+
   return (
-    <OverviewPageV2
+    <OverviewPageV4
       toKafkaHref={kafkaHref}
       toServiceRegistryHref={serviceRegistryHref}
       toConnectorsHref={connectorHref}
+      toAPIDesignHref={APIDesignHref}
     />
   );
 };
