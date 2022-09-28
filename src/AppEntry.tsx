@@ -152,6 +152,10 @@ const AppEntry: FunctionComponent = memo(() => (
             import(
               "@rhoas/app-services-ui-components/locales/en/message-browser.json"
             ),
+          "create-topic": () =>
+            import(
+              "@rhoas/app-services-ui-components/locales/en/create-topic.json"
+            ),
           // temporary translations until all user facing visuals are ported to the ui components repo
           appTemporaryFixMe: () => import("./locales/app-services-ui.json"),
           kafkaTemporaryFixMe: () => import("./locales/kafka-ui.json"),
