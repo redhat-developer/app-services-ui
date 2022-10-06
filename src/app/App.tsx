@@ -34,12 +34,13 @@ export const App: FunctionComponent = () => {
     insights.chrome.init();
     const appId = getAppId();
     insights.chrome.identifyApp(appId);
-
     const unregister = insights.chrome.on("APP_NAVIGATION", (event) => {
-      const streamUrls = ["kafkas", "service-accounts", "resources"];
-      history.push(
-        `/${streamUrls.includes(event.navId) ? "streams/" : ""}${event.navId}`
-      );
+      if (event?.domEvent?.href) {
+        const pathName = event?.domEvent?.href
+          .replace("/application-services", "/")
+          .replace(/^\/\//gm, "/");
+        history.push(pathName);
+      }
     });
     return () => {
       unregister();
