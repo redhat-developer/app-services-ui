@@ -9,6 +9,7 @@ import {
   useState,
   VoidFunctionComponent,
   Suspense,
+  memo,
 } from "react";
 import { AssetsContext } from "@rhoas/app-services-ui-shared";
 import { ModuleInfo } from "@app/components/FederatedModule/moduleInfo";
@@ -102,47 +103,48 @@ export type FederatedModuleProps = {
   fallback?: ReactNode;
 };
 
-export const FederatedModule: VoidFunctionComponent<FederatedModuleProps> = ({
-  scope,
-  module,
-  render,
-  fallback,
-}) => {
-  console.log("Dynamic federated module", scope, module);
-  const isMounted = useIsMounted();
+export const FederatedModule: VoidFunctionComponent<FederatedModuleProps> =
+  memo(
+    ({ scope, module, render, fallback }) => {
+      console.log("Dynamic federated module", scope, module);
+      const isMounted = useIsMounted();
 
-  const { getModuleInfo, modules } = useFederatedModule();
-  const [moduleInfo, setModuleInfo] = useState<ModuleInfo | undefined>();
+      const { getModuleInfo, modules } = useFederatedModule();
+      const [moduleInfo, setModuleInfo] = useState<ModuleInfo | undefined>();
 
-  useEffect(() => {
-    const fetchModuleInfo = async () => {
-      const moduleInfo = await getModuleInfo(
-        modules[scope].basePath,
-        scope,
-        modules[scope].fallbackBasePath
-      );
-      if (isMounted.current) {
-        setModuleInfo(moduleInfo);
+      useEffect(() => {
+        const fetchModuleInfo = async () => {
+          const moduleInfo = await getModuleInfo(
+            modules[scope].basePath,
+            scope,
+            modules[scope].fallbackBasePath
+          );
+          if (isMounted.current) {
+            setModuleInfo(moduleInfo);
+          }
+        };
+        fetchModuleInfo();
+      }, [scope, modules, getModuleInfo, isMounted]);
+
+      if (moduleInfo !== undefined) {
+        return (
+          <DynamicFederatedModule
+            scope={scope}
+            module={module}
+            render={render}
+            moduleInfo={moduleInfo}
+          />
+        );
       }
-    };
-    fetchModuleInfo();
-  }, [scope, modules, getModuleInfo, isMounted]);
-
-  if (moduleInfo !== undefined) {
-    return (
-      <DynamicFederatedModule
-        scope={scope}
-        module={module}
-        render={render}
-        moduleInfo={moduleInfo}
-      />
-    );
-  }
-  if (fallback !== undefined) {
-    return <>{fallback}</>;
-  }
-  return null;
-};
+      if (fallback !== undefined) {
+        return <>{fallback}</>;
+      }
+      return null;
+    },
+    (prevProps, nextProps) =>
+      prevProps.scope === nextProps.scope &&
+      prevProps.module === nextProps.module
+  );
 
 type DynamicFederatedModuleProps = FederatedModuleProps & {
   moduleInfo: ModuleInfo;
