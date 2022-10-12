@@ -6,6 +6,7 @@ import { useConfig, useAuth } from "@rhoas/app-services-ui-shared";
 import { ServiceDownPage } from "@app/pages";
 import { usePrincipal } from "@app/components";
 import { AppServicesLoading } from "@rhoas/app-services-ui-components";
+import { Registry } from "@rhoas/registry-management-sdk";
 
 export const ArtifactVersionDetails: FunctionComponent = () => {
   const config = useConfig();
@@ -21,9 +22,22 @@ const ArtifactVersionDetailsConnected: FunctionComponent = () => {
   let { artifactId } = useParams<{ artifactId: string }>();
   artifactId = decodeURIComponent(artifactId);
 
+  return (
+    <SrsLayout
+      breadcrumbId="srs.artifacts_details"
+      artifactId={artifactId}
+      render={(registry) => (
+        <ArtifactVersionDetailsLayoutRender registry={registry} />
+      )}
+    />
+  );
+};
+
+const ArtifactVersionDetailsLayoutRender: FunctionComponent<{
+  registry: Registry;
+}> = ({ registry }) => {
   const [currentlyLoggedInuser, setCurrentlyLoggedInuser] = useState<string>();
   const auth = useAuth();
-  const { getAllPrincipals } = usePrincipal();
 
   useEffect(() => {
     (async () => {
@@ -31,27 +45,21 @@ const ArtifactVersionDetailsConnected: FunctionComponent = () => {
     })();
   }, [auth]);
 
+  const { getAllPrincipals } = usePrincipal();
+
+  if (registry === undefined || currentlyLoggedInuser === undefined) {
+    return <AppServicesLoading />;
+  }
+
+  const principals = getAllPrincipals()?.filter(
+    (p) => p.id !== currentlyLoggedInuser && p.id !== registry?.owner
+  );
+
   return (
-    <SrsLayout
-      breadcrumbId="srs.artifacts_details"
-      artifactId={artifactId}
-      render={(registry) => {
-        if (registry === undefined || currentlyLoggedInuser === undefined) {
-          return <AppServicesLoading />;
-        }
-
-        const principals = getAllPrincipals()?.filter(
-          (p) => p.id !== currentlyLoggedInuser && p.id !== registry?.owner
-        );
-
-        return (
-          <FederatedApicurioComponent
-            registry={registry}
-            module="./FederatedArtifactVersionPage"
-            principals={principals}
-          />
-        );
-      }}
+    <FederatedApicurioComponent
+      registry={registry}
+      module="./FederatedArtifactVersionPage"
+      principals={principals}
     />
   );
 };
