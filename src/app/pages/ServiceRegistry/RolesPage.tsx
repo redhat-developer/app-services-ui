@@ -5,6 +5,7 @@ import { useConfig, useAuth } from "@rhoas/app-services-ui-shared";
 import { ServiceDownPage } from "@app/pages";
 import { usePrincipal } from "@app/components";
 import { AppServicesLoading } from "@rhoas/app-services-ui-components";
+import { Registry } from "@rhoas/registry-management-sdk";
 
 export const RolesPage: FunctionComponent = () => {
   const config = useConfig();
@@ -17,9 +18,19 @@ export const RolesPage: FunctionComponent = () => {
 };
 
 const RolesPageConnected: FunctionComponent = () => {
+  return (
+    <SrsLayout
+      breadcrumbId="srs.global_roles"
+      render={(registry) => <RolesLayoutRender registry={registry} />}
+    />
+  );
+};
+
+const RolesLayoutRender: FunctionComponent<{
+  registry: Registry;
+}> = ({ registry }) => {
   const [currentlyLoggedInuser, setCurrentlyLoggedInuser] = useState<string>();
   const auth = useAuth();
-  const { getAllPrincipals } = usePrincipal();
 
   useEffect(() => {
     (async () => {
@@ -27,26 +38,21 @@ const RolesPageConnected: FunctionComponent = () => {
     })();
   }, [auth]);
 
+  const { getAllPrincipals } = usePrincipal();
+
+  if (registry === undefined || currentlyLoggedInuser === undefined) {
+    return <AppServicesLoading />;
+  }
+
+  const principals = getAllPrincipals()?.filter(
+    (p) => p.id !== currentlyLoggedInuser && p.id !== registry?.owner
+  );
+
   return (
-    <SrsLayout
-      breadcrumbId="srs.global_roles"
-      render={(registry) => {
-        if (registry === undefined || currentlyLoggedInuser === undefined) {
-          return <AppServicesLoading />;
-        }
-
-        const principals = getAllPrincipals()?.filter(
-          (p) => p.id !== currentlyLoggedInuser && p.id !== registry?.owner
-        );
-
-        return (
-          <FederatedApicurioComponent
-            registry={registry}
-            module="./FederatedRolesPage"
-            principals={principals}
-          />
-        );
-      }}
+    <FederatedApicurioComponent
+      registry={registry}
+      module="./FederatedRolesPage"
+      principals={principals}
     />
   );
 };
