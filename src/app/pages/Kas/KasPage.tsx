@@ -23,7 +23,6 @@ import {
 } from "@rhoas/app-services-ui-components";
 import { ITermsConfig } from "@app/services";
 import { useConstants } from "@app/providers/config/ServiceConstants";
-import { useKafkaInstance } from "@app/pages/Kafka/kafka-instance";
 
 const KasPage: VoidFunctionComponent = () => {
   const { getQuota } = useQuota(ProductType?.kas);
@@ -53,16 +52,11 @@ const KasPageConnected: VoidFunctionComponent<{
   } as ITermsConfig);
   const { getAllUserAccounts } = usePrincipal();
 
-  const [drawerInstanceId, setDrawerInstanceId] = useState<string | undefined>(
+  const [drawerInstance, setDrawerInstance] = useState<unknown | undefined>(
     undefined
   );
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [url, setUrl] = useState<string>("");
-
-  const drawerInstance = useKafkaInstance(drawerInstanceId);
-  const drawerInstanceDetails = drawerInstance
-    ? drawerInstance.kafkaDetail
-    : undefined;
 
   const drawerProps = useKafkaInstanceDrawer();
 
@@ -79,7 +73,7 @@ const KasPageConnected: VoidFunctionComponent<{
     [preCreateInstance, setIsOpenModal, setUrl]
   );
 
-  const onClsoeModal = () => {
+  const onCancel = () => {
     setIsOpenModal(false);
   };
 
@@ -100,13 +94,13 @@ const KasPageConnected: VoidFunctionComponent<{
         ouiaIdButtonViewTerms="button-view-terms"
         ouiaIdButtonCancel="button-cancel"
         onClickViewTermsConditions={onClickViewTermsConditions}
-        onCancel={onClsoeModal}
+        onCancel={onCancel}
       />
       <Component
         preCreateInstance={handlePreCreateInstance}
         shouldOpenCreateModal={shouldOpenCreateModal}
-        drawerInstance={drawerInstanceDetails}
-        setDrawerInstance={setDrawerInstanceId}
+        drawerInstance={drawerInstance}
+        setDrawerInstance={setDrawerInstance}
         {...drawerProps}
         getAllUserAccounts={getAllUserAccounts}
       />
