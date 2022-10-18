@@ -1,4 +1,10 @@
-import { FC, LazyExoticComponent, VoidFunctionComponent } from "react";
+import {
+  FC,
+  LazyExoticComponent,
+  useEffect,
+  useState,
+  VoidFunctionComponent,
+} from "react";
 import {
   ConfigType,
   createApicurioConfig,
@@ -61,16 +67,16 @@ const ServiceAccountsPageConnected: VoidFunctionComponent<
   const history = useHistory();
   const basename = useBasename();
   const { getAllPrincipals } = usePrincipal();
+  const [principals, setPrincipals] = useState<Principal[]>();
   const getToken = auth?.apicurio_registry.getToken;
-  const getPrincipals: () => Principal[] = () => {
-    const principals: Principal[] = getAllPrincipals() || [];
-    return principals;
-  };
-
   let { groupId, artifactId, version } = useParams<ServiceRegistryParams>();
   groupId = decodeURIComponent(groupId);
   artifactId = decodeURIComponent(artifactId);
   version = decodeURIComponent(version);
+
+  useEffect(() => {
+    setPrincipals(getAllPrincipals());
+  }, [getAllPrincipals]);
 
   if (config === undefined || registry === undefined) {
     return <AppServicesLoading />;
@@ -83,7 +89,7 @@ const ServiceAccountsPageConnected: VoidFunctionComponent<
       registry.registryUrl as string,
       `${basename.getBasename()}/t/${registry?.id}`,
       getToken,
-      getPrincipals
+      principals
     );
     return (
       <Component
