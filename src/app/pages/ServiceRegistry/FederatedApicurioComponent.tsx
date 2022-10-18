@@ -25,7 +25,7 @@ export type FederatedApicurioComponentProps = {
   basename?: string;
   fileName?: string;
   downloadLinkLabel?: string;
-  principals?: Principal[];
+  principals?: Principal[] | (() => Principal[]);
 };
 
 type ServiceRegistryParams = {

@@ -1,7 +1,7 @@
 import { useState, useEffect, FunctionComponent } from "react";
 import { FederatedApicurioComponent } from "@app/pages/ServiceRegistry/FederatedApicurioComponent";
 import { SrsLayout } from "@app/pages/ServiceRegistry/SrsLayout";
-import { useConfig, useAuth } from "@rhoas/app-services-ui-shared";
+import { useConfig, useAuth, Principal } from "@rhoas/app-services-ui-shared";
 import { ServiceDownPage } from "@app/pages";
 import { usePrincipal } from "@app/components";
 import { AppServicesLoading } from "@rhoas/app-services-ui-components";
@@ -44,15 +44,18 @@ const RolesLayoutRender: FunctionComponent<{
     return <AppServicesLoading />;
   }
 
-  const principals = getAllPrincipals()?.filter(
-    (p) => p.id !== currentlyLoggedInuser && p.id !== registry?.owner
-  );
+  const getPrincipals: () => Principal[] = () => {
+    const principals = getAllPrincipals()?.filter(
+      (p) => p.id !== currentlyLoggedInuser && p.id !== registry?.owner
+    );
+    return principals;
+  };
 
   return (
     <FederatedApicurioComponent
       registry={registry}
       module="./FederatedRolesPage"
-      principals={principals}
+      principals={getPrincipals}
     />
   );
 };

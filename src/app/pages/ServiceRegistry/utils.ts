@@ -46,7 +46,7 @@ const createApicurioConfig = (
   apiUrl: string,
   navPathPrefix: string,
   getToken: () => Promise<string> | undefined,
-  principals?: Principal[] | undefined
+  principals?: Principal[] | (() => Principal[]) | undefined
 ) => {
   const apicurioConfig: ConfigType = {
     artifacts: {
