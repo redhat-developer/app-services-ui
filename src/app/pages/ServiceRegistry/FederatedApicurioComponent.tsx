@@ -3,7 +3,7 @@ import {
   ConfigType,
   createApicurioConfig,
 } from "@app/pages/ServiceRegistry/utils";
-import { FederatedModule } from "@app/components";
+import { FederatedModule, usePrincipal } from "@app/components";
 import { useHistory, useParams } from "react-router-dom";
 import { Registry } from "@rhoas/registry-management-sdk";
 import {
@@ -25,7 +25,6 @@ export type FederatedApicurioComponentProps = {
   basename?: string;
   fileName?: string;
   downloadLinkLabel?: string;
-  principals?: Principal[];
 };
 
 type ServiceRegistryParams = {
@@ -54,14 +53,19 @@ const ServiceAccountsPageConnected: VoidFunctionComponent<
     FederatedApicurioComponentProps,
     "module"
   >
-> = ({ Component, registry, principals, ...rest }) => {
+> = ({ Component, registry, ...rest }) => {
   let federateConfig: ConfigType;
   const alert = useAlert();
   const auth = useAuth();
   const config = useConfig();
   const history = useHistory();
   const basename = useBasename();
+  const { getAllPrincipals } = usePrincipal();
   const getToken = auth?.apicurio_registry.getToken;
+  const getPrincipals: () => Principal[] = () => {
+    const principals: Principal[] = getAllPrincipals() || [];
+    return principals;
+  };
 
   let { groupId, artifactId, version } = useParams<ServiceRegistryParams>();
   groupId = decodeURIComponent(groupId);
@@ -79,7 +83,7 @@ const ServiceAccountsPageConnected: VoidFunctionComponent<
       registry.registryUrl as string,
       `${basename.getBasename()}/t/${registry?.id}`,
       getToken,
-      principals
+      getPrincipals
     );
     return (
       <Component

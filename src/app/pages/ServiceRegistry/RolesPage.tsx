@@ -3,7 +3,6 @@ import { FederatedApicurioComponent } from "@app/pages/ServiceRegistry/Federated
 import { SrsLayout } from "@app/pages/ServiceRegistry/SrsLayout";
 import { useConfig, useAuth } from "@rhoas/app-services-ui-shared";
 import { ServiceDownPage } from "@app/pages";
-import { usePrincipal } from "@app/components";
 import { AppServicesLoading } from "@rhoas/app-services-ui-components";
 import { Registry } from "@rhoas/registry-management-sdk";
 
@@ -38,21 +37,14 @@ const RolesLayoutRender: FunctionComponent<{
     })();
   }, [auth]);
 
-  const { getAllPrincipals } = usePrincipal();
-
   if (registry === undefined || currentlyLoggedInuser === undefined) {
     return <AppServicesLoading />;
   }
-
-  const principals = getAllPrincipals()?.filter(
-    (p) => p.id !== currentlyLoggedInuser && p.id !== registry?.owner
-  );
 
   return (
     <FederatedApicurioComponent
       registry={registry}
       module="./FederatedRolesPage"
-      principals={principals}
     />
   );
 };
