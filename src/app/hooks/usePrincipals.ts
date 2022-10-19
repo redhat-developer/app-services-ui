@@ -40,7 +40,12 @@ export function usePrincipals(): {
           if (servicesResult.status === "fulfilled") {
             setServices(servicesResult.value);
           }
+        } else {
+          setUsers([]);
+          setServices([]);
+          console.warn("app-services-ui no access token in usePrincipals");
         }
+        setLoading(false);
       } catch {
         setLoading(false);
       }
