@@ -3,7 +3,7 @@ import {
   ConfigType,
   createApicurioConfig,
 } from "@app/pages/ServiceRegistry/utils";
-import { FederatedModule, usePrincipal } from "@app/components";
+import { FederatedModule } from "@app/components";
 import { useHistory, useParams } from "react-router-dom";
 import { Registry } from "@rhoas/registry-management-sdk";
 import {
@@ -11,9 +11,9 @@ import {
   useAuth,
   useBasename,
   useConfig,
-  Principal,
 } from "@rhoas/app-services-ui-shared";
 import { AppServicesLoading } from "@rhoas/app-services-ui-components";
+import { usePrincipals } from "@app/hooks/usePrincipals";
 
 export type FederatedApicurioComponentProps = {
   module: string;
@@ -60,19 +60,14 @@ const ServiceAccountsPageConnected: VoidFunctionComponent<
   const config = useConfig();
   const history = useHistory();
   const basename = useBasename();
-  const { getAllPrincipals } = usePrincipal();
+  const { loading: loadingPrincipals, allPrincipals } = usePrincipals();
   const getToken = auth?.apicurio_registry.getToken;
-  const getPrincipals: () => Principal[] = () => {
-    const principals: Principal[] = getAllPrincipals() || [];
-    return principals;
-  };
-
   let { groupId, artifactId, version } = useParams<ServiceRegistryParams>();
   groupId = decodeURIComponent(groupId);
   artifactId = decodeURIComponent(artifactId);
   version = decodeURIComponent(version);
 
-  if (config === undefined || registry === undefined) {
+  if (config === undefined || registry === undefined || loadingPrincipals) {
     return <AppServicesLoading />;
   }
 
@@ -83,7 +78,7 @@ const ServiceAccountsPageConnected: VoidFunctionComponent<
       registry.registryUrl as string,
       `${basename.getBasename()}/t/${registry?.id}`,
       getToken,
-      getPrincipals
+      allPrincipals
     );
     return (
       <Component
