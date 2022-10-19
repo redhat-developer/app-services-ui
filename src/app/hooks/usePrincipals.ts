@@ -26,11 +26,12 @@ export function usePrincipals(): {
       setLoading(true);
       try {
         const accessToken = await auth.kas.getToken();
-        const basePath = config.rbac.basePath;
+        const rbacBasePath = config.rbac.basePath;
+        const saBasePath = config.kas.apiBasePath;
         if (accessToken) {
           const [usersResult, servicesResult] = await Promise.allSettled([
-            fetchUserAccounts(accessToken, basePath),
-            fetchServiceAccounts(accessToken, basePath),
+            fetchUserAccounts(accessToken, rbacBasePath),
+            fetchServiceAccounts(accessToken, saBasePath),
           ]);
 
           if (usersResult.status === "fulfilled") {
