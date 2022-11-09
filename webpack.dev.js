@@ -5,11 +5,11 @@ const common = require("./webpack.common.js");
 const CopyPlugin = require("copy-webpack-plugin");
 const { port, crc } = require("./package.json");
 const proxy = require("@redhat-cloud-services/frontend-components-config-utilities/proxy");
-const HOST = process.env.HOST || "localhost";
+const HOST = process.env.HOST || "0.0.0.0";
 const PORT = process.env.PORT || port;
 const PROTOCOL = process.env.PROTOCOL || "https";
 const BETA = true;
-const PROXY_USE_AGENT = process.env.PROXY_USE_AGENT === 'false' ? false : true;
+const PROXY_USE_AGENT = process.env.PROXY_USE_AGENT === "false" ? false : true;
 
 const config = require("./config/config.json");
 
@@ -36,12 +36,12 @@ module.exports = merge(
       },
       hot: false,
       server: {
-          type: PROTOCOL,
-          options: {
-              ca: process.env.TLS_CA,
-              key: process.env.TLS_KEY,
-              cert: process.env.TLS_CERT,
-          }
+        type: PROTOCOL,
+        options: {
+          ca: process.env.TLS_CA,
+          key: process.env.TLS_KEY,
+          cert: process.env.TLS_CERT,
+        },
       },
       open: {
         target: [
