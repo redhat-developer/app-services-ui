@@ -2,42 +2,42 @@
   "federatedModules": {
     "kas": {
       "basePath": "/mas-local-fm/kas",
-      "proxyTarget": "http://localhost:9000",
+      "proxyTarget": "http://0.0.0.0:9000",
       "fallbackBasePath": "/beta/apps/rhosak-control-plane-ui-build"
     },
     "kafka": {
       "basePath": "/mas-local-fm/kafka",
-      "proxyTarget": "http://localhost:8080",
+      "proxyTarget": "http://0.0.0.0:8080",
       "fallbackBasePath": "/beta/apps/rhosak-data-plane-ui-build"
     },
     "guides": {
       "basePath": "/mas-local-fm/guides",
-      "proxyTarget": "http://localhost:9001",
+      "proxyTarget": "http://0.0.0.0:9001",
       "fallbackBasePath": "/beta/apps/rhoas-guides-build"
     },
     "apicurio_registry": {
       "basePath": "/mas-local-fm/apicurio_registry",
-      "proxyTarget": "http://localhost:8888",
+      "proxyTarget": "http://0.0.0.0:8888",
       "fallbackBasePath": "/beta/apps/sr-ui-build"
     },
     "srs": {
       "basePath": "/mas-local-fm/srs",
-      "proxyTarget": "http://localhost:9005",
+      "proxyTarget": "http://0.0.0.0:9005",
       "fallbackBasePath": "/beta/apps/srs-ui-build"
     },
     "cos": {
       "basePath": "/mas-local-fm/cos",
-      "proxyTarget": "http://localhost:9002",
+      "proxyTarget": "http://0.0.0.0:9002",
       "fallbackBasePath": "/beta/apps/cos-ui-build"
     },
     "ads": {
       "basePath": "/mas-local-fm/ads",
-      "proxyTarget": "http://localhost:9009",
+      "proxyTarget": "http://0.0.0.0:9009",
       "fallbackBasePath": "/beta/apps/ads-ui-build"
     },
     "smart_events": {
       "basePath": "/mas-local-fm/smart_events",
-      "proxyTarget": "http://localhost:9006",
+      "proxyTarget": "http://0.0.0.0:9006",
       "fallbackBasePath": "/beta/apps/se-ui-build"
     }
   },
@@ -70,7 +70,7 @@
           "apiBasePath": "https://api.stage.openshift.com"
         },
         "ads": {
-          "editorsBasePath": "http://localhost:9011"
+          "editorsBasePath": "http://0.0.0.0:9011"
         },
         "cos": {
           "apiBasePath": "https://wxn4aqqc8bqvxcy6unfe.api.stage.openshift.com",
