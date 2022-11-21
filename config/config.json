@@ -39,6 +39,11 @@
       "basePath": "/mas-local-fm/smart_events",
       "proxyTarget": "http://0.0.0.0:9006",
       "fallbackBasePath": "/beta/apps/se-ui-build"
+    },
+    "sas_ui": {
+      "basePath": "/mas-local-fm/sas_ui",
+      "proxyTarget": "http://0.0.0.0:9000",
+      "fallbackBasePath": "/beta/apps/rhosak-control-plane-ui-build"
     }
   },
   "config": [
@@ -55,6 +60,9 @@
         },
         "ams": {
           "apiBasePath": "https://api.stage.openshift.com"
+        },
+        "sas_ui": {
+          "apiBasePath":  "https://sso.redhat.com/auth/realms/redhat-external"
         },
         "kas": {
           "apiBasePath": "https://api.stage.openshift.com"
@@ -103,6 +111,9 @@
         "kas": {
           "apiBasePath": "https://api.stage.openshift.com"
         },
+        "sas_ui": {
+          "apiBasePath": "https://sso.redhat.com/auth/realms/redhat-external"
+        },
         "kafka": {},
         "apicurio_registry": {
           "apiBasePath": ""
@@ -146,6 +157,9 @@
         },
         "kas": {
           "apiBasePath": "https://api.openshift.com"
+        },
+        "sas_ui": {
+          "apiBasePath":  "https://sso.redhat.com/auth/realms/redhat-external"
         },
         "kafka": {},
         "apicurio_registry": {
