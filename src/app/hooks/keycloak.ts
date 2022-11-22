@@ -46,5 +46,8 @@ export const useAuth = (): Auth => {
     smart_events: {
       getToken,
     },
+    sas_ui: {
+      getToken,
+    },
   };
 };
