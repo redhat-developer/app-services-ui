@@ -71,7 +71,7 @@
     "@xstate/inspect": "0.7.0",
     "axios": "1.2.1",
     "copy-webpack-plugin": "11.0.0",
-    "css-loader": "6.7.2",
+    "css-loader": "6.7.3",
     "css-minimizer-webpack-plugin": "4.2.2",
     "date-fns": "2.29.3",
     "dotenv-webpack": "8.0.1",
