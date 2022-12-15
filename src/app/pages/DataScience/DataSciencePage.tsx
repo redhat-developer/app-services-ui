@@ -1,3 +1,4 @@
+import useChrome from "@redhat-cloud-services/frontend-components/useChrome/useChrome";
 import {
   DataSciencePage,
   ClusterObject,
@@ -112,7 +113,19 @@ async function loadClusters(): Promise<ClustersResponse> {
 }
 
 export const DataScienceOverViewPage: FunctionComponent = () => {
-  return <DataSciencePage loadClusters={loadClusters} />;
+  const { analytics } = useChrome() as {
+    analytics: { track: (event: string, properties: unknown) => void };
+  };
+
+  const trackClick = (e: string, properties?: unknown): void => {
+    analytics
+      ? analytics.track(e, properties)
+      : console.warn("analytics not found: ", e);
+  };
+
+  return (
+    <DataSciencePage loadClusters={loadClusters} trackClick={trackClick} />
+  );
 };
 
 export default DataScienceOverViewPage;
