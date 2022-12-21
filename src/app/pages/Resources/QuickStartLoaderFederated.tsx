@@ -3,6 +3,7 @@ import { LazyExoticComponent, useState, VoidFunctionComponent } from "react";
 import { useConfig } from "@rhoas/app-services-ui-shared";
 import useChrome from "@redhat-cloud-services/frontend-components/useChrome/useChrome";
 import { AppServicesLoading } from "@rhoas/app-services-ui-components";
+import { ChromeAPI } from "@redhat-cloud-services/types";
 
 export const appIdentifier = "applicationServices";
 
@@ -30,7 +31,7 @@ const QuickStartLoaderFederatedConnected: VoidFunctionComponent<{
     return <AppServicesLoading />;
   }
 
-  const onLoad = (qs: unknown) => {
+  const onLoad = (qs: Parameters<ChromeAPI["quickStarts"]["set"]>[1]) => {
     if (quickStarts) {
       setLoaded(true); // unload federated module
       quickStarts.set(appIdentifier, qs);
