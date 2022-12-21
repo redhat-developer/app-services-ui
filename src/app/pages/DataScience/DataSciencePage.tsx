@@ -2,8 +2,9 @@ import useChrome from "@redhat-cloud-services/frontend-components/useChrome/useC
 import {
   DataSciencePage,
   ClusterObject,
+  DataSciencePageProps,
 } from "@rhoas/app-services-ui-components";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useCallback } from "react";
 
 export type ClustersResponse = {
   clusters: ClusterObject[];
@@ -113,15 +114,18 @@ async function loadClusters(): Promise<ClustersResponse> {
 }
 
 export const DataScienceOverViewPage: FunctionComponent = () => {
-  const { analytics } = useChrome() as {
-    analytics: { track: (event: string, properties: unknown) => void };
-  };
+  const { analytics } = useChrome();
 
-  const trackClick = (e: string, properties?: unknown): void => {
-    analytics
-      ? analytics.track(e, properties)
-      : console.warn("analytics not found: ", e);
-  };
+  const trackClick = useCallback<DataSciencePageProps["trackClick"]>(
+    (e, properties) => {
+      try {
+        analytics.track(e, properties);
+      } catch (e) {
+        console.warn("analytics not found: ", e);
+      }
+    },
+    [analytics]
+  );
 
   return (
     <DataSciencePage loadClusters={loadClusters} trackClick={trackClick} />

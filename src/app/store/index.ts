@@ -2,7 +2,7 @@ import ReducerRegistry from "@redhat-cloud-services/frontend-components-utilitie
 import promiseMiddleware from "redux-promise-middleware";
 import { notificationsReducer } from "@redhat-cloud-services/frontend-components-notifications/redux";
 
-let registry: ReducerRegistry;
+let registry: ReducerRegistry<Record<string, string>>;
 
 export function init(...middleware: any) {
   if (!registry) {
