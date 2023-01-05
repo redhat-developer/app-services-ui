@@ -31,9 +31,6 @@ export const App: FunctionComponent = () => {
   }, [history]);
 
   useEffect(() => {
-    insights.chrome.init();
-    const appId = getAppId();
-    insights.chrome.identifyApp(appId);
     const unregister = insights.chrome.on("APP_NAVIGATION", (event) => {
       if (event?.domEvent?.href) {
         const pathName = event?.domEvent?.href
