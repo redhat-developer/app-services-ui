@@ -18,17 +18,21 @@ export const ArtifactVersionDetails: FunctionComponent = () => {
 };
 
 const ArtifactVersionDetailsConnected: FunctionComponent = () => {
-  let { groupId } = useParams<{ groupId: string }>();
+  let { groupId, artifactId, version } = useParams<{
+    groupId: string;
+    artifactId: string;
+    version: string;
+  }>();
   groupId = decodeURIComponent(groupId);
-  let { artifactId } = useParams<{ artifactId: string }>();
   artifactId = decodeURIComponent(artifactId);
-  let { version } = useParams<{ version: string }>();
   version = decodeURIComponent(version);
 
   return (
     <SrsLayout
       breadcrumbId="srs.artifacts_details"
+      groupId={groupId}
       artifactId={artifactId}
+      version={version}
       render={(registry) => (
         <ArtifactVersionDetailsLayoutRender registry={registry} />
       )}
