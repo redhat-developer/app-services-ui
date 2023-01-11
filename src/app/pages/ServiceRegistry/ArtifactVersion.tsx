@@ -18,8 +18,12 @@ export const ArtifactVersionDetails: FunctionComponent = () => {
 };
 
 const ArtifactVersionDetailsConnected: FunctionComponent = () => {
+  let { groupId } = useParams<{ groupId: string }>();
+  groupId = decodeURIComponent(groupId);
   let { artifactId } = useParams<{ artifactId: string }>();
   artifactId = decodeURIComponent(artifactId);
+  let { version } = useParams<{ version: string }>();
+  version = decodeURIComponent(version);
 
   return (
     <SrsLayout

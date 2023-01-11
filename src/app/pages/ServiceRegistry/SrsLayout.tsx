@@ -8,7 +8,9 @@ import { useAuth } from "@app/providers/auth";
 type SrsLayoutProps = {
   render: (registry: Registry) => JSX.Element;
   breadcrumbId?: string;
+  groupId?: string;
   artifactId?: string;
+  version?: string;
 };
 
 export const SrsLayout: FC<SrsLayoutProps> = (props) => {
@@ -26,7 +28,7 @@ export const SrsLayout: FC<SrsLayoutProps> = (props) => {
 
 const SrsLayoutConnected: VoidFunctionComponent<
   { Component: LazyExoticComponent<any> } & SrsLayoutProps
-> = ({ Component, render, breadcrumbId, artifactId }) => {
+> = ({ Component, render, breadcrumbId, groupId, artifactId, version }) => {
   const auth = useAuth();
 
   return (
@@ -35,7 +37,9 @@ const SrsLayoutConnected: VoidFunctionComponent<
         render={render}
         breadcrumbId={breadcrumbId}
         tokenEndPointUrl={auth?.tokenEndPointUrl}
+        groupId={groupId}
         artifactId={artifactId}
+        version={version}
         renderDownloadArtifacts={(
           registry: Registry,
           downloadLabel?: string
