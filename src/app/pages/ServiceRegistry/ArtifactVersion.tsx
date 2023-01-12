@@ -9,15 +9,6 @@ import { Registry } from "@rhoas/registry-management-sdk";
 
 export const ArtifactVersionDetails: FunctionComponent = () => {
   const config = useConfig();
-
-  if (config?.serviceDown) {
-    return <ServiceDownPage />;
-  }
-
-  return <ArtifactVersionDetailsConnected />;
-};
-
-const ArtifactVersionDetailsConnected: FunctionComponent = () => {
   let { groupId, artifactId, version } = useParams<{
     groupId: string;
     artifactId: string;
@@ -27,6 +18,25 @@ const ArtifactVersionDetailsConnected: FunctionComponent = () => {
   artifactId = decodeURIComponent(artifactId);
   version = decodeURIComponent(version);
 
+  if (config?.serviceDown) {
+    return <ServiceDownPage />;
+  }
+
+  return (
+    <ArtifactVersionDetailsConnected
+      groupId={groupId}
+      artifactId={artifactId}
+      version={version}
+      key={`${groupId}-${artifactId}-${version}`}
+    />
+  );
+};
+
+const ArtifactVersionDetailsConnected: FunctionComponent<{
+  groupId: string;
+  artifactId: string;
+  version: string;
+}> = ({ groupId, artifactId, version }) => {
   return (
     <SrsLayout
       breadcrumbId="srs.artifacts_details"
