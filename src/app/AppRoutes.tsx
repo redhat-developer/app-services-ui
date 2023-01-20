@@ -288,7 +288,6 @@ const appRoutes: AppRouteConfig<unknown>[] = [
     path: "/connectors",
     title: "Connectors | Red Hat OpenShift Application Services",
     basename: `${getBaseName(window.location.pathname)}/connectors`,
-    devPreview: true,
   },
   {
     component: ServiceAccountsPage,
