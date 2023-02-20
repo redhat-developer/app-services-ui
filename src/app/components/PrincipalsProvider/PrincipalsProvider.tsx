@@ -11,7 +11,10 @@ import {
   useAuth,
   useConfig,
 } from "@rhoas/app-services-ui-shared";
-import { PrincipalApi } from "@redhat-cloud-services/rbac-client";
+import {
+  PrincipalApi,
+  Principal as PrincipalSDK,
+} from "@redhat-cloud-services/rbac-client";
 
 export type PrincipalsProviderProps = {
   kafkaInstance?: KafkaRequest;
@@ -46,11 +49,12 @@ export const usePrincipal = () => {
             .listPrincipals(-1)
             .then((response) =>
               response.data.data.map((p) => {
+                const pp = p as PrincipalSDK;
                 return {
                   id: p.username,
                   principalType: PrincipalType.UserAccount,
-                  displayName: `${p.first_name} ${p.last_name}`,
-                  emailAddress: p.email,
+                  displayName: `${pp.first_name} ${pp.last_name}`,
+                  emailAddress: pp.email,
                 } as Principal;
               })
             );
