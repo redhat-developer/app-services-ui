@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { Configuration, SecurityApi } from "@rhoas/kafka-management-sdk";
-import { PrincipalApi } from "@redhat-cloud-services/rbac-client";
+import {
+  PrincipalApi,
+  Principal as PrincipalSDK,
+} from "@redhat-cloud-services/rbac-client";
 import {
   Principal,
   PrincipalType,
@@ -68,11 +71,12 @@ async function fetchUserAccounts(accessToken: string, basePath: string) {
 
     return await principalApi.listPrincipals(-1).then((response) =>
       response.data.data.map((p) => {
+        const pp = p as PrincipalSDK;
         return {
           id: p.username,
           principalType: PrincipalType.UserAccount,
-          displayName: `${p.first_name} ${p.last_name}`,
-          emailAddress: p.email,
+          displayName: `${pp.first_name} ${pp.last_name}`,
+          emailAddress: pp.email,
         } as Principal;
       })
     );
