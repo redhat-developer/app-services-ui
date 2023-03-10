@@ -120,8 +120,6 @@ module.exports = (env, argv) => {
         },
         shared: [
           {
-            ...dependencies,
-            ...peerDependencies,
             react: {
               singleton: true,
               requiredVersion: peerDependencies.react,
