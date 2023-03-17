@@ -117,6 +117,8 @@ module.exports = (env, argv) => {
         moduleName: federatedModuleName,
         exposes: {
           "./RootApp": path.resolve(__dirname, "./src/AppEntry.tsx"),
+          "./Guides": path.resolve(__dirname, "./src/fm/Guides.tsx"),
+          "./TopicSchema": path.resolve(__dirname, "./src/fm/TopicSchema.tsx"),
         },
         shared: [
           {

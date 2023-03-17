@@ -10,12 +10,7 @@ const { crc } = require("./package.json");
 
 const AppServicesUiComponentsPath = `node_modules/@rhoas/app-services-ui-components`;
 
-/**
- * The deploy on stable is currently using beta assets.
- * The puclich path has to be fixed once stable uses stable assets.
- * The /beta prefix must be removed for stable env to load correct modules.
- */
-const publicPath = "/beta/apps/application-services/";
+const publicPath = "/apps/application-services/";
 
 module.exports = merge(
   common("production", { mode: "production", publicPath }),
