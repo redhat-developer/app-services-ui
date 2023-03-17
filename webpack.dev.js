@@ -8,7 +8,7 @@ const proxy = require("@redhat-cloud-services/frontend-components-config-utiliti
 const HOST = process.env.HOST || "0.0.0.0";
 const PORT = process.env.PORT || port;
 const PROTOCOL = process.env.PROTOCOL || "https";
-const BETA = true;
+const BETA = false;
 const PROXY_USE_AGENT = process.env.PROXY_USE_AGENT === "false" ? false : true;
 
 const config = require("./config/config.json");

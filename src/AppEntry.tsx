@@ -32,6 +32,7 @@ import {
 import { SsoProviderAllOf } from "@rhoas/kafka-management-sdk";
 import "@rhoas/app-services-ui-components/dist/esm/index.css";
 import { AuthContext } from "@app/providers/auth";
+import { FederatedModuleProvider } from "@app/components";
 
 if (window.localStorage.getItem("xstate-inspect") !== null) {
   inspect({
@@ -39,7 +40,7 @@ if (window.localStorage.getItem("xstate-inspect") !== null) {
   });
 }
 
-const AppWithKeycloak: FunctionComponent = () => {
+const AppWithKeycloak: FunctionComponent = ({ children }) => {
   const [ssoProviders, setSSOProviders] = useState<SsoProviderAllOf>();
 
   const auth = useAuth();
@@ -99,7 +100,7 @@ const AppWithKeycloak: FunctionComponent = () => {
         <AlertContext.Provider value={alert}>
           <ModalProvider>
             <Router basename={baseName}>
-              <App />
+              <FederatedModuleProvider>{children}</FederatedModuleProvider>
             </Router>
           </ModalProvider>
         </AlertContext.Provider>
@@ -108,15 +109,15 @@ const AppWithKeycloak: FunctionComponent = () => {
   );
 };
 
-const AppWithConfig: FunctionComponent = () => {
+const AppWithConfig: FunctionComponent = ({ children }) => {
   const config = useContext(ConfigContext);
   if (config === undefined) {
     return <AppServicesLoading />;
   }
-  return <AppWithKeycloak />;
+  return <AppWithKeycloak>{children}</AppWithKeycloak>;
 };
 
-const AppEntry: FunctionComponent = memo(() => (
+export const AppEntry: FunctionComponent = memo(({ children }) => (
   <Provider store={init(logger).getStore()}>
     <I18nProvider
       lng={"en"}
@@ -198,7 +199,7 @@ const AppEntry: FunctionComponent = memo(() => (
       <FeatureFlagProvider>
         <EmbeddedConfigProvider>
           <ServiceConstantsContextProvider>
-            <AppWithConfig />
+            <AppWithConfig>{children}</AppWithConfig>
           </ServiceConstantsContextProvider>
         </EmbeddedConfigProvider>
       </FeatureFlagProvider>
@@ -206,4 +207,8 @@ const AppEntry: FunctionComponent = memo(() => (
   </Provider>
 ));
 
-export default AppEntry;
+export default () => (
+  <AppEntry>
+    <App />
+  </AppEntry>
+);
