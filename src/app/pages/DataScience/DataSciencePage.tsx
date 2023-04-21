@@ -26,7 +26,7 @@ async function fetchAddonInquirues(cluster: ClusterObject) {
   await window.insights.chrome.auth.getUser();
   const token = await window.insights.chrome.auth.getToken();
   const getCluster = fetch(
-    `https://api.openshift.com/api/clusters_mgmt/v1/clusters/${cluster.cluster_id}/addon_inquiries?search=id='${RHODS_ADDON_ID}`,
+    `https://api.openshift.com/api/clusters_mgmt/v1/clusters/${cluster.cluster_id}/addon_inquiries?search=id=${RHODS_ADDON_ID}`,
     {
       method: "get",
       headers: {
