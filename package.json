@@ -73,7 +73,7 @@
     "copy-webpack-plugin": "11.0.0",
     "css-loader": "6.7.3",
     "css-minimizer-webpack-plugin": "5.0.0",
-    "date-fns": "2.29.3",
+    "date-fns": "2.30.0",
     "dotenv-webpack": "8.0.1",
     "eslint": "8.39.0",
     "eslint-config-prettier": "8.8.0",
