@@ -331,7 +331,7 @@
   "serviceAccount": {
     "service_accounts": "Service Accounts",
     "service_accounts_small": "Service accounts",
-    "service_accounts_title_header_info": "Use service accounts to connect and authenticate your applications with Kafka instances and Service Registry instances.",
+    "service_accounts_title_header_info": "Use service accounts to securely and automatically connect and authenticate services or applications without requiring an end user's credentials or direct interaction.",
     "no_permission_to_delete_service_account": "Ask the service account owner to delete this account.",
     "no_permission_to_reset_service_account": "Ask the service account owner to reset credentials.",
     "delete_service_account": "Delete service account",
