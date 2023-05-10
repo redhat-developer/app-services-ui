@@ -20,7 +20,7 @@ export const useFeatureFlags = (): FeatureFlags => {
 
 export const FeatureFlagProvider: FunctionComponent = ({ children }) => {
   const value = {
-    beta: window.location.pathname.startsWith("/beta"),
+    beta: window.location.pathname.startsWith("/preview"),
   } as FeatureFlags;
   return (
     <FeatureFlagsContext.Provider value={value}>

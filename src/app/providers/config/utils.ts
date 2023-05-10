@@ -59,10 +59,10 @@ export const addFederatedModulesToConfig = (
       fallbackBasePath = v.fallbackBasePath;
     }
     if (!beta) {
-      if (basePath.startsWith("/beta")) {
+      if (basePath.startsWith("/preview")) {
         basePath = basePath.substring(5);
       }
-      if (fallbackBasePath?.startsWith("/beta")) {
+      if (fallbackBasePath?.startsWith("/preview")) {
         fallbackBasePath = fallbackBasePath.substring(5);
       }
     }

@@ -13,7 +13,7 @@ const PROXY_USE_AGENT = process.env.PROXY_USE_AGENT === "false" ? false : true;
 
 const config = require("./config/config.json");
 
-const basePublicPath = `${BETA ? "/beta" : ""}/apps`;
+const basePublicPath = `${BETA ? "/preview" : ""}/apps`;
 const publicPath = `${basePublicPath}/${crc.bundle}/`;
 
 const distDir = path.resolve(__dirname, "./dist/");
@@ -45,7 +45,7 @@ module.exports = merge(
       },
       open: {
         target: [
-          `https://prod.foo.redhat.com:1337${BETA ? "/beta" : ""}/${
+          `https://prod.foo.redhat.com:1337${BETA ? "/preview" : ""}/${
             crc.bundle
           }/`,
         ],

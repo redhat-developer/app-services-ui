@@ -8,10 +8,7 @@
   "description": "The Host App Red Hat OpenShift Streams for Apache Kafka",
   "main": "server.js",
   "port": "1337",
-  "publicPath": "/beta/apps/openshift-streams/",
-  "applicationPath": "/beta/application-services/openshift-streams/",
   "repository": "https://github.com/bf2fc6cc711aee1a0c2a/mk-ui-frontend.git",
-  "homepage": "https://cloud.redhat.com/application-services/openshift-streams",
   "license": "MIT",
   "private": true,
   "scripts": {

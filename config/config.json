@@ -3,47 +3,47 @@
     "kas": {
       "basePath": "/mas-local-fm/kas",
       "proxyTarget": "http://0.0.0.0:9000",
-      "fallbackBasePath": "/beta/apps/rhosak-control-plane-ui-build"
+      "fallbackBasePath": "/preview/apps/rhosak-control-plane-ui-build"
     },
     "kafka": {
       "basePath": "/mas-local-fm/kafka",
       "proxyTarget": "http://0.0.0.0:8080",
-      "fallbackBasePath": "/beta/apps/rhosak-data-plane-ui-build"
+      "fallbackBasePath": "/preview/apps/rhosak-data-plane-ui-build"
     },
     "guides": {
       "basePath": "/mas-local-fm/guides",
       "proxyTarget": "http://0.0.0.0:9001",
-      "fallbackBasePath": "/beta/apps/rhoas-guides-build"
+      "fallbackBasePath": "/preview/apps/rhoas-guides-build"
     },
     "apicurio_registry": {
       "basePath": "/mas-local-fm/apicurio_registry",
       "proxyTarget": "http://0.0.0.0:8888",
-      "fallbackBasePath": "/beta/apps/sr-ui-build"
+      "fallbackBasePath": "/preview/apps/sr-ui-build"
     },
     "srs": {
       "basePath": "/mas-local-fm/srs",
       "proxyTarget": "http://0.0.0.0:9005",
-      "fallbackBasePath": "/beta/apps/srs-ui-build"
+      "fallbackBasePath": "/preview/apps/srs-ui-build"
     },
     "cos": {
       "basePath": "/mas-local-fm/cos",
       "proxyTarget": "http://0.0.0.0:9002",
-      "fallbackBasePath": "/beta/apps/cos-ui-build"
+      "fallbackBasePath": "/preview/apps/cos-ui-build"
     },
     "ads": {
       "basePath": "/mas-local-fm/ads",
       "proxyTarget": "http://0.0.0.0:9009",
-      "fallbackBasePath": "/beta/apps/ads-ui-build"
+      "fallbackBasePath": "/preview/apps/ads-ui-build"
     },
     "smart_events": {
       "basePath": "/mas-local-fm/smart_events",
       "proxyTarget": "http://0.0.0.0:9006",
-      "fallbackBasePath": "/beta/apps/se-ui-build"
+      "fallbackBasePath": "/preview/apps/se-ui-build"
     },
     "sas_ui": {
       "basePath": "/mas-local-fm/sas_ui",
       "proxyTarget": "http://0.0.0.0:9000",
-      "fallbackBasePath": "/beta/apps/rhosak-control-plane-ui-build"
+      "fallbackBasePath": "/preview/apps/rhosak-control-plane-ui-build"
     }
   },
   "config": [
@@ -84,7 +84,7 @@
           "apiBasePath": "https://wxn4aqqc8bqvxcy6unfe.api.stage.openshift.com",
           "configurators": {
             "debezium": {
-              "remoteEntry": "/beta/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
+              "remoteEntry": "/preview/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
               "scope": "debezium_ui",
               "module": "./config"
             }
@@ -122,7 +122,7 @@
           "apiBasePath": "https://api.stage.openshift.com"
         },
         "ads": {
-          "editorsBasePath": "https://qaprodauth.console.redhat.com/beta/apps/ads-editors-build/index.html"
+          "editorsBasePath": "https://qaprodauth.console.redhat.com/preview/apps/ads-editors-build/index.html"
         },
         "rbac": {
           "basePath": "/api/rbac/v1"
@@ -131,7 +131,7 @@
           "apiBasePath": "https://wxn4aqqc8bqvxcy6unfe.api.stage.openshift.com",
           "configurators": {
             "debezium": {
-              "remoteEntry": "/beta/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
+              "remoteEntry": "/preview/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
               "scope": "debezium_ui",
               "module": "./config"
             }
@@ -169,7 +169,7 @@
           "apiBasePath": "https://api.openshift.com"
         },
         "ads": {
-          "editorsBasePath": "https://console.redhat.com/beta/apps/ads-editors-build/index.html"
+          "editorsBasePath": "https://console.redhat.com/preview/apps/ads-editors-build/index.html"
         },
         "rbac": {
           "basePath": "/api/rbac/v1"
@@ -178,7 +178,7 @@
           "apiBasePath": "https://api.openshift.com",
           "configurators": {
             "debezium": {
-              "remoteEntry": "/beta/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
+              "remoteEntry": "/preview/apps/dbz-ui-build/dbz-connector-configurator.remoteEntry.js",
               "scope": "debezium_ui",
               "module": "./config"
             }
