@@ -63,7 +63,7 @@ export const addFederatedModulesToConfig = (
         basePath = basePath.substring(5);
       }
       if (fallbackBasePath?.startsWith("/preview")) {
-        fallbackBasePath = fallbackBasePath.substring(5);
+        fallbackBasePath = fallbackBasePath.substring(8);
       }
     }
     federatedModules[k as keyof FederatedModulesConfig] = {
