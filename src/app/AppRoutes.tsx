@@ -13,7 +13,6 @@ import {
   useHistory,
 } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
-import getBaseName from "./utils/getBaseName";
 import {
   DevelopmentPreview,
   AppServicesPageNotFound,
