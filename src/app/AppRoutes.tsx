@@ -39,7 +39,6 @@ const QuickStartLoaderFederated = lazy(
 const APIManagementPage = lazy(
   () => import("@app/pages/APIManagement/APIManagementPage")
 );
-const Artifacts = lazy(() => import("@app/pages/ServiceRegistry/Artifacts"));
 
 const DataSciencePage = lazy(
   () => import("@app/pages/DataScience/DataSciencePage")
@@ -53,9 +52,6 @@ const OverviewPage = lazy(() => import("@app/pages/Overview/OverviewPage"));
 const ResourcesPage = lazy(() => import("@app/pages/Resources/ResourcesPage"));
 const ServiceAccountsPage = lazy(
   () => import("@app/pages/ServiceAccounts/ServiceAccountsPage")
-);
-const ServiceRegistryPage = lazy(
-  () => import("@app/pages/ServiceRegistry/ServiceRegistryPage")
 );
 
 const RedirectToOverview: FunctionComponent = () => <Redirect to="/overview" />;
@@ -133,22 +129,6 @@ const appRoutes: AppRouteConfig<unknown>[] = [
     title: "Streams for Apache Kafka | Red Hat OpenShift Application Services",
     basename: "/streams/kafkas",
     devPreview: false,
-  },
-  {
-    component: ServiceRegistryPage,
-    exact: true,
-    label: "Service Registry",
-    path: "/service-registry",
-    title: "Service Registry | Red Hat OpenShift Application Services",
-    basename: "/service-registry",
-  },
-  {
-    component: Artifacts,
-    exact: true,
-    label: "Service Registry",
-    path: "/service-registry/t/:tenantId",
-    title: "Service Registry | Red Hat OpenShift Application Services",
-    basename: "/service-registry",
   },
   {
     component: RedirectToServiceAccounts,
