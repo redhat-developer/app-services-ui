@@ -52,9 +52,7 @@ const ServiceAccountsPage = lazy(
 );
 
 const RedirectToOverview: FunctionComponent = () => <Redirect to="/overview" />;
-const RedirectToStreamsKafkas: FunctionComponent = () => (
-  <Redirect to="/streams/kafkas" />
-);
+const RedirectToRoot: FunctionComponent = () => <Redirect to="/" />;
 const RedirectToServiceAccounts: FunctionComponent = () => (
   <Redirect to="/service-accounts" />
 );
@@ -104,20 +102,20 @@ const appRoutes: AppRouteConfig<unknown>[] = [
    */
   {
     // Handle the redirect from application-services/streams to application-services/streams/kafkas
-    component: RedirectToStreamsKafkas,
+    component: RedirectToRoot,
     exact: true,
     label: "Streams for Apache Kafka",
     path: "/streams",
     title: "Streams for Apache Kafka | Red Hat OpenShift Application Services",
   },
-  // {
-  //   component: KafkaOverviewPage,
-  //   exact: true,
-  //   label: "Streams for Apache Kafka",
-  //   path: "/streams/overview",
-  //   title:
-  //     "Overview | Streams for Apache Kafka | Red Hat OpenShift Application Services",
-  // },
+  {
+    component: RedirectToRoot,
+    exact: true,
+    label: "Streams for Apache Kafka",
+    path: "/streams/overview",
+    title:
+      "Overview | Streams for Apache Kafka | Red Hat OpenShift Application Services",
+  },
   {
     component: KasPage,
     exact: true,
@@ -166,7 +164,7 @@ const appRoutes: AppRouteConfig<unknown>[] = [
 
   // old url handling
   {
-    component: RedirectToStreamsKafkas,
+    component: RedirectToRoot,
     // Handle the redirect for the old url application-services/openshift-streams to application-services/streams/kafkas
     exact: true,
     label: "Streams for Apache Kafka",
