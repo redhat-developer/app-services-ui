@@ -43,9 +43,6 @@ const APIManagementPage = lazy(
 const DataSciencePage = lazy(
   () => import("@app/pages/DataScience/DataSciencePage")
 );
-const KafkaOverviewPage = lazy(
-  () => import("@app/pages/KafkaOverview/KafkaOverviewPage")
-);
 
 const KasPage = lazy(() => import("@app/pages/Kas/KasPage"));
 const OverviewPage = lazy(() => import("@app/pages/Overview/OverviewPage"));
@@ -113,14 +110,14 @@ const appRoutes: AppRouteConfig<unknown>[] = [
     path: "/streams",
     title: "Streams for Apache Kafka | Red Hat OpenShift Application Services",
   },
-  {
-    component: KafkaOverviewPage,
-    exact: true,
-    label: "Streams for Apache Kafka",
-    path: "/streams/overview",
-    title:
-      "Overview | Streams for Apache Kafka | Red Hat OpenShift Application Services",
-  },
+  // {
+  //   component: KafkaOverviewPage,
+  //   exact: true,
+  //   label: "Streams for Apache Kafka",
+  //   path: "/streams/overview",
+  //   title:
+  //     "Overview | Streams for Apache Kafka | Red Hat OpenShift Application Services",
+  // },
   {
     component: KasPage,
     exact: true,
