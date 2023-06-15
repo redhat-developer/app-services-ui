@@ -40,6 +40,20 @@ const APIManagementPage = lazy(
   () => import("@app/pages/APIManagement/APIManagementPage")
 );
 
+const ArtifactRedirect = lazy(
+  () => import("@app/pages/ServiceRegistry/ArtifactsRedirect")
+);
+const Artifacts = lazy(() => import("@app/pages/ServiceRegistry/Artifacts"));
+const ArtifactVersionDetails = lazy(
+  () => import("@app/pages/ServiceRegistry/ArtifactVersion")
+);
+const ApiDesignerHomePage = lazy(
+  () => import("@app/pages/APIDesigner/ApiDesignerHomePage")
+);
+const ApiDesignerEditorPage = lazy(
+  () => import("@app/pages/APIDesigner/ApiDesignerEditorPage")
+);
+
 const DataSciencePage = lazy(
   () => import("@app/pages/DataScience/DataSciencePage")
 );
@@ -47,8 +61,19 @@ const DataSciencePage = lazy(
 const KasPage = lazy(() => import("@app/pages/Kas/KasPage"));
 const OverviewPage = lazy(() => import("@app/pages/Overview/OverviewPage"));
 const ResourcesPage = lazy(() => import("@app/pages/Resources/ResourcesPage"));
+
+const RulesPage = lazy(() => import("@app/pages/ServiceRegistry/RulesPage"));
+const RolesPage = lazy(() => import("@app/pages/ServiceRegistry/RolesPage"));
+const SettingsPage = lazy(
+  () => import("@app/pages/ServiceRegistry/SettingsPage")
+);
+
 const ServiceAccountsPage = lazy(
   () => import("@app/pages/ServiceAccounts/ServiceAccountsPage")
+);
+
+const ServiceRegistryPage = lazy(
+  () => import("@app/pages/ServiceRegistry/ServiceRegistryPage")
 );
 
 const RedirectToOverview: FunctionComponent = () => <Redirect to="/overview" />;
@@ -126,6 +151,22 @@ const appRoutes: AppRouteConfig<unknown>[] = [
     devPreview: false,
   },
   {
+    component: ServiceRegistryPage,
+    exact: true,
+    label: "Service Registry",
+    path: "/service-registry",
+    title: "Service Registry | Red Hat OpenShift Application Services",
+    basename: "/service-registry",
+  },
+  {
+    component: Artifacts,
+    exact: true,
+    label: "Service Registry",
+    path: "/service-registry/t/:tenantId",
+    title: "Service Registry | Red Hat OpenShift Application Services",
+    basename: "/service-registry",
+  },
+  {
     component: RedirectToServiceAccounts,
     exact: true,
     label: "Service Accounts",
@@ -153,6 +194,83 @@ const appRoutes: AppRouteConfig<unknown>[] = [
   /**
    * END OF STREAMS SECTION
    */
+
+  /**
+ * SERVICE REGISTRY SECTION
+ */
+  {
+    component: Artifacts,
+    exact: true,
+    label: "Service Registry",
+    path: "/service-registry/t/:tenantId/artifacts",
+    title: "Service Registry | Red Hat OpenShift Application Services",
+    basename: "/service-registry",
+  },
+  {
+    component: RulesPage,
+    exact: true,
+    label: "Service Registry",
+    path: "/service-registry/t/:tenantId/rules",
+    title: "Service Registry | Red Hat OpenShift Application Services",
+    basename: "/service-registry",
+  },
+  {
+    component: RolesPage,
+    exact: true,
+    label: "Service Registry",
+    path: "/service-registry/t/:tenantId/roles",
+    title: "Service Registry | Red Hat OpenShift Application Services",
+    basename: "/service-registry",
+  },
+  {
+    component: SettingsPage,
+    exact: true,
+    label: "Service Registry",
+    path: "/service-registry/t/:tenantId/settings",
+    title: "Service Registry | Red Hat OpenShift Application Services",
+    basename: "/service-registry",
+  },
+  {
+    component: ArtifactRedirect,
+    exact: true,
+    label: "Service Registry",
+    path: "/service-registry/t/:tenantId/artifacts/:groupId/:artifactId",
+    title: "Service Registry | Red Hat OpenShift Application Services",
+    basename: "/service-registry",
+  },
+  {
+    component: ArtifactVersionDetails,
+    exact: true,
+    label: "Service Registry",
+    path: "/service-registry/t/:tenantId/artifacts/:groupId/:artifactId/versions/:version",
+    title: "Service Registry | Red Hat OpenShift Application Services",
+    basename: "/service-registry",
+  },
+  /**
+   * END OF SERVICE REGISTRY SECTION
+   */
+
+  /**
+   * API DESIGNER SECTION
+   */
+  {
+    component: ApiDesignerHomePage,
+    exact: true,
+    label: "API Designer",
+    path: "/api-designer",
+    title: "API Designer | Red Hat OpenShift Application Services",
+    basename: "/api-designer",
+    devPreview: true,
+  },
+  {
+    component: ApiDesignerEditorPage,
+    exact: true,
+    label: "Service Registry",
+    path: "/api-designer/designs/:designId/editor",
+    title: "API Designer | Red Hat OpenShift Application Services",
+    basename: "/api-designer",
+    devPreview: true,
+  },
   {
     component: ServiceAccountsPage,
     exact: true,
