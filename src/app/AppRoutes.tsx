@@ -196,8 +196,8 @@ const appRoutes: AppRouteConfig<unknown>[] = [
    */
 
   /**
- * SERVICE REGISTRY SECTION
- */
+   * SERVICE REGISTRY SECTION
+   */
   {
     component: Artifacts,
     exact: true,
