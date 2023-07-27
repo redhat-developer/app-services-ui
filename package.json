@@ -48,7 +48,7 @@
     "redux-logger": "3.0.6"
   },
   "devDependencies": {
-    "@patternfly/patternfly": "4.224.2",
+    "@patternfly/patternfly": "5.0.2",
     "@patternfly/react-core": "4.276.8",
     "@patternfly/react-icons": "4.93.6",
     "@patternfly/react-table": "4.113.0",
@@ -115,7 +115,7 @@
     "webpack-merge": "5.9.0"
   },
   "peerDependencies": {
-    "@patternfly/patternfly": "4.224.2",
+    "@patternfly/patternfly": "5.0.2",
     "@patternfly/react-core": "4.276.8",
     "@patternfly/react-icons": "4.93.6",
     "@patternfly/react-table": "4.113.0",
